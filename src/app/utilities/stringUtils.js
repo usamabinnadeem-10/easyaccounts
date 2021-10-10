@@ -4,3 +4,7 @@ export const camelize = (str) => {
     return index === 0 ? match.toLowerCase() : match.toUpperCase();
   });
 };
+
+export const capitalizeFirstLetter = (string) => {
+  return string[0].toUpperCase() + string.slice(1);
+};

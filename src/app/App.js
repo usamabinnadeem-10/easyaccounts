@@ -1,15 +1,15 @@
 import React from "react";
 
-import Main from "./main/Main";
+import { BrowserRouter as Router } from "react-router-dom";
 
-// THIS IS THE FILE WHERE WE WILL CALL THE MAIN COMPONENT
+import Home from "./components/Home/Home";
 
-const App = () => {
+function App() {
   return (
-    <div>
-      <Main />
-    </div>
+    <Router>
+      <Home />
+    </Router>
   );
-};
+}
 
 export default App;

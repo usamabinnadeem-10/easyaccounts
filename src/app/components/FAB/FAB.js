@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
+import { useHistory } from "react-router";
+
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
@@ -15,13 +17,13 @@ import { ACTION_FABS, DEFAULTS } from "./constants";
 import { chooseModal } from "./utils";
 
 import AddModal from "../AddModal/AddModal";
-import Transaction from "../Transaction/Transaction";
 
 const FAB = () => {
   const [clicked, setClicked] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
-  const [openTransactionModal, setOpenTransactionModal] = useState(false);
   const [form, setForm] = useState([]);
+
+  const history = useHistory();
 
   const handleClick = () => {
     setClicked(true);
@@ -29,18 +31,18 @@ const FAB = () => {
 
   const closeModal = () => {
     setOpenAddModal(false);
-    setOpenTransactionModal(false);
   };
 
   const handleOpenModal = (name) => {
     setForm(chooseModal(name));
-    setOpenTransactionModal(false);
     setOpenAddModal(true);
+    setClicked(false);
   };
 
   const handleOpenTransactionModal = () => {
-    setOpenAddModal(false);
-    setOpenTransactionModal(true);
+    setClicked(false);
+    closeModal();
+    history.push("/home/transaction");
   };
 
   return (
@@ -48,8 +50,6 @@ const FAB = () => {
       {openAddModal && (
         <AddModal open={openAddModal} handleClose={closeModal} form={form} />
       )}
-
-      <Transaction open={openTransactionModal} handleClose={closeModal} />
 
       <ClickAwayListener onClickAway={() => setClicked(false)}>
         <Snackbar

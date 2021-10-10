@@ -103,5 +103,10 @@ export const ADD_EXPENSE_FORM = {
       name: "addExpense",
       min: 1,
     },
+    {
+      label: "Expense Detail",
+      type: "string",
+      name: "expenseDetail",
+    },
   ],
 };

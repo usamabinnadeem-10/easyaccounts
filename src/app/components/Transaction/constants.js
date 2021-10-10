@@ -12,9 +12,6 @@ export const TABLE_HEAD = [
     headerName: "Rate",
   },
   {
-    headerName: "Discount",
-  },
-  {
     headerName: "Total",
   },
 ];
@@ -24,7 +21,6 @@ export const DEFAULTS = {
   PRODUCT: "product",
   QUANTITY: "quantity",
   RATE: "rate",
-  DISCOUNT: "discount",
   TOTAL: "total",
 };
 
@@ -35,16 +31,12 @@ export const TEXT_ROWS = [
   {
     name: DEFAULTS.RATE,
   },
-  {
-    name: DEFAULTS.DISCOUNT,
-  },
 ];
 
 export const DEFAULT_ROW = {
   selected: false,
   product: null,
-  quantity: null,
-  rate: null,
-  discount: null,
-  total: null,
+  quantity: 0,
+  rate: 0,
+  total: 0,
 };
