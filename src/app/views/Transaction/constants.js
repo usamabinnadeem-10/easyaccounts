@@ -40,3 +40,9 @@ export const DEFAULT_ROW = {
   rate: 0,
   total: 0,
 };
+
+export const ERROR_DEFAULTS = {
+  LOW_TOTAL: "Total is very low",
+  NO_MORE_PRODUCTS: "You do not have any more products to add",
+  ROW_INCOMPLETE: "Please complete adding the current product",
+}

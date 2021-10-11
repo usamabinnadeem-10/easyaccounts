@@ -17,14 +17,14 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 
-import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
-import CustomToggleButtons from "../CustomToggleButtons/CustomToggleButtons";
-import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
+import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
+import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
+import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 
 import { Delete } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 
-import { TABLE_HEAD, TEXT_ROWS, DEFAULT_ROW, DEFAULTS } from "./constants";
+import * as constants from './constants';
 
 import { capitalizeFirstLetter } from "../../utilities/stringUtils";
 
@@ -63,18 +63,17 @@ const Transaction = (props) => {
   const [date, setDate] = useState("");
   const [transactionType, setTransactionType] = useState("credit");
   const [productOptions, setProductOptions] = useState(PRODUCTS);
-  const [tableData, setTableData] = useState([DEFAULT_ROW]);
+  const [tableData, setTableData] = useState([constants.DEFAULT_ROW]);
   const [snackbarState, setSnackbarState] = useState({});
-  const [errorMessage, setErrorMessage] = useState(
-    "Please complete adding the current product"
-  );
+  const [errorMessage, setErrorMessage] = useState(constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
 
+  // add a new row to the transaction table
   const addRow = () => {
     if (canAddRow()) {
       let newTableData = [...tableData];
       let lastRow = tableData[tableData.length - 1];
       let newRow = {
-        ...DEFAULT_ROW,
+        ...constants.DEFAULT_ROW,
         quantity: lastRow.quantity,
         rate: lastRow.rate,
         total: lastRow.quantity * lastRow.rate,
@@ -88,6 +87,7 @@ const Transaction = (props) => {
     }
   };
 
+  // remove the last entered product to ensure it doesn't appear again in next row
   const removeLastEnteredProduct = () => {
     let lastProduct = tableData[tableData.length - 1].product.value;
     let newProducts = productOptions.filter(
@@ -96,6 +96,7 @@ const Transaction = (props) => {
     setProductOptions(newProducts);
   };
 
+  // open snackbar
   const openSnackbar = (open, severity, message) => {
     setSnackbarState({
       open,
@@ -104,6 +105,7 @@ const Transaction = (props) => {
     });
   };
 
+  // close snackbar
   const closeSnackbar = () => {
     setSnackbarState({
       open: false,
@@ -112,31 +114,33 @@ const Transaction = (props) => {
     });
   };
 
+  // check if user is allowed to enter a new row to the transaction table
   const canAddRow = () => {
     let copyTableData = JSON.parse(JSON.stringify(tableData));
     let lastRow = copyTableData[copyTableData.length - 1];
     if (tableData.length === 0) {
       return true;
     }
-    if (lastRow["total"] <= 0) {
-      setErrorMessage("Total is very low");
+    if (lastRow[constants.DEFAULTS.TOTAL] <= 0) {
+      setErrorMessage(constants.ERROR_DEFAULTS.LOW_TOTAL);
       return false;
     }
     if (productOptions.length === 1) {
-      setErrorMessage("You do not have any more products to add");
+      setErrorMessage(constants.ERROR_DEFAULTS.NO_MORE_PRODUCTS);
       return false;
     }
     delete lastRow.selected;
     delete lastRow.total;
     for (const key in lastRow) {
       if (!lastRow[key]) {
-        setErrorMessage("Please complete adding the current product");
+        setErrorMessage();
         return false;
       }
     }
     return true;
   };
 
+  // handle deleting the selected rows
   const deleteRows = () => {
     let elementsToDelete = selected.sort();
     let newTableData = [...tableData];
@@ -151,10 +155,12 @@ const Transaction = (props) => {
     setSelected([]);
   };
 
+  // set customer
   const handleSetCustomer = (customer) => {
     setCustomer(customer);
   };
 
+  // update state with the values entered by user
   const handleStateChange = (val, index, column) => {
     let newState = [...tableData];
     newState[index] = {
@@ -162,10 +168,11 @@ const Transaction = (props) => {
       [column]: val,
     };
     let row = newState[index];
-    row["total"] = row["rate"] * row["quantity"];
+    row[constants.DEFAULTS.TOTAL] = row[constants.DEFAULTS.RATE] * row[constants.DEFAULTS.QUANTITY];
     setTableData(newState);
   };
 
+  // add the selected rows to selected array
   const handleSetSelected = (row, checked) => {
     let newSelected = [...selected];
     if (!checked) {
@@ -173,7 +180,7 @@ const Transaction = (props) => {
     } else {
       newSelected.push(row);
     }
-    handleStateChange(checked, row, DEFAULTS.SELECTED);
+    handleStateChange(checked, row, constants.DEFAULTS.SELECTED);
     setSelected(newSelected);
   };
 
@@ -203,7 +210,7 @@ const Transaction = (props) => {
         <Table>
           <TableHead sx={{ bgcolor: "primary.main" }}>
             <TableRow>
-              {TABLE_HEAD.map((head, index) => {
+              {constants.TABLE_HEAD.map((head, index) => {
                 return (
                   <TableCell key={index} sx={{ color: "white" }} align="left">
                     {index === 0 && selected.length > 0 ? (
@@ -241,7 +248,7 @@ const Transaction = (props) => {
                       options={productOptions}
                     />
                   </TableCell>
-                  {TEXT_ROWS.map((field, idx) => {
+                  {constants.TEXT_ROWS.map((field, idx) => {
                     return (
                       <TableCell key={idx} align="right">
                         <TextField

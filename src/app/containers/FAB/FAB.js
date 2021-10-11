@@ -16,7 +16,7 @@ import { ACTION_FABS, DEFAULTS } from "./constants";
 
 import { chooseModal } from "./utils";
 
-import AddModal from "../AddModal/AddModal";
+import AddModal from '../AddModal/AddModal';
 
 const FAB = () => {
   const [clicked, setClicked] = useState(false);

@@ -1,6 +1,6 @@
 import * as url from "./routesConstants";
 
-import Transaction from "../app/components/Transaction/Transaction";
+import Transaction from "../app/views/Transaction/Transaction";
 
 export const unauthenticatedRoutes = [{}];
 

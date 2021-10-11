@@ -3,8 +3,8 @@ import { useEffect } from "react";
 
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 
-import FAB from "../FAB/FAB";
-import SideBar from "../SideBar/SideBar";
+import FAB from "../../containers/FAB/FAB";
+import SideBar from "../../containers/SideBar/SideBar";
 
 import { HOME } from "../../../constants/routesConstants";
 import { authenticatedRoutes } from "../../../constants/routes";
