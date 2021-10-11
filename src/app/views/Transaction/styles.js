@@ -2,10 +2,14 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
   root: {
-    width: "75%",
+    width: "80%",
   },
   selectCustomer: {
     width: "35%",
+  },
+  metaItems: {
+    marginRight: "1rem",
+    height: "100%",
   },
   total: {
     "& .Mui-disabled": {
@@ -16,5 +20,9 @@ export const useStyles = makeStyles({
     "& .MuiOutlinedInput-notchedOutline": {
       borderColor: "red !important",
     },
+  },
+  addIcon: {
+    marginBottom: "1.4rem",
+    marginLeft: "0.8rem",
   },
 });

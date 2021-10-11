@@ -24,48 +24,36 @@ import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker
 import { Delete } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 
-import * as constants from './constants';
-
-import { capitalizeFirstLetter } from "../../utilities/stringUtils";
+import * as constants from "./constants";
 
 import { useStyles } from "./styles";
 
-const options = [
-  { value: "chocolate", label: "Chocolate" },
-  { value: "strawberry", label: "Strawberry" },
-  { value: "vanilla", label: "Vanilla" },
-];
-
-const PRODUCTS = [
-  { value: "AK_1", label: "AK-1" },
-  { value: "AK_2", label: "AK-2" },
-  { value: "AK_3", label: "AK-3" },
-];
-
-const TRANSACTION_TYPES = [
-  {
-    name: "Cash",
-    value: "cash",
-    color: "success",
-  },
-  {
-    name: "Credit",
-    value: "credit",
-    color: "error",
-  },
-];
-
 const Transaction = (props) => {
+  const {
+    tableMeta,
+    updateMetaData,
+    defaultRow,
+    transactionTypes,
+    people,
+    metaConstants,
+    transactionType,
+    date,
+    currentPerson,
+    personIdentifier,
+    products,
+    colors,
+  } = props;
+
   let classes = useStyles();
 
   const [selected, setSelected] = useState([]);
-  const [customer, setCustomer] = useState(null);
-  const [date, setDate] = useState("");
-  const [transactionType, setTransactionType] = useState("credit");
-  const [productOptions, setProductOptions] = useState(PRODUCTS);
-  const [tableData, setTableData] = useState([constants.DEFAULT_ROW]);
+  const [colorOptions, setColorOptions] = useState(colors);
+  const [productOptions, setProductOptions] = useState(products);
+  const [tableData, setTableData] = useState([defaultRow]);
   const [snackbarState, setSnackbarState] = useState({});
-  const [errorMessage, setErrorMessage] = useState(constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
+  const [errorMessage, setErrorMessage] = useState(
+    constants.ERROR_DEFAULTS.ROW_INCOMPLETE
+  );
 
   // add a new row to the transaction table
   const addRow = () => {
@@ -74,13 +62,14 @@ const Transaction = (props) => {
       let lastRow = tableData[tableData.length - 1];
       let newRow = {
         ...constants.DEFAULT_ROW,
+        product: lastRow.product,
         quantity: lastRow.quantity,
         rate: lastRow.rate,
         total: lastRow.quantity * lastRow.rate,
       };
       newTableData.push(newRow);
+      removeLastEnteredColor();
       setTableData(newTableData);
-      removeLastEnteredProduct();
       setErrorMessage("");
     } else {
       openSnackbar(true, "error", errorMessage);
@@ -88,12 +77,17 @@ const Transaction = (props) => {
   };
 
   // remove the last entered product to ensure it doesn't appear again in next row
-  const removeLastEnteredProduct = () => {
-    let lastProduct = tableData[tableData.length - 1].product.value;
-    let newProducts = productOptions.filter(
-      (product) => product.value !== lastProduct
+  const removeLastEnteredColor = () => {
+    let lastIndex = tableData.length - 1;
+    let lastColor = tableData[lastIndex].color.value;
+    let lastProduct = tableData[lastIndex].product.value;
+    let newColors = colorOptions[lastProduct].filter(
+      (color) => color.value !== lastColor
     );
-    setProductOptions(newProducts);
+    setColorOptions({
+      ...colorOptions,
+      [lastProduct]: newColors,
+    });
   };
 
   // open snackbar
@@ -133,7 +127,7 @@ const Transaction = (props) => {
     delete lastRow.total;
     for (const key in lastRow) {
       if (!lastRow[key]) {
-        setErrorMessage();
+        setErrorMessage(constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
         return false;
       }
     }
@@ -144,20 +138,19 @@ const Transaction = (props) => {
   const deleteRows = () => {
     let elementsToDelete = selected.sort();
     let newTableData = [...tableData];
-    let productsToAdd = [];
+    let newColorsData = { ...colorOptions };
+
     while (elementsToDelete.length) {
       let indexToPop = elementsToDelete.pop();
-      productsToAdd.push(newTableData[indexToPop].product);
+      let product = newTableData[indexToPop].product.value;
+      let color = newTableData[indexToPop].color;
+      color && newColorsData[product].push(color);
       newTableData.splice(indexToPop, 1);
     }
-    setProductOptions([...productOptions, ...productsToAdd]);
+
+    setColorOptions(newColorsData);
     setTableData(newTableData);
     setSelected([]);
-  };
-
-  // set customer
-  const handleSetCustomer = (customer) => {
-    setCustomer(customer);
   };
 
   // update state with the values entered by user
@@ -166,9 +159,16 @@ const Transaction = (props) => {
     newState[index] = {
       ...newState[index],
       [column]: val,
+      color:
+        column === "product"
+          ? null
+          : column === "color"
+          ? val
+          : newState[index]["color"],
     };
     let row = newState[index];
-    row[constants.DEFAULTS.TOTAL] = row[constants.DEFAULTS.RATE] * row[constants.DEFAULTS.QUANTITY];
+    row[constants.DEFAULTS.TOTAL] =
+      row[constants.DEFAULTS.RATE] * row[constants.DEFAULTS.QUANTITY];
     setTableData(newState);
   };
 
@@ -187,111 +187,148 @@ const Transaction = (props) => {
   return (
     <div className={classes.root}>
       <Typography variant="h5" fontWeight="900" sx={{ mb: 2 }}>
-        New Transaction
+        {`New ${personIdentifier} Transaction`}
       </Typography>
-      <Grid justifyContent="space-between" container>
-        <div className={classes.selectCustomer}>
+
+      <Grid container>
+        <div className={`${classes.selectCustomer} ${classes.metaItems}`}>
           <Select
-            placeholder="Select Customer"
-            value={customer}
-            onChange={handleSetCustomer}
-            options={options}
+            placeholder={personIdentifier}
+            value={currentPerson}
+            onChange={(customer) =>
+              updateMetaData(metaConstants.customer, customer)
+            }
+            options={people}
           />
         </div>
-        <CustomDatePicker getDate={(value) => setDate(value)} value={date} />
-        <CustomToggleButtons
-          buttons={TRANSACTION_TYPES}
-          getSelectedValue={(value) => setTransactionType(value)}
-          selectedValue={transactionType}
+        <CustomDatePicker
+          getDate={(date) => updateMetaData(metaConstants.date, date)}
+          value={date}
         />
+        <div className={classes.metaItems}>
+          <CustomToggleButtons
+            buttons={transactionTypes}
+            getSelectedValue={(type) =>
+              updateMetaData(metaConstants.transactionType, type)
+            }
+            selectedValue={transactionType}
+          />
+        </div>
       </Grid>
 
-      <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
-        <Table>
-          <TableHead sx={{ bgcolor: "primary.main" }}>
-            <TableRow>
-              {constants.TABLE_HEAD.map((head, index) => {
+      <Grid container wrap="nowrap" alignItems="flex-end">
+        <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
+          <Table>
+            <TableHead sx={{ bgcolor: "primary.main" }}>
+              <TableRow>
+                {tableMeta.map((head, index) => {
+                  return (
+                    <TableCell key={index} sx={{ color: "white" }} align="left">
+                      {index === 0 && selected.length > 0 ? (
+                        <IconButton onClick={() => deleteRows()} color="error">
+                          <Delete />
+                        </IconButton>
+                      ) : (
+                        head.name
+                      )}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            </TableHead>
+
+            <TableBody>
+              {tableData.map((row, rowIndex) => {
                 return (
-                  <TableCell key={index} sx={{ color: "white" }} align="left">
-                    {index === 0 && selected.length > 0 ? (
-                      <IconButton onClick={() => deleteRows()} color="error">
-                        <Delete />
-                      </IconButton>
-                    ) : (
-                      head.headerName
-                    )}
-                  </TableCell>
+                  <TableRow key={rowIndex}>
+                    {tableMeta.map((column, columnIndex) => {
+                      switch (column.field) {
+                        case "checkbox":
+                          return (
+                            <TableCell
+                              key={columnIndex}
+                              scope="row"
+                              sx={{ py: 0 }}
+                            >
+                              <Checkbox
+                                checked={row.selected}
+                                onClick={(e) =>
+                                  handleSetSelected(rowIndex, e.target.checked)
+                                }
+                              />
+                            </TableCell>
+                          );
+                        case "select":
+                          return (
+                            <TableCell
+                              key={columnIndex}
+                              sx={{ py: 0, width: "20%" }}
+                            >
+                              <Select
+                                isDisabled={tableData.length - 1 > rowIndex}
+                                placeholder={column.name}
+                                value={
+                                  column.name.toLowerCase() === "product"
+                                    ? row.product
+                                    : row.color
+                                }
+                                onChange={(value) =>
+                                  handleStateChange(
+                                    value,
+                                    rowIndex,
+                                    column.name.toLowerCase()
+                                  )
+                                }
+                                options={
+                                  column.name.toLowerCase() === "product"
+                                    ? column.options
+                                    : tableData[rowIndex].product
+                                    ? colorOptions[
+                                        tableData[rowIndex].product.value
+                                      ]
+                                    : null
+                                }
+                              />
+                            </TableCell>
+                          );
+                        case "number":
+                          return (
+                            <TableCell key={columnIndex} align="right">
+                              <TextField
+                                placeholder={column.name}
+                                onChange={(e) =>
+                                  handleStateChange(
+                                    parseFloat(e.target.value || 0),
+                                    rowIndex,
+                                    column.name.toLowerCase()
+                                  )
+                                }
+                                type="number"
+                                variant="outlined"
+                                size="small"
+                                value={row[column.name.toLowerCase()] || ""}
+                                inputProps={{
+                                  min: 0,
+                                }}
+                                disabled={column.readOnly}
+                              />
+                            </TableCell>
+                          );
+                        default:
+                          return null;
+                      }
+                    })}
+                  </TableRow>
                 );
               })}
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {tableData.map((row, index) => {
-              return (
-                <TableRow key={index}>
-                  <TableCell scope="row" sx={{ py: 0 }}>
-                    <Checkbox
-                      checked={row.selected}
-                      onClick={(e) =>
-                        handleSetSelected(index, e.target.checked)
-                      }
-                    />
-                  </TableCell>
-
-                  <TableCell sx={{ py: 0, width: "12rem" }}>
-                    <Select
-                      placeholder="Product"
-                      value={row.product}
-                      onChange={(value) =>
-                        handleStateChange(value, index, "product")
-                      }
-                      options={productOptions}
-                    />
-                  </TableCell>
-                  {constants.TEXT_ROWS.map((field, idx) => {
-                    return (
-                      <TableCell key={idx} align="right">
-                        <TextField
-                          placeholder={capitalizeFirstLetter(field.name)}
-                          onChange={(e) =>
-                            handleStateChange(
-                              parseFloat(e.target.value || 0),
-                              index,
-                              field.name
-                            )
-                          }
-                          type="number"
-                          variant="outlined"
-                          size="small"
-                          value={row[field.name] || ""}
-                          inputProps={{
-                            min: 0,
-                          }}
-                        />
-                      </TableCell>
-                    );
-                  })}
-                  <TableCell sx={{ py: 0 }}>
-                    <TextField
-                      value={row.total}
-                      size="small"
-                      variant="outlined"
-                      disabled
-                      className={`${classes.total} ${
-                        row.total < 0 && classes.error
-                      }`}
-                    ></TextField>
-                  </TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
-      <Grid container justifyContent="flex-end">
-        <Fab onClick={() => addRow()} color="secondary" size="small">
-          <Add />
-        </Fab>
+            </TableBody>
+          </Table>
+        </TableContainer>
+        <div className={classes.addIcon}>
+          <Fab onClick={() => addRow()} color="secondary" size="small">
+            <Add />
+          </Fab>
+        </div>
       </Grid>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
     </div>

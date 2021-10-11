@@ -6,6 +6,9 @@ export const TABLE_HEAD = [
     headerName: "Product",
   },
   {
+    headerName: "Color",
+  },
+  {
     headerName: "Quantity",
   },
   {
@@ -18,6 +21,7 @@ export const TABLE_HEAD = [
 
 export const DEFAULTS = {
   SELECTED: "selected",
+  COLOR: "color",
   PRODUCT: "product",
   QUANTITY: "quantity",
   RATE: "rate",
@@ -35,6 +39,7 @@ export const TEXT_ROWS = [
 
 export const DEFAULT_ROW = {
   selected: false,
+  color: null,
   product: null,
   quantity: 0,
   rate: 0,
