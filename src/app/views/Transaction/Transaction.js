@@ -62,13 +62,13 @@ const Transaction = (props) => {
       let lastRow = tableData[tableData.length - 1];
       let newRow = {
         ...constants.DEFAULT_ROW,
-        product: lastRow.product,
-        quantity: lastRow.quantity,
-        rate: lastRow.rate,
-        total: lastRow.quantity * lastRow.rate,
+        product: lastRow ? lastRow.product : null,
+        quantity: lastRow ? lastRow.quantity : 0,
+        rate: lastRow ? lastRow.rate : 0,
+        total: lastRow ? lastRow.quantity * lastRow.rate : 0,
       };
       newTableData.push(newRow);
-      removeLastEnteredColor();
+      tableData.length && removeLastEnteredColor();
       setTableData(newTableData);
       setErrorMessage("");
     } else {
@@ -142,9 +142,10 @@ const Transaction = (props) => {
 
     while (elementsToDelete.length) {
       let indexToPop = elementsToDelete.pop();
-      let product = newTableData[indexToPop].product.value;
-      let color = newTableData[indexToPop].color;
-      color && newColorsData[product].push(color);
+      let row = newTableData[indexToPop];
+      let product = row.product;
+      let color = row.color;
+      color && newColorsData[product.value].push(color);
       newTableData.splice(indexToPop, 1);
     }
 

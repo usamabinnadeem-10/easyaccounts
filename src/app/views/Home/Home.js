@@ -29,7 +29,6 @@ const Home = () => {
         <Switch>
           {authenticatedRoutes.map((route, index) => {
             let Component = route.component;
-            console.log(route);
             return (
               <Route key={index} path={route.path} exact>
                 <Component />
