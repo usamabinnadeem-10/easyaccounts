@@ -1,20 +1,17 @@
 import * as url from "./routesConstants";
 
-import CustomerTransaction from "../app/containers/CustomerTransaction/CustomerTransaction";
-// import Transaction from "../app/views/Transaction/Transaction";
+import CustomerTransaction from "../app/views/CustomerTransaction/CustomerTransaction";
+import SupplierTransaction from "../app/views/SupplierTransaction/SupplierTransaction";
 
 export const unauthenticatedRoutes = [{}];
 
 export const authenticatedRoutes = [
   {
     component: CustomerTransaction,
-    path: url.TRANSACTION,
+    path: url.CUSTOMER_TRANSACTION,
+  },
+  {
+    component: SupplierTransaction,
+    path: url.SUPPLIER_TRANSACTION,
   },
 ];
-
-// export const subRoutes = [
-//   {
-//     component: Transaction,
-//     path: url.TRANSACTION,
-//   },
-// ];

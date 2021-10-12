@@ -1,3 +1,4 @@
-export const HOME = '/home';
+export const HOME = "/home";
 
-export const TRANSACTION = `${HOME}/transaction`;
+export const CUSTOMER_TRANSACTION = `${HOME}/customer-transaction`;
+export const SUPPLIER_TRANSACTION = `${HOME}/supplier-transaction`;

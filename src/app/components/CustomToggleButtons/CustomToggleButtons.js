@@ -8,10 +8,10 @@ import { useStyles } from "./styles";
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   grouped: {
-    "&:first-child": {
+    "&:first-of-type": {
       borderRadius: "0.4rem",
     },
-    "&:not(:first-child)": {
+    "&:not(:first-of-type)": {
       borderRadius: "0.4rem",
       "margin-left": "0rem",
     },

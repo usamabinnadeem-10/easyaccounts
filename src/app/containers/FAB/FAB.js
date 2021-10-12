@@ -4,7 +4,6 @@ import { useState } from "react";
 import { useHistory } from "react-router";
 
 import ClickAwayListener from "@mui/material/ClickAwayListener";
-import Grid from "@mui/material/Grid";
 import Fab from "@mui/material/Fab";
 import Snackbar from "@mui/material/Snackbar";
 import Tooltip from "@mui/material/Tooltip";
@@ -12,11 +11,11 @@ import Fade from "@mui/material/Fade";
 
 import AddIcon from "@mui/icons-material/Add";
 
-import { ACTION_FABS, DEFAULTS } from "./constants";
+import AddModal from "../AddModal/AddModal";
 
+import { ACTION_FABS, TRANSACTION } from "./constants";
+import { useStyles } from "./styles";
 import { chooseModal } from "./utils";
-
-import AddModal from '../AddModal/AddModal';
 
 const FAB = () => {
   const [clicked, setClicked] = useState(false);
@@ -24,6 +23,7 @@ const FAB = () => {
   const [form, setForm] = useState([]);
 
   const history = useHistory();
+  const classes = useStyles();
 
   const handleClick = () => {
     setClicked(true);
@@ -39,10 +39,11 @@ const FAB = () => {
     setClicked(false);
   };
 
-  const handleOpenTransactionModal = () => {
+  const handleOpenTransactionModal = (route) => {
+    console.log(route);
     setClicked(false);
     closeModal();
-    history.push("/home/transaction");
+    history.push(route);
   };
 
   return (
@@ -72,7 +73,7 @@ const FAB = () => {
               <AddIcon />
             </Fab>
           ) : (
-            <Grid container flexDirection="column">
+            <div className={classes.fabWrapper}>
               {ACTION_FABS.map((fab, index) => {
                 return (
                   <Fade key={index} in={clicked} timeout={300}>
@@ -80,8 +81,8 @@ const FAB = () => {
                       <Fab
                         color="secondary"
                         onClick={
-                          fab.tooltip === DEFAULTS.NEW_TRANSACTION
-                            ? () => handleOpenTransactionModal()
+                          fab.type === TRANSACTION
+                            ? () => handleOpenTransactionModal(fab.route)
                             : () => handleOpenModal(fab.tooltip)
                         }
                         sx={{
@@ -96,7 +97,7 @@ const FAB = () => {
                   </Fade>
                 );
               })}
-            </Grid>
+            </div>
           )}
         </Snackbar>
       </ClickAwayListener>

@@ -17,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
+import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 
@@ -70,7 +70,6 @@ const Transaction = (props) => {
       newTableData.push(newRow);
       tableData.length && removeLastEnteredColor();
       setTableData(newTableData);
-      setErrorMessage("");
     } else {
       openSnackbar(true, "error", errorMessage);
     }
@@ -103,7 +102,7 @@ const Transaction = (props) => {
   const closeSnackbar = () => {
     setSnackbarState({
       open: false,
-      severity: "",
+      severity: "error",
       message: "",
     });
   };
@@ -161,11 +160,11 @@ const Transaction = (props) => {
       ...newState[index],
       [column]: val,
       color:
-        column === "product"
+        column === constants.DEFAULTS.PRODUCT
           ? null
-          : column === "color"
+          : column === constants.DEFAULTS.COLOR
           ? val
-          : newState[index]["color"],
+          : newState[index][constants.DEFAULTS.COLOR],
     };
     let row = newState[index];
     row[constants.DEFAULTS.TOTAL] =
@@ -197,7 +196,7 @@ const Transaction = (props) => {
             placeholder={personIdentifier}
             value={currentPerson}
             onChange={(customer) =>
-              updateMetaData(metaConstants.customer, customer)
+              updateMetaData(metaConstants.user, customer)
             }
             options={people}
           />
@@ -244,7 +243,7 @@ const Transaction = (props) => {
                   <TableRow key={rowIndex}>
                     {tableMeta.map((column, columnIndex) => {
                       switch (column.field) {
-                        case "checkbox":
+                        case constants.FIELD_TYPES.CHECKBOX:
                           return (
                             <TableCell
                               key={columnIndex}
@@ -259,7 +258,7 @@ const Transaction = (props) => {
                               />
                             </TableCell>
                           );
-                        case "select":
+                        case constants.FIELD_TYPES.SELECT:
                           return (
                             <TableCell
                               key={columnIndex}
@@ -269,7 +268,8 @@ const Transaction = (props) => {
                                 isDisabled={tableData.length - 1 > rowIndex}
                                 placeholder={column.name}
                                 value={
-                                  column.name.toLowerCase() === "product"
+                                  column.name.toLowerCase() ===
+                                  constants.DEFAULTS.PRODUCT
                                     ? row.product
                                     : row.color
                                 }
@@ -281,7 +281,8 @@ const Transaction = (props) => {
                                   )
                                 }
                                 options={
-                                  column.name.toLowerCase() === "product"
+                                  column.name.toLowerCase() ===
+                                  constants.DEFAULTS.PRODUCT
                                     ? column.options
                                     : tableData[rowIndex].product
                                     ? colorOptions[
@@ -292,7 +293,7 @@ const Transaction = (props) => {
                               />
                             </TableCell>
                           );
-                        case "number":
+                        case constants.FIELD_TYPES.NUMBER:
                           return (
                             <TableCell key={columnIndex} align="right">
                               <TextField

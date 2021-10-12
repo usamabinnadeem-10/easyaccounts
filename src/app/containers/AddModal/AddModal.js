@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import Select from "react-select";
+
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -9,18 +11,13 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 300,
-  p: 2,
-};
+import { useStyles, selectCustomStyles } from "./styles";
+
+import { FIELDS } from "../../../constants/fieldTypes";
 
 const AddModal = (props) => {
   const { open, handleClose, form } = props;
-
+  const classes = useStyles();
   const [state, setState] = useState({});
 
   useEffect(() => {
@@ -36,19 +33,30 @@ const AddModal = (props) => {
 
   return (
     <Modal paper="true" open={open} onClose={handleClose}>
-      <Paper sx={style}>
+      <Paper className={classes.paper}>
         <Typography
           textAlign="center"
           variant="h6"
           sx={{
             mb: 2,
+            fontWeight: 900,
           }}
         >
           {form.heading}
         </Typography>
         <Grid container flexDirection="column" alignContent="center">
           {form.formData.map((field, index) => {
-            return (
+            return field.type === FIELDS.SELECT ? (
+              <div key={index} className={classes.select}>
+                <Select
+                  styles={selectCustomStyles}
+                  placeholder={field.label}
+                  value={state[field.name] || null}
+                  onChange={(value) => handleChange(value, field.name)}
+                  options={field.options}
+                />
+              </div>
+            ) : (
               <TextField
                 value={state[field.name] || ""}
                 onChange={(e) => handleChange(e.target.value, field.name)}
@@ -61,8 +69,7 @@ const AddModal = (props) => {
                 sx={{ mb: 2.5, width: 0.9 }}
                 type={field.type}
                 InputProps={{
-                  inputProps:
-                    field.type === "number" ? { min: 0, max: 10 } : {},
+                  inputProps: field.type === FIELDS.NUMBER ? { min: 0 } : {},
                 }}
               />
             );

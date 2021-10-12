@@ -1,3 +1,5 @@
+import { FIELDS } from "../../../constants/fieldTypes";
+
 export const TABLE_HEAD = [
   {
     headerName: "Select",
@@ -50,4 +52,10 @@ export const ERROR_DEFAULTS = {
   LOW_TOTAL: "Total is very low",
   NO_MORE_PRODUCTS: "You do not have any more products to add",
   ROW_INCOMPLETE: "Please complete adding the current product",
-}
+};
+
+export const FIELD_TYPES = {
+  CHECKBOX: FIELDS.CHECKBOX,
+  SELECT: FIELDS.SELECT,
+  NUMBER: FIELDS.NUMBER,
+};
