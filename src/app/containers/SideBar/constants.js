@@ -6,7 +6,7 @@ export const MANAGE = "Manage";
 export const CUSTOMERS = "Customers";
 export const PRODUCTS = "Products";
 
-export const DRAWER_WIDTH = 250;
+export const DRAWER_WIDTH = 240;
 
 export const SIDEBAR = [
   {

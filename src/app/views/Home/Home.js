@@ -3,6 +3,8 @@ import { useEffect } from "react";
 
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 
+import { Grid } from "@mui/material";
+
 import FAB from "../../containers/FAB/FAB";
 import SideBar from "../../containers/SideBar/SideBar";
 
@@ -22,9 +24,10 @@ const Home = () => {
     }
   }, [location.pathname, history]);
   return (
-    <>
+    <Grid container direction="row" wrap="nowrap">
+      {/* <div style={{ width: "250px" }}> */}
       <SideBar />
-      <FAB />
+      {/* </div> */}
       <div className={classes.homeOffset}>
         <Switch>
           {authenticatedRoutes.map((route, index) => {
@@ -37,7 +40,8 @@ const Home = () => {
           })}
         </Switch>
       </div>
-    </>
+      <FAB />
+    </Grid>
   );
 };
 

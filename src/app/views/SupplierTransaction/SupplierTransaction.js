@@ -1,6 +1,13 @@
 import React from "react";
 import { useState } from "react";
 
+import { useDispatch, useSelector } from "react-redux";
+
+import {
+  getAllSuppliers,
+  getAllEssentials,
+} from "../../../store/essentials/actions";
+
 import Transaction from "../../containers/Transaction/Transaction";
 
 import { useStyles } from "./styles";
@@ -9,6 +16,12 @@ import * as constants from "./constants";
 
 function SupplierTransaction() {
   let classes = useStyles();
+  const dispatch = useDispatch();
+
+  const state = useSelector((state) => state.essentials);
+
+  !state.downloadedSuppliers && dispatch(getAllSuppliers());
+  !state.downloadedRest && dispatch(getAllEssentials());
 
   const [metaData, setMetaData] = useState({
     user: null,
@@ -30,14 +43,14 @@ function SupplierTransaction() {
         updateMetaData={updateMetaData}
         defaultRow={constants.DEFAULT_ROW}
         transactionTypes={constants.TRANSACTION_TYPES}
-        people={constants.SUPPLIERS}
+        people={state.suppliers}
         metaConstants={constants.META_CONSTANTS}
         currentPerson={metaData.user}
         date={metaData.date}
         transactionType={metaData.transactionType}
         personIdentifier="Supplier"
-        products={constants.PRODUCTS}
-        colors={constants.COLORS}
+        products={state.productHeads}
+        colors={state.products}
       />
     </div>
   );

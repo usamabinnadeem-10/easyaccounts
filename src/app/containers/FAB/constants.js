@@ -3,6 +3,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { Receipt } from "@mui/icons-material";
 import { Inventory2 } from "@mui/icons-material";
 import { Home } from "@mui/icons-material";
+import MenuBookIcon from "@mui/icons-material/MenuBook";
 
 import {
   CUSTOMER_TRANSACTION,
@@ -18,6 +19,7 @@ export const DEFAULTS = {
   ADD_EXPENSE: "New Expense",
   NEW_CUSTOMER_TRANSACTION: "Customer Transaction",
   NEW_SUPPLIER_TRANSACTION: "Supplier Transaction",
+  LEDGER_ENTRY: "New Ledger Entry",
 };
 
 export const TRANSACTION = "TRANSACTION";
@@ -43,6 +45,10 @@ export const ACTION_FABS = [
     tooltip: DEFAULTS.NEW_SUPPLIER_TRANSACTION,
     route: SUPPLIER_TRANSACTION,
     type: TRANSACTION,
+  },
+  {
+    icon: <MenuBookIcon />,
+    tooltip: DEFAULTS.LEDGER_ENTRY,
   },
   {
     icon: <Receipt />,

@@ -55,7 +55,7 @@ const FAB = () => {
       <ClickAwayListener onClickAway={() => setClicked(false)}>
         <Snackbar
           open={true}
-          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
           sx={{
             mr: 3,
             mb: 3,
@@ -77,7 +77,7 @@ const FAB = () => {
               {ACTION_FABS.map((fab, index) => {
                 return (
                   <Fade key={index} in={clicked} timeout={300}>
-                    <Tooltip placement="left" title={fab.tooltip} arrow>
+                    <Tooltip placement="right" title={fab.tooltip} arrow>
                       <Fab
                         color="secondary"
                         onClick={
@@ -86,9 +86,9 @@ const FAB = () => {
                             : () => handleOpenModal(fab.tooltip)
                         }
                         sx={{
-                          mt: 2,
-                          width: 60,
-                          height: 60,
+                          mt: 1.2,
+                          width: 45,
+                          height: 45,
                         }}
                       >
                         {fab.icon}

@@ -6,39 +6,12 @@ export const CUSTOMERS = [
   { value: "kiqt-ee24-er50", label: "Ali" },
 ];
 
-export const PRODUCTS = [
-  {
-    value: "skqw-0oi8-98ji",
-    label: "AK 44 Gaz",
-  },
-  {
-    value: "btwf-gadz-87hd",
-    label: "AK 66 Gaz",
-  },
-];
-
-export const COLORS = {
-  "skqw-0oi8-98ji": [
-    { value: "skqw-0oi8-98ji", label: "1" },
-    { value: "btwf-gadz-87hd", label: "2" },
-    { value: "skqw-0oi86234-98ji", label: "3" },
-    { value: "btwf-ga412dz-87hd", label: "4" },
-  ],
-  "btwf-gadz-87hd": [
-    { value: "skqw-0oi8-98ji", label: "10" },
-    { value: "bt4f-gadz-87hd", label: "12" },
-    { value: "sk14w-0oi8-98ji", label: "17" },
-    { value: "btwf-g123adz-87hd", label: "20" },
-    { value: "skqw-0o123i8-98ji", label: "34" },
-    { value: "btwf-142gadz-87hd", label: "101" },
-  ],
-};
-
 export const TRANSACTION_TYPES = [
   {
-    name: "Cash",
-    value: "cash",
+    name: "Paid",
+    value: "paid",
     color: "success",
+    accountTypes: true,
   },
   {
     name: "Credit",
@@ -57,15 +30,19 @@ export const TABLE_META = [
     field: FIELDS.SELECT,
     default: null,
     name: "Product",
-    optional: false,
-    options: PRODUCTS,
+    options: false,
   },
   {
     field: FIELDS.SELECT,
     default: null,
     name: "Color",
     optional: false,
-    options: null,
+  },
+  {
+    field: FIELDS.SELECT,
+    default: null,
+    name: "Warehouse",
+    optional: false,
   },
   {
     field: FIELDS.NUMBER,
@@ -94,6 +71,7 @@ export const DEFAULT_ROW = {
   selected: false,
   color: null,
   product: null,
+  warehouse: null,
   quantity: 0,
   rate: 0,
   total: 0,
@@ -103,4 +81,5 @@ export const META_CONSTANTS = {
   user: "user",
   date: "date",
   transactionType: "transactionType",
+  accountType: "accountType",
 };

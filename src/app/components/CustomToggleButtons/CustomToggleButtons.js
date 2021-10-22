@@ -4,19 +4,26 @@ import ToggleButton from "@mui/material/ToggleButton";
 import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
 import { styled } from "@mui/material/styles";
 
-import { useStyles } from "./styles";
-
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  grouped: {
-    "&:first-of-type": {
-      borderRadius: "0.4rem",
+  "& .MuiToggleButtonGroup-grouped": {
+    margin: theme.spacing(0.5),
+    border: 0,
+    "&.Mui-disabled": {
+      border: 0,
     },
     "&:not(:first-of-type)": {
-      borderRadius: "0.4rem",
-      "margin-left": "0rem",
+      borderRadius: theme.shape.borderRadius,
+      width: "4rem",
+      margin: 0,
+      fontWeight: 900,
     },
-    border: "none",
-    "margin-right": "1rem",
+    "&:first-of-type": {
+      borderRadius: theme.shape.borderRadius,
+      width: "4rem",
+      margin: 0,
+      marginRight: "0.3rem",
+      fontWeight: 900,
+    },
   },
 }));
 
@@ -27,8 +34,6 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
  */
 function CustomToggleButtons(props) {
   const { buttons, getSelectedValue, selectedValue } = props;
-
-  let classes = useStyles();
 
   const handleChange = (event, optionSelected) => {
     if (optionSelected) {
@@ -46,10 +51,6 @@ function CustomToggleButtons(props) {
         return (
           <ToggleButton
             color={button.color}
-            classes={{
-              sizeSmall: classes.toggleButtonPadding,
-            }}
-            className={classes.toggleButton}
             key={index}
             selected={button.value === selectedValue}
             size="small"

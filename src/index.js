@@ -6,17 +6,29 @@ import reportWebVitals from "./reportWebVitals";
 
 import CssBaseline from "@mui/material/CssBaseline";
 
-// THIS FILE IS WHERE WE WILL PASS CUSTOM THEME, CONFIGURE STORE AND SAGAS
+import { rootReducer } from "./store/rootReducer";
+import { rootSagas } from "./store/rootSaga";
+
+import { createStore, applyMiddleware } from "redux";
+import { composeWithDevTools } from "redux-devtools-extension";
+import { Provider } from "react-redux";
+import createSagaMiddleware from "redux-saga";
+
+const sagaMiddleware = createSagaMiddleware();
+
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(sagaMiddleware))
+);
+
+rootSagas.forEach((saga) => sagaMiddleware.run(saga));
 
 ReactDOM.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <CssBaseline />
     <App />
-  </React.StrictMode>,
+  </Provider>,
   document.getElementById("root")
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();
