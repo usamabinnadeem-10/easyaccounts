@@ -4,6 +4,7 @@ import { useEffect } from "react";
 
 import Select from "react-select";
 
+import { Button } from "@mui/material";
 import Fab from "@mui/material/Fab";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
@@ -17,6 +18,9 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
+
+import EmailIcon from "@mui/icons-material/Email";
+import SaveIcon from "@mui/icons-material/Save";
 
 import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
@@ -109,9 +113,8 @@ const Transaction = (props) => {
   // close snackbar
   const closeSnackbar = () => {
     setSnackbarState({
+      ...snackbarState,
       open: false,
-      severity: "error",
-      message: "",
     });
   };
 
@@ -383,13 +386,32 @@ const Transaction = (props) => {
         </Grid>
       </Grid>
 
-      <Grid container justifyContent="space-between" sx={{ pr: 10 }}>
+      <Grid container justifyContent="space-between">
         <Typography variant="button" fontWeight="900">
           Items : {tableData.length - 1}
         </Typography>
         <Typography variant="button" fontWeight="900">
-          PKR : {total || 0}/=
+          PKR : {total || 0} /=
         </Typography>
+      </Grid>
+
+      <Grid sx={{ my: 2 }}>
+        <Button
+          endIcon={<EmailIcon />}
+          variant="contained"
+          sx={{ fontWeight: 900, mr: 2 }}
+        >
+          Finalize
+        </Button>
+
+        <Button
+          endIcon={<SaveIcon />}
+          variant="contained"
+          sx={{ fontWeight: 900 }}
+          color="warning"
+        >
+          Save as draft
+        </Button>
       </Grid>
 
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />

@@ -13,16 +13,17 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
     },
     "&:not(:first-of-type)": {
       borderRadius: theme.shape.borderRadius,
-      width: "4rem",
       margin: 0,
       fontWeight: 900,
+      marginRight: "0.3rem",
+      minWidth: "4rem",
     },
     "&:first-of-type": {
       borderRadius: theme.shape.borderRadius,
-      width: "4rem",
       margin: 0,
       marginRight: "0.3rem",
       fontWeight: 900,
+      minWidth: "4rem",
     },
   },
 }));

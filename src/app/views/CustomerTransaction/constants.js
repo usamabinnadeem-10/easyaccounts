@@ -18,6 +18,11 @@ export const TRANSACTION_TYPES = [
     value: "credit",
     color: "error",
   },
+  {
+    name: "Maal Wapsi",
+    value: "maalwapsi",
+    color: "info",
+  },
 ];
 
 export const TABLE_META = [
