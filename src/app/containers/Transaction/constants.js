@@ -52,6 +52,10 @@ export const ERROR_DEFAULTS = {
   LOW_TOTAL: "Total is very low",
   NO_MORE_PRODUCTS: "You do not have any more products to add",
   ROW_INCOMPLETE: "Please complete adding the current product",
+  NO_PERSON: "Please select a ",
+  NO_ROW: "Transaction is empty",
+  NO_ACCOUNT: "Please select an account type",
+  NO_PAID_AMOUNT: "Please enter the amount paid",
 };
 
 export const FIELD_TYPES = {

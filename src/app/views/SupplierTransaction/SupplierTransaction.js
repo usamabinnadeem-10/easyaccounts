@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import {
 } from "../../../store/essentials/actions";
 
 import Transaction from "../../containers/Transaction/Transaction";
+import CustomLoader from "../../components/CustomLoader/CustomLoader";
 
 import { useStyles } from "./styles";
 
@@ -20,13 +22,15 @@ function SupplierTransaction() {
 
   const state = useSelector((state) => state.essentials);
 
-  !state.downloadedSuppliers && dispatch(getAllSuppliers());
-  !state.downloadedRest && dispatch(getAllEssentials());
+  useEffect(() => {
+    !state.downloadedSuppliers && dispatch(getAllSuppliers());
+    !state.downloadedRest && dispatch(getAllEssentials());
+  }, []);
 
   const [metaData, setMetaData] = useState({
     user: null,
     date: null,
-    transactionType: "cash",
+    transactionType: "purchase",
   });
 
   const updateMetaData = (property, value) => {
@@ -38,20 +42,30 @@ function SupplierTransaction() {
 
   return (
     <div className={classes.root}>
-      <Transaction
-        tableMeta={constants.TABLE_META}
-        updateMetaData={updateMetaData}
-        defaultRow={constants.DEFAULT_ROW}
-        transactionTypes={constants.TRANSACTION_TYPES}
-        people={state.suppliers}
-        metaConstants={constants.META_CONSTANTS}
-        currentPerson={metaData.user}
-        date={metaData.date}
-        transactionType={metaData.transactionType}
-        personIdentifier="Supplier"
-        products={state.productHeads}
-        colors={state.products}
-      />
+      {state.downloadedSuppliers ? (
+        <Transaction
+          tableMeta={constants.TABLE_META}
+          updateMetaData={updateMetaData}
+          defaultRow={constants.DEFAULT_ROW}
+          transactionTypes={constants.TRANSACTION_TYPES}
+          metaConstants={constants.META_CONSTANTS}
+          personIdentifier="Supplier"
+          natures={constants.NATURES}
+          options={{
+            people: state.suppliers,
+            warehouse: state.warehouses,
+            color: state.products,
+            product: state.productHeads,
+          }}
+          selectedOptions={{
+            currentPerson: metaData.user,
+            currentTransactionType: metaData.transactionType,
+            currentDate: metaData.date,
+          }}
+        />
+      ) : (
+        <CustomLoader loading={!state.downloadedSuppliers} pageLoader />
+      )}
     </div>
   );
 }

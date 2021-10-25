@@ -1,11 +1,5 @@
 import { FIELDS } from "../../../constants/fieldTypes";
 
-export const CUSTOMERS = [
-  { value: "yert-4354-e234", label: "Haji Muhammad Ahmed" },
-  { value: "qwte-gwe4-er77", label: "Usama Nadeem" },
-  { value: "kiqt-ee24-er50", label: "Ali" },
-];
-
 export const TRANSACTION_TYPES = [
   {
     name: "Paid",
@@ -24,6 +18,12 @@ export const TRANSACTION_TYPES = [
     color: "info",
   },
 ];
+
+export const NATURES = {
+  paid: "D",
+  credit: "D",
+  maalwapsi: "C",
+};
 
 export const TABLE_META = [
   {

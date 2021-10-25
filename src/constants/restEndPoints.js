@@ -11,3 +11,8 @@ export const ESSENTIAL_URLS = {
   CUSTOMERS: `${ESSENTIALS}person/?person=${CUSTOMER}`,
   SUPPLIERS: `${ESSENTIALS}person/?person=${SUPPLIER}`,
 };
+
+const TRANSACTION = "transaction/";
+export const TRANSACTION_URLS = {
+  CREATE_TRANSACTION: `${TRANSACTION}`,
+};

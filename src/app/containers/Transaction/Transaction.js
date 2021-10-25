@@ -25,11 +25,15 @@ import SaveIcon from "@mui/icons-material/Save";
 import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import CustomLoader from "../../components/CustomLoader/CustomLoader";
 
 import { Delete } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
 
 import * as constants from "./constants";
+import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
+
+import instance from "../../../utils/axiosApi";
 
 import { useStyles } from "./styles";
 
@@ -44,6 +48,7 @@ const Transaction = (props) => {
     showAccountTypes,
     options,
     selectedOptions,
+    natures,
   } = props;
 
   let classes = useStyles();
@@ -57,6 +62,7 @@ const Transaction = (props) => {
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const TRANSACTION_FOOTER = [
     {
@@ -186,6 +192,69 @@ const Transaction = (props) => {
     setSelected(newSelected);
   };
 
+  const makeTransaction = (draft = false) => {
+    if (!selectedOptions.currentPerson) {
+      openSnackbar(
+        true,
+        "error",
+        constants.ERROR_DEFAULTS.NO_PERSON + personIdentifier
+      );
+      return;
+    }
+    if (
+      selectedOptions.currentTransactionType === "paid" &&
+      !selectedOptions.currentAccountType
+    ) {
+      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_ACCOUNT);
+      return;
+    }
+    if (selectedOptions.currentTransactionType === "paid" && !paidAmount) {
+      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_PAID_AMOUNT);
+      return;
+    }
+    if (tableData.length === 0) {
+      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_ROW);
+      return;
+    }
+    if (!canAddRow()) {
+      openSnackbar(true, "error", constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
+      return;
+    } else {
+      setLoading(true);
+      let transaction = {
+        nature: natures[selectedOptions.currentTransactionType],
+        person: selectedOptions.currentPerson.value,
+        transaction_detail: tableData.map((data, index) => {
+          return {
+            product: data.color.value,
+            quantity: data.quantity,
+            rate: data.rate,
+            warehouse: data.warehouse.value,
+            amount: data.total,
+          };
+        }),
+      };
+      if (selectedOptions.currentTransactionType === "paid") {
+        transaction["paid"] = true;
+        transaction["paid_amount"] = paidAmount;
+        transaction["account_type"] = selectedOptions.currentAccountType?.value;
+      }
+      if (selectedOptions.currentDate) {
+        transaction[
+          "date"
+        ] = `${selectedOptions.currentDate.year}-${selectedOptions.currentDate.month}-${selectedOptions.currentDate.day}`;
+      }
+      instance
+        .post(TRANSACTION_URLS.CREATE_TRANSACTION, transaction)
+        .then((res) => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
+  };
+
   return (
     <div className={classes.root}>
       <Typography variant="h5" fontWeight="900" sx={{ mb: 2 }}>
@@ -197,9 +266,7 @@ const Transaction = (props) => {
           <Select
             placeholder={personIdentifier}
             value={selectedOptions.currentPerson}
-            onChange={(customer) =>
-              updateMetaData(metaConstants.user, customer)
-            }
+            onChange={(user) => updateMetaData(metaConstants.user, user)}
             options={options.people}
           />
         </div>
@@ -382,6 +449,7 @@ const Transaction = (props) => {
                 />
               );
             }
+            return null;
           })}
         </Grid>
       </Grid>
@@ -394,25 +462,30 @@ const Transaction = (props) => {
           PKR : {total || 0} /=
         </Typography>
       </Grid>
+      {loading ? (
+        <CustomLoader loading={loading} height={20} />
+      ) : (
+        <Grid sx={{ my: 2 }}>
+          <Button
+            endIcon={<EmailIcon />}
+            variant="contained"
+            sx={{ fontWeight: 900, mr: 2 }}
+            onClick={() => makeTransaction()}
+          >
+            Finalize
+          </Button>
 
-      <Grid sx={{ my: 2 }}>
-        <Button
-          endIcon={<EmailIcon />}
-          variant="contained"
-          sx={{ fontWeight: 900, mr: 2 }}
-        >
-          Finalize
-        </Button>
-
-        <Button
-          endIcon={<SaveIcon />}
-          variant="contained"
-          sx={{ fontWeight: 900 }}
-          color="warning"
-        >
-          Save as draft
-        </Button>
-      </Grid>
+          <Button
+            endIcon={<SaveIcon />}
+            variant="contained"
+            sx={{ fontWeight: 900 }}
+            color="warning"
+            onClick={() => makeTransaction(true)}
+          >
+            Save as draft
+          </Button>
+        </Grid>
+      )}
 
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
     </div>

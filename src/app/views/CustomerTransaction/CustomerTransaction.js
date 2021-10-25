@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Transaction from "../../containers/Transaction/Transaction";
+import CustomLoader from "../../components/CustomLoader/CustomLoader";
 
 import { useStyles } from "./styles";
 
@@ -42,7 +43,7 @@ function CustomerTransaction() {
 
   return (
     <div className={classes.root}>
-      {state.downloadedCustomers && (
+      {state.downloadedCustomers ? (
         <Transaction
           tableMeta={constants.TABLE_META}
           updateMetaData={updateMetaData}
@@ -51,6 +52,7 @@ function CustomerTransaction() {
           metaConstants={constants.META_CONSTANTS}
           personIdentifier="Customer"
           showAccountTypes={metaData.transactionType === "paid"}
+          natures={constants.NATURES}
           options={{
             people: state.customers,
             accountTypes: state.accountTypes,
@@ -65,6 +67,8 @@ function CustomerTransaction() {
             currentDate: metaData.date,
           }}
         />
+      ) : (
+        <CustomLoader loading={!state.downloadedCustomers} pageLoader />
       )}
     </div>
   );
