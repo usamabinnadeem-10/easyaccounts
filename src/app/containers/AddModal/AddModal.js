@@ -11,7 +11,8 @@ import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 
-import { useStyles, selectCustomStyles } from "./styles";
+import { useStyles } from "./styles";
+import { selectCustomStyles } from "./styles";
 
 import { FIELDS } from "../../../constants/fieldTypes";
 

@@ -8,10 +8,12 @@ export const useStyles = makeStyles({
     backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
   selectCustomer: {
-    width: "35%",
+    width: "25%",
+    marginRight: "1rem",
   },
   metaItems: {
     marginRight: "1rem",
+    marginLeft: "1rem",
     height: "100%",
   },
   total: {

@@ -13,7 +13,8 @@ import AddIcon from "@mui/icons-material/Add";
 
 import AddModal from "../AddModal/AddModal";
 
-import { ACTION_FABS, TRANSACTION } from "./constants";
+import { ACTION_FABS } from "./constants";
+import { TRANSACTION } from "./constants";
 import { useStyles } from "./styles";
 import { chooseModal } from "./utils";
 
@@ -40,7 +41,6 @@ const FAB = () => {
   };
 
   const handleOpenTransactionModal = (route) => {
-    console.log(route);
     setClicked(false);
     closeModal();
     history.push(route);

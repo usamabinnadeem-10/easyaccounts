@@ -16,3 +16,8 @@ const TRANSACTION = "transaction/";
 export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
 };
+
+const LEDGER = "ledger/";
+export const LEDGER_URLS = {
+  CREATE_LEDGER: `${LEDGER}`,
+};

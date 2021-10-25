@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import {
   getAllSuppliers,
@@ -30,7 +31,7 @@ function SupplierTransaction() {
   const [metaData, setMetaData] = useState({
     user: null,
     date: null,
-    transactionType: "purchase",
+    transactionType: constants.TRANSACTION_TYPES[0].value,
   });
 
   const updateMetaData = (property, value) => {

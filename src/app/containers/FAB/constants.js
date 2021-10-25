@@ -8,6 +8,7 @@ import MenuBookIcon from "@mui/icons-material/MenuBook";
 import {
   CUSTOMER_TRANSACTION,
   SUPPLIER_TRANSACTION,
+  LEDGER_TRANSACTION,
 } from "../../../constants/routesConstants";
 
 import { FIELDS } from "../../../constants/fieldTypes";
@@ -49,6 +50,8 @@ export const ACTION_FABS = [
   {
     icon: <MenuBookIcon />,
     tooltip: DEFAULTS.LEDGER_ENTRY,
+    route: LEDGER_TRANSACTION,
+    type: TRANSACTION,
   },
   {
     icon: <Receipt />,

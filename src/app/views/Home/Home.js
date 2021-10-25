@@ -25,9 +25,7 @@ const Home = () => {
   }, [location.pathname, history]);
   return (
     <Grid container direction="row" wrap="nowrap">
-      {/* <div style={{ width: "250px" }}> */}
       <SideBar />
-      {/* </div> */}
       <div className={classes.homeOffset}>
         <Switch>
           {authenticatedRoutes.map((route, index) => {

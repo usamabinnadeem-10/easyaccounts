@@ -2,6 +2,11 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
+import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
+import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import CustomLoader from "../../components/CustomLoader/CustomLoader";
+
 import Select from "react-select";
 
 import { Button } from "@mui/material";
@@ -21,11 +26,6 @@ import IconButton from "@mui/material/IconButton";
 
 import EmailIcon from "@mui/icons-material/Email";
 import SaveIcon from "@mui/icons-material/Save";
-
-import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
-import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
-import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
 
 import { Delete } from "@mui/icons-material";
 import { Add } from "@mui/icons-material";
@@ -262,7 +262,7 @@ const Transaction = (props) => {
       </Typography>
 
       <Grid container>
-        <div className={`${classes.selectCustomer} ${classes.metaItems}`}>
+        <div className={`${classes.selectCustomer}`}>
           <Select
             placeholder={personIdentifier}
             value={selectedOptions.currentPerson}

@@ -2,7 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 
 import Transaction from "../../containers/Transaction/Transaction";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
@@ -22,7 +23,7 @@ function CustomerTransaction() {
   const [metaData, setMetaData] = useState({
     user: null,
     date: null,
-    transactionType: "paid",
+    transactionType: constants.TRANSACTION_TYPES[0].value,
     accountType: null,
   });
 
