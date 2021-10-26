@@ -9,9 +9,7 @@ const initialState = {
   suppliers: [],
   productHeads: [],
   products: [],
-  downloadedCustomers: false,
-  downloadedSuppliers: false,
-  downloadedRest: false,
+  fetched: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -19,7 +17,7 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_ALL_ESSENTIALS_SUCCESS:
       return {
         ...state,
-        downloadedRest: true,
+        fetched: true,
       };
 
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:
@@ -42,7 +40,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         customers: customers,
-        downloadedCustomers: true,
       };
 
     case actionTypes.GET_ALL_SUPPLIERS_SUCCESS:
@@ -54,7 +51,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         suppliers: suppliers,
-        downloadedSuppliers: true,
       };
 
     case actionTypes.GET_ALL_PRODUCT_HEAD_SUCCESS:

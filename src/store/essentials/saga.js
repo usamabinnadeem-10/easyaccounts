@@ -21,6 +21,8 @@ function* essentialSagas() {
 
 function* getAllEssentialsSaga() {
   try {
+    yield put(actions.getAllCustomers());
+    yield put(actions.getAllSuppliers());
     yield put(actions.getAllAccountTypes());
     yield put(actions.getAllWarehouse());
     yield put(actions.getAllProduct());

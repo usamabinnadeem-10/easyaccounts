@@ -2,7 +2,7 @@ import * as url from "./routesConstants";
 
 import CustomerTransaction from "../app/views/CustomerTransaction/CustomerTransaction";
 import SupplierTransaction from "../app/views/SupplierTransaction/SupplierTransaction";
-import LedgerTransaction from "../app/containers/LedgerTransaction/LedgerTransaction";
+import LedgerTransaction from "../app/views/LedgerTransaction/LedgerTransaction";
 
 export const unauthenticatedRoutes = [{}];
 
