@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
+import { useHistory } from "react-router";
+
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
 import ListItemButton from "@mui/material/ListItemButton";
@@ -18,6 +20,8 @@ import { paperWhite } from "../../../constants/colors";
 import { getIcon } from "./utils";
 
 const SideBar = () => {
+  let history = useHistory();
+
   const [open, setOpen] = useState({
     panel: 0,
     expand: false,
@@ -69,7 +73,12 @@ const SideBar = () => {
                 >
                   {panel.panelData.map((panelData, index) => {
                     return (
-                      <ListItemButton key={index} sx={{ pl: 4 }} disableRipple>
+                      <ListItemButton
+                        onClick={() => history.push(panelData.route)}
+                        key={index}
+                        sx={{ pl: 4 }}
+                        disableRipple
+                      >
                         <ListItemIcon>{getIcon(panelData.name)}</ListItemIcon>
                         <ListItemText primary={panelData.name} />
                       </ListItemButton>

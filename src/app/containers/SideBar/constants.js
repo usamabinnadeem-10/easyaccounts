@@ -1,5 +1,7 @@
+import { LEDGERS } from "../../../constants/routesConstants";
+
 export const ACCOUNTS = "Accounts";
-export const LEDGERS = "Ledgers";
+export const LEDGER = "Ledgers";
 export const CHEQUES = "Cheques";
 
 export const MANAGE = "Manage";
@@ -13,10 +15,8 @@ export const SIDEBAR = [
     panelName: ACCOUNTS,
     panelData: [
       {
-        name: LEDGERS,
-      },
-      {
-        name: CHEQUES,
+        name: LEDGER,
+        route: LEDGERS,
       },
     ],
   },

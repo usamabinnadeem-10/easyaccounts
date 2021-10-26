@@ -2,6 +2,7 @@ import * as url from "./routesConstants";
 
 import CustomerTransaction from "../app/views/CustomerTransaction/CustomerTransaction";
 import SupplierTransaction from "../app/views/SupplierTransaction/SupplierTransaction";
+import Ledgers from "../app/views/Ledgers/Ledgers";
 import LedgerTransaction from "../app/views/LedgerTransaction/LedgerTransaction";
 
 export const unauthenticatedRoutes = [{}];
@@ -18,5 +19,9 @@ export const authenticatedRoutes = [
   {
     component: LedgerTransaction,
     path: url.LEDGER_TRANSACTION,
+  },
+  {
+    component: Ledgers,
+    path: url.LEDGERS,
   },
 ];

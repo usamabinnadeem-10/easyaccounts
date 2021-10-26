@@ -11,7 +11,7 @@ import Products from "@mui/icons-material/Inventory";
 
 import {
   ACCOUNTS,
-  LEDGERS,
+  LEDGER,
   CHEQUES,
   MANAGE,
   CUSTOMERS,
@@ -22,7 +22,7 @@ export const getIcon = (panel) => {
   switch (panel) {
     case ACCOUNTS:
       return <Accounts />;
-    case LEDGERS:
+    case LEDGER:
       return <Ledger />;
     case CHEQUES:
       return <Cheques />;

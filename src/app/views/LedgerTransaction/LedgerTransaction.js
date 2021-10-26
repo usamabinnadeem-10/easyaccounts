@@ -1,4 +1,5 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
 import { useSelector } from "react-redux";
@@ -7,6 +8,7 @@ import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import SelectPerson from "../../components/SelectPerson/SelectPerson";
 
 import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -17,9 +19,9 @@ import Select from "react-select";
 
 import { useStyles } from "./styles";
 import * as constants from "./constants";
+import { PERSON_TYPES } from "../../components/SelectPerson/constants";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
-import { capitalizeFirstLetter } from "../../utilities/stringUtils";
 
 function LedgerTransaction() {
   let classes = useStyles();
@@ -27,7 +29,7 @@ function LedgerTransaction() {
   const [transactionType, setTransactionType] = useState(
     constants.TRANSACTION_TYPES[0].value
   );
-  const [personType, setPersonType] = useState(constants.PERSON_TYPES[0].value);
+  const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [accountType, setAccountType] = useState(null);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [date, setDate] = useState(null);
@@ -35,6 +37,10 @@ function LedgerTransaction() {
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [posting, setPosting] = useState(false);
+
+  useEffect(() => {
+    setCurrentPerson(null);
+  }, [personType]);
 
   const LEDGER_FIELDS = [
     {
@@ -132,25 +138,13 @@ function LedgerTransaction() {
           <CustomDatePicker getDate={(date) => setDate(date)} value={date} />
         </Grid>
 
-        <Grid
-          container
-          justifyContent="space-between"
-          className={classes.container}
-        >
-          <div className={classes.people}>
-            <Select
-              placeholder={capitalizeFirstLetter(personType)}
-              value={currentPerson}
-              onChange={(person) => setCurrentPerson(person)}
-              options={state[personType]}
-            />
-          </div>
-          <CustomToggleButtons
-            buttons={constants.PERSON_TYPES}
-            selectedValue={personType}
-            getSelectedValue={(value) => setPersonType(value)}
-          />
-        </Grid>
+        <SelectPerson
+          currentPerson={currentPerson}
+          personType={personType}
+          setCurrentPerson={setCurrentPerson}
+          options={state[personType]}
+          setPersonType={setPersonType}
+        />
 
         <Grid container direction="column">
           {LEDGER_FIELDS.map((field, index) => {
@@ -171,6 +165,7 @@ function LedgerTransaction() {
             );
           })}
         </Grid>
+
         <LoadingButton
           loadingIndicator={<CustomLoader loading={posting} height={15} />}
           loading={posting}

@@ -5,13 +5,13 @@ import DatePicker from "react-modern-calendar-datepicker";
 import "./date.css";
 
 export default function CustomDatePicker(props) {
-  const { getDate, value } = props;
+  const { getDate, value, placeholder } = props;
 
   return (
     <DatePicker
       value={value}
       onChange={getDate}
-      inputPlaceholder="Date"
+      inputPlaceholder={placeholder || "Date"}
       shouldHighlightWeekends
       calendarPopperPosition="bottom"
       inputClassName="input-date"

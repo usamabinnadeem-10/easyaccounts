@@ -8,3 +8,17 @@ export const camelize = (str) => {
 export const capitalizeFirstLetter = (string) => {
   return string[0].toUpperCase() + string.slice(1);
 };
+
+export const makeQueryParamURL = (base, params) => {
+  let URL = base + "?";
+  params.forEach((element, index) => {
+    if (element) {
+      URL += `${index > 0 ? "&" : ""}${element.key}=${element.value}`;
+    }
+  });
+  return URL;
+};
+
+export const makeDate = (date) => {
+  return `${date.year}-${date.month}-${date.day}`;
+};
