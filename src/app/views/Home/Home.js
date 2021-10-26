@@ -1,9 +1,10 @@
 import React from "react";
 import { useEffect } from "react";
 
-import { Switch, Route, useHistory, useLocation } from "react-router-dom";
-
-import { Grid } from "@mui/material";
+import { Route } from "react-router-dom";
+import { Switch } from "react-router-dom";
+import { useHistory } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 import FAB from "../../containers/FAB/FAB";
 import SideBar from "../../containers/SideBar/SideBar";
@@ -24,7 +25,7 @@ const Home = () => {
     }
   }, [location.pathname, history]);
   return (
-    <Grid container direction="row" wrap="nowrap">
+    <>
       <SideBar />
       <div className={classes.homeOffset}>
         <Switch>
@@ -39,7 +40,7 @@ const Home = () => {
         </Switch>
       </div>
       <FAB />
-    </Grid>
+    </>
   );
 };
 

@@ -14,8 +14,8 @@ import {
 import { FIELDS } from "../../../constants/fieldTypes";
 
 export const DEFAULTS = {
-  ADD_CUSTOMER: "Add Customer",
-  ADD_PRODUCT: "Add Product",
+  ADD_CUSTOMER: "Add Customer / Supplier",
+  ADD_PRODUCT: "Add Product Head",
   ADD_WAREHOUSE: "Add Warehouse",
   ADD_EXPENSE: "New Expense",
   NEW_CUSTOMER_TRANSACTION: "Customer Transaction",
@@ -61,45 +61,46 @@ export const ACTION_FABS = [
   },
 ];
 
+const PERSON_OPTIONS = [
+  {
+    label: "Customer",
+    value: "C",
+  },
+  {
+    label: "Supplier",
+    value: "S",
+  },
+];
+
 export const ADD_CUSTOMER_FORM = {
-  heading: "Add Customer",
+  heading: "Add Customer / Supplier",
   formData: [
     {
-      label: "First Name",
+      label: "Name",
       type: FIELDS.STRING,
-      name: "firstName",
+      name: "name",
     },
     {
-      label: "Last Name",
-      type: FIELDS.STRING,
-      name: "lastName",
-    },
-    {
-      label: "Phone Number",
-      type: FIELDS.STRING,
-      name: "phoneNumber",
+      label: "Type",
+      type: FIELDS.SELECT,
+      name: "person_type",
+      options: PERSON_OPTIONS,
     },
     {
       label: "Business Name",
       type: FIELDS.STRING,
-      name: "businessName",
+      name: "business_name",
     },
   ],
 };
 
 export const ADD_PRODUCT_FORM = {
-  heading: "Add Product",
+  heading: "Add Product Head",
   formData: [
     {
-      label: "Product Name",
+      label: "Head Name",
       type: FIELDS.STRING,
-      name: "productName",
-    },
-    {
-      label: "Minimum Price",
-      type: FIELDS.NUMBER,
-      name: "minimumPrice",
-      min: 1,
+      name: "name",
     },
   ],
 };
@@ -110,12 +111,12 @@ export const ADD_WAREHOUSE_FORM = {
     {
       label: "Warehouse Name",
       type: FIELDS.STRING,
-      name: "warehouseName",
+      name: "name",
     },
     {
       label: "Warehouse Location",
       type: FIELDS.STRING,
-      name: "warehouseLocation",
+      name: "address",
     },
   ],
 };
