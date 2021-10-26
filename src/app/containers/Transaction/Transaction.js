@@ -3,32 +3,14 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
-import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
-import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
+import TransactionFooter from "../../components/TransactionFooter/TransactionFooter";
+import TransactionHeader from "../../components/TransactionHeader/TransactionHeader";
+import TransactionTableBody from "../../components/TransactionTableBody/TransactionTableBody";
+import TransactionTableHeader from "../../components/TransactionTableHeader/TransactionTableHeader";
 
-import Select from "react-select";
-
-import { Button } from "@mui/material";
-import Fab from "@mui/material/Fab";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
 import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-
-import EmailIcon from "@mui/icons-material/Email";
-import SaveIcon from "@mui/icons-material/Save";
-
-import { Delete } from "@mui/icons-material";
-import { Add } from "@mui/icons-material";
 
 import * as constants from "./constants";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
@@ -56,13 +38,13 @@ const Transaction = (props) => {
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
   const [snackbarState, setSnackbarState] = useState({});
-  const [errorMessage, setErrorMessage] = useState(
-    constants.ERROR_DEFAULTS.ROW_INCOMPLETE
-  );
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
   const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(
+    constants.ERROR_DEFAULTS.ROW_INCOMPLETE
+  );
 
   const TRANSACTION_FOOTER = [
     {
@@ -192,301 +174,116 @@ const Transaction = (props) => {
     setSelected(newSelected);
   };
 
+  // errors that can occur upon finalizing the transaction
+  const FINALIZE_ERRORS = [
+    {
+      isError: !selectedOptions.currentPerson,
+      description: constants.ERROR_DEFAULTS.NO_PERSON + personIdentifier,
+    },
+    {
+      isError:
+        selectedOptions.currentTransactionType === "paid" &&
+        !selectedOptions.currentAccountType,
+      description: constants.ERROR_DEFAULTS.NO_ACCOUNT,
+    },
+    {
+      isError: tableData.length === 0,
+      description: constants.ERROR_DEFAULTS.NO_ROW,
+    },
+    {
+      isError: canAddRow,
+      description: constants.ERROR_DEFAULTS.ROW_INCOMPLETE,
+    },
+    {
+      isError: selectedOptions.currentTransactionType === "paid" && !paidAmount,
+      description: constants.ERROR_DEFAULTS.NO_PAID_AMOUNT,
+    },
+  ];
+
+  // finalize transaction or save as draft
   const makeTransaction = (draft = false) => {
-    if (!selectedOptions.currentPerson) {
-      openSnackbar(
-        true,
-        "error",
-        constants.ERROR_DEFAULTS.NO_PERSON + personIdentifier
-      );
-      return;
-    }
-    if (
-      selectedOptions.currentTransactionType === "paid" &&
-      !selectedOptions.currentAccountType
-    ) {
-      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_ACCOUNT);
-      return;
-    }
-    if (selectedOptions.currentTransactionType === "paid" && !paidAmount) {
-      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_PAID_AMOUNT);
-      return;
-    }
-    if (tableData.length === 0) {
-      openSnackbar(true, "error", constants.ERROR_DEFAULTS.NO_ROW);
-      return;
-    }
-    if (!canAddRow()) {
-      openSnackbar(true, "error", constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
-      return;
-    } else {
-      setLoading(true);
-      let transaction = {
-        nature: natures[selectedOptions.currentTransactionType],
-        person: selectedOptions.currentPerson.value,
-        draft: draft,
-        transaction_detail: tableData.map((data, index) => {
-          return {
-            product: data.color.value,
-            quantity: data.quantity,
-            rate: data.rate,
-            warehouse: data.warehouse.value,
-            amount: data.total,
-          };
-        }),
-      };
-      if (selectedOptions.currentTransactionType === "paid") {
-        transaction["paid"] = true;
-        transaction["paid_amount"] = paidAmount;
-        transaction["account_type"] = selectedOptions.currentAccountType?.value;
+    for (let i = 0; i < FINALIZE_ERRORS.length; i++) {
+      let check = FINALIZE_ERRORS[i].isError;
+      let isError = typeof check === "function" ? !check() : check;
+      if (isError) {
+        openSnackbar(true, "error", FINALIZE_ERRORS[i].description);
+        return;
       }
-      if (selectedOptions.currentDate) {
-        transaction[
-          "date"
-        ] = `${selectedOptions.currentDate.year}-${selectedOptions.currentDate.month}-${selectedOptions.currentDate.day}`;
-      }
-      instance
-        .post(TRANSACTION_URLS.CREATE_TRANSACTION, transaction)
-        .then((res) => {
-          setLoading(false);
-        })
-        .catch((error) => {
-          setLoading(false);
-        });
     }
+    setLoading(true);
+    let transaction = {
+      nature: natures[selectedOptions.currentTransactionType],
+      person: selectedOptions.currentPerson.value,
+      draft: draft,
+      transaction_detail: tableData.map((data, index) => {
+        return {
+          product: data.color.value,
+          quantity: data.quantity,
+          rate: data.rate,
+          warehouse: data.warehouse.value,
+          amount: data.total,
+        };
+      }),
+    };
+    if (selectedOptions.currentTransactionType === "paid") {
+      transaction["paid"] = true;
+      transaction["paid_amount"] = paidAmount;
+      transaction["account_type"] = selectedOptions.currentAccountType?.value;
+    }
+    if (selectedOptions.currentDate) {
+      transaction[
+        "date"
+      ] = `${selectedOptions.currentDate.year}-${selectedOptions.currentDate.month}-${selectedOptions.currentDate.day}`;
+    }
+    instance
+      .post(TRANSACTION_URLS.CREATE_TRANSACTION, transaction)
+      .then((res) => {
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   return (
     <div className={classes.root}>
-      <Typography variant="h5" fontWeight="900" sx={{ mb: 2 }}>
-        {`New ${personIdentifier} Transaction`}
-      </Typography>
-
-      <Grid container>
-        <div className={`${classes.selectCustomer}`}>
-          <Select
-            placeholder={personIdentifier}
-            value={selectedOptions.currentPerson}
-            onChange={(user) => updateMetaData(metaConstants.user, user)}
-            options={options.people}
-          />
-        </div>
-        <CustomDatePicker
-          getDate={(date) => updateMetaData(metaConstants.date, date)}
-          value={selectedOptions.currentDate}
-        />
-        <div className={classes.metaItems}>
-          <CustomToggleButtons
-            buttons={transactionTypes}
-            getSelectedValue={(type) =>
-              updateMetaData(metaConstants.transactionType, type)
-            }
-            selectedValue={selectedOptions.currentTransactionType}
-          />
-        </div>
-        {showAccountTypes && (
-          <div>
-            <Select
-              placeholder={"Account Type"}
-              value={selectedOptions.currentAccountType}
-              onChange={(account) =>
-                updateMetaData(metaConstants.accountType, account)
-              }
-              options={options.accountTypes}
-            />
-          </div>
-        )}
-      </Grid>
+      <TransactionHeader
+        personIdentifier={personIdentifier}
+        selectedOptions={selectedOptions}
+        options={options}
+        updateMetaData={updateMetaData}
+        metaConstants={metaConstants}
+        showAccountTypes={showAccountTypes}
+        transactionTypes={transactionTypes}
+      />
 
       <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
         <Table>
-          <TableHead sx={{ bgcolor: "primary.main" }}>
-            <TableRow>
-              {tableMeta.map((head, index) => {
-                return (
-                  <TableCell
-                    key={index}
-                    sx={{ color: "white", py: 1, px: 1, fontWeight: 700 }}
-                    align={index === 0 ? "center" : "left"}
-                  >
-                    {index === 0 && selected.length > 0 ? (
-                      <IconButton
-                        size="small"
-                        onClick={() => deleteRows()}
-                        sx={{
-                          color: "#FAAB25",
-                        }}
-                      >
-                        <Delete />
-                      </IconButton>
-                    ) : (
-                      head.name
-                    )}
-                  </TableCell>
-                );
-              })}
-            </TableRow>
-          </TableHead>
+          <TransactionTableHeader
+            tableMeta={tableMeta}
+            selected={selected}
+            deleteRows={deleteRows}
+          />
 
-          <TableBody>
-            {tableData.map((row, rowIndex) => {
-              return (
-                <TableRow key={rowIndex}>
-                  {tableMeta.map((column, columnIndex) => {
-                    switch (column.field) {
-                      case constants.FIELD_TYPES.CHECKBOX:
-                        return (
-                          <TableCell
-                            key={columnIndex}
-                            scope="row"
-                            sx={{ py: 0, px: 1 }}
-                          >
-                            <Checkbox
-                              checked={row.selected}
-                              onClick={(e) =>
-                                handleSetSelected(rowIndex, e.target.checked)
-                              }
-                            />
-                          </TableCell>
-                        );
-                      case constants.FIELD_TYPES.SELECT:
-                        return (
-                          <TableCell
-                            key={columnIndex}
-                            sx={{ py: 0, width: "16%", px: 1 }}
-                          >
-                            <Select
-                              components={{
-                                DropdownIndicator: () => null,
-                                IndicatorSeparator: () => null,
-                              }}
-                              placeholder={column.name}
-                              value={row[column.name.toLowerCase()]}
-                              onChange={(value) =>
-                                handleStateChange(
-                                  value,
-                                  rowIndex,
-                                  column.name.toLowerCase()
-                                )
-                              }
-                              options={
-                                column.name.toLowerCase() !==
-                                constants.DEFAULTS.COLOR
-                                  ? options[column.name.toLowerCase()]
-                                  : tableData[rowIndex].product
-                                  ? options.color[
-                                      tableData[rowIndex].product.value
-                                    ]
-                                  : []
-                              }
-                            />
-                          </TableCell>
-                        );
-                      case constants.FIELD_TYPES.NUMBER:
-                        return (
-                          <TableCell
-                            sx={{ py: 1, px: 1 }}
-                            key={columnIndex}
-                            align="right"
-                          >
-                            <TextField
-                              placeholder={column.name}
-                              onChange={(e) =>
-                                handleStateChange(
-                                  parseFloat(e.target.value || 0),
-                                  rowIndex,
-                                  column.name.toLowerCase()
-                                )
-                              }
-                              type="number"
-                              variant="outlined"
-                              size="small"
-                              value={row[column.name.toLowerCase()] || ""}
-                              inputProps={{
-                                min: 0,
-                              }}
-                              disabled={column.readOnly}
-                            />
-                          </TableCell>
-                        );
-                      default:
-                        return null;
-                    }
-                  })}
-                </TableRow>
-              );
-            })}
-          </TableBody>
+          <TransactionTableBody
+            tableData={tableData}
+            tableMeta={tableMeta}
+            constants={constants}
+            handleSetSelected={handleSetSelected}
+            handleStateChange={handleStateChange}
+            options={options}
+          />
         </Table>
       </TableContainer>
-      <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
-        <Fab onClick={() => addRow()} color="secondary" size="small">
-          <Add />
-        </Fab>
-      </Grid>
 
-      <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
-        <Grid sx={{ width: "max-content" }} container direction="column">
-          {TRANSACTION_FOOTER.map((field, index) => {
-            if (field.visible) {
-              return (
-                <TextField
-                  key={index}
-                  inputProps={{
-                    min: 0,
-                  }}
-                  type="number"
-                  variant="outlined"
-                  size="small"
-                  placeholder={field.placeholder}
-                  value={field.value}
-                  onChange={(e) =>
-                    field.action(parseFloat(e.target.value) || "")
-                  }
-                  sx={{
-                    width: 200,
-                    py: 1,
-                  }}
-                />
-              );
-            }
-            return null;
-          })}
-        </Grid>
-      </Grid>
-
-      <Grid container justifyContent="space-between">
-        <Typography variant="button" fontWeight="900">
-          Items : {tableData.length - 1}
-        </Typography>
-        <Typography variant="button" fontWeight="900">
-          PKR : {total || 0} /=
-        </Typography>
-      </Grid>
-      {loading ? (
-        <CustomLoader loading={loading} height={20} />
-      ) : (
-        <Grid sx={{ my: 2 }}>
-          <Button
-            endIcon={<EmailIcon />}
-            variant="contained"
-            sx={{ fontWeight: 900, mr: 2 }}
-            onClick={() => makeTransaction()}
-          >
-            Finalize
-          </Button>
-
-          <Button
-            endIcon={<SaveIcon />}
-            variant="contained"
-            sx={{ fontWeight: 900 }}
-            color="warning"
-            onClick={() => makeTransaction(true)}
-          >
-            Save as draft
-          </Button>
-        </Grid>
-      )}
+      <TransactionFooter
+        addRow={addRow}
+        transactionFooter={TRANSACTION_FOOTER}
+        tableData={tableData}
+        total={total}
+        loading={loading}
+        makeTransaction={makeTransaction}
+      />
 
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
     </div>

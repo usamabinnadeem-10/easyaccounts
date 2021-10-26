@@ -7,23 +7,4 @@ export const useStyles = makeStyles({
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
-  selectCustomer: {
-    width: "25%",
-    marginRight: "1rem",
-  },
-  metaItems: {
-    marginRight: "1rem",
-    marginLeft: "1rem",
-    height: "100%",
-  },
-  total: {
-    "& .Mui-disabled": {
-      "-webkit-text-fill-color": "#000 !important",
-    },
-  },
-  error: {
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "red !important",
-    },
-  },
 });
