@@ -13,6 +13,7 @@ export const TRANSACTION_TYPES = [
 ];
 
 export const ERRORS = {
-  NO_PERSON: "Please select a supplier or customer",
+  NO_PERSON: "Please select ",
   NO_AMOUNT: "Please enter an amount",
+  NO_ACCOUNT: "Please select an account type",
 };

@@ -20,4 +20,5 @@ export const TRANSACTION_URLS = {
 const LEDGER = "ledger/";
 export const LEDGER_URLS = {
   CREATE_LEDGER: `${LEDGER}`,
+  DELETE_LEDGER: `${LEDGER}:uuid/`,
 };

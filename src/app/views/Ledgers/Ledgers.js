@@ -16,9 +16,13 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 import { PERSON_TYPES } from "../../components/SelectPerson/constants";
 import { useStyles } from "./styles";
-import instance from "../../../utils/axiosApi";
+import { ERRORS } from "./constants";
+import { SUCCESS } from "./constants";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
+
+import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL } from "../../utilities/stringUtils";
+import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 
 function Ledgers() {
@@ -39,7 +43,7 @@ function Ledgers() {
 
   const search = () => {
     if (!currentPerson) {
-      openSnackbar(true, "error", "Please select Customer / Supplier");
+      openSnackbar(true, "error", ERRORS.SELECT_PERSON + personType);
       return;
     }
     setLoading(true);
@@ -71,7 +75,7 @@ function Ledgers() {
       })
       .catch((error) => {
         setLoading(false);
-        openSnackbar(true, "error", "Oops, something went wrong");
+        openSnackbar(true, "error", ERRORS.OOPS);
       });
   };
 
@@ -110,13 +114,48 @@ function Ledgers() {
         detail: element.detail,
         credit: nature === "C" ? amount : "",
         debit: nature === "D" ? amount : "",
-        balance:
-          balance < 0
-            ? `${balance.toString().substring(1)} DB`
-            : `${balance} CR`,
+        transaction: element.transaction,
+        balance: balance,
       });
     });
     return ledger;
+  };
+
+  const onRowClick = (id) => {
+    console.log("row click :" + id);
+  };
+
+  const handleEdit = (id) => {
+    console.log("edit : " + id);
+  };
+
+  const handleDelete = (id) => {
+    instance
+      .delete(getURL(LEDGER_URLS.DELETE_LEDGER, "uuid", id))
+      .then((res) => {
+        let lastBalanceIndex = ledgerData.findIndex(
+          (ledger) => ledger.id === id
+        );
+        let newData = ledgerData.filter((ledger) => ledger.id !== id);
+        let lastBalance = lastBalanceIndex === 0 ? 0.0 : newData[0].balance;
+        if (lastBalanceIndex < newData.length - 1) {
+          for (let i = 0; i < newData.length; i++) {
+            if (i >= lastBalanceIndex) {
+              if (newData[i].credit) {
+                newData[i].balance = lastBalance + newData[i].credit;
+              } else {
+                newData[i].balance = lastBalance - newData[i].debit;
+              }
+            }
+            lastBalance = newData[i].balance;
+          }
+        }
+        setledgerData(newData);
+        openSnackbar(true, "success", SUCCESS.DELETED);
+      })
+      .catch((error) => {
+        openSnackbar(true, "error", ERRORS.OOPS);
+      });
   };
 
   return (
@@ -156,7 +195,15 @@ function Ledgers() {
         <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       </Grid>
       <div className={classes.table}>
-        {ledgerData.length > 0 && <LedgerDetail rows={ledgerData} />}
+        {ledgerData.length > 0 && (
+          <LedgerDetail
+            rows={ledgerData}
+            onRowClick={onRowClick}
+            hoverProperty={"transaction"}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        )}
       </div>
     </>
   );

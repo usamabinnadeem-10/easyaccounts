@@ -77,10 +77,9 @@ function LedgerTransaction() {
   };
 
   const postLedger = () => {
-    setPosting(true);
     const balance = parseFloat(amount);
     if (!currentPerson) {
-      openSnackbar(true, "error", constants.ERRORS.NO_PERSON);
+      openSnackbar(true, "error", constants.ERRORS.NO_PERSON + personType);
       return;
     }
     if (!balance) {
@@ -88,6 +87,14 @@ function LedgerTransaction() {
       return;
     }
 
+    if (
+      transactionType === constants.TRANSACTION_TYPES[1].value &&
+      !accountType
+    ) {
+      openSnackbar(true, "error", constants.ERRORS.NO_ACCOUNT);
+      return;
+    }
+    setPosting(true);
     let data = {
       person: currentPerson.value,
       detail: detail,

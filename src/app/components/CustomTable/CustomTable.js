@@ -4,11 +4,14 @@ import { useTable } from "react-table";
 
 import { useStyles } from "./styles";
 
-function CustomTable({ columns, data }) {
+function CustomTable({ columns, data, hoverProperty }) {
+  const getRowId = (row) => row.id;
+
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
     useTable({
       columns,
       data,
+      getRowId,
     });
 
   const classes = useStyles();
@@ -30,7 +33,10 @@ function CustomTable({ columns, data }) {
         {rows.map((row, i) => {
           prepareRow(row);
           return (
-            <tr {...row.getRowProps()}>
+            <tr
+              className={`${row.original[hoverProperty] ? classes.hover : ""}`}
+              {...row.getRowProps()}
+            >
               {row.cells.map((cell) => {
                 return (
                   <td className={classes.rowCell} {...cell.getCellProps()}>

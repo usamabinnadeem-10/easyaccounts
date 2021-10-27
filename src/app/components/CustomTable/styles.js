@@ -22,4 +22,7 @@ export const useStyles = makeStyles({
     overflowWrap: "anywhere",
     paddingRight: "0.4rem",
   },
+  hover: {
+    cursor: "pointer",
+  },
 });

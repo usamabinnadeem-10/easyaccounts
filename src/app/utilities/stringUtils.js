@@ -22,3 +22,7 @@ export const makeQueryParamURL = (base, params) => {
 export const makeDate = (date) => {
   return `${date.year}-${date.month}-${date.day}`;
 };
+
+export const getURL = (url, pathVariable, value) => {
+  return url.replace(`:${pathVariable}`, value);
+};
