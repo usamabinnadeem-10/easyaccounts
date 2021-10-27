@@ -130,12 +130,10 @@ function LedgerTransaction() {
       detail: detail,
       amount: balance,
       nature: transactionType,
+      account_type: accountType?.value || null,
     };
     if (date) {
       data["date"] = makeDate(date);
-    }
-    if (accountType) {
-      data["account_type"] = accountType.value;
     }
     if (!location.state) {
       instance
@@ -156,6 +154,12 @@ function LedgerTransaction() {
           setPosting(false);
         });
     }
+  };
+
+  const handleSetAccountType = (account) => {
+    account?.value === accountType?.value
+      ? setAccountType(null)
+      : setAccountType(account);
   };
 
   return (
@@ -180,7 +184,7 @@ function LedgerTransaction() {
           <Select
             placeholder={"Account Type"}
             value={accountType}
-            onChange={(account) => setAccountType(account)}
+            onChange={(account) => handleSetAccountType(account)}
             options={state.accountTypes}
           />
           <CustomDatePicker getDate={(date) => setDate(date)} value={date} />

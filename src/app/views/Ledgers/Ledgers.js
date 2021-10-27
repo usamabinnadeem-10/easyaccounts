@@ -139,24 +139,7 @@ function Ledgers() {
     instance
       .delete(getURL(LEDGER_URLS.DELETE_LEDGER, "uuid", id))
       .then((res) => {
-        let lastBalanceIndex = ledgerData.findIndex(
-          (ledger) => ledger.id === id
-        );
-        let newData = ledgerData.filter((ledger) => ledger.id !== id);
-        let lastBalance = lastBalanceIndex === 0 ? 0.0 : newData[0].balance;
-        if (lastBalanceIndex < newData.length - 1) {
-          for (let i = 0; i < newData.length; i++) {
-            if (i >= lastBalanceIndex) {
-              if (newData[i].credit) {
-                newData[i].balance = lastBalance + newData[i].credit;
-              } else {
-                newData[i].balance = lastBalance - newData[i].debit;
-              }
-            }
-            lastBalance = newData[i].balance;
-          }
-        }
-        setledgerData(newData);
+        search();
         openSnackbar(true, "success", SUCCESS.DELETED);
       })
       .catch((error) => {
