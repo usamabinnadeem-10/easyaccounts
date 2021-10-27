@@ -2,7 +2,11 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import { useDidMountEffect } from "../../hooks/useDidMountEffect";
+
 import { useSelector } from "react-redux";
+
+import { useLocation } from "react-router";
 
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
@@ -19,13 +23,26 @@ import Select from "react-select";
 
 import { useStyles } from "./styles";
 import * as constants from "./constants";
-import { PERSON_TYPES } from "../../components/SelectPerson/constants";
+import {
+  PERSON_TYPES,
+  STORE_PERSON,
+} from "../../components/SelectPerson/constants";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
+import {
+  getDateFromString,
+  makeDate,
+  getURL,
+} from "../../utilities/stringUtils";
+import { findPerson, findAccountType } from "./utils";
 
 function LedgerTransaction() {
-  let classes = useStyles();
+  const classes = useStyles();
+  const location = useLocation();
 
+  const state = useSelector((state) => state.essentials);
+
+  const [title, setTitle] = useState("New Ledger Entry");
   const [transactionType, setTransactionType] = useState(
     constants.TRANSACTION_TYPES[0].value
   );
@@ -39,6 +56,21 @@ function LedgerTransaction() {
   const [posting, setPosting] = useState(false);
 
   useEffect(() => {
+    if (location.state) {
+      let data = location.state;
+      let person = findPerson(data.person, state.suppliers, state.customers);
+      setTitle("Edit Ledger Entry");
+      setCurrentPerson(person);
+      setPersonType(person.person_type);
+      setAccountType(findAccountType(data.account_type, state.accountTypes));
+      setAmount(data.amount);
+      setTransactionType(data.nature);
+      setDetail(data.detail);
+      setDate(getDateFromString(data.date));
+    }
+  }, []);
+
+  useDidMountEffect(() => {
     setCurrentPerson(null);
   }, [personType]);
 
@@ -56,8 +88,6 @@ function LedgerTransaction() {
       value: detail,
     },
   ];
-
-  const state = useSelector((state) => state.essentials);
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {
@@ -102,19 +132,30 @@ function LedgerTransaction() {
       nature: transactionType,
     };
     if (date) {
-      data["date"] = `${date.year}-${date.month}-${date.day}`;
+      data["date"] = makeDate(date);
     }
     if (accountType) {
       data["account_type"] = accountType.value;
     }
-    instance
-      .post(LEDGER_URLS.CREATE_LEDGER, data)
-      .then((res) => {
-        setPosting(false);
-      })
-      .catch((error) => {
-        setPosting(false);
-      });
+    if (!location.state) {
+      instance
+        .post(LEDGER_URLS.CREATE_LEDGER, data)
+        .then((res) => {
+          setPosting(false);
+        })
+        .catch((error) => {
+          setPosting(false);
+        });
+    } else {
+      instance
+        .put(getURL(LEDGER_URLS.UPDATE_LEDGER, "uuid", location.state.id), data)
+        .then((res) => {
+          setPosting(false);
+        })
+        .catch((error) => {
+          setPosting(false);
+        });
+    }
   };
 
   return (
@@ -122,7 +163,7 @@ function LedgerTransaction() {
       <Grid container direction="column" className={classes.root}>
         <Grid container justifyContent="space-between" sx={{ mb: 4 }}>
           <Typography variant="h5" fontWeight="900">
-            New Ledger Entry
+            {title}
           </Typography>
           <CustomToggleButtons
             buttons={constants.TRANSACTION_TYPES}
@@ -139,7 +180,7 @@ function LedgerTransaction() {
           <Select
             placeholder={"Account Type"}
             value={accountType}
-            onChange={(accout) => setAccountType(accout)}
+            onChange={(account) => setAccountType(account)}
             options={state.accountTypes}
           />
           <CustomDatePicker getDate={(date) => setDate(date)} value={date} />
@@ -149,7 +190,7 @@ function LedgerTransaction() {
           currentPerson={currentPerson}
           personType={personType}
           setCurrentPerson={setCurrentPerson}
-          options={state[personType]}
+          options={state[STORE_PERSON[personType]]}
           setPersonType={setPersonType}
         />
 
@@ -180,7 +221,7 @@ function LedgerTransaction() {
           variant="contained"
           sx={{ mt: 3, mb: 2, fontWeight: 900 }}
         >
-          Post
+          {location.state ? "Edit" : "Post"}
         </LoadingButton>
       </Grid>
 

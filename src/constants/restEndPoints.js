@@ -21,4 +21,5 @@ const LEDGER = "ledger/";
 export const LEDGER_URLS = {
   CREATE_LEDGER: `${LEDGER}`,
   DELETE_LEDGER: `${LEDGER}:uuid/`,
+  UPDATE_LEDGER: `${LEDGER}:uuid/`,
 };

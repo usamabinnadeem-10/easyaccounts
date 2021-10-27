@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { useSelector } from "react-redux";
 
+import { useHistory } from "react-router";
+
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import SelectPerson from "../../components/SelectPerson/SelectPerson";
@@ -14,7 +16,10 @@ import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
-import { PERSON_TYPES } from "../../components/SelectPerson/constants";
+import {
+  PERSON_TYPES,
+  STORE_PERSON,
+} from "../../components/SelectPerson/constants";
 import { useStyles } from "./styles";
 import { ERRORS } from "./constants";
 import { SUCCESS } from "./constants";
@@ -27,6 +32,7 @@ import { makeDate } from "../../utilities/stringUtils";
 
 function Ledgers() {
   const classes = useStyles();
+  const history = useHistory();
   const state = useSelector((state) => state.essentials);
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
@@ -109,12 +115,9 @@ function Ledgers() {
         balance += amount;
       }
       ledger.push({
-        id: element.id,
-        date: element.date,
-        detail: element.detail,
+        ...element,
         credit: nature === "C" ? amount : "",
         debit: nature === "D" ? amount : "",
-        transaction: element.transaction,
         balance: balance,
       });
     });
@@ -126,7 +129,10 @@ function Ledgers() {
   };
 
   const handleEdit = (id) => {
-    console.log("edit : " + id);
+    history.push({
+      pathname: "/home/ledger-transaction",
+      state: ledgerData.filter((ledger) => ledger.id === id)[0],
+    });
   };
 
   const handleDelete = (id) => {
@@ -168,7 +174,7 @@ function Ledgers() {
           currentPerson={currentPerson}
           personType={personType}
           setCurrentPerson={setCurrentPerson}
-          options={state[personType]}
+          options={state[STORE_PERSON[personType]]}
           setPersonType={setPersonType}
         />
         <Grid

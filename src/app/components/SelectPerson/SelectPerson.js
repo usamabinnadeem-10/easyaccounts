@@ -6,7 +6,7 @@ import { Grid } from "@mui/material";
 import Select from "react-select";
 
 import { PERSON_TYPES } from "./constants";
-import { capitalizeFirstLetter } from "../../utilities/stringUtils";
+import { PERSONS } from "./constants";
 import { useStyles } from "./styles";
 import { selectCustomStyles } from "./styles";
 
@@ -28,7 +28,7 @@ function SelectPerson(props) {
       <div className={classes.people}>
         <Select
           styles={selectCustomStyles}
-          placeholder={capitalizeFirstLetter(personType)}
+          placeholder={PERSONS[personType]}
           value={currentPerson}
           onChange={(person) => setCurrentPerson(person)}
           options={options}
