@@ -20,6 +20,12 @@ const reducer = (state = initialState, action) => {
         fetched: true,
       };
 
+    case actionTypes.GET_ALL_ESSENTIALS_FAIL:
+      return {
+        ...state,
+        fetched: false,
+      };
+
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:
       const types = renameKeys(
         "id",

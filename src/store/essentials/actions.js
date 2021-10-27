@@ -12,6 +12,12 @@ export const getAllEssentialsSuccess = () => {
   };
 };
 
+export const getAllEssentialsFail = () => {
+  return {
+    type: actionTypes.GET_ALL_ESSENTIALS_FAIL,
+  };
+};
+
 export const getAllAccountTypes = () => {
   return {
     type: actionTypes.GET_ALL_ACCOUNT_TYPES,
