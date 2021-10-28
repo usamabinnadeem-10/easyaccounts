@@ -6,15 +6,11 @@ import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
 
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
+import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
-import SelectPerson from "../../components/SelectPerson/SelectPerson";
-import StartEndDate from "../../components/StartEndDate/StartEndDate";
 import LedgerDetail from "../../containers/LedgerDetail/LedgerDetail";
 
 import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
 
 import {
   PERSON_TYPES,
@@ -150,37 +146,20 @@ function Ledgers() {
   return (
     <>
       <Grid container className={classes.root} direction="column">
-        <Typography variant="h5" fontWeight="900" sx={{ mb: 4 }}>
-          View Ledger
-        </Typography>
-        <SelectPerson
+        <SearchAndSelect
+          header="View Ledger"
           currentPerson={currentPerson}
           personType={personType}
           setCurrentPerson={setCurrentPerson}
           options={state[STORE_PERSON[personType]]}
           setPersonType={setPersonType}
+          startDate={startDate}
+          setStartDate={setStartDate}
+          endDate={endDate}
+          setEndDate={setEndDate}
+          loading={loading}
+          search={search}
         />
-        <Grid
-          container
-          justifyContent="space-between"
-          className={classes.dateWrapper}
-        >
-          <StartEndDate
-            startDate={startDate}
-            endDate={endDate}
-            getStartDate={setStartDate}
-            getEndDate={setEndDate}
-          />
-          <LoadingButton
-            loadingIndicator={<CustomLoader loading={loading} height={10} />}
-            loading={loading}
-            variant="contained"
-            sx={{ fontWeight: 900 }}
-            onClick={() => search()}
-          >
-            Search
-          </LoadingButton>
-        </Grid>
         <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       </Grid>
       <div className={classes.table}>

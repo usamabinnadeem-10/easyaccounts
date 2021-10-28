@@ -1,13 +1,10 @@
 import Accounts from "@mui/icons-material/ManageAccounts";
 import Ledger from "@mui/icons-material/MenuBook";
 import Cheques from "@mui/icons-material/StickyNote2";
-
-// import Note from "@mui/icons-material/Note";
-
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import Manage from "@mui/icons-material/Settings";
 import Customers from "@mui/icons-material/GroupAdd";
 import Products from "@mui/icons-material/Inventory";
-// import Inventory2 from "@mui/icons-material/Inventory2";
 
 import {
   ACCOUNTS,
@@ -16,6 +13,7 @@ import {
   MANAGE,
   CUSTOMERS,
   PRODUCTS,
+  TRANSACTION,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -32,6 +30,8 @@ export const getIcon = (panel) => {
       return <Customers />;
     case PRODUCTS:
       return <Products />;
+    case TRANSACTION:
+      return <CompareArrowsIcon />;
     default:
       break;
   }

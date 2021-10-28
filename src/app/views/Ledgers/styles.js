@@ -7,9 +7,6 @@ export const useStyles = makeStyles({
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
-  dateWrapper: {
-    marginTop: "1rem",
-  },
   table: {
     margin: "1.2rem 0",
   },
