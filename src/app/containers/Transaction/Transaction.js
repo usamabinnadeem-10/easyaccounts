@@ -215,6 +215,7 @@ const Transaction = (props) => {
       nature: natures[selectedOptions.currentTransactionType],
       person: selectedOptions.currentPerson.value,
       draft: draft,
+      type: selectedOptions.currentTransactionType,
       transaction_detail: tableData.map((data, index) => {
         return {
           product: data.color.value,

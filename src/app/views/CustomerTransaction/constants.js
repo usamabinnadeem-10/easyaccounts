@@ -14,7 +14,7 @@ export const TRANSACTION_TYPES = [
   },
   {
     name: "Maal Wapsi",
-    value: "maalwapsi",
+    value: "maal_wapsi",
     color: "info",
   },
 ];
