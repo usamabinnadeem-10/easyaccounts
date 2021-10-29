@@ -1,0 +1,33 @@
+export const DB = {
+  CUSTOMER: "C",
+  SUPPLIER: "S",
+  ACCOUNT_TYPE: "account_type",
+  PERSON_TYPE: "person_type",
+  PAID: "paid",
+  PAID_AMOUNT: "paid_amount",
+  PERSON: "person",
+  DISCOUNT: "discount",
+  TYPE: "type",
+  NATURE: "nature",
+  TRANSACTION_DETAIL: "transaction_detail",
+  DATE: "date",
+  SERIAL: "serial",
+  TRANSACTION: "transaction",
+  PRODUCT: "product",
+  RATE: "rate",
+  QUANTITY: "quantity",
+  WAREHOUSE: "warehouse",
+  AMOUNT: "amount",
+  ID: "id",
+};
+
+export const DB_TRANSLATION = {
+  [DB.CUSTOMER]: "Customer",
+  [DB.SUPPLIER]: "Supplier",
+  [DB.PRODUCT]: "Product",
+  [DB.RATE]: "Rate",
+  [DB.QUANTITY]: "Quantity",
+  [DB.WAREHOUSE]: "Warehouse",
+  [DB.AMOUNT]: "Amount",
+  [DB.DATE]: "Date",
+};

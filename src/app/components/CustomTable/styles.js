@@ -1,12 +1,16 @@
 import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
+  noTableStyles: {
+    width: "100%",
+    borderSpacing: "0",
+  },
   tableWrapper: {
-    backgroundColor: "rgba(105, 105, 105, 0.03)",
     padding: "1rem 1.2rem",
     borderRadius: "0.4rem",
     width: "100%",
     borderSpacing: "0",
+    backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
   tableHead: {
     textAlign: "left",

@@ -21,7 +21,12 @@ export const findWarehouse = (warehouseID, warehouses) => {
   return warehouses.filter((warehouse) => warehouse.value === warehouseID)[0];
 };
 
-export const findProduct = (productID, products, productHeads) => {
+export const findProduct = (
+  productID,
+  products,
+  productHeads,
+  flat = false
+) => {
   let product = {};
   for (const key in products) {
     let current = products[key].filter(
@@ -31,6 +36,9 @@ export const findProduct = (productID, products, productHeads) => {
       product = current[0];
       break;
     }
+  }
+  if (flat) {
+    return product;
   }
   product.product = findProductHead(product.product_head, productHeads);
   return {
