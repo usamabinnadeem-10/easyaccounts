@@ -121,7 +121,11 @@ function Ledgers() {
   };
 
   const onRowClick = (id) => {
-    console.log("row click :" + id);
+    let transaction = ledgerData.filter((ledger) => ledger.id === id)[0]
+      .transaction;
+    history.push({
+      pathname: `/home/transactions/${transaction}`,
+    });
   };
 
   const handleEdit = (id) => {

@@ -112,7 +112,7 @@ function ViewTransactions() {
   };
 
   const onRowClick = (id) => {
-    console.log("row click :" + id);
+    history.push(`/home/transactions/${id}`);
   };
 
   const formatTransactionDetails = (details) => {

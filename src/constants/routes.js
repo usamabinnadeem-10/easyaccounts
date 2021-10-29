@@ -5,6 +5,7 @@ import SupplierTransaction from "../app/views/SupplierTransaction/SupplierTransa
 import Ledgers from "../app/views/Ledgers/Ledgers";
 import LedgerTransaction from "../app/views/LedgerTransaction/LedgerTransaction";
 import ViewTransactions from "../app/views/ViewTransactions/ViewTransactions";
+import ViewSingleTransaction from "../app/containers/ViewSingleTransaction/ViewSingleTransaction";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -28,5 +29,9 @@ export const authenticatedRoutes = [
   {
     component: ViewTransactions,
     path: url.TRANSACTIONS,
+  },
+  {
+    component: ViewSingleTransaction,
+    path: url.VIEW_SINGLE_TRANSACTION,
   },
 ];
