@@ -22,7 +22,7 @@ export const TRANSACTION_TYPES = [
 export const NATURES = {
   paid: "D",
   credit: "D",
-  maalwapsi: "C",
+  maal_wapsi: "C",
 };
 
 export const TABLE_META = [

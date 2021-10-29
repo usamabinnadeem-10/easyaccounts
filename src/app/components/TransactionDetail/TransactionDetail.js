@@ -20,6 +20,13 @@ function TransactionDetail(props) {
 
   const COLUMNS = [
     {
+      accessor: "serial",
+      Header: "ID",
+      Cell: (row) => (
+        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+      ),
+    },
+    {
       accessor: "date",
       Header: "Date",
       Cell: (row) => (
@@ -47,7 +54,7 @@ function TransactionDetail(props) {
         <Chip
           size="small"
           color={CHIP_COLORS[row.value]}
-          label={row.value}
+          label={row.value.replace("_", " ")}
           sx={{
             fontWeight: 900,
             borderRadius: 1.5,
