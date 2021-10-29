@@ -1,17 +1,22 @@
 import React from "react";
 
-import CustomTable from "../../components/CustomTable/CustomTable";
+import CustomTable from "../CustomTable/CustomTable";
 
 import { IconButton } from "@mui/material";
+import { Chip } from "@mui/material";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-import { useStyles } from "./styles";
-
-function LedgerDetail(props) {
+function TransactionDetail(props) {
   const { rows, onRowClick, hoverProperty, handleEdit, handleDelete } = props;
-  const classes = useStyles();
+
+  const CHIP_COLORS = {
+    paid: "success",
+    credit: "error",
+    maal_wapsi: "primary",
+    purchase: "info",
+  };
 
   const COLUMNS = [
     {
@@ -22,38 +27,33 @@ function LedgerDetail(props) {
       ),
     },
     {
-      accessor: "detail",
-      Header: "Detail",
+      accessor: "total",
+      Header: "Amount",
       Cell: (row) => (
         <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
     },
     {
-      accessor: "debit",
-      Header: "Debit",
+      accessor: "discount",
+      Header: "Discount",
       Cell: (row) => (
         <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
     },
     {
-      accessor: "credit",
-      Header: "Credit",
+      accessor: "type",
+      Header: "Type",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
-    },
-    {
-      accessor: "balance",
-      Header: "Balance",
-      Cell: (row) => (
-        <div
-          className={`${row.value < 0 ? classes.debit : classes.credit}`}
-          onClick={() => onRowClick(row.row.id)}
-        >
-          {row.value < 0
-            ? `${row.value.toString().substring(1)} DB`
-            : `${row.value} CR`}
-        </div>
+        <Chip
+          size="small"
+          color={CHIP_COLORS[row.value]}
+          label={row.value}
+          sx={{
+            fontWeight: 900,
+            borderRadius: 1.5,
+            textTransform: "capitalize",
+          }}
+        />
       ),
     },
     {
@@ -81,4 +81,4 @@ function LedgerDetail(props) {
   );
 }
 
-export default LedgerDetail;
+export default TransactionDetail;

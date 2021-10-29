@@ -1,7 +1,10 @@
 import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
+
+import { useLocation } from "react-router";
 
 import Transaction from "../../containers/Transaction/Transaction";
 
@@ -10,7 +13,8 @@ import { useStyles } from "./styles";
 import * as constants from "./constants";
 
 function SupplierTransaction() {
-  let classes = useStyles();
+  const classes = useStyles();
+  const location = useLocation();
 
   const state = useSelector((state) => state.essentials);
 
@@ -19,6 +23,22 @@ function SupplierTransaction() {
     date: null,
     transactionType: constants.TRANSACTION_TYPES[0].value,
   });
+
+  const [transactions, setTransactions] = useState([]);
+  const [transaction, setTransaction] = useState(null);
+
+  useEffect(() => {
+    if (location.state) {
+      let data = location.state.transaction;
+      setMetaData({
+        user: data.person,
+        date: data.date,
+        transactionType: data.type,
+      });
+      setTransactions(data.transaction_detail);
+      setTransaction({ ...data, amount_paid: location.state.paid_amount });
+    }
+  }, []);
 
   const updateMetaData = (property, value) => {
     setMetaData({
@@ -48,6 +68,8 @@ function SupplierTransaction() {
           currentTransactionType: metaData.transactionType,
           currentDate: metaData.date,
         }}
+        transactionDetails={location.state ? transactions : null}
+        transaction={transaction}
       />
     </div>
   );

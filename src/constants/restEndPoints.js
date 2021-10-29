@@ -15,6 +15,8 @@ export const ESSENTIAL_URLS = {
 const TRANSACTION = "transaction/";
 export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
+  DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
+  GET_TRANSACTION: `${TRANSACTION}:uuid/`,
 };
 
 const LEDGER = "ledger/";

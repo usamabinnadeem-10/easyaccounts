@@ -18,6 +18,7 @@ import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
 
 import { useStyles } from "./styles";
+import { getURL } from "../../utilities/stringUtils";
 
 const Transaction = (props) => {
   const {
@@ -31,6 +32,8 @@ const Transaction = (props) => {
     options,
     selectedOptions,
     natures,
+    transactionDetails,
+    transaction,
   } = props;
 
   let classes = useStyles();
@@ -69,6 +72,13 @@ const Transaction = (props) => {
     setTotal(total - discount);
   }, [tableData, discount]);
 
+  useEffect(() => {
+    transactionDetails?.length &&
+      transaction &&
+      setTableData(transactionDetails);
+    transaction && setPaidAmount(transaction.amount_paid);
+  }, [transactionDetails]);
+
   // add a new row to the transaction table
   const addRow = () => {
     if (canAddRow()) {
@@ -82,6 +92,9 @@ const Transaction = (props) => {
         rate: lastRow?.rate ?? 0,
         total: lastRow?.total ?? 0,
       };
+      if (transaction) {
+        newRow.new = true;
+      }
       newTableData.push(newRow);
       setTableData(newTableData);
     } else {
@@ -211,13 +224,16 @@ const Transaction = (props) => {
       }
     }
     setLoading(true);
-    let transaction = {
+    let transactionData = {
       nature: natures[selectedOptions.currentTransactionType],
       person: selectedOptions.currentPerson.value,
       draft: draft,
+      discount: discount || 0,
       type: selectedOptions.currentTransactionType,
       transaction_detail: tableData.map((data, index) => {
         return {
+          id: data.id,
+          new: data.new,
           product: data.color.value,
           quantity: data.quantity,
           rate: data.rate,
@@ -227,23 +243,38 @@ const Transaction = (props) => {
       }),
     };
     if (selectedOptions.currentTransactionType === "paid") {
-      transaction["paid"] = true;
-      transaction["paid_amount"] = paidAmount;
-      transaction["account_type"] = selectedOptions.currentAccountType?.value;
+      transactionData["paid"] = true;
+      transactionData["paid_amount"] = paidAmount;
+      transactionData["account_type"] =
+        selectedOptions.currentAccountType?.value;
     }
     if (selectedOptions.currentDate) {
-      transaction[
+      transactionData[
         "date"
       ] = `${selectedOptions.currentDate.year}-${selectedOptions.currentDate.month}-${selectedOptions.currentDate.day}`;
     }
-    instance
-      .post(TRANSACTION_URLS.CREATE_TRANSACTION, transaction)
-      .then((res) => {
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-      });
+    if (transaction) {
+      instance
+        .put(
+          getURL(TRANSACTION_URLS.GET_TRANSACTION, "uuid", transaction.id),
+          transactionData
+        )
+        .then((res) => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    } else {
+      instance
+        .post(TRANSACTION_URLS.CREATE_TRANSACTION, transactionData)
+        .then((res) => {
+          setLoading(false);
+        })
+        .catch((error) => {
+          setLoading(false);
+        });
+    }
   };
 
   return (
@@ -284,6 +315,7 @@ const Transaction = (props) => {
         total={total}
         loading={loading}
         makeTransaction={makeTransaction}
+        transaction={transaction}
       />
 
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />

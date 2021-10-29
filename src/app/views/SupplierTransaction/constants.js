@@ -8,14 +8,14 @@ export const TRANSACTION_TYPES = [
   },
   {
     name: "Maal Wapsi",
-    value: "maalwapsi",
+    value: "maal_wapsi",
     color: "info",
   },
 ];
 
 export const NATURES = {
   purchase: "C",
-  maalwapsi: "D",
+  maal_wapsi: "D",
 };
 
 export const TABLE_META = [

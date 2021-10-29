@@ -11,6 +11,7 @@ import Typography from "@mui/material/Typography";
 import Add from "@mui/icons-material/Add";
 import EmailIcon from "@mui/icons-material/Email";
 import SaveIcon from "@mui/icons-material/Save";
+import EditIcon from "@mui/icons-material/Edit";
 
 function TransactionFooter(props) {
   const {
@@ -20,6 +21,7 @@ function TransactionFooter(props) {
     total,
     loading,
     makeTransaction,
+    transaction,
   } = props;
   return (
     <>
@@ -72,12 +74,12 @@ function TransactionFooter(props) {
       ) : (
         <Grid sx={{ my: 2 }}>
           <Button
-            endIcon={<EmailIcon />}
+            endIcon={transaction ? <EditIcon /> : <EmailIcon />}
             variant="contained"
             sx={{ fontWeight: 900, mr: 2 }}
             onClick={() => makeTransaction()}
           >
-            Finalize
+            {transaction ? "Edit" : "Finalize"}
           </Button>
 
           <Button

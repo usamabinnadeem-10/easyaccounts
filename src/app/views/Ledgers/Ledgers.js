@@ -8,7 +8,7 @@ import { useHistory } from "react-router";
 
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
-import LedgerDetail from "../../containers/LedgerDetail/LedgerDetail";
+import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
 
 import { Grid } from "@mui/material";
 

@@ -8,3 +8,33 @@ export const findPerson = (personID, suppliers, customers) => {
 export const findAccountType = (accountID, accountTypes) => {
   return accountTypes.filter((type) => type.value === accountID)[0];
 };
+
+export const findProductHead = (headID, productHeads) => {
+  return productHeads.filter((head) => head.value === headID)[0];
+};
+
+export const findProductColor = (colorID, colors) => {
+  return colors.filter((color) => color.value === colorID)[0];
+};
+
+export const findWarehouse = (warehouseID, warehouses) => {
+  return warehouses.filter((warehouse) => warehouse.value === warehouseID)[0];
+};
+
+export const findProduct = (productID, products, productHeads) => {
+  let product = {};
+  for (const key in products) {
+    let current = products[key].filter(
+      (product) => product.value === productID
+    );
+    if (current.length) {
+      product = current[0];
+      break;
+    }
+  }
+  product.product = findProductHead(product.product_head, productHeads);
+  return {
+    product: findProductHead(product.product_head, productHeads),
+    color: product,
+  };
+};
