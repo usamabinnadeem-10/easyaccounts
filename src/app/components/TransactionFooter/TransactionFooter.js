@@ -41,13 +41,18 @@ function TransactionFooter(props) {
                   inputProps={{
                     min: 0,
                   }}
-                  type="number"
+                  type={field.type}
+                  multiline
                   variant="outlined"
                   size="small"
                   placeholder={field.placeholder}
                   value={field.value}
                   onChange={(e) =>
-                    field.action(parseFloat(e.target.value) || "")
+                    field.action(
+                      field.type === "number"
+                        ? parseFloat(e.target.value) || ""
+                        : e.target.value
+                    )
                   }
                   sx={{
                     width: 200,

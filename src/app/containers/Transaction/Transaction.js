@@ -48,6 +48,7 @@ const Transaction = (props) => {
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
+  const [detail, setDetail] = useState("");
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     constants.ERROR_DEFAULTS.ROW_INCOMPLETE
@@ -59,12 +60,21 @@ const Transaction = (props) => {
       action: setDiscount,
       value: discount,
       visible: true,
+      type: "number",
     },
     {
       placeholder: "Paid Amount",
       action: setPaidAmount,
       value: paidAmount,
       visible: showAccountTypes,
+      type: "number",
+    },
+    {
+      placeholder: "Detail",
+      action: setDetail,
+      value: detail,
+      visible: true,
+      type: "text",
     },
   ];
 
@@ -238,6 +248,7 @@ const Transaction = (props) => {
       draft: draft,
       discount: discount || 0,
       type: selectedOptions.currentTransactionType,
+      detail: detail,
       transaction_detail: tableData.map((data, index) => {
         return {
           id: data.id,

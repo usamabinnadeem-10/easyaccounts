@@ -19,6 +19,7 @@ export const DB = {
   WAREHOUSE: "warehouse",
   AMOUNT: "amount",
   ID: "id",
+  DETAIL: "detail",
 };
 
 export const DB_TRANSLATION = {

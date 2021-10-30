@@ -22,6 +22,10 @@ export const getMeta = (transaction) => {
       value: transaction[DB.DISCOUNT],
       label: "Discount:",
     },
+    {
+      value: transaction[DB.DETAIL],
+      label: "Detail:",
+    },
   ];
 
   if (transaction[DB.PAID_AMOUNT]) {
