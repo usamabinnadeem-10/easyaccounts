@@ -2,6 +2,8 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import { useHistory } from "react-router";
+
 import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 import TransactionFooter from "../../components/TransactionFooter/TransactionFooter";
 import TransactionHeader from "../../components/TransactionHeader/TransactionHeader";
@@ -14,6 +16,7 @@ import Paper from "@mui/material/Paper";
 
 import * as constants from "./constants";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
+import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
 import instance from "../../../utils/axiosApi";
 
@@ -36,7 +39,8 @@ const Transaction = (props) => {
     transaction,
   } = props;
 
-  let classes = useStyles();
+  const classes = useStyles();
+  const history = useHistory();
 
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
@@ -213,6 +217,10 @@ const Transaction = (props) => {
     },
   ];
 
+  const redirect = (transactionID) => {
+    history.push(getURL(VIEW_SINGLE_TRANSACTION, "uuid", transactionID));
+  };
+
   // finalize transaction or save as draft
   const makeTransaction = (draft = false) => {
     for (let i = 0; i < FINALIZE_ERRORS.length; i++) {
@@ -261,18 +269,22 @@ const Transaction = (props) => {
         )
         .then((res) => {
           setLoading(false);
+          redirect(res.data.id);
         })
         .catch((error) => {
           setLoading(false);
+          openSnackbar(true, "error", constants.ERROR_DEFAULTS.OOPS);
         });
     } else {
       instance
         .post(TRANSACTION_URLS.CREATE_TRANSACTION, transactionData)
         .then((res) => {
           setLoading(false);
+          redirect(res.data.id);
         })
         .catch((error) => {
           setLoading(false);
+          openSnackbar(true, "error", constants.ERROR_DEFAULTS.OOPS);
         });
     }
   };

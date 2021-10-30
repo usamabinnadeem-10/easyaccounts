@@ -56,6 +56,7 @@ export const ERROR_DEFAULTS = {
   NO_ROW: "Transaction is empty",
   NO_ACCOUNT: "Please select an account type",
   NO_PAID_AMOUNT: "Please enter the amount paid",
+  OOPS: "Oops, something went wrong",
 };
 
 export const FIELD_TYPES = {

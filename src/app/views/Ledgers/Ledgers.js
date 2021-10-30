@@ -10,8 +10,6 @@ import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
 
-import { Grid } from "@mui/material";
-
 import {
   PERSON_TYPES,
   STORE_PERSON,
@@ -149,7 +147,7 @@ function Ledgers() {
 
   return (
     <>
-      <Grid container className={classes.root} direction="column">
+      <div className={classes.root}>
         <SearchAndSelect
           header="View Ledger"
           currentPerson={currentPerson}
@@ -165,7 +163,7 @@ function Ledgers() {
           search={search}
         />
         <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
-      </Grid>
+      </div>
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail

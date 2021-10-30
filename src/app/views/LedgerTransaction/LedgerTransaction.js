@@ -106,6 +106,12 @@ function LedgerTransaction() {
     });
   };
 
+  const resetState = () => {
+    setDate(null);
+    setAmount("");
+    setDetail("");
+  };
+
   const postLedger = () => {
     const balance = parseFloat(amount);
     if (!currentPerson) {
@@ -140,18 +146,24 @@ function LedgerTransaction() {
         .post(LEDGER_URLS.CREATE_LEDGER, data)
         .then((res) => {
           setPosting(false);
+          resetState();
+          openSnackbar(true, "success", constants.SUCCESS.POST);
         })
         .catch((error) => {
           setPosting(false);
+          openSnackbar(true, "error", constants.ERRORS.OOPS);
         });
     } else {
       instance
         .put(getURL(LEDGER_URLS.UPDATE_LEDGER, "uuid", location.state.id), data)
         .then((res) => {
           setPosting(false);
+          resetState();
+          openSnackbar(true, "success", constants.SUCCESS.EDIT);
         })
         .catch((error) => {
           setPosting(false);
+          openSnackbar(true, "error", constants.ERRORS.OOPS);
         });
     }
   };
