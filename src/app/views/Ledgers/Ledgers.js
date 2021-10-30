@@ -9,6 +9,7 @@ import { useHistory } from "react-router";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
+import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 
 import {
   PERSON_TYPES,
@@ -36,6 +37,9 @@ function Ledgers() {
   const [ledgerData, setledgerData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
+
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [transactionID, setTransactionID] = useState(null);
 
   useEffect(() => {
     setCurrentPerson(null);
@@ -121,9 +125,8 @@ function Ledgers() {
   const onRowClick = (id) => {
     let transaction = ledgerData.filter((ledger) => ledger.id === id)[0]
       .transaction;
-    history.push({
-      pathname: `/home/transactions/${transaction}`,
-    });
+    transaction && setShowDrawer(true);
+    setTransactionID(transaction);
   };
 
   const handleEdit = (id) => {
@@ -143,6 +146,10 @@ function Ledgers() {
       .catch((error) => {
         openSnackbar(true, "error", ERRORS.OOPS);
       });
+  };
+
+  const hideDrawer = () => {
+    setShowDrawer(false);
   };
 
   return (
@@ -175,6 +182,11 @@ function Ledgers() {
           />
         )}
       </div>
+      <TransactionDrawer
+        hideDrawer={hideDrawer}
+        open={showDrawer}
+        transactionID={transactionID}
+      />
     </>
   );
 }

@@ -9,8 +9,11 @@ export const useStyles = makeStyles({
     right: -15,
     top: -10,
   },
+  wider: {
+    width: "50vw !important",
+  },
   transactionWrapper: {
-    width: "50vw",
+    width: "100%",
     padding: "0.8rem 1.6rem",
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",

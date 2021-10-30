@@ -14,7 +14,7 @@ function TransactionDetail(props) {
   const CHIP_COLORS = {
     paid: "success",
     credit: "error",
-    maal_wapsi: "primary",
+    maal_wapsi: "secondary",
     purchase: "info",
   };
 

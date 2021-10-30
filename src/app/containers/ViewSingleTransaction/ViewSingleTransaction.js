@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 
@@ -16,85 +17,56 @@ import { useStyles } from "./styles";
 
 import PrintIcon from "@mui/icons-material/Print";
 
-import instance from "../../../utils/axiosApi";
-import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
-import { getURL } from "../../utilities/stringUtils";
 import {
-  findPerson,
-  findWarehouse,
-  findProduct,
-  findAccountType,
-} from "../../views/LedgerTransaction/utils";
+  getSingleTransaction,
+  setFetchedFalse,
+} from "../../../store/transactions/actions";
+
 import { getMeta } from "./utils";
 import { DB } from "../../../constants/db";
 import { COLUMNS } from "./constants";
 import { print } from "../../../utils/print";
 
-function ViewSingleTransaction() {
+function ViewSingleTransaction({ transactionID }) {
   const { uuid } = useParams();
   const classes = useStyles();
-  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const [ID, setID] = useState(uuid || transactionID);
   const [transaction, setTransaction] = useState({});
   const [total, setTotal] = useState(0.0);
+  const [loading, setLoading] = useState(true);
 
   const state = useSelector((state) => state.essentials);
-
-  const formatTransactionDetail = (details) => {
-    let formatted = [];
-    let amount = 0.0;
-    details.forEach((element) => {
-      amount += element.amount;
-      let product = findProduct(
-        element[DB.PRODUCT],
-        state.products,
-        state.productHeads,
-        true
-      );
-      formatted.push({
-        ...element,
-        [DB.WAREHOUSE]: findWarehouse(element[DB.WAREHOUSE], state.warehouses)
-          .label,
-        [DB.PRODUCT]: `${product.head_name} / ${product.label}`,
-      });
-    });
-    setTotal(amount);
-    return formatted;
-  };
-
-  const formatTransactionData = (transaction, accountType, paidAmount) => {
-    let person = findPerson(
-      transaction.person,
-      state.suppliers,
-      state.customers
-    );
-    return {
-      ...transaction,
-      [DB.PAID_AMOUNT]: paidAmount,
-      [DB.ACCOUNT_TYPE]: accountType
-        ? findAccountType(accountType.id, state.accountTypes).label
-        : null,
-      [DB.PERSON]: person.label,
-      [DB.PERSON_TYPE]: person.person_type,
-      [DB.TRANSACTION_DETAIL]: formatTransactionDetail(
-        transaction.transaction_detail
-      ),
-    };
-  };
+  const transactions = useSelector((state) => state.transactions);
 
   useEffect(() => {
-    instance
-      .get(getURL(TRANSACTION_URLS.GET_TRANSACTION, "uuid", uuid))
-      .then((res) => {
-        setTransaction(
-          formatTransactionData(
-            res.data.transaction,
-            res.data.account_type,
-            res.data.paid_amount
-          )
-        );
-        setLoading(false);
-      });
+    dispatch(
+      getSingleTransaction({
+        id: ID,
+        transactions: transactions.transactions,
+        essentials: state,
+      })
+    );
+    return () => {
+      dispatch(setFetchedFalse());
+    };
   }, []);
+
+  useEffect(() => {
+    if (transactions.fetched) {
+      let current = transactions.transactions.filter(
+        (element) => element.id === ID
+      )[0];
+      setTransaction(current);
+      let amount = 0.0;
+      current.transaction_detail.forEach(
+        (element) => (amount += element.amount)
+      );
+      setTotal(amount);
+      setLoading(false);
+    }
+  }, [transactions.fetched]);
 
   return (
     <>
@@ -114,7 +86,10 @@ function ViewSingleTransaction() {
               </IconButton>
             </Tooltip>
           </div>
-          <div id="transaction-wrapper" className={classes.transactionWrapper}>
+          <div
+            id="transaction-wrapper"
+            className={`${classes.transactionWrapper} ${uuid && classes.wider}`}
+          >
             <div className={classes.meta}>
               {getMeta(transaction).map((field, index) => {
                 return (

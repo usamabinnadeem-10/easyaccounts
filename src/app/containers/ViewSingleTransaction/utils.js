@@ -24,7 +24,7 @@ export const getMeta = (transaction) => {
     },
   ];
 
-  if (transaction[DB.PAID]) {
+  if (transaction[DB.PAID_AMOUNT]) {
     data = [
       ...data,
       {

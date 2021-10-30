@@ -8,6 +8,7 @@ import { useHistory } from "react-router";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
+import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 
 import {
   PERSON_TYPES,
@@ -39,6 +40,9 @@ function ViewTransactions() {
   const [transactionData, setTransactionData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
+
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [transactionID, setTransactionID] = useState(null);
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {
@@ -109,8 +113,13 @@ function ViewTransactions() {
       });
   };
 
+  const hideDrawer = () => {
+    setShowDrawer(false);
+  };
+
   const onRowClick = (id) => {
-    history.push(`/home/transactions/${id}`);
+    setShowDrawer(true);
+    setTransactionID(id);
   };
 
   const formatTransactionDetails = (details) => {
@@ -209,6 +218,11 @@ function ViewTransactions() {
           />
         )}
       </div>
+      <TransactionDrawer
+        hideDrawer={hideDrawer}
+        open={showDrawer}
+        transactionID={transactionID}
+      />
     </>
   );
 }
