@@ -8,7 +8,15 @@ import * as actions from "./actions";
 import * as api from "./api";
 
 function* essentialSagas() {
-  yield all([takeLatest(actionTypes.GET_ALL_ESSENTIALS, getAllEssentialsSaga)]);
+  yield all([
+    takeLatest(actionTypes.GET_ALL_ESSENTIALS, getAllEssentialsSaga),
+    takeLatest(actionTypes.ADD_NEW_ACCOUNT_TYPE, addNewAccountTypeSaga),
+    takeLatest(actionTypes.ADD_NEW_PERSON, addNewPersonSaga),
+    takeLatest(actionTypes.ADD_NEW_WAREHOUSE, addNewWarehouseSaga),
+    takeLatest(actionTypes.ADD_NEW_PRODUCT_HEAD, addNewProductHeadSaga),
+    takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
+    takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
+  ]);
 }
 
 function* getAllEssentialsSaga() {
@@ -31,10 +39,46 @@ function* getAllEssentialsSaga() {
     response = yield call(api.getProductApi);
     yield put(actions.getAllProductSuccess(response.data));
 
+    response = yield call(api.getExpenseAccountsApi);
+    yield put(actions.getAllExpenseAccountsSuccess(response.data));
+
     yield put(actions.getAllEssentialsSuccess());
   } catch (error) {
     yield put(actions.getAllEssentialsFail());
   }
+}
+
+// sagas to add new
+
+function* addNewAccountTypeSaga(action) {
+  let response = yield call(api.addAccountTypeApi, action.payload);
+  yield put(actions.addNewAccountTypeSuccess(response.data));
+}
+
+function* addNewPersonSaga(action) {
+  let response = yield call(api.addPersonApi, action.payload);
+  yield put(actions.addNewPersonSuccess(response.data));
+}
+
+function* addNewWarehouseSaga(action) {
+  console.log(action);
+  let response = yield call(api.addWarehouseApi, action.payload);
+  yield put(actions.addNewWarehouseSuccess(response.data));
+}
+
+function* addNewProductHeadSaga(action) {
+  let response = yield call(api.addProductHeadApi, action.payload);
+  yield put(actions.addNewProductHeadSuccess(response.data));
+}
+
+function* addNewExpenseAccountSaga(action) {
+  let response = yield call(api.addExpenseAccountApi, action.payload);
+  yield put(actions.addNewExpenseAccountSuccess(response.data));
+}
+
+function* addNewProductSaga(action) {
+  let response = yield call(api.addProductApi, action.payload);
+  yield put(actions.addNewProductSuccess(response.data));
 }
 
 export default essentialSagas;

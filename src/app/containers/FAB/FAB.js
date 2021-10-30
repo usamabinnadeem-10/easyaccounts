@@ -1,7 +1,11 @@
 import React from "react";
 import { useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import { useHistory } from "react-router";
+
+import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import Fab from "@mui/material/Fab";
@@ -23,6 +27,10 @@ const FAB = () => {
   const [openAddModal, setOpenAddModal] = useState(false);
   const [form, setForm] = useState([]);
 
+  const state = useSelector((state) => state.essentials);
+
+  const [snackbarState, setSnackbarState] = useState({});
+
   const history = useHistory();
   const classes = useStyles();
 
@@ -35,7 +43,7 @@ const FAB = () => {
   };
 
   const handleOpenModal = (name) => {
-    setForm(chooseModal(name));
+    setForm(chooseModal(name, state));
     setOpenAddModal(true);
     setClicked(false);
   };
@@ -46,10 +54,33 @@ const FAB = () => {
     history.push(route);
   };
 
+  // open snackbar
+  const openSnackbar = (open, severity, message) => {
+    setSnackbarState({
+      open,
+      severity,
+      message,
+    });
+  };
+
+  // close snackbar
+  const closeSnackbar = () => {
+    setSnackbarState({
+      ...snackbarState,
+      open: false,
+    });
+  };
+
   return (
     <>
       {openAddModal && (
-        <AddModal open={openAddModal} handleClose={closeModal} form={form} />
+        <AddModal
+          openSnackbar={openSnackbar}
+          closeSnackbar={closeSnackbar}
+          open={openAddModal}
+          handleClose={closeModal}
+          form={form}
+        />
       )}
 
       <ClickAwayListener onClickAway={() => setClicked(false)}>
@@ -101,6 +132,7 @@ const FAB = () => {
           )}
         </Snackbar>
       </ClickAwayListener>
+      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
     </>
   );
 };

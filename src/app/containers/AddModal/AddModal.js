@@ -2,6 +2,9 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import Select from "react-select";
 
 import Grid from "@mui/material/Grid";
@@ -9,27 +12,58 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import Paper from "@mui/material/Paper";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
+import { LoadingButton } from "@mui/lab";
 
 import { useStyles } from "./styles";
 import { selectCustomStyles } from "./styles";
-
 import { FIELDS } from "../../../constants/fieldTypes";
+import { resetAdded } from "../../../store/essentials/actions";
 
-const AddModal = (props) => {
-  const { open, handleClose, form } = props;
+const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const essentials = useSelector((state) => state.essentials);
+
   const [state, setState] = useState({});
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    return () => {
+      dispatch(resetAdded());
+    };
+  }, []);
 
   useEffect(() => {
     setState({});
   }, [form]);
+
+  useEffect(() => {
+    if (essentials.adding) {
+      setLoading(true);
+    }
+    if (essentials.added) {
+      setLoading(false);
+      openSnackbar(true, "success", "Added successfully");
+      handleClose();
+    }
+  }, [essentials.added, essentials.adding]);
 
   const handleChange = (value, label) => {
     setState({
       ...state,
       [label]: value,
     });
+  };
+
+  const submit = () => {
+    let data = { ...state };
+    for (let key in state) {
+      if (typeof state[key] === "object") {
+        data[key] = data[key].value;
+      }
+    }
+    dispatch(form.action(data));
   };
 
   return (
@@ -59,6 +93,7 @@ const AddModal = (props) => {
               </div>
             ) : (
               <TextField
+                multiline={field.type !== FIELDS.NUMBER}
                 value={state[field.name] || ""}
                 onChange={(e) => handleChange(e.target.value, field.name)}
                 variant="outlined"
@@ -76,9 +111,14 @@ const AddModal = (props) => {
             );
           })}
 
-          <Button variant="contained" sx={{ mt: 2 }}>
+          <LoadingButton
+            loading={loading}
+            onClick={submit}
+            variant="contained"
+            sx={{ mt: 2 }}
+          >
             Submit
-          </Button>
+          </LoadingButton>
         </Grid>
       </Paper>
     </Modal>

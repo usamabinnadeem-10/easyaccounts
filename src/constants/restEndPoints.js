@@ -10,6 +10,13 @@ export const ESSENTIAL_URLS = {
   PRODUCT_HEAD: `${ESSENTIALS}product-head/`,
   CUSTOMERS: `${ESSENTIALS}person/?person=${CUSTOMER}`,
   SUPPLIERS: `${ESSENTIALS}person/?person=${SUPPLIER}`,
+  PERSON: `${ESSENTIALS}person/`,
+};
+
+const EXPENSE = "expense/";
+export const EXPENSE_URLS = {
+  EXPENSE_ACCOUNTS: `${EXPENSE}account/`,
+  EXPENSE_DETAIL: `${EXPENSE}detail/`,
 };
 
 const TRANSACTION = "transaction/";

@@ -95,3 +95,108 @@ export const getAllWarehouseSuccess = (data) => {
     payload: data,
   };
 };
+
+export const getAllExpenseAccounts = () => {
+  return {
+    type: actionTypes.GET_ALL_EXPENSE_ACCOUNTS,
+  };
+};
+
+export const getAllExpenseAccountsSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_EXPENSE_ACCOUNTS_SUCCESS,
+    payload: data,
+  };
+};
+
+// actions to add new
+
+export const addNewPerson = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PERSON,
+    payload: data,
+  };
+};
+
+export const addNewProductHead = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PRODUCT_HEAD,
+    payload: data,
+  };
+};
+
+export const addNewProduct = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PRODUCT,
+    payload: data,
+  };
+};
+
+export const addNewAccountType = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_ACCOUNT_TYPE,
+    payload: data,
+  };
+};
+
+export const addNewWarehouse = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_WAREHOUSE,
+    payload: data,
+  };
+};
+
+export const addNewExpenseAccount = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_EXPENSE_ACCOUNT,
+    payload: data,
+  };
+};
+
+export const addNewPersonSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PERSON_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewProductHeadSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PRODUCT_HEAD_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewProductSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PRODUCT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewAccountTypeSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_ACCOUNT_TYPE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewWarehouseSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_WAREHOUSE_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewExpenseAccountSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_EXPENSE_ACCOUNT_SUCCESS,
+    payload: data,
+  };
+};
+
+export const resetAdded = () => {
+  return {
+    type: actionTypes.RESET_ADDED,
+  };
+};

@@ -9,7 +9,10 @@ const initialState = {
   suppliers: [],
   productHeads: [],
   products: [],
+  expenseAccounts: [],
   fetched: false,
+  added: false,
+  adding: false,
 };
 
 const reducer = (state = initialState, action) => {
@@ -83,14 +86,158 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.GET_ALL_WAREHOUSE_SUCCESS:
-      const warehouse = renameKeys(
+      const warehouses = renameKeys(
         "id",
         "value",
         renameKeys("name", "label", action.payload)
       );
       return {
         ...state,
-        warehouses: warehouse,
+        warehouses: warehouses,
+      };
+
+    case actionTypes.GET_ALL_EXPENSE_ACCOUNTS_SUCCESS:
+      const expenses = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", action.payload)
+      );
+      return {
+        ...state,
+        expenseAccounts: expenses,
+      };
+
+    // actions to add new
+
+    case actionTypes.ADD_NEW_EXPENSE_ACCOUNT:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_EXPENSE_ACCOUNT_SUCCESS:
+      const newExpense = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", [action.payload])
+      );
+      return {
+        ...state,
+        expenseAccounts: [...state.expenseAccounts, ...newExpense],
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_WAREHOUSE:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_WAREHOUSE_SUCCESS:
+      const newWarehouse = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", [action.payload])
+      );
+      return {
+        ...state,
+        warehouses: [...state.warehouses, ...newWarehouse],
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_PRODUCT_HEAD:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_PRODUCT_HEAD_SUCCESS:
+      const newProductHead = renameKeys(
+        "id",
+        "value",
+        renameKeys("head_name", "label", [action.payload])
+      );
+      return {
+        ...state,
+        productHeads: [...state.productHeads, ...newProductHead],
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_PERSON:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_PERSON_SUCCESS:
+      let type = action.payload.person_type;
+      let person = type === "C" ? "customers" : "suppliers";
+      const newPerson = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", [action.payload])
+      );
+      return {
+        ...state,
+        [person]: [...state[person], ...newPerson],
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_ACCOUNT_TYPE:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_ACCOUNT_TYPE_SUCCESS:
+      console.log([action.payload]);
+      const newAccountType = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", [action.payload])
+      );
+      return {
+        ...state,
+        accountTypes: [...state.accountTypes, ...newAccountType],
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_PRODUCT:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
+      // let newProduct = renameKeys(
+      //   "id",
+      //   "value",
+      //   renameKeys("color_name", "label", [action.payload])
+      // );
+      let newProduct = action.payload;
+      // newProduct = newProduct[0];
+      let newColorsList = state.products[newProduct.product_head];
+      newColorsList = [...newColorsList, newProduct];
+      return {
+        ...state,
+        products: {
+          ...state.products,
+          [newProduct.product_head]: newColorsList,
+          added: true,
+          adding: false,
+        },
+      };
+
+    case actionTypes.RESET_ADDED:
+      return {
+        ...state,
+        added: false,
+        adding: false,
       };
 
     default:

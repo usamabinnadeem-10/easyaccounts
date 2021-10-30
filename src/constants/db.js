@@ -20,6 +20,15 @@ export const DB = {
   AMOUNT: "amount",
   ID: "id",
   DETAIL: "detail",
+  NAME: "name",
+  BUSINESS_NAME: "business_name",
+  ADDRESS: "address",
+  ACCOUNT_NAME: "account_name",
+  SI_UNIT: "si_unit",
+  PRODUCT_HEAD: "product_head",
+  PRODUCT_COLOR: "product_color",
+  BASIC_UNIT: "basic_unit",
+  HEAD_NAME: "head_name",
 };
 
 export const DB_TRANSLATION = {
