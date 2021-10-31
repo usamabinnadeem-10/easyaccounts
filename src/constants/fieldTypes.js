@@ -3,4 +3,5 @@ export const FIELDS = {
   NUMBER: "number",
   STRING: "string",
   CHECKBOX: "checkbox",
+  DATE: "date",
 };

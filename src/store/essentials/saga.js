@@ -16,6 +16,7 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_PRODUCT_HEAD, addNewProductHeadSaga),
     takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
+    takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
   ]);
 }
 
@@ -79,6 +80,11 @@ function* addNewExpenseAccountSaga(action) {
 function* addNewProductSaga(action) {
   let response = yield call(api.addProductApi, action.payload);
   yield put(actions.addNewProductSuccess(response.data));
+}
+
+function* addExpenseDetailSaga(action) {
+  yield call(api.addExpenseDetailApi, action.payload);
+  yield put(actions.addExpenseDetailSuccess());
 }
 
 export default essentialSagas;

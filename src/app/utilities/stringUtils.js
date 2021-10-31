@@ -28,10 +28,13 @@ export const getURL = (url, pathVariable, value) => {
 };
 
 export const getDateFromString = (date) => {
-  let parts = date.split("-");
-  return {
-    year: parseInt(parts[0]),
-    month: parseInt(parts[1]),
-    day: parseInt(parts[2]),
-  };
+  if (date) {
+    let parts = date.split("-");
+    return {
+      year: parseInt(parts[0]),
+      month: parseInt(parts[1]),
+      day: parseInt(parts[2]),
+    };
+  }
+  return null;
 };

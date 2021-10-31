@@ -12,6 +12,12 @@ export const useStyles = makeStyles({
   select: {
     marginBottom: "1rem",
   },
+  dateWrapper: {
+    display: "flex",
+    justifyContent: "center",
+    height: "35px",
+    marginBottom: "1rem",
+  },
 });
 
 export const selectCustomStyles = {

@@ -17,6 +17,7 @@ const EXPENSE = "expense/";
 export const EXPENSE_URLS = {
   EXPENSE_ACCOUNTS: `${EXPENSE}account/`,
   EXPENSE_DETAIL: `${EXPENSE}detail/`,
+  GET_EXPENSE: `${EXPENSE}:uuid/`,
 };
 
 const TRANSACTION = "transaction/";

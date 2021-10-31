@@ -5,6 +5,8 @@ import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+
 import Select from "react-select";
 
 import Grid from "@mui/material/Grid";
@@ -18,6 +20,7 @@ import { useStyles } from "./styles";
 import { selectCustomStyles } from "./styles";
 import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
+import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
 const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
   const classes = useStyles();
@@ -89,6 +92,15 @@ const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
                   value={state[field.name] || null}
                   onChange={(value) => handleChange(value, field.name)}
                   options={field.options}
+                />
+              </div>
+            ) : field.type === FIELDS.DATE ? (
+              <div className={classes.dateWrapper}>
+                <CustomDatePicker
+                  getDate={(date) =>
+                    setState({ ...state, date: makeDate(date) })
+                  }
+                  value={getDateFromString(state.date)}
                 />
               </div>
             ) : (

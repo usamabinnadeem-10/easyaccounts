@@ -194,7 +194,6 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_NEW_ACCOUNT_TYPE_SUCCESS:
-      console.log([action.payload]);
       const newAccountType = renameKeys(
         "id",
         "value",
@@ -214,29 +213,52 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
-      // let newProduct = renameKeys(
-      //   "id",
-      //   "value",
-      //   renameKeys("color_name", "label", [action.payload])
-      // );
-      let newProduct = action.payload;
-      // newProduct = newProduct[0];
-      let newColorsList = state.products[newProduct.product_head];
+      let newProductsObject = { ...state.products };
+      let newProduct = renameKeys(
+        "id",
+        "value",
+        renameKeys("color_name", "label", [action.payload])
+      );
+      newProduct = newProduct[0];
+      let head = newProduct.product_head;
+
+      // if the head is not already in the products
+      if (!newProductsObject[head]) {
+        newProductsObject[head] = [];
+      }
+
+      let newColorsList = newProductsObject[head];
       newColorsList = [...newColorsList, newProduct];
+
+      newProductsObject = {
+        ...newProductsObject,
+        [head]: newColorsList,
+      };
+
       return {
         ...state,
-        products: {
-          ...state.products,
-          [newProduct.product_head]: newColorsList,
-          added: true,
-          adding: false,
-        },
+        products: newProductsObject,
+        added: true,
+        adding: false,
       };
 
     case actionTypes.RESET_ADDED:
       return {
         ...state,
         added: false,
+        adding: false,
+      };
+
+    case actionTypes.ADD_EXPENSE_DETAIL:
+      return {
+        ...state,
+        adding: false,
+      };
+
+    case actionTypes.ADD_EXPENSE_DETAIL_SUCCESS:
+      return {
+        ...state,
+        added: true,
         adding: false,
       };
 

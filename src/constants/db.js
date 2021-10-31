@@ -29,6 +29,7 @@ export const DB = {
   PRODUCT_COLOR: "product_color",
   BASIC_UNIT: "basic_unit",
   HEAD_NAME: "head_name",
+  EXPENSE: "expense",
 };
 
 export const DB_TRANSLATION = {

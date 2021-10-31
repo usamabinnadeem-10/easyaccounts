@@ -57,3 +57,7 @@ export const addProductApi = (data) => {
 export const addPersonApi = (data) => {
   return instance.post(ESSENTIAL_URLS.PERSON, data);
 };
+
+export const addExpenseDetailApi = (data) => {
+  return instance.post(EXPENSE_URLS.EXPENSE_DETAIL, data);
+};

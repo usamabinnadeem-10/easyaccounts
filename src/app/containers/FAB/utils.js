@@ -20,7 +20,7 @@ export const chooseModal = (name, state) => {
     case DEFAULTS.ADD_WAREHOUSE:
       return ADD_WAREHOUSE_FORM;
     case DEFAULTS.ADD_EXPENSE:
-      return getExpenseForm(state.expenseAccounts);
+      return getExpenseForm(state.expenseAccounts, state.accountTypes);
     case DEFAULTS.ADD_ACOUNT_TYPE:
       return ADD_ACCOUNT_TYPE_FORM;
     case DEFAULTS.ADD_PRODUCT_COLOR:

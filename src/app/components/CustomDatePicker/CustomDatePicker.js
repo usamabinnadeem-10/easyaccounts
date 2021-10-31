@@ -4,9 +4,7 @@ import DatePicker from "react-modern-calendar-datepicker";
 
 import "./date.css";
 
-export default function CustomDatePicker(props) {
-  const { getDate, value, placeholder } = props;
-
+export default function CustomDatePicker({ getDate, value, placeholder }) {
   return (
     <DatePicker
       value={value}

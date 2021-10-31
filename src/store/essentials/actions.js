@@ -200,3 +200,16 @@ export const resetAdded = () => {
     type: actionTypes.RESET_ADDED,
   };
 };
+
+export const addExpenseDetail = (data) => {
+  return {
+    type: actionTypes.ADD_EXPENSE_DETAIL,
+    payload: data,
+  };
+};
+
+export const addExpenseDetailSuccess = () => {
+  return {
+    type: actionTypes.ADD_EXPENSE_DETAIL_SUCCESS,
+  };
+};

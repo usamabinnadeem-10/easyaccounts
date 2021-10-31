@@ -212,26 +212,38 @@ export const getProductColorForm = (options) => {
   };
 };
 
-export const getExpenseForm = (options) => {
+export const getExpenseForm = (expenseAccounts, accountTypes) => {
   return {
     heading: "Add Expense",
+    action: actions.addExpenseDetail,
     formData: [
+      {
+        label: "Date",
+        type: FIELDS.DATE,
+        name: DB.DATE,
+      },
       {
         label: "Expense Account",
         type: FIELDS.SELECT,
-        name: "selectExpense",
-        options: options,
+        name: DB.EXPENSE,
+        options: expenseAccounts,
+      },
+      {
+        label: "Account Type",
+        type: FIELDS.SELECT,
+        name: DB.ACCOUNT_TYPE,
+        options: accountTypes,
       },
       {
         label: "Amount",
         type: FIELDS.NUMBER,
-        name: "addExpense",
+        name: DB.AMOUNT,
         min: 1,
       },
       {
         label: "Expense Detail",
         type: FIELDS.STRING,
-        name: "expenseDetail",
+        name: DB.DETAIL,
       },
     ],
   };
