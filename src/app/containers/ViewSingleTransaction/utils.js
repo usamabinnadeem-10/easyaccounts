@@ -1,15 +1,20 @@
 import { DB, DB_TRANSLATION } from "../../../constants/db";
 
-export const getMeta = (transaction) => {
+export const getMeta = (transaction, dontFetch) => {
   let data = [
     {
       value: transaction[DB.SERIAL],
       label: "Invoice #",
     },
-    {
-      value: transaction[DB.PERSON],
-      label: `${DB_TRANSLATION[transaction[DB.PERSON_TYPE]]}:`,
-    },
+    dontFetch
+      ? {
+          value: transaction[DB.PERSON_NAME],
+          label: `${DB_TRANSLATION[transaction[DB.PERSON_TYPE]]}:`,
+        }
+      : {
+          value: transaction[DB.PERSON],
+          label: `${DB_TRANSLATION[transaction[DB.PERSON_TYPE]]}:`,
+        },
     {
       value: transaction[DB.DATE],
       label: "Date:",

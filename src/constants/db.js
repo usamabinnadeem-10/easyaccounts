@@ -30,6 +30,8 @@ export const DB = {
   BASIC_UNIT: "basic_unit",
   HEAD_NAME: "head_name",
   EXPENSE: "expense",
+  WAREHOUSE_NAME: "warehouse_name",
+  PERSON_NAME: "person_name",
 };
 
 export const DB_TRANSLATION = {

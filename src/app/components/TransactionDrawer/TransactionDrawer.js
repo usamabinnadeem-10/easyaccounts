@@ -6,7 +6,13 @@ import { Drawer } from "@mui/material";
 
 import { useStyles } from "./styles";
 
-function TransactionDrawer({ hideDrawer, open, transactionID }) {
+function TransactionDrawer({
+  hideDrawer,
+  open,
+  transactionID,
+  dontFetch = false,
+  transactionData = null,
+}) {
   const classes = useStyles();
   return (
     <Drawer
@@ -17,7 +23,13 @@ function TransactionDrawer({ hideDrawer, open, transactionID }) {
         paper: classes.drawer,
       }}
     >
-      {open && <ViewSingleTransaction transactionID={transactionID} />}
+      {open && (
+        <ViewSingleTransaction
+          dontFetch={dontFetch}
+          transactionData={transactionData}
+          transactionID={transactionID}
+        />
+      )}
     </Drawer>
   );
 }

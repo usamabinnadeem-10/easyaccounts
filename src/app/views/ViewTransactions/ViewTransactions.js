@@ -38,11 +38,12 @@ function ViewTransactions() {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [transactionData, setTransactionData] = useState([]);
+  const [transactionDataRaw, setTransactionDataRaw] = useState([]);
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
 
   const [showDrawer, setShowDrawer] = useState(false);
-  const [transactionID, setTransactionID] = useState(null);
+  const [currentTransaction, setCurrentTransaction] = useState({});
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {
@@ -62,15 +63,15 @@ function ViewTransactions() {
   };
 
   // function that formats transaction data for table
-  const formatLedgerData = (data) => {
+  const formatTransactionData = (data) => {
     let transactions = [];
     data.forEach((element) => {
       let total = 0.0;
-      element.transaction_detail.forEach((detail) => {
+      element.transaction.transaction_detail.forEach((detail) => {
         total += detail.amount;
       });
       transactions.push({
-        ...element,
+        ...element.transaction,
         total: total,
       });
     });
@@ -102,7 +103,8 @@ function ViewTransactions() {
     instance
       .get(URL)
       .then((res) => {
-        setTransactionData(formatLedgerData(res.data));
+        setTransactionData(formatTransactionData(res.data));
+        setTransactionDataRaw(res.data);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -119,7 +121,10 @@ function ViewTransactions() {
 
   const onRowClick = (id) => {
     setShowDrawer(true);
-    setTransactionID(id);
+    let transaction = transactionDataRaw.filter(
+      (element) => element.transaction.id === id
+    )[0];
+    setCurrentTransaction(transaction);
   };
 
   const formatTransactionDetails = (details) => {
@@ -145,35 +150,34 @@ function ViewTransactions() {
   };
 
   const handleEdit = (id) => {
-    instance
-      .get(getURL(TRANSACTION_URLS.GET_TRANSACTION, "uuid", id))
-      .then((res) => {
-        let transaction = res.data.transaction;
-        let account = res.data.account_type;
-        let person = findPerson(
-          transaction.person,
-          state.suppliers,
-          state.customers
-        );
-        history.push({
-          pathname: REDIRECTS[person.person_type],
-          state: {
-            transaction: {
-              ...transaction,
-              person: person,
-              date: getDateFromString(transaction.date),
-              transaction_detail: formatTransactionDetails(
-                transaction.transaction_detail
-              ),
-            },
-            account_type: account && {
-              value: account.id,
-              label: account.name,
-            },
-            paid_amount: res.data.paid_amount,
-          },
-        });
-      });
+    let transactionToEdit = transactionDataRaw.filter(
+      (transaction) => transaction.transaction.id === id
+    )[0];
+    let transaction = transactionToEdit.transaction;
+    let account = transactionToEdit.account_type;
+    let person = findPerson(
+      transaction.person,
+      state.suppliers,
+      state.customers
+    );
+    history.push({
+      pathname: REDIRECTS[person.person_type],
+      state: {
+        transaction: {
+          ...transaction,
+          person: person,
+          date: getDateFromString(transaction.date),
+          transaction_detail: formatTransactionDetails(
+            transaction.transaction_detail
+          ),
+        },
+        account_type: account && {
+          value: account.id,
+          label: account.name,
+        },
+        paid_amount: transactionToEdit.paid_amount,
+      },
+    });
   };
 
   const handleDelete = (id) => {
@@ -219,9 +223,10 @@ function ViewTransactions() {
         )}
       </div>
       <TransactionDrawer
+        dontFetch
+        transactionData={currentTransaction}
         hideDrawer={hideDrawer}
         open={showDrawer}
-        transactionID={transactionID}
       />
     </>
   );

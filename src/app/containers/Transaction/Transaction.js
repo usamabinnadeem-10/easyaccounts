@@ -248,7 +248,7 @@ const Transaction = (props) => {
       draft: draft,
       discount: discount || 0,
       type: selectedOptions.currentTransactionType,
-      detail: detail,
+      detail: detail || null,
       transaction_detail: tableData.map((data, index) => {
         return {
           id: data.id,

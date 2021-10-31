@@ -27,7 +27,11 @@ import { DB } from "../../../constants/db";
 import { COLUMNS } from "./constants";
 import { print } from "../../../utils/print";
 
-function ViewSingleTransaction({ transactionID }) {
+function ViewSingleTransaction({
+  transactionID,
+  dontFetch = false,
+  transactionData = null,
+}) {
   const { uuid } = useParams();
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -40,31 +44,65 @@ function ViewSingleTransaction({ transactionID }) {
   const state = useSelector((state) => state.essentials);
   const transactions = useSelector((state) => state.transactions);
 
+  const formatTransactionDetails = (details) => {
+    let newDetails = [];
+    details.forEach((detail) => {
+      newDetails.push({
+        ...detail,
+        [DB.WAREHOUSE]: detail[DB.WAREHOUSE_NAME],
+        [DB.PRODUCT]: `${detail[DB.PRODUCT_HEAD]} / ${
+          detail[DB.PRODUCT_COLOR]
+        }`,
+      });
+    });
+    return newDetails;
+  };
+
   useEffect(() => {
-    dispatch(
-      getSingleTransaction({
-        id: ID,
-        transactions: transactions.transactions,
-        essentials: state,
-      })
-    );
+    if (!dontFetch) {
+      dispatch(
+        getSingleTransaction({
+          id: ID,
+          transactions: transactions.transactions,
+          essentials: state,
+        })
+      );
+    } else {
+      setTransaction({
+        ...transactionData.transaction,
+        [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
+          transactionData.transaction.transaction_detail
+        ),
+        [DB.ACCOUNT_TYPE]: transactionData[DB.ACCOUNT_TYPE]?.name,
+        [DB.PAID_AMOUNT]: transactionData[DB.PAID_AMOUNT],
+      });
+      setLoading(false);
+    }
     return () => {
       dispatch(setFetchedFalse());
     };
   }, []);
 
   useEffect(() => {
-    if (transactions.fetched) {
-      let current = transactions.transactions.filter(
-        (element) => element.id === ID
-      )[0];
-      setTransaction(current);
+    if (!dontFetch) {
+      if (transactions.fetched) {
+        let current = transactions.transactions.filter(
+          (element) => element.id === ID
+        )[0];
+        setTransaction(current);
+        let amount = 0.0;
+        current.transaction_detail.forEach(
+          (element) => (amount += element.amount)
+        );
+        setTotal(amount);
+        setLoading(false);
+      }
+    } else {
       let amount = 0.0;
-      current.transaction_detail.forEach(
+      transactionData.transaction.transaction_detail.forEach(
         (element) => (amount += element.amount)
       );
       setTotal(amount);
-      setLoading(false);
     }
   }, [transactions.fetched]);
 
@@ -91,7 +129,7 @@ function ViewSingleTransaction({ transactionID }) {
             className={`${classes.transactionWrapper} ${uuid && classes.wider}`}
           >
             <div className={classes.meta}>
-              {getMeta(transaction).map((field, index) => {
+              {getMeta(transaction, dontFetch).map((field, index) => {
                 return (
                   <div key={index} className={classes.metaItem}>
                     <Typography variant="subtitle2" sx={{ width: 100 }}>
