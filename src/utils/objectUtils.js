@@ -1,5 +1,4 @@
 export const renameKeys = (oldKey, newKey, arr) => {
-  console.log(arr);
   arr.forEach((obj) => {
     if (oldKey !== newKey) {
       Object.defineProperty(

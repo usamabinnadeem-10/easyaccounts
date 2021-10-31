@@ -9,8 +9,13 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { useStyles } from "./styles";
 
-function LedgerDetail(props) {
-  const { rows, onRowClick, hoverProperty, handleEdit, handleDelete } = props;
+function LedgerDetail({
+  rows,
+  onRowClick,
+  hoverProperty,
+  handleEdit,
+  handleDelete,
+}) {
   const classes = useStyles();
 
   const COLUMNS = [

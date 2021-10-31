@@ -62,7 +62,6 @@ function* addNewPersonSaga(action) {
 }
 
 function* addNewWarehouseSaga(action) {
-  console.log(action);
   let response = yield call(api.addWarehouseApi, action.payload);
   yield put(actions.addNewWarehouseSuccess(response.data));
 }

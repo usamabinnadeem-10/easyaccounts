@@ -4,15 +4,14 @@ import ScaleLoader from "react-spinners/ScaleLoader";
 
 import { useStyles } from "./styles";
 
-function CustomLoader(props) {
-  const { loading, height, pageLoader } = props;
+function CustomLoader({ loading, height = 50, pageLoader }) {
   let classes = useStyles();
   if (pageLoader) {
     return (
       <div className={classes.loader}>
         <ScaleLoader
           loading={loading}
-          height={height || 50}
+          height={height}
           radius={20}
           margin={2.5}
           width={5}

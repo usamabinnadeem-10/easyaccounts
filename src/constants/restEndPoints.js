@@ -11,6 +11,7 @@ export const ESSENTIAL_URLS = {
   CUSTOMERS: `${ESSENTIALS}person/?person=${CUSTOMER}`,
   SUPPLIERS: `${ESSENTIALS}person/?person=${SUPPLIER}`,
   PERSON: `${ESSENTIALS}person/`,
+  DAY_BOOK: `${ESSENTIALS}daybook/`,
 };
 
 const EXPENSE = "expense/";

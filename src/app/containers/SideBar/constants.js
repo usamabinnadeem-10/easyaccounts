@@ -1,9 +1,14 @@
-import { LEDGERS, TRANSACTIONS } from "../../../constants/routesConstants";
+import {
+  LEDGERS,
+  TRANSACTIONS,
+  VIEW_DAYBOOK,
+} from "../../../constants/routesConstants";
 
 export const ACCOUNTS = "Accounts";
 export const LEDGER = "Ledgers";
 export const CHEQUES = "Cheques";
 export const TRANSACTION = "Transactions";
+export const DAYBOOK = "Daybook";
 
 export const MANAGE = "Manage";
 export const CUSTOMERS = "Customers";
@@ -22,6 +27,10 @@ export const SIDEBAR = [
       {
         name: TRANSACTION,
         route: TRANSACTIONS,
+      },
+      {
+        name: DAYBOOK,
+        route: VIEW_DAYBOOK,
       },
     ],
   },
