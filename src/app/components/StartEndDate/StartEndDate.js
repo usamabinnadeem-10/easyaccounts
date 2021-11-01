@@ -6,8 +6,7 @@ import { Box } from "@mui/system";
 
 import { useStyles } from "./styles";
 
-function StartEndDate(props) {
-  const { startDate, getStartDate, endDate, getEndDate } = props;
+function StartEndDate({ startDate, getStartDate, endDate, getEndDate }) {
   const classes = useStyles();
   return (
     <div className={classes.dateContainer}>

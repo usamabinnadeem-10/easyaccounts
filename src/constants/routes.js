@@ -7,6 +7,7 @@ import LedgerTransaction from "../app/views/LedgerTransaction/LedgerTransaction"
 import ViewTransactions from "../app/views/ViewTransactions/ViewTransactions";
 import ViewSingleTransaction from "../app/containers/ViewSingleTransaction/ViewSingleTransaction";
 import Daybook from "../app/views/Daybook/Daybook";
+import ViewExpenses from "../app/views/ViewExpenses/ViewExpenses";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -38,5 +39,9 @@ export const authenticatedRoutes = [
   {
     component: Daybook,
     path: url.VIEW_DAYBOOK,
+  },
+  {
+    component: ViewExpenses,
+    path: url.VIEW_EXPENSES,
   },
 ];

@@ -6,6 +6,7 @@ import Manage from "@mui/icons-material/Settings";
 import Customers from "@mui/icons-material/GroupAdd";
 import Products from "@mui/icons-material/Inventory";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
+import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 
 import {
   ACCOUNTS,
@@ -16,6 +17,7 @@ import {
   PRODUCTS,
   TRANSACTION,
   DAYBOOK,
+  EXPENSE,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -36,6 +38,8 @@ export const getIcon = (panel) => {
       return <CompareArrowsIcon />;
     case DAYBOOK:
       return <LibraryBooksIcon />;
+    case EXPENSE:
+      return <LocalAtmIcon />;
     default:
       break;
   }

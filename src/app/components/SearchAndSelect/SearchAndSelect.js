@@ -10,22 +10,20 @@ import LoadingButton from "@mui/lab/LoadingButton";
 
 import { useStyles } from "./styles";
 
-function SearchAndSelect(props) {
-  const {
-    header,
-    currentPerson,
-    personType,
-    setCurrentPerson,
-    options,
-    setPersonType,
-    startDate,
-    setStartDate,
-    endDate,
-    setEndDate,
-    loading,
-    search,
-  } = props;
-
+function SearchAndSelect({
+  header,
+  currentPerson,
+  personType,
+  setCurrentPerson,
+  options,
+  setPersonType,
+  startDate,
+  setStartDate,
+  endDate,
+  setEndDate,
+  loading,
+  search,
+}) {
   const classes = useStyles();
   return (
     <>

@@ -112,7 +112,7 @@ function ViewSingleTransaction({
         <CustomLoader pageLoader loading={loading} />
       ) : (
         <div className={classes.root}>
-          <div className={classes.printIcon}>
+          {/* <div className={classes.printIcon}>
             <Tooltip title="Print" arrow>
               <IconButton
                 onClick={() => print("transaction-wrapper")}
@@ -123,7 +123,7 @@ function ViewSingleTransaction({
                 </Avatar>
               </IconButton>
             </Tooltip>
-          </div>
+          </div> */}
           <div
             id="transaction-wrapper"
             className={`${classes.transactionWrapper} ${uuid && classes.wider}`}

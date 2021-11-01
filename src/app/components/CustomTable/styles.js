@@ -25,9 +25,9 @@ export const useStyles = makeStyles({
     borderBottom: "0.5px solid rgba(105, 105, 105, 0.2)",
     overflowWrap: "anywhere",
     paddingRight: "0.4rem",
-    whiteSpace: "pre",
   },
   hover: {
     cursor: "pointer",
   },
+  pre: { whiteSpace: "pre" },
 });

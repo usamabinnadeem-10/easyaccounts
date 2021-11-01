@@ -46,3 +46,9 @@ export const findProduct = (
     color: product,
   };
 };
+
+export const findExpenseAccount = (expenseAccountID, expenseAccounts) => {
+  return expenseAccounts.filter(
+    (expense) => expense.value === expenseAccountID
+  )[0];
+};

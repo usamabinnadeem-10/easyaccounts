@@ -3,33 +3,18 @@ import React from "react";
 import CustomTable from "../CustomTable/CustomTable";
 
 import { IconButton } from "@mui/material";
-import { Chip } from "@mui/material";
 
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-function TransactionDetail({
+const ExpenseDetail = ({
   rows,
   onRowClick,
   hoverProperty,
   handleEdit,
   handleDelete,
-}) {
-  const CHIP_COLORS = {
-    paid: "success",
-    credit: "error",
-    maal_wapsi: "secondary",
-    purchase: "info",
-  };
-
+}) => {
   const COLUMNS = [
-    {
-      accessor: "serial",
-      Header: "ID",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
-    },
     {
       accessor: "date",
       Header: "Date",
@@ -38,33 +23,31 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "total",
+      accessor: "detail",
+      Header: "Detail",
+      Cell: (row) => (
+        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+      ),
+    },
+    {
+      accessor: "amount",
       Header: "Amount",
       Cell: (row) => (
         <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
     },
     {
-      accessor: "discount",
-      Header: "Discount",
+      accessor: "expense_name",
+      Header: "Expense Account",
       Cell: (row) => (
         <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
     },
     {
-      accessor: "type",
-      Header: "Type",
+      accessor: "account_type_name",
+      Header: "Account Type",
       Cell: (row) => (
-        <Chip
-          size="small"
-          color={CHIP_COLORS[row.value]}
-          label={row.value.replace("_", " ")}
-          sx={{
-            fontWeight: 900,
-            borderRadius: 1.5,
-            textTransform: "capitalize",
-          }}
-        />
+        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
     },
     {
@@ -90,6 +73,6 @@ function TransactionDetail({
   return (
     <CustomTable columns={COLUMNS} data={rows} hoverProperty={hoverProperty} />
   );
-}
+};
 
-export default TransactionDetail;
+export default ExpenseDetail;

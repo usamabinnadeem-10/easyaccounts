@@ -82,7 +82,12 @@ function LedgerDetail({
   ];
 
   return (
-    <CustomTable columns={COLUMNS} data={rows} hoverProperty={hoverProperty} />
+    <CustomTable
+      columns={COLUMNS}
+      data={rows}
+      hoverProperty={hoverProperty}
+      pre
+    />
   );
 }
 

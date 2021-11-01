@@ -22,7 +22,15 @@ import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
-const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
+const AddModal = ({
+  open,
+  handleClose,
+  form,
+  openSnackbar,
+  closeSnackbar,
+  isEdit = false,
+  defaultFormState,
+}) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -38,8 +46,12 @@ const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
   }, []);
 
   useEffect(() => {
-    setState({});
-  }, [form]);
+    if (isEdit) {
+      setState(defaultFormState);
+    } else {
+      setState({});
+    }
+  }, [form, isEdit, defaultFormState]);
 
   useEffect(() => {
     if (essentials.adding) {
@@ -66,7 +78,11 @@ const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
         data[key] = data[key].value;
       }
     }
-    dispatch(form.action(data));
+    if (isEdit) {
+      form.action(data);
+    } else {
+      dispatch(form.action(data));
+    }
   };
 
   return (
@@ -95,7 +111,7 @@ const AddModal = ({ open, handleClose, form, openSnackbar, closeSnackbar }) => {
                 />
               </div>
             ) : field.type === FIELDS.DATE ? (
-              <div className={classes.dateWrapper}>
+              <div key={index} className={classes.dateWrapper}>
                 <CustomDatePicker
                   getDate={(date) =>
                     setState({ ...state, date: makeDate(date) })

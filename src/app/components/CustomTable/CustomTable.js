@@ -4,7 +4,7 @@ import { useTable } from "react-table";
 
 import { useStyles } from "./styles";
 
-function CustomTable({ columns, data, hoverProperty, noTableStyles }) {
+function CustomTable({ columns, data, hoverProperty, noTableStyles, pre }) {
   const getRowId = (row) => row.id;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -44,7 +44,10 @@ function CustomTable({ columns, data, hoverProperty, noTableStyles }) {
             >
               {row.cells.map((cell) => {
                 return (
-                  <td className={classes.rowCell} {...cell.getCellProps()}>
+                  <td
+                    className={`${classes.rowCell} ${pre ? classes.pre : ""}`}
+                    {...cell.getCellProps()}
+                  >
                     {cell.render("Cell")}
                   </td>
                 );
