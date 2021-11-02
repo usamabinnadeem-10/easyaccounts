@@ -25,14 +25,16 @@ import {
   findExpenseAccount,
 } from "../LedgerTransaction/utils";
 
-const ViewExpenses = () => {
+const ViewExpenses = ({ daybookView, defaultExpenses }) => {
   const classes = useStyles();
 
   const essentials = useSelector((state) => state.essentials);
 
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [expensesData, setExpensesData] = useState([]);
+  const [expensesData, setExpensesData] = useState(
+    daybookView ? defaultExpenses : []
+  );
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
 
@@ -153,28 +155,31 @@ const ViewExpenses = () => {
         />
       )}
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
-      <div className={classes.root}>
-        <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
-          View Expenses
-        </Typography>
+      {!daybookView && (
+        <div className={classes.root}>
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
+            View Expenses
+          </Typography>
 
-        <div className={classes.dateContainer}>
-          <StartEndDate
-            startDate={getDateFromString(startDate)}
-            endDate={getDateFromString(endDate)}
-            getStartDate={(date) => setStartDate(makeDate(date))}
-            getEndDate={(date) => setEndDate(makeDate(date))}
-          />
-          <LoadingButton
-            onClick={() => search()}
-            variant="contained"
-            sx={{ fontWeight: 700 }}
-            loading={loading}
-          >
-            Search
-          </LoadingButton>
+          <div className={classes.dateContainer}>
+            <StartEndDate
+              startDate={getDateFromString(startDate)}
+              endDate={getDateFromString(endDate)}
+              getStartDate={(date) => setStartDate(makeDate(date))}
+              getEndDate={(date) => setEndDate(makeDate(date))}
+            />
+            <LoadingButton
+              onClick={() => search()}
+              variant="contained"
+              sx={{ fontWeight: 700 }}
+              loading={loading}
+            >
+              Search
+            </LoadingButton>
+          </div>
         </div>
-      </div>
+      )}
+
       {expensesData.length > 0 && (
         <ExpenseDetail
           rows={expensesData}

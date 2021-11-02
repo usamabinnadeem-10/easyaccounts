@@ -32,6 +32,7 @@ export const DB = {
   EXPENSE: "expense",
   WAREHOUSE_NAME: "warehouse_name",
   PERSON_NAME: "person_name",
+  BALANCE: "balance",
 };
 
 export const DB_TRANSLATION = {

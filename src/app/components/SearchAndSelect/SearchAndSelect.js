@@ -2,7 +2,6 @@ import React from "react";
 
 import SelectPerson from "../SelectPerson/SelectPerson";
 import StartEndDate from "../StartEndDate/StartEndDate";
-import CustomLoader from "../CustomLoader/CustomLoader";
 
 import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -49,7 +48,6 @@ function SearchAndSelect({
           getEndDate={setEndDate}
         />
         <LoadingButton
-          loadingIndicator={<CustomLoader loading={loading} height={10} />}
           loading={loading}
           variant="contained"
           sx={{ fontWeight: 900 }}

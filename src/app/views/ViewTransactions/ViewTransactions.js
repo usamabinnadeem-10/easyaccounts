@@ -28,17 +28,37 @@ import {
   findWarehouse,
 } from "../LedgerTransaction/utils";
 
-function ViewTransactions() {
+function ViewTransactions({ daybookView, defaultTransactions }) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
   const history = useHistory();
+
+  // function that formats transaction data for table
+  const formatTransactionData = (data) => {
+    let transactions = [];
+    data.forEach((element) => {
+      let total = 0.0;
+      element.transaction.transaction_detail.forEach((detail) => {
+        total += detail.amount;
+      });
+      transactions.push({
+        ...element.transaction,
+        total: total,
+      });
+    });
+    return transactions;
+  };
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [transactionData, setTransactionData] = useState([]);
-  const [transactionDataRaw, setTransactionDataRaw] = useState([]);
+  const [transactionData, setTransactionData] = useState(
+    daybookView ? formatTransactionData(defaultTransactions) : []
+  );
+  const [transactionDataRaw, setTransactionDataRaw] = useState(
+    daybookView ? defaultTransactions : []
+  );
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
 
@@ -60,22 +80,6 @@ function ViewTransactions() {
       ...snackbarState,
       open: false,
     });
-  };
-
-  // function that formats transaction data for table
-  const formatTransactionData = (data) => {
-    let transactions = [];
-    data.forEach((element) => {
-      let total = 0.0;
-      element.transaction.transaction_detail.forEach((detail) => {
-        total += detail.amount;
-      });
-      transactions.push({
-        ...element.transaction,
-        total: total,
-      });
-    });
-    return transactions;
   };
 
   const search = () => {
@@ -120,11 +124,11 @@ function ViewTransactions() {
   };
 
   const onRowClick = (id) => {
-    setShowDrawer(true);
     let transaction = transactionDataRaw.filter(
       (element) => element.transaction.id === id
     )[0];
     setCurrentTransaction(transaction);
+    setShowDrawer(true);
   };
 
   const formatTransactionDetails = (details) => {
@@ -194,23 +198,25 @@ function ViewTransactions() {
 
   return (
     <>
-      <div className={classes.root}>
-        <SearchAndSelect
-          header="View Transactions"
-          currentPerson={currentPerson}
-          personType={personType}
-          setCurrentPerson={setCurrentPerson}
-          options={state[STORE_PERSON[personType]]}
-          setPersonType={setPersonType}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          loading={loading}
-          search={search}
-        />
-        <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
-      </div>
+      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
+      {!daybookView && (
+        <div className={classes.root}>
+          <SearchAndSelect
+            header="View Transactions"
+            currentPerson={currentPerson}
+            personType={personType}
+            setCurrentPerson={setCurrentPerson}
+            options={state[STORE_PERSON[personType]]}
+            setPersonType={setPersonType}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            loading={loading}
+            search={search}
+          />
+        </div>
+      )}
       <div className={classes.table}>
         {transactionData.length > 0 && (
           <TransactionDetail

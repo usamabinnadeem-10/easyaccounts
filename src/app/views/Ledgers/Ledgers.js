@@ -25,16 +25,40 @@ import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 
-function Ledgers() {
+function Ledgers({ daybookView, defaultLedgers }) {
   const classes = useStyles();
   const history = useHistory();
   const state = useSelector((state) => state.essentials);
+
+  // function that formats ledger data for table
+  const formatLedgerData = (data, opening) => {
+    let ledger = [];
+    let balance = opening;
+    data.forEach((element) => {
+      let amount = element.amount;
+      let nature = element.nature;
+      if (nature === "D") {
+        balance -= amount;
+      } else {
+        balance += amount;
+      }
+      ledger.push({
+        ...element,
+        credit: nature === "C" ? amount : "",
+        debit: nature === "D" ? amount : "",
+        balance: balance,
+      });
+    });
+    return ledger;
+  };
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [ledgerData, setledgerData] = useState([]);
+  const [ledgerData, setledgerData] = useState(
+    daybookView ? formatLedgerData(defaultLedgers) : []
+  );
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
 
@@ -100,28 +124,6 @@ function Ledgers() {
     });
   };
 
-  // function that formats ledger data for table
-  const formatLedgerData = (data, opening) => {
-    let ledger = [];
-    let balance = opening;
-    data.forEach((element) => {
-      let amount = element.amount;
-      let nature = element.nature;
-      if (nature === "D") {
-        balance -= amount;
-      } else {
-        balance += amount;
-      }
-      ledger.push({
-        ...element,
-        credit: nature === "C" ? amount : "",
-        debit: nature === "D" ? amount : "",
-        balance: balance,
-      });
-    });
-    return ledger;
-  };
-
   const onRowClick = (id) => {
     let transaction = ledgerData.filter((ledger) => ledger.id === id)[0]
       .transaction;
@@ -154,26 +156,30 @@ function Ledgers() {
 
   return (
     <>
-      <div className={classes.root}>
-        <SearchAndSelect
-          header="View Ledger"
-          currentPerson={currentPerson}
-          personType={personType}
-          setCurrentPerson={setCurrentPerson}
-          options={state[STORE_PERSON[personType]]}
-          setPersonType={setPersonType}
-          startDate={startDate}
-          setStartDate={setStartDate}
-          endDate={endDate}
-          setEndDate={setEndDate}
-          loading={loading}
-          search={search}
-        />
-        <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
-      </div>
+      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
+      {!daybookView && (
+        <div className={classes.root}>
+          <SearchAndSelect
+            header="View Ledger"
+            currentPerson={currentPerson}
+            personType={personType}
+            setCurrentPerson={setCurrentPerson}
+            options={state[STORE_PERSON[personType]]}
+            setPersonType={setPersonType}
+            startDate={startDate}
+            setStartDate={setStartDate}
+            endDate={endDate}
+            setEndDate={setEndDate}
+            loading={loading}
+            search={search}
+          />
+        </div>
+      )}
+
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail
+            daybookView={daybookView}
             rows={ledgerData}
             onRowClick={onRowClick}
             hoverProperty={"transaction"}

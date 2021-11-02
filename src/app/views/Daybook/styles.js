@@ -3,13 +3,17 @@ import { makeStyles } from "@mui/styles";
 export const useStyles = makeStyles({
   root: {
     width: "75vw",
-    padding: "0.8rem 1.6rem",
-    borderRadius: "0.6rem",
-    backgroundColor: "rgba(105, 105, 105, 0.03)",
     display: "flex",
     flexDirection: "column",
+    marginBottom: "2rem",
   },
-  table: {
-    margin: "1.2rem 0",
+  header: {
+    display: "flex",
+    justifyContent: "space-between",
+    marginBottom: "2rem",
+  },
+  accountTypesWrapper: {
+    display: "flex",
+    marginBottom: "1.5rem",
   },
 });

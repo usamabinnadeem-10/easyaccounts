@@ -15,6 +15,7 @@ function LedgerDetail({
   hoverProperty,
   handleEdit,
   handleDelete,
+  daybookView,
 }) {
   const classes = useStyles();
 
@@ -80,6 +81,16 @@ function LedgerDetail({
       ),
     },
   ];
+
+  if (daybookView) {
+    COLUMNS[4] = {
+      accessor: "person_name",
+      Header: "Person",
+      Cell: (row) => (
+        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+      ),
+    };
+  }
 
   return (
     <CustomTable

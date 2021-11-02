@@ -2,8 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { useDidMountEffect } from "../../hooks/useDidMountEffect";
-
 import { useSelector } from "react-redux";
 
 import { useLocation } from "react-router";
@@ -69,10 +67,6 @@ function LedgerTransaction() {
       setDate(getDateFromString(data.date));
     }
   }, []);
-
-  useDidMountEffect(() => {
-    setCurrentPerson(null);
-  }, [personType]);
 
   const LEDGER_FIELDS = [
     {
