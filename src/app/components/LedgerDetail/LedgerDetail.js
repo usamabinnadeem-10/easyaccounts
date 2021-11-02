@@ -28,6 +28,13 @@ function LedgerDetail({
       ),
     },
     {
+      accessor: "transaction_serial",
+      Header: "Invoice #",
+      Cell: (row) => (
+        <div onClick={() => onRowClick(row.row.id)}>{row.value || "--"}</div>
+      ),
+    },
+    {
       accessor: "detail",
       Header: "Detail",
       Cell: (row) => (
@@ -83,7 +90,7 @@ function LedgerDetail({
   ];
 
   if (daybookView) {
-    COLUMNS[4] = {
+    COLUMNS[5] = {
       accessor: "person_name",
       Header: "Person",
       Cell: (row) => (

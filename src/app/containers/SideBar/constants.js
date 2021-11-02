@@ -40,15 +40,15 @@ export const SIDEBAR = [
       },
     ],
   },
-  {
-    panelName: MANAGE,
-    panelData: [
-      {
-        name: CUSTOMERS,
-      },
-      {
-        name: PRODUCTS,
-      },
-    ],
-  },
+  // {
+  //   panelName: MANAGE,
+  //   panelData: [
+  //     {
+  //       name: CUSTOMERS,
+  //     },
+  //     {
+  //       name: PRODUCTS,
+  //     },
+  //   ],
+  // },
 ];
