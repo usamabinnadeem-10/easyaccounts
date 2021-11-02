@@ -17,7 +17,7 @@ import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
 
 import { useStyles } from "./styles";
-import { selectCustomStyles } from "./styles";
+import { customStyles } from "./styles";
 import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
@@ -38,12 +38,17 @@ const AddModal = ({
 
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     return () => {
       dispatch(resetAdded());
     };
   }, []);
+
+  useEffect(() => {
+    setError(false);
+  }, [state]);
 
   useEffect(() => {
     if (isEdit) {
@@ -78,10 +83,21 @@ const AddModal = ({
         data[key] = data[key].value;
       }
     }
-    if (isEdit) {
-      form.action(data);
-    } else {
-      dispatch(form.action(data));
+    // check if all the required fields are in the data
+    let canPost = true;
+    form.formData.forEach((element) => {
+      if (element.required && !data[element.name]) {
+        openSnackbar(true, "error", `Please fill ${element.label}`);
+        setError(true);
+        canPost = false;
+      }
+    });
+    if (canPost) {
+      if (isEdit) {
+        form.action(data);
+      } else {
+        dispatch(form.action(data));
+      }
     }
   };
 
@@ -103,7 +119,7 @@ const AddModal = ({
             return field.type === FIELDS.SELECT ? (
               <div key={index} className={classes.select}>
                 <Select
-                  styles={selectCustomStyles}
+                  styles={customStyles(error, state[field.name])}
                   placeholder={field.label}
                   value={state[field.name] || null}
                   onChange={(value) => handleChange(value, field.name)}
@@ -121,6 +137,7 @@ const AddModal = ({
               </div>
             ) : (
               <TextField
+                error={error && field.required && !state[field.name]}
                 multiline={field.type !== FIELDS.NUMBER}
                 value={state[field.name] || ""}
                 onChange={(e) => handleChange(e.target.value, field.name)}
@@ -143,7 +160,7 @@ const AddModal = ({
             loading={loading}
             onClick={submit}
             variant="contained"
-            sx={{ mt: 2 }}
+            sx={{ mt: 2, fontWeight: 700 }}
           >
             Submit
           </LoadingButton>

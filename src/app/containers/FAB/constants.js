@@ -102,12 +102,14 @@ export const ADD_CUSTOMER_FORM = {
       label: "Name",
       type: FIELDS.STRING,
       name: DB.NAME,
+      required: true,
     },
     {
       label: "Type",
       type: FIELDS.SELECT,
       name: "person_type",
       options: PERSON_OPTIONS,
+      required: true,
     },
     {
       label: "Business Name",
@@ -125,6 +127,7 @@ export const ADD_PRODUCT_FORM = {
       label: "Head Name",
       type: FIELDS.STRING,
       name: DB.HEAD_NAME,
+      required: true,
     },
   ],
 };
@@ -148,6 +151,7 @@ export const ADD_WAREHOUSE_FORM = {
       label: "Warehouse Name",
       type: FIELDS.STRING,
       name: DB.NAME,
+      required: true,
     },
     {
       label: "Warehouse Location",
@@ -165,6 +169,7 @@ export const ADD_ACCOUNT_TYPE_FORM = {
       label: "Account Name",
       type: FIELDS.STRING,
       name: DB.NAME,
+      required: true,
     },
   ],
 };
@@ -177,6 +182,7 @@ export const ADD_EXPENSE_ACCOUNT_FORM = {
       label: "Account Name",
       type: FIELDS.STRING,
       name: DB.NAME,
+      required: true,
     },
   ],
 };
@@ -191,22 +197,26 @@ export const getProductColorForm = (options) => {
         type: FIELDS.SELECT,
         name: DB.PRODUCT_HEAD,
         options: options,
+        required: true,
       },
       {
         label: "Color Name",
         type: FIELDS.STRING,
         name: DB.PRODUCT_COLOR,
+        required: true,
       },
       {
         label: "Basic Quantity",
         type: FIELDS.NUMBER,
         name: DB.BASIC_UNIT,
+        required: true,
       },
       {
         label: "Unit",
         type: FIELDS.SELECT,
         name: DB.SI_UNIT,
         options: COLOR_OPTIONS,
+        required: true,
       },
     ],
   };
@@ -227,23 +237,27 @@ export const getExpenseForm = (expenseAccounts, accountTypes) => {
         type: FIELDS.SELECT,
         name: DB.EXPENSE,
         options: expenseAccounts,
+        required: true,
       },
       {
         label: "Account Type",
         type: FIELDS.SELECT,
         name: DB.ACCOUNT_TYPE,
         options: accountTypes,
+        required: true,
       },
       {
         label: "Amount",
         type: FIELDS.NUMBER,
         name: DB.AMOUNT,
         min: 1,
+        required: true,
       },
       {
         label: "Expense Detail",
         type: FIELDS.STRING,
         name: DB.DETAIL,
+        required: true,
       },
     ],
   };
