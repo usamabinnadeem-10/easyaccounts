@@ -8,8 +8,7 @@ import IconButton from "@mui/material/IconButton";
 
 import CloseIcon from "@mui/icons-material/Close";
 
-function CustomSnackbar(props) {
-  const { message, open, severity, handleClose } = props;
+function CustomSnackbar({ message, open, severity, handleClose }) {
   const [show, setShow] = useState(open);
 
   useEffect(() => {

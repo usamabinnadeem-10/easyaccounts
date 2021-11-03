@@ -10,14 +10,13 @@ import { PERSONS } from "./constants";
 import { useStyles } from "./styles";
 import { selectCustomStyles } from "./styles";
 
-function SelectPerson(props) {
-  const {
-    currentPerson,
-    personType,
-    setCurrentPerson,
-    options,
-    setPersonType,
-  } = props;
+function SelectPerson({
+  currentPerson,
+  personType,
+  setCurrentPerson,
+  options,
+  setPersonType,
+}) {
   const classes = useStyles();
   return (
     <Grid

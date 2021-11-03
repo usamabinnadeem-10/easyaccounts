@@ -9,12 +9,12 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 
 import {
-  ACCOUNTS,
+  VIEW,
   LEDGER,
   CHEQUES,
-  MANAGE,
-  CUSTOMERS,
-  PRODUCTS,
+  REPORTS,
+  BALANCES,
+  STOCK,
   TRANSACTION,
   DAYBOOK,
   EXPENSE,
@@ -22,17 +22,17 @@ import {
 
 export const getIcon = (panel) => {
   switch (panel) {
-    case ACCOUNTS:
+    case VIEW:
       return <Accounts />;
     case LEDGER:
       return <Ledger />;
     case CHEQUES:
       return <Cheques />;
-    case MANAGE:
+    case REPORTS:
       return <Manage />;
-    case CUSTOMERS:
+    case BALANCES:
       return <Customers />;
-    case PRODUCTS:
+    case STOCK:
       return <Products />;
     case TRANSACTION:
       return <CompareArrowsIcon />;

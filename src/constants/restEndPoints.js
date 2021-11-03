@@ -28,6 +28,7 @@ export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
+  ALL_STOCK: `${TRANSACTION}product-quantity/all/`,
 };
 
 const LEDGER = "ledger/";
@@ -35,4 +36,5 @@ export const LEDGER_URLS = {
   CREATE_LEDGER: `${LEDGER}`,
   DELETE_LEDGER: `${LEDGER}:uuid/`,
   UPDATE_LEDGER: `${LEDGER}:uuid/`,
+  ALL_BALANCES: `${LEDGER}balances/all/`,
 };

@@ -33,9 +33,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
  * @param {object} props
  * @return {node} ToggleButtons.
  */
-function CustomToggleButtons(props) {
-  const { buttons, getSelectedValue, selectedValue } = props;
-
+function CustomToggleButtons({ buttons, getSelectedValue, selectedValue }) {
   const handleChange = (event, optionSelected) => {
     if (optionSelected) {
       getSelectedValue(optionSelected);

@@ -3,24 +3,27 @@ import {
   TRANSACTIONS,
   VIEW_DAYBOOK,
   VIEW_EXPENSES,
+  ALL_BALANCES,
 } from "../../../constants/routesConstants";
 
-export const ACCOUNTS = "Accounts";
+export const VIEW = "View";
 export const LEDGER = "Ledgers";
 export const CHEQUES = "Cheques";
 export const TRANSACTION = "Transactions";
 export const DAYBOOK = "Daybook";
 export const EXPENSE = "Expenses";
 
-export const MANAGE = "Manage";
-export const CUSTOMERS = "Customers";
-export const PRODUCTS = "Products";
+export const REPORTS = "Reports";
+export const BALANCES = "Balances";
+export const STOCK = "Stock";
+
+// export const
 
 export const DRAWER_WIDTH = 240;
 
 export const SIDEBAR = [
   {
-    panelName: ACCOUNTS,
+    panelName: VIEW,
     panelData: [
       {
         name: LEDGER,
@@ -40,15 +43,16 @@ export const SIDEBAR = [
       },
     ],
   },
-  // {
-  //   panelName: MANAGE,
-  //   panelData: [
-  //     {
-  //       name: CUSTOMERS,
-  //     },
-  //     {
-  //       name: PRODUCTS,
-  //     },
-  //   ],
-  // },
+  {
+    panelName: REPORTS,
+    panelData: [
+      {
+        name: BALANCES,
+        route: ALL_BALANCES,
+      },
+      {
+        name: STOCK,
+      },
+    ],
+  },
 ];

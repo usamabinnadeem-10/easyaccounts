@@ -8,3 +8,4 @@ export const TRANSACTIONS = `${HOME}/transactions`;
 export const VIEW_SINGLE_TRANSACTION = `${HOME}/transactions/:uuid`;
 export const VIEW_DAYBOOK = `${HOME}/daybook`;
 export const VIEW_EXPENSES = `${HOME}/expenses`;
+export const ALL_BALANCES = `${HOME}/balances`;
