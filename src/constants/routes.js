@@ -8,7 +8,7 @@ import ViewTransactions from "../app/views/ViewTransactions/ViewTransactions";
 import ViewSingleTransaction from "../app/containers/ViewSingleTransaction/ViewSingleTransaction";
 import Daybook from "../app/views/Daybook/Daybook";
 import ViewExpenses from "../app/views/ViewExpenses/ViewExpenses";
-import Balances from "../app/views/Balances/Balances";
+import ViewAllBalances from "../app/views/ViewAllBalances/ViewAllBalances";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -46,7 +46,7 @@ export const authenticatedRoutes = [
     path: url.VIEW_EXPENSES,
   },
   {
-    component: Balances,
+    component: ViewAllBalances,
     path: url.ALL_BALANCES,
   },
 ];

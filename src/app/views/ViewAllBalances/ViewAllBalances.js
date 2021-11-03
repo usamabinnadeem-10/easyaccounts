@@ -86,8 +86,9 @@ const Balances = () => {
           </LoadingButton>
         </div>
 
-        {balancesData.length > 0 && <div className={classes.table}></div>}
-        <CustomTable data={balancesData} columns={COLUMNS} />
+        {balancesData.length > 0 && (
+          <CustomTable data={balancesData} columns={COLUMNS} />
+        )}
       </div>
       {loading && <CustomLoader pageLoader loading={loading} />}
     </>
