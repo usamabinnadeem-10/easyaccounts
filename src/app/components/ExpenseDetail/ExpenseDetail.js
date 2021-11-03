@@ -7,48 +7,32 @@ import { IconButton } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
-const ExpenseDetail = ({
-  rows,
-  onRowClick,
-  hoverProperty,
-  handleEdit,
-  handleDelete,
-}) => {
+const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
   const COLUMNS = [
     {
       accessor: "date",
       Header: "Date",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
+      Cell: (row) => <div>{row.value}</div>,
     },
     {
       accessor: "detail",
       Header: "Detail",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
+      Cell: (row) => <div>{row.value}</div>,
     },
     {
       accessor: "amount",
       Header: "Amount",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
+      Cell: (row) => <div>{row.value}</div>,
     },
     {
       accessor: "expense_name",
       Header: "Expense Account",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
+      Cell: (row) => <div>{row.value}</div>,
     },
     {
       accessor: "account_type_name",
       Header: "Account Type",
-      Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
-      ),
+      Cell: (row) => <div>{row.value}</div>,
     },
     {
       accessor: "edit",
