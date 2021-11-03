@@ -9,6 +9,7 @@ import ViewSingleTransaction from "../app/containers/ViewSingleTransaction/ViewS
 import Daybook from "../app/views/Daybook/Daybook";
 import ViewExpenses from "../app/views/ViewExpenses/ViewExpenses";
 import ViewAllBalances from "../app/views/ViewAllBalances/ViewAllBalances";
+import ViewAllStock from "../app/views/ViewAllStock/ViewAllStock";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -48,5 +49,9 @@ export const authenticatedRoutes = [
   {
     component: ViewAllBalances,
     path: url.ALL_BALANCES,
+  },
+  {
+    component: ViewAllStock,
+    path: url.ALL_STOCK,
   },
 ];

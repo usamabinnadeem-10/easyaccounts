@@ -7,6 +7,7 @@ import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 
 import { LoadingButton } from "@mui/lab";
+import { Typography } from "@mui/material";
 
 import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { useStyles } from "./styles";
@@ -70,6 +71,9 @@ const Balances = () => {
     <>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <div className={classes.root}>
+        <Typography variant="h5" fontWeight={900} sx={{ mb: 2 }}>
+          View All Balances
+        </Typography>
         <div className={classes.selectPerson}>
           <CustomToggleButtons
             buttons={PERSONS}

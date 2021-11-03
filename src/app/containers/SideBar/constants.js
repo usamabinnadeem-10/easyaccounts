@@ -4,6 +4,7 @@ import {
   VIEW_DAYBOOK,
   VIEW_EXPENSES,
   ALL_BALANCES,
+  ALL_STOCK,
 } from "../../../constants/routesConstants";
 
 export const VIEW = "View";
@@ -52,6 +53,7 @@ export const SIDEBAR = [
       },
       {
         name: STOCK,
+        route: ALL_STOCK,
       },
     ],
   },
