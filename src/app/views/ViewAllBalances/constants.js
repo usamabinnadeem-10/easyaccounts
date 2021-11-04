@@ -17,10 +17,6 @@ export const COLUMNS = [
     Header: "Name",
   },
   {
-    accessor: "last_amount",
-    Header: "Last Bill",
-  },
-  {
     accessor: "balance",
     Header: "Balance",
   },
