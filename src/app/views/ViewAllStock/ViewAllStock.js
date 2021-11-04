@@ -2,6 +2,8 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 
@@ -18,18 +20,36 @@ const ViewAllStock = () => {
   const [stockData, setStockData] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const products = useSelector((state) => state.essentials.products);
+
+  const formatStockData = (data) => {
+    let newStockData = [];
+    for (let key in data) {
+      for (let head in products) {
+        products[head].forEach((element) => {
+          if (element.value === key) {
+            let qIn = data[key].C || 0;
+            let qOut = data[key].D || 0;
+            newStockData.push({
+              id: key,
+              product: `${element.head_name} ${element.label}`,
+              quantity_in: qIn,
+              quantity_out: qOut,
+              quantity: qIn - qOut,
+            });
+            return;
+          }
+        });
+      }
+    }
+    return newStockData;
+  };
+
   useEffect(() => {
     instance
       .get(TRANSACTION_URLS.ALL_STOCK)
       .then((res) => {
-        setStockData(
-          res.data.map((element, index) => {
-            return {
-              ...element,
-              id: index,
-            };
-          })
-        );
+        setStockData(formatStockData(res.data));
         setLoading(false);
       })
       .catch((error) => {
