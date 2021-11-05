@@ -1,4 +1,5 @@
-export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
+// export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
+export const BASE = "http://127.0.0.1:8000/";
 
 const ESSENTIALS = "essentials/";
 const CUSTOMER = "C";
