@@ -15,4 +15,8 @@ export const COLUMNS = [
     accessor: "quantity",
     Header: "Balance",
   },
+  {
+    accessor: "quantity_gazaana",
+    Header: "Balance (Gazaana)",
+  },
 ];
