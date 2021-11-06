@@ -32,10 +32,11 @@ const ViewAllStock = () => {
             let qOut = data[key].D || 0;
             newStockData.push({
               id: key,
-              product: `${element.head_name} ${element.label}`,
+              product: `${element.head_name} / ${element.label}`,
               quantity_in: qIn,
               quantity_out: qOut,
               quantity: qIn - qOut,
+              quantity_gazaana: (qIn - qOut) * element.basic_unit,
             });
             return;
           }
