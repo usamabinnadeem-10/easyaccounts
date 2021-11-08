@@ -6,11 +6,16 @@ import { takeLatest } from "redux-saga/effects";
 import * as actionTypes from "./actionTypes";
 import * as actions from "./actions";
 import * as api from "./api";
-import { formatTransactionData, isTransactionAvailable } from "./utils";
+import {
+  formatTransactionData,
+  isTransactionAvailable,
+  formatAllStock,
+} from "./utils";
 
 function* transactionSagas() {
   yield all([
     takeLatest(actionTypes.GET_SINGLE_TRANSACTION, getSingleTransactionSaga),
+    takeLatest(actionTypes.GET_ALL_STOCK, getAllStockSaga),
   ]);
 }
 
@@ -31,4 +36,12 @@ function* getSingleTransactionSaga(action) {
     }
   } catch (error) {}
 }
+
+function* getAllStockSaga(action) {
+  try {
+    let response = yield call(api.getAllStock);
+    yield put(actions.getAllStockSuccess(formatAllStock(response.data)));
+  } catch (error) {}
+}
+
 export default transactionSagas;

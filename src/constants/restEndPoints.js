@@ -30,6 +30,7 @@ export const TRANSACTION_URLS = {
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
   ALL_STOCK: `${TRANSACTION}product-quantity/all/`,
+  ALL_STOCK_BY_WAREHOUSE: `${TRANSACTION}product-quantity-by-warehouse/all/`,
 };
 
 const LEDGER = "ledger/";

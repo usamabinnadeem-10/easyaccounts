@@ -66,3 +66,30 @@ export const formatTransactionData = (
     ),
   };
 };
+
+export const formatAllStock = (data) => {
+  let stock = {};
+  data.forEach((element) => {
+    let currentProduct = element.product;
+    let currentWarehouse = element.warehouse;
+    let currentNature = element.transaction__nature;
+    let currentQuantity =
+      currentNature === "C" ? element.quantity__sum : -element.quantity__sum;
+    if (stock[currentProduct]) {
+      if (stock[currentProduct][currentWarehouse]) {
+        stock[currentProduct][currentWarehouse] =
+          stock[currentProduct][currentWarehouse] + currentQuantity;
+      } else {
+        stock[currentProduct] = {
+          ...stock[currentProduct],
+          [currentWarehouse]: currentQuantity,
+        };
+      }
+    } else {
+      stock[currentProduct] = {
+        [currentWarehouse]: currentQuantity,
+      };
+    }
+  });
+  return stock;
+};

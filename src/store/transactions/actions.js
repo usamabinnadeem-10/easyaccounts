@@ -19,3 +19,23 @@ export const addTransactionToStore = (data) => {
     payload: data,
   };
 };
+
+export const getAllStock = () => {
+  return {
+    type: actionTypes.GET_ALL_STOCK,
+  };
+};
+
+export const getAllStockSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_STOCK_SUCCESS,
+    payload: data,
+  };
+};
+
+export const setShouldFetch = (data) => {
+  return {
+    type: actionTypes.SET_SHOULD_FETCH,
+    payload: data,
+  };
+};

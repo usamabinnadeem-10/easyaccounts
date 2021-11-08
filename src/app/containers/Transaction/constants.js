@@ -28,6 +28,7 @@ export const DEFAULTS = {
   QUANTITY: "quantity",
   RATE: "rate",
   TOTAL: "total",
+  WAREHOUSE: "warehouse",
 };
 
 export const TEXT_ROWS = [

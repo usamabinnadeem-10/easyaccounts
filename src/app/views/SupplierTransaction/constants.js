@@ -5,11 +5,13 @@ export const TRANSACTION_TYPES = [
     name: "Purchase",
     value: "purchase",
     color: "success",
+    validate: false,
   },
   {
     name: "Maal Wapsi",
     value: "maal_wapsi",
     color: "info",
+    validate: true,
   },
 ];
 

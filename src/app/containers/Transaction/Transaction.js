@@ -2,6 +2,9 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+
 import { useHistory } from "react-router";
 
 import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
@@ -15,6 +18,10 @@ import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 
 import * as constants from "./constants";
+import {
+  getAllStock,
+  setShouldFetch,
+} from "../../../store/transactions/actions";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
 import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
@@ -41,6 +48,9 @@ const Transaction = (props) => {
 
   const classes = useStyles();
   const history = useHistory();
+  const dispatch = useDispatch();
+
+  const transactionStore = useSelector((state) => state.transactions);
 
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
@@ -77,6 +87,12 @@ const Transaction = (props) => {
       type: "text",
     },
   ];
+
+  useEffect(() => {
+    if (transactionStore.shouldFetchStock) {
+      dispatch(getAllStock());
+    }
+  }, []);
 
   useEffect(() => {
     let total = 0.0;
@@ -133,6 +149,39 @@ const Transaction = (props) => {
     });
   };
 
+  const isQuantityOkay = () => {
+    let copyTableData = JSON.parse(JSON.stringify(tableData));
+    var stock = JSON.parse(JSON.stringify(transactionStore.allStock));
+    for (let i = 0; i < copyTableData.length; i++) {
+      let currentQuantity = copyTableData[i][constants.DEFAULTS.QUANTITY];
+      let currentProduct = copyTableData[i][constants.DEFAULTS.COLOR];
+      let currentWarehouse = copyTableData[i][constants.DEFAULTS.WAREHOUSE];
+      let actualQuantity =
+        stock[currentProduct.value]?.[currentWarehouse.value];
+      if (!actualQuantity) {
+        return {
+          okay: false,
+          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} ${
+            currentProduct.si_unit
+          } of ${currentProduct.head_name} / ${currentProduct.label}`,
+        };
+      }
+      if (currentQuantity > actualQuantity) {
+        return {
+          okay: false,
+          error: `(check line ${i + 1}) ${
+            currentWarehouse.label
+          } has ${actualQuantity} ${currentProduct.si_unit} of ${
+            currentProduct.head_name
+          } / ${currentProduct.label}`,
+        };
+      }
+      stock[currentProduct.value][currentWarehouse.value] =
+        stock[currentProduct.value][currentWarehouse.value] - currentQuantity;
+    }
+    return { okay: true };
+  };
+
   // check if user is allowed to enter a new row to the transaction table
   const canAddRow = () => {
     let copyTableData = JSON.parse(JSON.stringify(tableData));
@@ -152,6 +201,17 @@ const Transaction = (props) => {
         return false;
       }
     }
+    let shouldValidate = transactionTypes.find(
+      (element) => element.value === selectedOptions.currentTransactionType
+    ).validate;
+    if (shouldValidate) {
+      let okay = isQuantityOkay();
+      if (!okay.okay) {
+        setErrorMessage(okay.error);
+        return false;
+      }
+    }
+
     return true;
   };
 
@@ -241,6 +301,12 @@ const Transaction = (props) => {
         return;
       }
     }
+    let okay = isQuantityOkay();
+    console.log(okay);
+    if (!okay.okay) {
+      openSnackbar(true, "error", okay.error);
+      return;
+    }
     setLoading(true);
     let transactionData = {
       nature: natures[selectedOptions.currentTransactionType],
@@ -279,6 +345,7 @@ const Transaction = (props) => {
           transactionData
         )
         .then((res) => {
+          dispatch(setShouldFetch(true));
           setLoading(false);
           redirect(res.data.id);
         })
@@ -290,6 +357,7 @@ const Transaction = (props) => {
       instance
         .post(TRANSACTION_URLS.CREATE_TRANSACTION, transactionData)
         .then((res) => {
+          dispatch(setShouldFetch(true));
           setLoading(false);
           redirect(res.data.id);
         })
