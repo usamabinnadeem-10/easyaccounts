@@ -63,6 +63,7 @@ const Transaction = (props) => {
   const [errorMessage, setErrorMessage] = useState(
     constants.ERROR_DEFAULTS.ROW_INCOMPLETE
   );
+  const [shouldValidate, setShouldValidate] = useState(true);
 
   const TRANSACTION_FOOTER = [
     {
@@ -87,6 +88,14 @@ const Transaction = (props) => {
       type: "text",
     },
   ];
+
+  useEffect(() => {
+    setShouldValidate(
+      transactionTypes.find(
+        (element) => element.value === selectedOptions.currentTransactionType
+      ).validate
+    );
+  }, [selectedOptions.currentTransactionType]);
 
   useEffect(() => {
     if (transactionStore.shouldFetchStock) {
@@ -201,9 +210,7 @@ const Transaction = (props) => {
         return false;
       }
     }
-    let shouldValidate = transactionTypes.find(
-      (element) => element.value === selectedOptions.currentTransactionType
-    ).validate;
+
     if (shouldValidate) {
       let okay = isQuantityOkay();
       if (!okay.okay) {
@@ -301,12 +308,15 @@ const Transaction = (props) => {
         return;
       }
     }
-    let okay = isQuantityOkay();
-    console.log(okay);
-    if (!okay.okay) {
-      openSnackbar(true, "error", okay.error);
-      return;
+
+    if (shouldValidate) {
+      let okay = isQuantityOkay();
+      if (!okay.okay) {
+        openSnackbar(true, "error", okay.error);
+        return;
+      }
     }
+
     setLoading(true);
     let transactionData = {
       nature: natures[selectedOptions.currentTransactionType],

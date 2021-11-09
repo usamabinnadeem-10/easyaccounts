@@ -31,6 +31,10 @@ export const getMeta = (transaction, dontFetch) => {
       value: transaction[DB.DETAIL],
       label: "Detail:",
     },
+    {
+      value: transaction.quantity,
+      label: "Total Thaan:",
+    },
   ];
 
   if (transaction[DB.PAID_AMOUNT]) {

@@ -16,6 +16,24 @@ export const isTransactionAvailable = (transactions, transactionID) => {
   }
 };
 
+const calculateQuantitites = (details, essentials) => {
+  let q = 0;
+  details.forEach((detail) => {
+    let product = findProduct(
+      detail.product,
+      essentials.products,
+      essentials.productHeads,
+      true
+    );
+    if (product.si_unit === "piece") {
+      q = q + detail.quantity;
+    } else {
+      q++;
+    }
+  });
+  return q;
+};
+
 const formatTransactionDetail = (
   details,
   products,
@@ -52,6 +70,7 @@ export const formatTransactionData = (
   );
   return {
     ...transaction,
+    quantity: calculateQuantitites(transaction.transaction_detail, essentials),
     [DB.PAID_AMOUNT]: paidAmount,
     [DB.ACCOUNT_TYPE]: accountType
       ? findAccountType(accountType.id, essentials.accountTypes).label
