@@ -35,7 +35,7 @@ const ViewAllStock = () => {
               product: `${element.head_name} / ${element.label}`,
               quantity_in: qIn,
               quantity_out: qOut,
-              quantity: qIn - qOut,
+              quantity: `${qIn - qOut} ${element.si_unit}`,
               quantity_gazaana: (qIn - qOut) * element.basic_unit,
             });
             return;

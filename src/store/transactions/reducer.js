@@ -3,6 +3,8 @@ import * as actionTypes from "./actionTypes";
 const initialState = {
   transactions: [],
   fetched: false,
+  allStock: {},
+  shouldFetchStock: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -26,6 +28,17 @@ const reducer = (state = initialState, action) => {
         ...state,
         transactions: transactionsNew,
         fetched: true,
+      };
+    case actionTypes.GET_ALL_STOCK_SUCCESS:
+      return {
+        ...state,
+        allStock: action.payload,
+        shouldFetchStock: false,
+      };
+    case actionTypes.SET_SHOULD_FETCH:
+      return {
+        ...state,
+        shouldFetchStock: action.payload,
       };
     default:
       return state;

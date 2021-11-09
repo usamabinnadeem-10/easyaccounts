@@ -6,16 +6,19 @@ export const TRANSACTION_TYPES = [
     value: "paid",
     color: "success",
     accountTypes: true,
+    validate: true,
   },
   {
     name: "Credit",
     value: "credit",
     color: "error",
+    validate: true,
   },
   {
     name: "Maal Wapsi",
     value: "maal_wapsi",
     color: "info",
+    validate: false,
   },
 ];
 

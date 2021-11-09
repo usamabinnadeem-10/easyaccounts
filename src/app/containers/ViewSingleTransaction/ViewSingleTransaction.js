@@ -17,6 +17,8 @@ import { useStyles } from "./styles";
 
 import PrintIcon from "@mui/icons-material/Print";
 
+import { findProduct } from "../../views/LedgerTransaction/utils";
+
 import {
   getSingleTransaction,
   setFetchedFalse,
@@ -44,6 +46,24 @@ function ViewSingleTransaction({
   const state = useSelector((state) => state.essentials);
   const transactions = useSelector((state) => state.transactions);
 
+  const calculateQuantities = (details) => {
+    let q = 0;
+    details.forEach((detail) => {
+      let product = findProduct(
+        detail.product,
+        state.products,
+        state.productHeads,
+        true
+      );
+      if (product.si_unit === "piece") {
+        q = q + detail.quantity;
+      } else {
+        q++;
+      }
+    });
+    return q;
+  };
+
   const formatTransactionDetails = (details) => {
     let newDetails = [];
     details.forEach((detail) => {
@@ -70,6 +90,9 @@ function ViewSingleTransaction({
     } else {
       setTransaction({
         ...transactionData.transaction,
+        quantity: calculateQuantities(
+          transactionData.transaction.transaction_detail
+        ),
         [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
           transactionData.transaction.transaction_detail
         ),
@@ -132,7 +155,7 @@ function ViewSingleTransaction({
               {getMeta(transaction, dontFetch).map((field, index) => {
                 return (
                   <div key={index} className={classes.metaItem}>
-                    <Typography variant="subtitle2" sx={{ width: 100 }}>
+                    <Typography variant="subtitle2" sx={{ width: 110 }}>
                       {field.label}
                     </Typography>
                     <Typography

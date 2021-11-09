@@ -9,3 +9,7 @@ export const getSingleTransactionApi = (transactionID) => {
     getURL(TRANSACTION_URLS.GET_TRANSACTION, "uuid", transactionID)
   );
 };
+
+export const getAllStock = () => {
+  return instance.get(TRANSACTION_URLS.ALL_STOCK_BY_WAREHOUSE);
+};
