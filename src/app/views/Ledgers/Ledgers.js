@@ -94,8 +94,9 @@ function Ledgers({ daybookView, defaultLedgers }) {
     instance
       .get(URL)
       .then((res) => {
+        console.log(res.data)
         setledgerData(
-          formatLedgerData(res.data.ledger_data, res.data.opening_balance)
+          formatLedgerData(res.data.results, res.data.opening_balance)
         );
         setLoading(false);
         setStartDate(null);

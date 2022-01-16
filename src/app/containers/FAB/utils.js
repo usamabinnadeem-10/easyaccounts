@@ -3,7 +3,6 @@ import {
   ADD_PRODUCT_FORM,
   ADD_CUSTOMER_FORM,
   ADD_WAREHOUSE_FORM,
-  getProductColorForm,
   getExpenseForm,
   ADD_ACCOUNT_TYPE_FORM,
   ADD_EXPENSE_ACCOUNT_FORM,
@@ -23,8 +22,6 @@ export const chooseModal = (name, state) => {
       return getExpenseForm(state.expenseAccounts, state.accountTypes);
     case DEFAULTS.ADD_ACOUNT_TYPE:
       return ADD_ACCOUNT_TYPE_FORM;
-    case DEFAULTS.ADD_PRODUCT_COLOR:
-      return getProductColorForm(state.productHeads);
     default:
       return [];
   }

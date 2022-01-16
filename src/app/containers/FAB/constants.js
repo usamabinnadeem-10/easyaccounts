@@ -5,7 +5,6 @@ import { Inventory2 } from "@mui/icons-material";
 import { Home } from "@mui/icons-material";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import ColorLensIcon from "@mui/icons-material/ColorLens";
 import MoneyIcon from "@mui/icons-material/Money";
 
 import {
@@ -21,8 +20,7 @@ import * as actions from "../../../store/essentials/actions";
 
 export const DEFAULTS = {
   ADD_CUSTOMER: "Add Customer / Supplier",
-  ADD_PRODUCT: "Add Product Head",
-  ADD_PRODUCT_COLOR: "Add Product Color",
+  ADD_PRODUCT: "Add Product",
   ADD_WAREHOUSE: "Add Warehouse",
   ADD_EXPENSE_ACCOUNT: "Add Expense Account",
   ADD_EXPENSE: "Add Expense Entry",
@@ -41,10 +39,6 @@ export const ACTION_FABS = [
   {
     icon: <Inventory2 />,
     tooltip: DEFAULTS.ADD_PRODUCT,
-  },
-  {
-    icon: <ColorLensIcon />,
-    tooltip: DEFAULTS.ADD_PRODUCT_COLOR,
   },
   {
     icon: <Home />,
@@ -119,20 +113,7 @@ export const ADD_CUSTOMER_FORM = {
   ],
 };
 
-export const ADD_PRODUCT_FORM = {
-  heading: "Add Product Head",
-  action: actions.addNewProductHead,
-  formData: [
-    {
-      label: "Head Name",
-      type: FIELDS.STRING,
-      name: DB.HEAD_NAME,
-      required: true,
-    },
-  ],
-};
-
-const COLOR_OPTIONS = [
+const PRODUCT_OPTIONS = [
   {
     label: "Pieces",
     value: "piece",
@@ -142,6 +123,32 @@ const COLOR_OPTIONS = [
     value: "yards",
   },
 ];
+
+export const ADD_PRODUCT_FORM = {
+  heading: "Add Product",
+  action: actions.addNewProduct,
+  formData: [
+    {
+      label: "Product Name",
+      type: FIELDS.STRING,
+      name: DB.NAME,
+      required: true,
+    },
+    {
+      label: "Basic Quantity",
+      type: FIELDS.NUMBER,
+      name: DB.BASIC_UNIT,
+      required: true,
+    },
+    {
+      label: "Unit",
+      type: FIELDS.SELECT,
+      name: DB.SI_UNIT,
+      options: PRODUCT_OPTIONS,
+      required: true,
+    },
+  ],
+};
 
 export const ADD_WAREHOUSE_FORM = {
   heading: "Add Warehouse",
@@ -185,41 +192,6 @@ export const ADD_EXPENSE_ACCOUNT_FORM = {
       required: true,
     },
   ],
-};
-
-export const getProductColorForm = (options) => {
-  return {
-    heading: "Add Product Color",
-    action: actions.addNewProduct,
-    formData: [
-      {
-        label: "Head Name",
-        type: FIELDS.SELECT,
-        name: DB.PRODUCT_HEAD,
-        options: options,
-        required: true,
-      },
-      {
-        label: "Color Name",
-        type: FIELDS.STRING,
-        name: DB.PRODUCT_COLOR,
-        required: true,
-      },
-      {
-        label: "Basic Quantity",
-        type: FIELDS.NUMBER,
-        name: DB.BASIC_UNIT,
-        required: true,
-      },
-      {
-        label: "Unit",
-        type: FIELDS.SELECT,
-        name: DB.SI_UNIT,
-        options: COLOR_OPTIONS,
-        required: true,
-      },
-    ],
-  };
 };
 
 export const getExpenseForm = (expenseAccounts, accountTypes) => {

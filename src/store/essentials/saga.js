@@ -13,7 +13,6 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_ACCOUNT_TYPE, addNewAccountTypeSaga),
     takeLatest(actionTypes.ADD_NEW_PERSON, addNewPersonSaga),
     takeLatest(actionTypes.ADD_NEW_WAREHOUSE, addNewWarehouseSaga),
-    takeLatest(actionTypes.ADD_NEW_PRODUCT_HEAD, addNewProductHeadSaga),
     takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
     takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
@@ -33,9 +32,6 @@ function* getAllEssentialsSaga() {
 
     response = yield call(api.getSuppliersApi);
     yield put(actions.getAllSuppliersSuccess(response.data));
-
-    response = yield call(api.getProductHeadApi);
-    yield put(actions.getAllProductHeadSuccess(response.data));
 
     response = yield call(api.getProductApi);
     yield put(actions.getAllProductSuccess(response.data));
@@ -64,11 +60,6 @@ function* addNewPersonSaga(action) {
 function* addNewWarehouseSaga(action) {
   let response = yield call(api.addWarehouseApi, action.payload);
   yield put(actions.addNewWarehouseSuccess(response.data));
-}
-
-function* addNewProductHeadSaga(action) {
-  let response = yield call(api.addProductHeadApi, action.payload);
-  yield put(actions.addNewProductHeadSuccess(response.data));
 }
 
 function* addNewExpenseAccountSaga(action) {

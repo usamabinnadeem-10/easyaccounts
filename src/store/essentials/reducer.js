@@ -74,15 +74,15 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:
-      const products = renameKeys(
-        "id",
-        "value",
-        renameKeys("color_name", "label", action.payload)
-      );
-      const grouped = groupByField(products, "product_head");
+      // const products = renameKeys(
+      //   "id",
+      //   "value",
+      //   renameKeys("color_name", "label", action.payload)
+      // );
+      // const grouped = groupByField(products, "product_head");
       return {
         ...state,
-        products: grouped,
+        products: action.payload,
       };
 
     case actionTypes.GET_ALL_WAREHOUSE_SUCCESS:

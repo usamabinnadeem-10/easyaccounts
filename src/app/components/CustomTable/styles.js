@@ -29,5 +29,5 @@ export const useStyles = makeStyles({
   hover: {
     cursor: "pointer",
   },
-  pre: { whiteSpace: "pre" },
+  pre: { whiteSpace: "break-spaces" },
 });
