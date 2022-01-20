@@ -6,6 +6,8 @@ import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
 
+import {Typography} from '@mui/material';
+
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
@@ -34,6 +36,7 @@ function Ledgers({ daybookView, defaultLedgers }) {
   const formatLedgerData = (data, opening) => {
     let ledger = [];
     let balance = opening;
+    data.reverse();
     data.forEach((element) => {
       let amount = element.amount;
       let nature = element.nature;
@@ -49,7 +52,7 @@ function Ledgers({ daybookView, defaultLedgers }) {
         balance: balance,
       });
     });
-    return ledger;
+    return ledger.reverse();
   };
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
@@ -59,6 +62,8 @@ function Ledgers({ daybookView, defaultLedgers }) {
   const [ledgerData, setledgerData] = useState(
     daybookView ? formatLedgerData(defaultLedgers) : []
   );
+  const [openingBalance, setOpeningBalance] = useState(0);
+  const [closingBalance, setClosingBalance] = useState(0);
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
 
@@ -94,10 +99,10 @@ function Ledgers({ daybookView, defaultLedgers }) {
     instance
       .get(URL)
       .then((res) => {
-        console.log(res.data)
-        setledgerData(
-          formatLedgerData(res.data.results, res.data.opening_balance)
-        );
+        let ledgerDataFormatted = formatLedgerData(res.data.results, res.data.opening_balance)
+        setledgerData(ledgerDataFormatted);
+        setOpeningBalance(res.data.opening_balance);
+        setClosingBalance(ledgerDataFormatted[0].balance);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -176,7 +181,8 @@ function Ledgers({ daybookView, defaultLedgers }) {
           />
         </div>
       )}
-
+      <Typography fontWeight='bold'>Opening Balance: {`${openingBalance}${openingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
+      <Typography fontWeight='bold'>Closing Balance: {`${closingBalance}${closingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail

@@ -89,6 +89,7 @@ const Transaction = (props) => {
     },
   ];
 
+  // check if the quantity needs to be validated when adding or finalizing transaction
   useEffect(() => {
     setShouldValidate(
       transactionTypes.find(
@@ -162,6 +163,7 @@ const Transaction = (props) => {
     });
   };
 
+  // test if quantity of line items is valid
   const isQuantityOkay = () => {
     let copyTableData = JSON.parse(JSON.stringify(tableData));
     var stock = JSON.parse(JSON.stringify(transactionStore.allStock));
@@ -170,16 +172,17 @@ const Transaction = (props) => {
       let currentQuantity = copyTableData[i][constants.DEFAULTS.QUANTITY];
       let currentProduct = copyTableData[i][constants.DEFAULTS.PRODUCT];
       let currentWarehouse = copyTableData[i][constants.DEFAULTS.WAREHOUSE];
+      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA]
       let actualQuantityIndex = stock.findIndex((value) => {
-        return value.product === currentProduct.value && value.warehouse === currentWarehouse.value;
+        return value.product === currentProduct.value &&
+        value.warehouse === currentWarehouse.value
+        && value.yards_per_piece === currentGazaana;
       });
       let actualQuantity = stock[actualQuantityIndex]?.stock_quantity;
       if (!actualQuantity) {
         return {
           okay: false,
-          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} ${
-            currentProduct.si_unit
-          } of ${currentProduct.label}`,
+          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} thaan of ${currentProduct.label} ${currentGazaana} gaz`,
         };
       }
       if (currentQuantity > actualQuantity) {
@@ -187,7 +190,7 @@ const Transaction = (props) => {
           okay: false,
           error: `(check line ${i + 1}) ${
             currentWarehouse.label
-          } has ${actualQuantity} ${currentProduct.si_unit} of ${currentProduct.label}`,
+          } has ${actualQuantity} thaan ${actualQuantity} gaz of ${currentProduct.label}`,
         };
       }
       stock[actualQuantityIndex].stock_quantity -= currentQuantity;

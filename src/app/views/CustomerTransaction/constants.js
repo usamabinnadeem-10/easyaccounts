@@ -56,14 +56,14 @@ export const TABLE_META = [
   {
     field: FIELDS.NUMBER,
     default: 0,
-    name: "Gazaana",
+    name: "Rate",
     optional: false,
     readOnly: false,
   },
   {
-    field: FIELDS.NUMBER,
+    field: FIELDS.SELECT,
     default: 0,
-    name: "Rate",
+    name: "Gazaana",
     optional: false,
     readOnly: false,
   },
