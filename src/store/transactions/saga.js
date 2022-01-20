@@ -40,7 +40,7 @@ function* getSingleTransactionSaga(action) {
 function* getAllStockSaga(action) {
   try {
     let response = yield call(api.getAllStock);
-    yield put(actions.getAllStockSuccess(formatAllStock(response.data)));
+    yield put(actions.getAllStockSuccess(response.data));
   } catch (error) {}
 }
 

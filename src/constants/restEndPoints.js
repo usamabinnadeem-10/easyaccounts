@@ -22,6 +22,7 @@ export const ESSENTIAL_URLS = {
     PERSON: `${ESSENTIALS}product/${CREATE}`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
+  ALL_STOCK: `${ESSENTIALS}stock-quantity/`,
 };
 
 const EXPENSE = "expense/";
@@ -42,8 +43,6 @@ export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
-  ALL_STOCK: `${TRANSACTION}product-quantity/all/`,
-  ALL_STOCK_BY_WAREHOUSE: `${TRANSACTION}product-quantity-by-warehouse/all/`,
 };
 
 const LEDGER = "ledger/";
