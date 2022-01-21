@@ -9,15 +9,11 @@ import { useParams } from "react-router";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomTable from "../../components/CustomTable/CustomTable";
 
-import { Tooltip } from "@mui/material";
-import { IconButton } from "@mui/material";
-import { Avatar } from "@mui/material";
+// import { Tooltip } from "@mui/material";
+// import { IconButton } from "@mui/material";
+// import { Avatar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useStyles } from "./styles";
-
-import PrintIcon from "@mui/icons-material/Print";
-
-import { findProduct } from "../../views/LedgerTransaction/utils";
 
 import {
   getSingleTransaction,
@@ -27,7 +23,9 @@ import {
 import { getMeta } from "./utils";
 import { DB } from "../../../constants/db";
 import { COLUMNS } from "./constants";
-import { print } from "../../../utils/print";
+import {findItemInArray} from "../../../utils/arrayUtils";
+
+// import { print } from "../../../utils/print";
 
 function ViewSingleTransaction({
   transactionID,
@@ -46,37 +44,30 @@ function ViewSingleTransaction({
   const state = useSelector((state) => state.essentials);
   const transactions = useSelector((state) => state.transactions);
 
-  const calculateQuantities = (details) => {
-    let q = 0;
-    details.forEach((detail) => {
-      let product = findProduct(
-        detail.product,
-        state.products,
-        state.productHeads,
-        true
-      );
-      if (product.si_unit === "piece") {
-        q = q + detail.quantity;
-      } else {
-        q++;
-      }
-    });
-    return q;
-  };
-
   const formatTransactionDetails = (details) => {
     let newDetails = [];
     details.forEach((detail) => {
       newDetails.push({
         ...detail,
-        [DB.WAREHOUSE]: detail[DB.WAREHOUSE_NAME],
-        [DB.PRODUCT]: `${detail[DB.PRODUCT_HEAD]} / ${
-          detail[DB.PRODUCT_COLOR]
-        }`,
+        [DB.WAREHOUSE]: findItemInArray(detail[DB.WAREHOUSE], state.warehouses, 'value').label,
+        [DB.PRODUCT]: findItemInArray(detail[DB.PRODUCT], state.products, 'value').label,
       });
     });
     return newDetails;
   };
+
+  const formatTransaction = (transaction) => {
+    return {
+      ...transaction,
+      quantity: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + currentValue.quantity, 0),
+      gazaana: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + (currentValue.quantity * currentValue.yards_per_piece), 0),
+      [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
+        transaction.transaction_detail
+      ),
+      [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE]?.name,
+      [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
+    }
+  }
 
   useEffect(() => {
     if (!dontFetch) {
@@ -88,17 +79,7 @@ function ViewSingleTransaction({
         })
       );
     } else {
-      setTransaction({
-        ...transactionData.transaction,
-        quantity: calculateQuantities(
-          transactionData.transaction.transaction_detail
-        ),
-        [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
-          transactionData.transaction.transaction_detail
-        ),
-        [DB.ACCOUNT_TYPE]: transactionData[DB.ACCOUNT_TYPE]?.name,
-        [DB.PAID_AMOUNT]: transactionData[DB.PAID_AMOUNT],
-      });
+      setTransaction(formatTransaction(transactionData));
       setLoading(false);
     }
     return () => {
@@ -109,10 +90,11 @@ function ViewSingleTransaction({
   useEffect(() => {
     if (!dontFetch) {
       if (transactions.fetched) {
+        console.log(transactions);
         let current = transactions.transactions.filter(
           (element) => element.id === ID
         )[0];
-        setTransaction(current);
+        setTransaction(formatTransaction(current));
         let amount = 0.0;
         current.transaction_detail.forEach(
           (element) => (amount += element.amount)
@@ -122,7 +104,7 @@ function ViewSingleTransaction({
       }
     } else {
       let amount = 0.0;
-      transactionData.transaction.transaction_detail.forEach(
+      transactionData.transaction_detail.forEach(
         (element) => (amount += element.amount)
       );
       setTotal(amount);
@@ -152,7 +134,7 @@ function ViewSingleTransaction({
             className={`${classes.transactionWrapper} ${uuid && classes.wider}`}
           >
             <div className={classes.meta}>
-              {getMeta(transaction, dontFetch).map((field, index) => {
+              {getMeta(transaction, state).map((field, index) => {
                 return (
                   <div key={index} className={classes.metaItem}>
                     <Typography variant="subtitle2" sx={{ width: 110 }}>

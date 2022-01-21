@@ -24,13 +24,13 @@ function* getSingleTransactionSaga(action) {
     let data = action.payload;
     if (!isTransactionAvailable(data.transactions, data.id)) {
       let response = yield call(api.getSingleTransactionApi, data.id);
-      response = formatTransactionData(
-        response.data.transaction,
-        response.data.account_type,
-        response.data.paid_amount,
-        data.essentials
-      );
-      yield put(actions.addTransactionToStore(response));
+      // response = formatTransactionData(
+      //   response.data.transaction,
+      //   response.data.account_type,
+      //   response.data.paid_amount,
+      //   data.essentials
+      // );
+      yield put(actions.addTransactionToStore(response.data));
     } else {
       yield put(actions.addTransactionToStore());
     }

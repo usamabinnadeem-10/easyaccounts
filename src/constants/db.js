@@ -33,6 +33,7 @@ export const DB = {
   WAREHOUSE_NAME: "warehouse_name",
   PERSON_NAME: "person_name",
   BALANCE: "balance",
+  GAZAANA: "yards_per_piece",
 };
 
 export const DB_TRANSLATION = {
@@ -44,4 +45,5 @@ export const DB_TRANSLATION = {
   [DB.WAREHOUSE]: "Warehouse",
   [DB.AMOUNT]: "Amount",
   [DB.DATE]: "Date",
+  [DB.GAZAANA]: "Gazaana",
 };

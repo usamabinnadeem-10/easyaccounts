@@ -1,26 +1,25 @@
 import { DB, DB_TRANSLATION } from "../../../constants/db";
 
-export const getMeta = (transaction, dontFetch) => {
+import {findItemInArray} from "../../../utils/arrayUtils";
+
+export const getMeta = (transaction, essentials) => {
+  let person = findItemInArray(transaction[DB.PERSON], essentials.customers, 'value') ||
+  findItemInArray(transaction[DB.PERSON], essentials.suppliers, 'value');
   let data = [
     {
       value: transaction[DB.SERIAL],
       label: "Invoice #",
     },
-    dontFetch
-      ? {
-          value: transaction[DB.PERSON_NAME],
-          label: `${DB_TRANSLATION[transaction[DB.PERSON_TYPE]]}:`,
-        }
-      : {
-          value: transaction[DB.PERSON],
-          label: `${DB_TRANSLATION[transaction[DB.PERSON_TYPE]]}:`,
-        },
+    {
+      value: person.label,
+      label: `${DB_TRANSLATION[person.person_type]}:`,
+    },
     {
       value: transaction[DB.DATE],
       label: "Date:",
     },
     {
-      value: transaction[DB.TYPE].replace("_", " "),
+      value: transaction[DB.TYPE]?.replace("_", " "),
       label: "Nature:",
     },
     {
@@ -34,6 +33,10 @@ export const getMeta = (transaction, dontFetch) => {
     {
       value: transaction.quantity,
       label: "Total Thaan:",
+    },
+    {
+      value: transaction.gazaana,
+      label: "Total Gazaana:",
     },
   ];
 

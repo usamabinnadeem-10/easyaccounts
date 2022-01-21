@@ -38,14 +38,15 @@ function ViewTransactions({ daybookView, defaultTransactions }) {
     let transactions = [];
     data.forEach((element) => {
       let total = 0.0;
-      element.transaction.transaction_detail.forEach((detail) => {
+      element.transaction_detail.forEach((detail) => {
         total += detail.amount;
       });
       transactions.push({
-        ...element.transaction,
+        ...element,
         total: total,
       });
     });
+    console.log(transactions);
     return transactions;
   };
 
@@ -107,8 +108,8 @@ function ViewTransactions({ daybookView, defaultTransactions }) {
     instance
       .get(URL)
       .then((res) => {
-        setTransactionData(formatTransactionData(res.data));
-        setTransactionDataRaw(res.data);
+        setTransactionData(formatTransactionData(res.data.results));
+        setTransactionDataRaw(res.data.results);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -125,7 +126,7 @@ function ViewTransactions({ daybookView, defaultTransactions }) {
 
   const onRowClick = (id) => {
     let transaction = transactionDataRaw.filter(
-      (element) => element.transaction.id === id
+      (element) => element.id === id
     )[0];
     setCurrentTransaction(transaction);
     setShowDrawer(true);

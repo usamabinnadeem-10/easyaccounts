@@ -14,6 +14,10 @@ export const COLUMNS = [
     Header: DB_TRANSLATION[DB.QUANTITY],
   },
   {
+    accessor: DB.GAZAANA,
+    Header: DB_TRANSLATION[DB.GAZAANA],
+  },
+  {
     accessor: DB.WAREHOUSE,
     Header: DB_TRANSLATION[DB.WAREHOUSE],
   },
