@@ -59,13 +59,7 @@ function TransactionTableBody(props) {
                             column.name.toLowerCase()
                           )
                         }
-                        options={
-                          column.name.toLowerCase() !== constants.DEFAULTS.COLOR
-                            ? options[column.name.toLowerCase()]
-                            : tableData[rowIndex].product
-                            ? options.color[tableData[rowIndex].product.value]
-                            : []
-                        }
+                        options={options[column.name.toLowerCase()]}
                       />
                     </TableCell>
                   );

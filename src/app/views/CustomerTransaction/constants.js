@@ -43,12 +43,6 @@ export const TABLE_META = [
   {
     field: FIELDS.SELECT,
     default: null,
-    name: "Color",
-    optional: false,
-  },
-  {
-    field: FIELDS.SELECT,
-    default: null,
     name: "Warehouse",
     optional: false,
   },
@@ -67,6 +61,13 @@ export const TABLE_META = [
     readOnly: false,
   },
   {
+    field: FIELDS.SELECT,
+    default: 0,
+    name: "Gazaana",
+    optional: false,
+    readOnly: false,
+  },
+  {
     field: FIELDS.NUMBER,
     default: 0,
     name: "Total",
@@ -77,12 +78,12 @@ export const TABLE_META = [
 
 export const DEFAULT_ROW = {
   selected: false,
-  color: null,
   product: null,
   warehouse: null,
   quantity: 0,
   rate: 0,
   total: 0,
+  gazaana: 0,
 };
 
 export const META_CONSTANTS = {

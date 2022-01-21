@@ -60,8 +60,7 @@ function SupplierTransaction() {
         options={{
           people: state.suppliers,
           warehouse: state.warehouses,
-          color: state.products,
-          product: state.productHeads,
+          product: state.products,
         }}
         selectedOptions={{
           currentPerson: metaData.user,

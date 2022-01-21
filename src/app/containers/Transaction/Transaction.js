@@ -89,6 +89,7 @@ const Transaction = (props) => {
     },
   ];
 
+  // check if the quantity needs to be validated when adding or finalizing transaction
   useEffect(() => {
     setShouldValidate(
       transactionTypes.find(
@@ -97,12 +98,14 @@ const Transaction = (props) => {
     );
   }, [selectedOptions.currentTransactionType]);
 
+  // fetch all stock from backend
   useEffect(() => {
     if (transactionStore.shouldFetchStock) {
       dispatch(getAllStock());
     }
   }, []);
 
+  // set grand total of transaction
   useEffect(() => {
     let total = 0.0;
     tableData.forEach((row) => {
@@ -111,6 +114,7 @@ const Transaction = (props) => {
     setTotal(total - discount);
   }, [tableData, discount]);
 
+  // fill transaction for editing
   useEffect(() => {
     transactionDetails?.length &&
       transaction &&
@@ -128,6 +132,7 @@ const Transaction = (props) => {
         product: lastRow?.product ?? null,
         quantity: lastRow?.quantity ?? 0,
         warehouse: lastRow?.warehouse ?? null,
+        gazaana: lastRow?.gazaana ?? null,
         rate: lastRow?.rate ?? 0,
         total: lastRow?.total ?? 0,
       };
@@ -158,21 +163,26 @@ const Transaction = (props) => {
     });
   };
 
+  // test if quantity of line items is valid
   const isQuantityOkay = () => {
     let copyTableData = JSON.parse(JSON.stringify(tableData));
     var stock = JSON.parse(JSON.stringify(transactionStore.allStock));
+
     for (let i = 0; i < copyTableData.length; i++) {
       let currentQuantity = copyTableData[i][constants.DEFAULTS.QUANTITY];
-      let currentProduct = copyTableData[i][constants.DEFAULTS.COLOR];
+      let currentProduct = copyTableData[i][constants.DEFAULTS.PRODUCT];
       let currentWarehouse = copyTableData[i][constants.DEFAULTS.WAREHOUSE];
-      let actualQuantity =
-        stock[currentProduct.value]?.[currentWarehouse.value];
+      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA]
+      let actualQuantityIndex = stock.findIndex((value) => {
+        return value.product === currentProduct.value &&
+        value.warehouse === currentWarehouse.value
+        && value.yards_per_piece === currentGazaana;
+      });
+      let actualQuantity = stock[actualQuantityIndex]?.stock_quantity;
       if (!actualQuantity) {
         return {
           okay: false,
-          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} ${
-            currentProduct.si_unit
-          } of ${currentProduct.head_name} / ${currentProduct.label}`,
+          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} thaan of ${currentProduct.label} ${currentGazaana} gaz`,
         };
       }
       if (currentQuantity > actualQuantity) {
@@ -180,13 +190,10 @@ const Transaction = (props) => {
           okay: false,
           error: `(check line ${i + 1}) ${
             currentWarehouse.label
-          } has ${actualQuantity} ${currentProduct.si_unit} of ${
-            currentProduct.head_name
-          } / ${currentProduct.label}`,
+          } has ${actualQuantity} thaan ${actualQuantity} gaz of ${currentProduct.label}`,
         };
       }
-      stock[currentProduct.value][currentWarehouse.value] =
-        stock[currentProduct.value][currentWarehouse.value] - currentQuantity;
+      stock[actualQuantityIndex].stock_quantity -= currentQuantity;
     }
     return { okay: true };
   };
@@ -241,18 +248,19 @@ const Transaction = (props) => {
     newState[index] = {
       ...newState[index],
       [column]: val,
-      color:
-        column === constants.DEFAULTS.PRODUCT
-          ? null
-          : column === constants.DEFAULTS.COLOR
-          ? val
-          : newState[index][constants.DEFAULTS.COLOR],
     };
     let row = newState[index];
     row[constants.DEFAULTS.TOTAL] =
       row[constants.DEFAULTS.RATE] *
         row[constants.DEFAULTS.QUANTITY] *
-        row[constants.DEFAULTS.COLOR]?.["basic_unit"] || 0;
+        (
+          row[constants.DEFAULTS.GAZAANA] ||
+          row[constants.DEFAULTS.PRODUCT]?.["basic_unit"]
+        )
+        || 0;
+    if (column === constants.DEFAULTS.PRODUCT) {
+      row.gazaana = row.product.basic_unit
+    }
     setTableData(newState);
   };
 
@@ -329,7 +337,8 @@ const Transaction = (props) => {
         return {
           id: data.id,
           new: data.new,
-          product: data.color.value,
+          product: data.product.value,
+          yards_per_piece: data.gazaana,
           quantity: data.quantity,
           rate: data.rate,
           warehouse: data.warehouse.value,

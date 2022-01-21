@@ -63,8 +63,7 @@ function CustomerTransaction() {
           people: state.customers,
           accountTypes: state.accountTypes,
           warehouse: state.warehouses,
-          color: state.products,
-          product: state.productHeads,
+          product: state.products,
         }}
         selectedOptions={{
           currentPerson: metaData.user,

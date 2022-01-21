@@ -29,6 +29,7 @@ export const DEFAULTS = {
   RATE: "rate",
   TOTAL: "total",
   WAREHOUSE: "warehouse",
+  GAZAANA: "gazaana",
 };
 
 export const TEXT_ROWS = [
@@ -42,7 +43,7 @@ export const TEXT_ROWS = [
 
 export const DEFAULT_ROW = {
   selected: false,
-  color: null,
+  gazaana: 0,
   product: null,
   quantity: 0,
   rate: 0,
