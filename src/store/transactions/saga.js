@@ -6,11 +6,7 @@ import { takeLatest } from "redux-saga/effects";
 import * as actionTypes from "./actionTypes";
 import * as actions from "./actions";
 import * as api from "./api";
-import {
-  formatTransactionData,
-  isTransactionAvailable,
-  formatAllStock,
-} from "./utils";
+
 
 function* transactionSagas() {
   yield all([
@@ -21,19 +17,8 @@ function* transactionSagas() {
 
 function* getSingleTransactionSaga(action) {
   try {
-    let data = action.payload;
-    if (!isTransactionAvailable(data.transactions, data.id)) {
-      let response = yield call(api.getSingleTransactionApi, data.id);
-      // response = formatTransactionData(
-      //   response.data.transaction,
-      //   response.data.account_type,
-      //   response.data.paid_amount,
-      //   data.essentials
-      // );
-      yield put(actions.addTransactionToStore(response.data));
-    } else {
-      yield put(actions.addTransactionToStore());
-    }
+    let response = yield call(api.getSingleTransactionApi, action.payload);
+    yield put(actions.addTransactionToStore(response.data));
   } catch (error) {}
 }
 

@@ -1,29 +1,7 @@
 import { FIELDS } from "../../../constants/fieldTypes";
 
-export const TABLE_HEAD = [
-  {
-    headerName: "Select",
-  },
-  {
-    headerName: "Product",
-  },
-  {
-    headerName: "Color",
-  },
-  {
-    headerName: "Quantity",
-  },
-  {
-    headerName: "Rate",
-  },
-  {
-    headerName: "Total",
-  },
-];
-
 export const DEFAULTS = {
   SELECTED: "selected",
-  COLOR: "color",
   PRODUCT: "product",
   QUANTITY: "quantity",
   RATE: "rate",

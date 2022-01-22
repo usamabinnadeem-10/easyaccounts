@@ -19,7 +19,7 @@ export const ESSENTIAL_URLS = {
     ACCOUNT_TYPE: `${ESSENTIALS}account-type/${CREATE}`,
     WAREHOUSE: `${ESSENTIALS}warehouse/${CREATE}`,
     PRODUCT: `${ESSENTIALS}product/${CREATE}`,
-    PERSON: `${ESSENTIALS}product/${CREATE}`,
+    PERSON: `${ESSENTIALS}person/${CREATE}`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
   ALL_STOCK: `${ESSENTIALS}stock-quantity/`,

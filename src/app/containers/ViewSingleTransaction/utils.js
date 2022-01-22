@@ -1,10 +1,7 @@
 import { DB, DB_TRANSLATION } from "../../../constants/db";
 
-import {findItemInArray} from "../../../utils/arrayUtils";
-
 export const getMeta = (transaction, essentials) => {
-  let person = findItemInArray(transaction[DB.PERSON], essentials.customers, 'value') ||
-  findItemInArray(transaction[DB.PERSON], essentials.suppliers, 'value');
+  let person = essentials.persons[transaction[DB.PERSON]];
   let data = [
     {
       value: transaction[DB.SERIAL],
@@ -27,7 +24,7 @@ export const getMeta = (transaction, essentials) => {
       label: "Discount:",
     },
     {
-      value: transaction[DB.DETAIL],
+      value: transaction[DB.DETAIL] || '---',
       label: "Detail:",
     },
     {
@@ -40,11 +37,12 @@ export const getMeta = (transaction, essentials) => {
     },
   ];
 
+  let account = essentials.accounts[transaction[DB.ACCOUNT_TYPE]]?.label || '---';
   if (transaction[DB.PAID_AMOUNT]) {
     data = [
       ...data,
       {
-        value: transaction[DB.ACCOUNT_TYPE],
+        value: account,
         label: "Paid on:",
       },
       {
@@ -55,3 +53,40 @@ export const getMeta = (transaction, essentials) => {
   }
   return data;
 };
+
+
+export const isTransactionAvailable = (transactions, transactionID) => {
+  let found = transactions.filter((element) => element.id === transactionID);
+  if (found.length) {
+      return found[0];
+  } else {
+      return false;
+  }
+};
+
+const formatTransactionDetails = (details, warehouses, products) => {
+  let newDetails = [];
+  details.forEach((detail) => {
+    newDetails.push({
+      ...detail,
+      [DB.WAREHOUSE]: warehouses[detail[DB.WAREHOUSE]].label,
+      [DB.PRODUCT]: products[detail[DB.PRODUCT]].label,
+    });
+  });
+  return newDetails;
+};
+
+export const formatTransaction = (transaction, warehouses, products) => {
+  return {
+    ...transaction,
+    quantity: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + currentValue.quantity, 0),
+    gazaana: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + (currentValue.quantity * currentValue.yards_per_piece), 0),
+    [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
+      transaction.transaction_detail,
+      warehouses,
+      products
+    ),
+    [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
+    [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
+  }
+}

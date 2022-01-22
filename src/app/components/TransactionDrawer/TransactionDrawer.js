@@ -12,6 +12,10 @@ function TransactionDrawer({
   transactionID,
   dontFetch = false,
   transactionData = null,
+  warehouses,
+  products,
+  persons,
+  accounts,
 }) {
   const classes = useStyles();
   return (
@@ -28,6 +32,10 @@ function TransactionDrawer({
           dontFetch={dontFetch}
           transactionData={transactionData}
           transactionID={transactionID}
+          warehouses={warehouses}
+          products={products}
+          persons={persons}
+          accounts={accounts}
         />
       )}
     </Drawer>

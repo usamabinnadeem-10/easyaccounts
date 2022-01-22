@@ -13,6 +13,8 @@ import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import FAB from "../../containers/FAB/FAB";
 import SideBar from "../../containers/SideBar/SideBar";
 
+import useEssentials from "../../hooks/useEssentials";
+
 import { HOME } from "../../../constants/routesConstants";
 import { authenticatedRoutes } from "../../../constants/routes";
 
@@ -20,14 +22,16 @@ import { getAllEssentials } from "../../../store/essentials/actions";
 
 import { useStyles } from "./styles";
 
-const Home = () => {
+const Home = (props) => {
   let location = useLocation();
   let history = useHistory();
   let classes = useStyles();
   let dispatch = useDispatch();
+  let essentials = useEssentials();
 
   useEffect(() => {
     dispatch(getAllEssentials());
+    history.push(HOME);
   }, []);
 
   useEffect(() => {
@@ -48,7 +52,7 @@ const Home = () => {
               let Component = route.component;
               return (
                 <Route key={index} path={route.path} exact>
-                  <Component />
+                  <Component {...essentials}/>
                 </Route>
               );
             })}

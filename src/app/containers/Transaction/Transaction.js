@@ -27,6 +27,7 @@ import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
 import instance from "../../../utils/axiosApi";
 
+import {getGazaanaOptions, formatTransaction, getStockQuantity} from "./utils";
 import { useStyles } from "./styles";
 import { getURL } from "../../utilities/stringUtils";
 
@@ -91,12 +92,17 @@ const Transaction = (props) => {
 
   // check if the quantity needs to be validated when adding or finalizing transaction
   useEffect(() => {
-    setShouldValidate(
-      transactionTypes.find(
-        (element) => element.value === selectedOptions.currentTransactionType
-      ).validate
-    );
-  }, [selectedOptions.currentTransactionType]);
+    // if editing transaction, set validate to false
+    if (transaction && transactionDetails?.length) {
+      setShouldValidate(false);
+    } else {
+      setShouldValidate(
+        transactionTypes.find(
+          (element) => element.value === selectedOptions.currentTransactionType
+        ).validate
+      );
+    }
+  }, [selectedOptions.currentTransactionType, transactionDetails, transaction]);
 
   // fetch all stock from backend
   useEffect(() => {
@@ -118,9 +124,10 @@ const Transaction = (props) => {
   useEffect(() => {
     transactionDetails?.length &&
       transaction &&
-      setTableData(transactionDetails);
+      Object.entries(transactionStore.allStock).length &&
+      setTableData(formatTransaction(transactionStore.allStock, transactionDetails));
     transaction && setPaidAmount(transaction.amount_paid);
-  }, [transactionDetails]);
+  }, [transactionDetails, transactionStore.allStock]);
 
   // add a new row to the transaction table
   const addRow = () => {
@@ -172,7 +179,7 @@ const Transaction = (props) => {
       let currentQuantity = copyTableData[i][constants.DEFAULTS.QUANTITY];
       let currentProduct = copyTableData[i][constants.DEFAULTS.PRODUCT];
       let currentWarehouse = copyTableData[i][constants.DEFAULTS.WAREHOUSE];
-      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA]
+      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA].value
       let actualQuantityIndex = stock.findIndex((value) => {
         return value.product === currentProduct.value &&
         value.warehouse === currentWarehouse.value
@@ -190,7 +197,7 @@ const Transaction = (props) => {
           okay: false,
           error: `(check line ${i + 1}) ${
             currentWarehouse.label
-          } has ${actualQuantity} thaan ${actualQuantity} gaz of ${currentProduct.label}`,
+          } has ${actualQuantity} thaan ${currentGazaana} gaz of ${currentProduct.label}`,
         };
       }
       stock[actualQuantityIndex].stock_quantity -= currentQuantity;
@@ -211,6 +218,7 @@ const Transaction = (props) => {
     }
     delete lastRow.selected;
     delete lastRow.total;
+    delete lastRow.stock_quantity;
     for (const key in lastRow) {
       if (!lastRow[key]) {
         setErrorMessage(constants.ERROR_DEFAULTS.ROW_INCOMPLETE);
@@ -254,13 +262,34 @@ const Transaction = (props) => {
       row[constants.DEFAULTS.RATE] *
         row[constants.DEFAULTS.QUANTITY] *
         (
-          row[constants.DEFAULTS.GAZAANA] ||
+          row[constants.DEFAULTS.GAZAANA]?.value ||
           row[constants.DEFAULTS.PRODUCT]?.["basic_unit"]
         )
         || 0;
-    if (column === constants.DEFAULTS.PRODUCT) {
-      row.gazaana = row.product.basic_unit
+
+    // if both product and warehouse are set, then add the stock options for gazaana for that row
+    if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.WAREHOUSE]) {
+      row['gazaanaOptions'] = getGazaanaOptions(
+        transactionStore.allStock, 
+        row[constants.DEFAULTS.PRODUCT].value,
+        row[constants.DEFAULTS.WAREHOUSE].value
+        )
+    } else {
+      row['gazaanaOptions'] = []
+      row['gazaana'] = null;
     }
+
+    if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.WAREHOUSE] && row[constants.DEFAULTS.GAZAANA]) {
+      row['stock_quantity'] = getStockQuantity(
+        transactionStore.allStock, 
+        row[constants.DEFAULTS.PRODUCT].value,
+        row[constants.DEFAULTS.WAREHOUSE].value,
+        row[constants.DEFAULTS.GAZAANA]?.value
+      )
+    } else {
+      row['stock_quantity'] = null;
+    }
+
     setTableData(newState);
   };
 
@@ -302,8 +331,11 @@ const Transaction = (props) => {
     },
   ];
 
-  const redirect = (transactionID) => {
-    history.push(getURL(VIEW_SINGLE_TRANSACTION, "uuid", transactionID));
+  const redirect = (transaction) => {
+    history.push({
+      pathname: getURL(VIEW_SINGLE_TRANSACTION, "uuid", transaction.id),
+      state: transaction,
+      });
   };
 
   // finalize transaction or save as draft
@@ -338,7 +370,7 @@ const Transaction = (props) => {
           id: data.id,
           new: data.new,
           product: data.product.value,
-          yards_per_piece: data.gazaana,
+          yards_per_piece: data.gazaana.value,
           quantity: data.quantity,
           rate: data.rate,
           warehouse: data.warehouse.value,
@@ -366,11 +398,11 @@ const Transaction = (props) => {
         .then((res) => {
           dispatch(setShouldFetch(true));
           setLoading(false);
-          redirect(res.data.id);
+          redirect(res.data);
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(true, "error", constants.ERROR_DEFAULTS.OOPS);
+          openSnackbar(true, "error", error?.response?.data?.detail || constants.ERROR_DEFAULTS.OOPS);
         });
     } else {
       instance
@@ -378,7 +410,7 @@ const Transaction = (props) => {
         .then((res) => {
           dispatch(setShouldFetch(true));
           setLoading(false);
-          redirect(res.data.id);
+          redirect(res.data);
         })
         .catch((error) => {
           setLoading(false);
@@ -414,6 +446,12 @@ const Transaction = (props) => {
             handleSetSelected={handleSetSelected}
             handleStateChange={handleStateChange}
             options={options}
+            customColumnOptions={[
+              {
+                columnNameToOverride: 'Gazaana',
+                optionsNameInTable: 'gazaanaOptions'
+              }
+            ]}
           />
         </Table>
       </TableContainer>

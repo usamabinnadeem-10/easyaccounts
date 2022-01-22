@@ -32,9 +32,9 @@ import {
   makeDate,
   getURL,
 } from "../../utilities/stringUtils";
-import { findPerson, findAccountType } from "./utils";
 
-function LedgerTransaction() {
+
+function LedgerTransaction(props) {
   const classes = useStyles();
   const location = useLocation();
 
@@ -56,11 +56,11 @@ function LedgerTransaction() {
   useEffect(() => {
     if (location.state) {
       let data = location.state;
-      let person = findPerson(data.person, state.suppliers, state.customers);
+      let person = props.persons[data.person];
       setTitle("Edit Ledger Entry");
       setCurrentPerson(person);
       setPersonType(person.person_type);
-      setAccountType(findAccountType(data.account_type, state.accountTypes));
+      setAccountType(props.accounts[data.account_type]);
       setAmount(data.amount);
       setTransactionType(data.nature);
       setDetail(data.detail);

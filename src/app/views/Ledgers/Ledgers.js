@@ -20,6 +20,7 @@ import {
 import { useStyles } from "./styles";
 import { ERRORS } from "./constants";
 import { SUCCESS } from "./constants";
+import { formatLedgerData } from "./utils";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 
 import instance from "../../../utils/axiosApi";
@@ -27,33 +28,10 @@ import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 
-function Ledgers({ daybookView, defaultLedgers }) {
+function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, persons }) {
   const classes = useStyles();
   const history = useHistory();
   const state = useSelector((state) => state.essentials);
-
-  // function that formats ledger data for table
-  const formatLedgerData = (data, opening) => {
-    let ledger = [];
-    let balance = opening;
-    data.reverse();
-    data.forEach((element) => {
-      let amount = element.amount;
-      let nature = element.nature;
-      if (nature === "D") {
-        balance -= amount;
-      } else {
-        balance += amount;
-      }
-      ledger.push({
-        ...element,
-        credit: nature === "C" ? amount : "",
-        debit: nature === "D" ? amount : "",
-        balance: balance,
-      });
-    });
-    return ledger.reverse();
-  };
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
@@ -102,7 +80,7 @@ function Ledgers({ daybookView, defaultLedgers }) {
         let ledgerDataFormatted = formatLedgerData(res.data.results, res.data.opening_balance)
         setledgerData(ledgerDataFormatted);
         setOpeningBalance(res.data.opening_balance);
-        setClosingBalance(ledgerDataFormatted[0].balance);
+        setClosingBalance(ledgerDataFormatted[0]?.balance);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -181,8 +159,8 @@ function Ledgers({ daybookView, defaultLedgers }) {
           />
         </div>
       )}
-      <Typography fontWeight='bold'>Opening Balance: {`${openingBalance}${openingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
-      <Typography fontWeight='bold'>Closing Balance: {`${closingBalance}${closingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
+      <Typography fontWeight='bold'>Opening Balance: {`${Math.abs(openingBalance) || '---'}${openingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
+      <Typography fontWeight='bold'>Closing Balance: {`${Math.abs(closingBalance) || '---'}${closingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail
@@ -199,6 +177,10 @@ function Ledgers({ daybookView, defaultLedgers }) {
         hideDrawer={hideDrawer}
         open={showDrawer}
         transactionID={transactionID}
+        warehouses={warehouses}
+        products={products}
+        accounts={accounts}
+        persons={persons}
       />
     </>
   );

@@ -22,33 +22,13 @@ import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
-import {
-  findPerson,
-  findProduct,
-  findWarehouse,
-} from "../LedgerTransaction/utils";
+import {formatTransactionData, formatTransactionDetails} from "./utils";
 
-function ViewTransactions({ daybookView, defaultTransactions }) {
+
+function ViewTransactions({ daybookView, defaultTransactions, accounts, persons, products, warehouses }) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
   const history = useHistory();
-
-  // function that formats transaction data for table
-  const formatTransactionData = (data) => {
-    let transactions = [];
-    data.forEach((element) => {
-      let total = 0.0;
-      element.transaction_detail.forEach((detail) => {
-        total += detail.amount;
-      });
-      transactions.push({
-        ...element,
-        total: total,
-      });
-    });
-    console.log(transactions);
-    return transactions;
-  };
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
@@ -132,54 +112,26 @@ function ViewTransactions({ daybookView, defaultTransactions }) {
     setShowDrawer(true);
   };
 
-  const formatTransactionDetails = (details) => {
-    let transactions = [];
-    details.forEach((element) => {
-      let product = findProduct(
-        element.product,
-        state.products,
-        state.productHeads
-      );
-      let warehouse = findWarehouse(element.warehouse, state.warehouses);
-      transactions.push({
-        product: product.product,
-        color: product.color,
-        warehouse: warehouse,
-        quantity: element.quantity,
-        rate: element.rate,
-        total: element.amount,
-        id: element.id,
-      });
-    });
-    return transactions;
-  };
-
   const handleEdit = (id) => {
     let transactionToEdit = transactionDataRaw.filter(
-      (transaction) => transaction.transaction.id === id
+      (transaction) => transaction.id === id
     )[0];
-    let transaction = transactionToEdit.transaction;
-    let account = transactionToEdit.account_type;
-    let person = findPerson(
-      transaction.person,
-      state.suppliers,
-      state.customers
-    );
+    let account = accounts[transactionToEdit.account_type];
+    let person = persons[transactionToEdit.person];
     history.push({
       pathname: REDIRECTS[person.person_type],
       state: {
         transaction: {
-          ...transaction,
+          ...transactionToEdit,
           person: person,
-          date: getDateFromString(transaction.date),
+          date: getDateFromString(transactionToEdit.date),
           transaction_detail: formatTransactionDetails(
-            transaction.transaction_detail
+            transactionToEdit.transaction_detail,
+            products,
+            warehouses
           ),
         },
-        account_type: account && {
-          value: account.id,
-          label: account.name,
-        },
+        account_type: account,
         paid_amount: transactionToEdit.paid_amount,
       },
     });
@@ -234,7 +186,11 @@ function ViewTransactions({ daybookView, defaultTransactions }) {
         transactionData={currentTransaction}
         hideDrawer={hideDrawer}
         open={showDrawer}
-      />
+        warehouses={warehouses}
+        products={products}
+        accounts={accounts}
+        persons={persons}
+        />
     </>
   );
 }

@@ -20,12 +20,9 @@ import { makeQueryParamURL, getURL } from "../../utilities/stringUtils";
 import { EXPENSE_URLS } from "../../../constants/restEndPoints";
 import { ERRORS, SUCCESS } from "./constants";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
-import {
-  findAccountType,
-  findExpenseAccount,
-} from "../LedgerTransaction/utils";
 
-const ViewExpenses = ({ daybookView, defaultExpenses }) => {
+
+const ViewExpenses = ({ daybookView, defaultExpenses, accounts, expenseAccounts }) => {
   const classes = useStyles();
 
   const essentials = useSelector((state) => state.essentials);
@@ -63,15 +60,15 @@ const ViewExpenses = ({ daybookView, defaultExpenses }) => {
     setLoading(true);
     const params = [
       startDate && {
-        key: "start",
+        key: "date__gte",
         value: startDate,
       },
       endDate && {
-        key: "end",
+        key: "date__lte",
         value: endDate,
       },
     ];
-    const URL = makeQueryParamURL(EXPENSE_URLS.EXPENSE_DETAIL, params);
+    const URL = makeQueryParamURL(EXPENSE_URLS.LIST_EXPENSE_DETAILS, params);
 
     instance
       .get(URL)
@@ -112,12 +109,9 @@ const ViewExpenses = ({ daybookView, defaultExpenses }) => {
     setOldExpenseState({
       ...expenseToEdit,
       account_type: expenseToEdit.account_type
-        ? findAccountType(expenseToEdit.account_type, essentials.accountTypes)
+        ? accounts[expenseToEdit.account_type]
         : null,
-      expense: findExpenseAccount(
-        expenseToEdit.expense,
-        essentials.expenseAccounts
-      ),
+      expense: expenseAccounts[expenseToEdit.expense],
     });
     let form = getExpenseForm(
       essentials.expenseAccounts,

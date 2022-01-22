@@ -7,7 +7,6 @@ const initialState = {
   accountTypes: [],
   customers: [],
   suppliers: [],
-  productHeads: [],
   products: [],
   expenseAccounts: [],
   fetched: false,
@@ -212,31 +211,15 @@ const reducer = (state = initialState, action) => {
       };
 
     case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
-      let newProductsObject = { ...state.products };
-      let newProduct = renameKeys(
+      let newProductsRenamed = renameKeys(
         "id",
         "value",
-        renameKeys("color_name", "label", [action.payload])
+        renameKeys("name", "label", [action.payload])
       );
-      newProduct = newProduct[0];
-      let head = newProduct.product_head;
-
-      // if the head is not already in the products
-      if (!newProductsObject[head]) {
-        newProductsObject[head] = [];
-      }
-
-      let newColorsList = newProductsObject[head];
-      newColorsList = [...newColorsList, newProduct];
-
-      newProductsObject = {
-        ...newProductsObject,
-        [head]: newColorsList,
-      };
-
+      let newProducts = [...state.products, ...newProductsRenamed];
       return {
         ...state,
-        products: newProductsObject,
+        products: newProducts,
         added: true,
         adding: false,
       };

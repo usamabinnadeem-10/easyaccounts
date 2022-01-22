@@ -41,6 +41,7 @@ function TransactionFooter(props) {
                   inputProps={{
                     min: 0,
                   }}
+                  label={field.placeholder}
                   type={field.type}
                   multiline
                   variant="outlined"
@@ -56,7 +57,7 @@ function TransactionFooter(props) {
                   }
                   sx={{
                     width: 200,
-                    py: 1,
+                    my: 1,
                   }}
                 />
               );

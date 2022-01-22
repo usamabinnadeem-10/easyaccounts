@@ -5,6 +5,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
+import { useLocation } from "react-router";
 
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomTable from "../../components/CustomTable/CustomTable";
@@ -20,10 +21,9 @@ import {
   setFetchedFalse,
 } from "../../../store/transactions/actions";
 
-import { getMeta } from "./utils";
+import { getMeta, isTransactionAvailable, formatTransaction } from "./utils";
 import { DB } from "../../../constants/db";
 import { COLUMNS } from "./constants";
-import {findItemInArray} from "../../../utils/arrayUtils";
 
 // import { print } from "../../../utils/print";
 
@@ -31,85 +31,69 @@ function ViewSingleTransaction({
   transactionID,
   dontFetch = false,
   transactionData = null,
+  warehouses,
+  products,
+  accounts,
+  persons
 }) {
   const { uuid } = useParams();
   const classes = useStyles();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const [ID, setID] = useState(uuid || transactionID);
-  const [transaction, setTransaction] = useState({});
+  const [transaction, setTransaction] = useState(null);
   const [total, setTotal] = useState(0.0);
   const [loading, setLoading] = useState(true);
 
-  const state = useSelector((state) => state.essentials);
   const transactions = useSelector((state) => state.transactions);
 
-  const formatTransactionDetails = (details) => {
-    let newDetails = [];
-    details.forEach((detail) => {
-      newDetails.push({
-        ...detail,
-        [DB.WAREHOUSE]: findItemInArray(detail[DB.WAREHOUSE], state.warehouses, 'value').label,
-        [DB.PRODUCT]: findItemInArray(detail[DB.PRODUCT], state.products, 'value').label,
-      });
-    });
-    return newDetails;
-  };
-
-  const formatTransaction = (transaction) => {
-    return {
-      ...transaction,
-      quantity: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + currentValue.quantity, 0),
-      gazaana: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + (currentValue.quantity * currentValue.yards_per_piece), 0),
-      [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
-        transaction.transaction_detail
-      ),
-      [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE]?.name,
-      [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
-    }
-  }
-
   useEffect(() => {
-    if (!dontFetch) {
-      dispatch(
-        getSingleTransaction({
-          id: ID,
-          transactions: transactions.transactions,
-          essentials: state,
-        })
-      );
-    } else {
-      setTransaction(formatTransaction(transactionData));
+    if (location.state){
+      setTransaction(formatTransaction(location.state, warehouses, products));
       setLoading(false);
+    }else {
+      if (!dontFetch) {
+        let isTransaction = isTransactionAvailable(transactions.transactions, ID)
+        if (!isTransaction) {
+          dispatch(getSingleTransaction(ID));
+        } else {
+          setTransaction(formatTransaction(isTransaction, warehouses, products));
+          setLoading(false);
+        }
+      } else {
+        setTransaction(formatTransaction(transactionData, warehouses, products));
+        setLoading(false);
+      }
     }
+    
     return () => {
       dispatch(setFetchedFalse());
     };
   }, []);
 
   useEffect(() => {
-    if (!dontFetch) {
-      if (transactions.fetched) {
-        console.log(transactions);
+    if (location.state) {
+      setTransaction(formatTransaction(location.state, warehouses, products));
+      setLoading(false);
+    } else {
+      if (!dontFetch && transactions.fetched) {
         let current = transactions.transactions.filter(
           (element) => element.id === ID
         )[0];
-        setTransaction(formatTransaction(current));
-        let amount = 0.0;
-        current.transaction_detail.forEach(
-          (element) => (amount += element.amount)
-        );
-        setTotal(amount);
+        setTransaction(formatTransaction(current, warehouses, products));
         setLoading(false);
       }
-    } else {
-      let amount = 0.0;
-      transactionData.transaction_detail.forEach(
-        (element) => (amount += element.amount)
-      );
-      setTotal(amount);
     }
+    
   }, [transactions.fetched]);
+
+  useEffect(() => {
+    if (transaction) {
+      setTotal(transaction.transaction_detail.reduce((prev, curr) => prev + curr.amount, 0));
+    }
+  }, [transaction]);
+  
 
   return (
     <>
@@ -134,7 +118,7 @@ function ViewSingleTransaction({
             className={`${classes.transactionWrapper} ${uuid && classes.wider}`}
           >
             <div className={classes.meta}>
-              {getMeta(transaction, state).map((field, index) => {
+              {getMeta(transaction, {persons, accounts}).map((field, index) => {
                 return (
                   <div key={index} className={classes.metaItem}>
                     <Typography variant="subtitle2" sx={{ width: 110 }}>

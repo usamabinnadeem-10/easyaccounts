@@ -6,7 +6,9 @@ import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TextField from "@mui/material/TextField";
 
-import Select from "react-select";
+import CreatableSelect from 'react-select/creatable';
+
+import {customStyles} from "./styles";
 
 function TransactionTableBody(props) {
   const {
@@ -16,7 +18,26 @@ function TransactionTableBody(props) {
     handleSetSelected,
     handleStateChange,
     options,
+    customColumnOptions,
   } = props;
+
+  const getOptions = (tableRow, columnName) => {
+    let lowerName = columnName.toLowerCase();
+    // if there is an override array then find the options for that column inside table data,
+    // otherwise find in options object
+    if (customColumnOptions.length){
+      let customOption = customColumnOptions.find((option) => option.columnNameToOverride === columnName);
+      // if key exists in tableRow then return that otherwise an empty array
+      if (customOption){
+        return tableRow[customOption.optionsNameInTable] || [];
+      } else {
+        return options[lowerName]
+      }
+    } else {
+      return options[lowerName]
+    }
+  }
+
   return (
     <TableBody>
       {tableData.map((row, rowIndex) => {
@@ -45,21 +66,27 @@ function TransactionTableBody(props) {
                       key={columnIndex}
                       sx={{ py: 0, width: "16%", px: 1 }}
                     >
-                      <Select
+                      <CreatableSelect
+                        styles={customStyles(column.name)}
+                        isClearable
+                        escapeClearsValue
+                        tabSelectsValue
+                        openMenuOnFocus
                         components={{
                           DropdownIndicator: () => null,
                           IndicatorSeparator: () => null,
                         }}
                         placeholder={column.name}
                         value={row[column.name.toLowerCase()]}
-                        onChange={(value) =>
+                        onChange={(value) => {
                           handleStateChange(
                             value,
                             rowIndex,
                             column.name.toLowerCase()
                           )
-                        }
-                        options={options[column.name.toLowerCase()]}
+                        }}
+                        options={getOptions(row, column.name)}
+                        isValidNewOption={(inputValue) => !isNaN(+inputValue) && inputValue}
                       />
                     </TableCell>
                   );
@@ -72,6 +99,7 @@ function TransactionTableBody(props) {
                     >
                       <TextField
                         placeholder={column.name}
+                        label={column.name === 'Quantity' && `Qty: ${row.stock_quantity || 0} thaan`}
                         onChange={(e) =>
                           handleStateChange(
                             parseFloat(e.target.value || 0),
@@ -84,8 +112,10 @@ function TransactionTableBody(props) {
                         size="small"
                         value={row[column.name.toLowerCase()] || ""}
                         inputProps={{
-                          min: 0,
+                          min: 0
                         }}
+                        // helperText={column.name === 'Quantity' && row.stock_quantity ? `Stock: ${row.stock_quantity}` : null}
+                        // helperText={`${(column.name === 'Quantity' && row.stock_quantity ) ? `Stock: ${row.stock_quantity}` : ''  }`}
                         disabled={column.readOnly}
                       />
                     </TableCell>
