@@ -21,8 +21,12 @@ import { EXPENSE_URLS } from "../../../constants/restEndPoints";
 import { ERRORS, SUCCESS } from "./constants";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
-
-const ViewExpenses = ({ daybookView, defaultExpenses, accounts, expenseAccounts }) => {
+const ViewExpenses = ({
+  daybookView,
+  defaultExpenses,
+  accounts,
+  expenseAccounts,
+}) => {
   const classes = useStyles();
 
   const essentials = useSelector((state) => state.essentials);
@@ -151,7 +155,7 @@ const ViewExpenses = ({ daybookView, defaultExpenses, accounts, expenseAccounts 
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       {!daybookView && (
         <div className={classes.root}>
-          <Typography variant="h5" sx={{ mb: 2, fontWeight: 700 }}>
+          <Typography variant="h5" sx={{ mb: 2, fontWeight: 900 }}>
             View Expenses
           </Typography>
 

@@ -8,12 +8,10 @@ const AccountTypeCard = ({ accountName, balance }) => {
   const classes = useStyles();
   return (
     <div className={classes.card}>
-      <Typography variant="body2" fontWeight={900}>
+      <Typography variant="body2">
         {accountName === "null" ? "Account Payable" : accountName}
       </Typography>
-      <Typography variant="h6" fontWeight={700}>
-        PKR {balance}/=
-      </Typography>
+      <Typography variant="h6">PKR {balance}/=</Typography>
     </div>
   );
 };

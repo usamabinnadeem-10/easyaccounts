@@ -69,14 +69,14 @@ export const typography = {
   },
   body2: {
     fontFamily: "Poppins",
-    fontWeight: "normal !important",
+    fontWeight: "normal",
     fontStretch: "normal",
     fontStyle: "normal",
     letterSpacing: "0.01px",
   },
   button: {
     fontFamily: "Poppins",
-    fontWeight: "bold !important",
+    fontWeight: "bold",
     fontStretch: "normal",
     fontStyle: "normal",
     letterSpacing: "0.01px",
