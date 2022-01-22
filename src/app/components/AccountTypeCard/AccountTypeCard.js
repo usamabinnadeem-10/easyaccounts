@@ -10,7 +10,7 @@ const AccountTypeCard = ({ account }) => {
   return (
     <div className={classes.card}>
       <Typography variant="body2" fontWeight={900}>
-        {account[DB.ACCOUNT_TYPE]}
+        {account[DB.ACCOUNT_TYPE] || "Account Payable"}
       </Typography>
       <Typography variant="button">PKR {account[DB.BALANCE]}/=</Typography>
     </div>

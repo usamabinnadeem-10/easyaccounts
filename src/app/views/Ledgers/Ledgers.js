@@ -205,18 +205,23 @@ function Ledgers({
           />
         </div>
       )}
-      <Typography fontWeight="bold">
-        Opening Balance:{" "}
-        {`${Math.abs(openingBalance) || "---"}${
-          openingBalance < 0 ? " DB" : " CR"
-        }`}
-      </Typography>
-      <Typography fontWeight="bold">
-        Closing Balance:{" "}
-        {`${Math.abs(closingBalance) || "---"}${
-          closingBalance < 0 ? " DB" : " CR"
-        }`}
-      </Typography>
+      {!daybookView && (
+        <>
+          <Typography fontWeight="bold">
+            Opening Balance:{" "}
+            {`${Math.abs(openingBalance) || "---"}${
+              openingBalance < 0 ? " DB" : " CR"
+            }`}
+          </Typography>
+          <Typography fontWeight="bold">
+            Closing Balance:{" "}
+            {`${Math.abs(closingBalance) || "---"}${
+              closingBalance < 0 ? " DB" : " CR"
+            }`}
+          </Typography>
+        </>
+      )}
+
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail

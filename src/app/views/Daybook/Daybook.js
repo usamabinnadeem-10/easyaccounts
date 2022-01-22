@@ -11,13 +11,14 @@ import ViewExpenses from "../ViewExpenses/ViewExpenses";
 import AccountTypeCard from "../../components/AccountTypeCard/AccountTypeCard";
 
 import { Typography } from "@mui/material";
+import { styled } from "@mui/material/styles";
 
 import { useStyles } from "./styles";
 
 import moment from "moment";
 import { getDaybook } from "../../../store/accounts/actions";
 
-const Daybook = () => {
+const Daybook = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
@@ -50,23 +51,52 @@ const Daybook = () => {
             })}
           </div>
 
-          <Typography variant="button" fontWeight={900} sx={{ mb: 1 }}>
-            Transactions
-          </Typography>
-          <ViewTransactions
-            daybookView
-            defaultTransactions={daybookData.transactions}
-          />
+          {daybookData.transactions.length > 0 && (
+            <>
+              <Typography variant="button" fontWeight={900} sx={{ mb: 1 }}>
+                Transactions
+              </Typography>
+              <ViewTransactions
+                {...props}
+                daybookView
+                defaultTransactions={daybookData.transactions}
+              />
+            </>
+          )}
 
-          <Typography variant="button" fontWeight={900} sx={{ mt: 1, mb: 3 }}>
-            Expenses
-          </Typography>
-          <ViewExpenses daybookView defaultExpenses={daybookData.expenses} />
+          {daybookData.expenses.length > 0 && (
+            <>
+              <Typography
+                variant="button"
+                fontWeight={900}
+                sx={{ mt: 1, mb: 3 }}
+              >
+                Expenses
+              </Typography>
+              <ViewExpenses
+                {...props}
+                daybookView
+                defaultExpenses={daybookData.expenses}
+              />
+            </>
+          )}
 
-          <Typography variant="button" fontWeight={900} sx={{ mt: 3, mb: 1 }}>
-            Ledgers
-          </Typography>
-          <Ledgers daybookView defaultLedgers={daybookData.ledgers} />
+          {daybookData.ledgers.length > 0 && (
+            <>
+              <Typography
+                variant="button"
+                fontWeight={900}
+                sx={{ mt: 3, mb: 1 }}
+              >
+                Ledgers
+              </Typography>
+              <Ledgers
+                {...props}
+                daybookView
+                defaultLedgers={daybookData.ledgers}
+              />
+            </>
+          )}
         </div>
       )}
     </div>
