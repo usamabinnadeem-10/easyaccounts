@@ -1,8 +1,9 @@
 import * as actionTypes from "./actionTypes";
 
-export const getDaybook = () => {
+export const getDaybook = (data) => {
   return {
     type: actionTypes.GET_DAYBOOK,
+    payload: data,
   };
 };
 

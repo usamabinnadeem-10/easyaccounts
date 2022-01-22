@@ -9,12 +9,13 @@ import Ledgers from "../Ledgers/Ledgers";
 import ViewTransactions from "../ViewTransactions/ViewTransactions";
 import ViewExpenses from "../ViewExpenses/ViewExpenses";
 import AccountTypeCard from "../../components/AccountTypeCard/AccountTypeCard";
+import StartEndDate from "../../components/StartEndDate/StartEndDate";
 
 import { Typography } from "@mui/material";
-import { styled } from "@mui/material/styles";
 
 import { useStyles } from "./styles";
 
+import { makeDate } from "../../utilities/stringUtils";
 import moment from "moment";
 import { getDaybook } from "../../../store/accounts/actions";
 
@@ -23,12 +24,13 @@ const Daybook = (props) => {
   const dispatch = useDispatch();
 
   const daybookData = useSelector((state) => state.accounts.daybook);
+  const [date, setDate] = React.useState(null);
 
   useEffect(() => {
     if (!daybookData.fetched) {
-      dispatch(getDaybook());
+      dispatch(getDaybook(date));
     }
-  }, [daybookData.fetched]);
+  }, [daybookData.fetched, date]);
 
   return (
     <div>
@@ -40,15 +42,27 @@ const Daybook = (props) => {
             <Typography variant="h5" fontWeight={900}>
               Daybook for {moment().format("Do MMMM YYYY")}
             </Typography>
+            <StartEndDate
+              getStartDate={(date) => setDate(makeDate(date))}
+              renderOnlySingleDate
+            />
           </div>
 
           <Typography variant="button" fontWeight={900} sx={{ mb: 2 }}>
             Account Balances
           </Typography>
           <div className={classes.accountTypesWrapper}>
-            {daybookData.accounts.map((account, index) => {
-              return <AccountTypeCard account={account} key={index} />;
-            })}
+            {Object.entries(daybookData.accounts).map(
+              ([accountName, balance], index) => {
+                return (
+                  <AccountTypeCard
+                    accountName={accountName}
+                    balance={balance}
+                    key={index}
+                  />
+                );
+              }
+            )}
           </div>
 
           {daybookData.transactions.length > 0 && (

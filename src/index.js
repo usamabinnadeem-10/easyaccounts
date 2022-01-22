@@ -5,6 +5,8 @@ import App from "./app/App";
 import reportWebVitals from "./reportWebVitals";
 
 import CssBaseline from "@mui/material/CssBaseline";
+import { ThemeProvider } from "@mui/material/styles";
+import { theme } from "../src/constants/muiThemeOverride";
 
 import { rootReducer } from "./store/rootReducer";
 import { rootSagas } from "./store/rootSaga";
@@ -25,8 +27,10 @@ rootSagas.forEach((saga) => sagaMiddleware.run(saga));
 
 ReactDOM.render(
   <Provider store={store}>
-    <CssBaseline />
-    <App />
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

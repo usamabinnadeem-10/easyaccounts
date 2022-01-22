@@ -28,6 +28,7 @@
     "redux": "^4.1.1",
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.1.3",
+    "typeface-poppins": "^1.1.13",
     "web-vitals": "^1.1.2"
   },
   "scripts": {

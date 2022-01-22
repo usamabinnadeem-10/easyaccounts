@@ -2,17 +2,18 @@ import React from "react";
 
 import { Typography } from "@mui/material";
 
-import { DB } from "../../../constants/db";
 import { useStyles } from "./styles";
 
-const AccountTypeCard = ({ account }) => {
+const AccountTypeCard = ({ accountName, balance }) => {
   const classes = useStyles();
   return (
     <div className={classes.card}>
       <Typography variant="body2" fontWeight={900}>
-        {account[DB.ACCOUNT_TYPE] || "Account Payable"}
+        {accountName === "null" ? "Account Payable" : accountName}
       </Typography>
-      <Typography variant="button">PKR {account[DB.BALANCE]}/=</Typography>
+      <Typography variant="h6" fontWeight={700}>
+        PKR {balance}/=
+      </Typography>
     </div>
   );
 };

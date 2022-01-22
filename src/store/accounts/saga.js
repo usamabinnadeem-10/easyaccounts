@@ -13,9 +13,9 @@ function* accountsSagas() {
   yield all([takeLatest(actionTypes.GET_DAYBOOK, getDaybookSaga)]);
 }
 
-function* getDaybookSaga() {
+function* getDaybookSaga(action) {
   try {
-    let response = yield call(api.getDaybookApi);
+    let response = yield call(api.getDaybookApi, action.payload);
     let data = response.data;
     let formattedData = {
       transactions: data.transactions,

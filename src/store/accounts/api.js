@@ -2,8 +2,7 @@ import instance from "../../utils/axiosApi";
 
 import { ESSENTIAL_URLS } from "../../constants/restEndPoints";
 
-// APIs to get essentials
-
-export const getDaybookApi = () => {
-  return instance.get(ESSENTIAL_URLS.DAY_BOOK);
+export const getDaybookApi = (data) => {
+  let URL = `${ESSENTIAL_URLS.DAY_BOOK}${data ? `?date=${data}` : ""}`;
+  return instance.get(URL);
 };

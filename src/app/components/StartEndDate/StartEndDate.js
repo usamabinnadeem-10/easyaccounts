@@ -6,21 +6,31 @@ import { Box } from "@mui/system";
 
 import { useStyles } from "./styles";
 
-function StartEndDate({ startDate, getStartDate, endDate, getEndDate }) {
+function StartEndDate({
+  startDate,
+  getStartDate,
+  endDate,
+  getEndDate,
+  renderOnlySingleDate = false,
+}) {
   const classes = useStyles();
   return (
     <div className={classes.dateContainer}>
       <CustomDatePicker
-        placeholder="Start Date"
+        placeholder={renderOnlySingleDate ? "Date" : "Start Date"}
         getDate={(date) => getStartDate(date)}
         value={startDate}
       />
-      <Box component="span" ml={2} />
-      <CustomDatePicker
-        placeholder="End Date"
-        getDate={(date) => getEndDate(date)}
-        value={endDate}
-      />
+      {!renderOnlySingleDate && (
+        <>
+          <Box component="span" ml={2} />
+          <CustomDatePicker
+            placeholder="End Date"
+            getDate={(date) => getEndDate(date)}
+            value={endDate}
+          />
+        </>
+      )}
     </div>
   );
 }
