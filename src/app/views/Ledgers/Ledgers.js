@@ -6,8 +6,9 @@ import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
 
-import {Typography} from '@mui/material';
+import { Typography } from "@mui/material";
 
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
@@ -28,7 +29,14 @@ import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 
-function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, persons }) {
+function Ledgers({
+  daybookView,
+  defaultLedgers,
+  warehouses,
+  products,
+  accounts,
+  persons,
+}) {
   const classes = useStyles();
   const history = useHistory();
   const state = useSelector((state) => state.essentials);
@@ -44,6 +52,12 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
   const [closingBalance, setClosingBalance] = useState(0);
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
+  const [dialogueState, setDialogueState] = useState({
+    open: false,
+    dialogueValue: null,
+    deleteItem: false,
+    idToDelete: null,
+  });
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [transactionID, setTransactionID] = useState(null);
@@ -51,6 +65,29 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
   useEffect(() => {
     setCurrentPerson(null);
   }, [personType]);
+
+  useEffect(() => {
+    if (dialogueState.dialogueValue && dialogueState.deleteItem) {
+      instance
+        .delete(
+          getURL(LEDGER_URLS.DELETE_LEDGER, "uuid", dialogueState.idToDelete)
+        )
+        .then((res) => {
+          search();
+          setDialogueState({
+            ...dialogueState,
+            open: false,
+            dialogueValue: false,
+            deleteItem: false,
+            idToDelete: null,
+          });
+          openSnackbar(true, "success", SUCCESS.DELETED);
+        })
+        .catch((error) => {
+          openSnackbar(true, "error", ERRORS.OOPS);
+        });
+    }
+  }, [dialogueState]);
 
   const search = () => {
     if (!currentPerson) {
@@ -77,7 +114,10 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
     instance
       .get(URL)
       .then((res) => {
-        let ledgerDataFormatted = formatLedgerData(res.data.results, res.data.opening_balance)
+        let ledgerDataFormatted = formatLedgerData(
+          res.data.results,
+          res.data.opening_balance
+        );
         setledgerData(ledgerDataFormatted);
         setOpeningBalance(res.data.opening_balance);
         setClosingBalance(ledgerDataFormatted[0]?.balance);
@@ -123,15 +163,12 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
   };
 
   const handleDelete = (id) => {
-    instance
-      .delete(getURL(LEDGER_URLS.DELETE_LEDGER, "uuid", id))
-      .then((res) => {
-        search();
-        openSnackbar(true, "success", SUCCESS.DELETED);
-      })
-      .catch((error) => {
-        openSnackbar(true, "error", ERRORS.OOPS);
-      });
+    setDialogueState({
+      ...dialogueState,
+      open: true,
+      deleteItem: true,
+      idToDelete: id,
+    });
   };
 
   const hideDrawer = () => {
@@ -141,6 +178,15 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
   return (
     <>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
+      <ConfirmationModal
+        open={dialogueState.open}
+        setDialogueState={(value) =>
+          setDialogueState({ ...dialogueState, ...value })
+        }
+        closeDialogue={() =>
+          setDialogueState({ ...dialogueState, open: false })
+        }
+      />
       {!daybookView && (
         <div className={classes.root}>
           <SearchAndSelect
@@ -159,8 +205,18 @@ function Ledgers({ daybookView, defaultLedgers, warehouses, products, accounts, 
           />
         </div>
       )}
-      <Typography fontWeight='bold'>Opening Balance: {`${Math.abs(openingBalance) || '---'}${openingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
-      <Typography fontWeight='bold'>Closing Balance: {`${Math.abs(closingBalance) || '---'}${closingBalance < 0 ? ' DB' : ' CR'}`}</Typography>
+      <Typography fontWeight="bold">
+        Opening Balance:{" "}
+        {`${Math.abs(openingBalance) || "---"}${
+          openingBalance < 0 ? " DB" : " CR"
+        }`}
+      </Typography>
+      <Typography fontWeight="bold">
+        Closing Balance:{" "}
+        {`${Math.abs(closingBalance) || "---"}${
+          closingBalance < 0 ? " DB" : " CR"
+        }`}
+      </Typography>
       <div className={classes.table}>
         {ledgerData.length > 0 && (
           <LedgerDetail

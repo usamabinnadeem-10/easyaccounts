@@ -1,10 +1,12 @@
 import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
 
+import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
@@ -22,10 +24,16 @@ import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
-import {formatTransactionData, formatTransactionDetails} from "./utils";
+import { formatTransactionData, formatTransactionDetails } from "./utils";
 
-
-function ViewTransactions({ daybookView, defaultTransactions, accounts, persons, products, warehouses }) {
+function ViewTransactions({
+  daybookView,
+  defaultTransactions,
+  accounts,
+  persons,
+  products,
+  warehouses,
+}) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
   const history = useHistory();
@@ -42,9 +50,35 @@ function ViewTransactions({ daybookView, defaultTransactions, accounts, persons,
   );
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
+  const [dialogueState, setDialogueState] = useState({
+    open: false,
+    dialogueValue: null,
+    deleteItem: false,
+    idToDelete: null,
+  });
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState({});
+
+  useEffect(() => {
+    if (dialogueState.dialogueValue && dialogueState.deleteItem) {
+      instance
+        .delete(
+          getURL(
+            TRANSACTION_URLS.DELETE_TRANSACTION,
+            "uuid",
+            dialogueState.idToDelete
+          )
+        )
+        .then((res) => {
+          search();
+          openSnackbar(true, "success", SUCCESS.DELETED);
+        })
+        .catch((error) => {
+          openSnackbar(true, "error", ERRORS.OOPS);
+        });
+    }
+  }, [dialogueState]);
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {
@@ -138,20 +172,26 @@ function ViewTransactions({ daybookView, defaultTransactions, accounts, persons,
   };
 
   const handleDelete = (id) => {
-    instance
-      .delete(getURL(TRANSACTION_URLS.DELETE_TRANSACTION, "uuid", id))
-      .then((res) => {
-        search();
-        openSnackbar(true, "success", SUCCESS.DELETED);
-      })
-      .catch((error) => {
-        openSnackbar(true, "error", ERRORS.OOPS);
-      });
+    setDialogueState({
+      ...dialogueState,
+      open: true,
+      deleteItem: true,
+      idToDelete: id,
+    });
   };
 
   return (
     <>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
+      <ConfirmationModal
+        open={dialogueState.open}
+        setDialogueState={(value) =>
+          setDialogueState({ ...dialogueState, ...value })
+        }
+        closeDialogue={() =>
+          setDialogueState({ ...dialogueState, open: false })
+        }
+      />
       {!daybookView && (
         <div className={classes.root}>
           <SearchAndSelect
@@ -190,7 +230,7 @@ function ViewTransactions({ daybookView, defaultTransactions, accounts, persons,
         products={products}
         accounts={accounts}
         persons={persons}
-        />
+      />
     </>
   );
 }
