@@ -1,5 +1,7 @@
 import { DB, DB_TRANSLATION } from "../../../constants/db";
 
+import { getReadableDate } from "../../utilities/stringUtils";
+
 export const getMeta = (transaction, essentials) => {
   let person = essentials.persons[transaction[DB.PERSON]];
   let data = [
@@ -24,7 +26,7 @@ export const getMeta = (transaction, essentials) => {
       label: "Discount:",
     },
     {
-      value: transaction[DB.DETAIL] || '---',
+      value: transaction[DB.DETAIL] || "---",
       label: "Detail:",
     },
     {
@@ -37,7 +39,8 @@ export const getMeta = (transaction, essentials) => {
     },
   ];
 
-  let account = essentials.accounts[transaction[DB.ACCOUNT_TYPE]]?.label || '---';
+  let account =
+    essentials.accounts[transaction[DB.ACCOUNT_TYPE]]?.label || "---";
   if (transaction[DB.PAID_AMOUNT]) {
     data = [
       ...data,
@@ -54,13 +57,12 @@ export const getMeta = (transaction, essentials) => {
   return data;
 };
 
-
 export const isTransactionAvailable = (transactions, transactionID) => {
   let found = transactions.filter((element) => element.id === transactionID);
   if (found.length) {
-      return found[0];
+    return found[0];
   } else {
-      return false;
+    return false;
   }
 };
 
@@ -71,6 +73,7 @@ const formatTransactionDetails = (details, warehouses, products) => {
       ...detail,
       [DB.WAREHOUSE]: warehouses[detail[DB.WAREHOUSE]].label,
       [DB.PRODUCT]: products[detail[DB.PRODUCT]].label,
+      total_gazaana: detail.yards_per_piece * detail.quantity,
     });
   });
   return newDetails;
@@ -79,8 +82,16 @@ const formatTransactionDetails = (details, warehouses, products) => {
 export const formatTransaction = (transaction, warehouses, products) => {
   return {
     ...transaction,
-    quantity: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + currentValue.quantity, 0),
-    gazaana: transaction.transaction_detail.reduce((prevValue, currentValue) => prevValue + (currentValue.quantity * currentValue.yards_per_piece), 0),
+    date: getReadableDate(transaction.date),
+    quantity: transaction.transaction_detail.reduce(
+      (prevValue, currentValue) => prevValue + currentValue.quantity,
+      0
+    ),
+    gazaana: transaction.transaction_detail.reduce(
+      (prevValue, currentValue) =>
+        prevValue + currentValue.quantity * currentValue.yards_per_piece,
+      0
+    ),
     [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
       transaction.transaction_detail,
       warehouses,
@@ -88,5 +99,5 @@ export const formatTransaction = (transaction, warehouses, products) => {
     ),
     [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
     [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
-  }
-}
+  };
+};

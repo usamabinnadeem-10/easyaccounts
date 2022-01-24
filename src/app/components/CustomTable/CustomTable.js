@@ -27,7 +27,12 @@ function CustomTable({ columns, data, hoverProperty, noTableStyles, pre }) {
         {headerGroups.map((headerGroup) => (
           <tr {...headerGroup.getHeaderGroupProps()}>
             {headerGroup.headers.map((column) => (
-              <th className={classes.headCell} {...column.getHeaderProps()}>
+              <th
+                className={`${column.hideInPrint && classes.hideInPrint} ${
+                  classes.headCell
+                }`}
+                {...column.getHeaderProps()}
+              >
                 {column.render("Header")}
               </th>
             ))}
@@ -45,7 +50,9 @@ function CustomTable({ columns, data, hoverProperty, noTableStyles, pre }) {
               {row.cells.map((cell) => {
                 return (
                   <td
-                    className={`${classes.rowCell} ${pre ? classes.pre : ""}`}
+                    className={`${classes.rowCell} ${pre ? classes.pre : ""} ${
+                      cell.column.hideInPrint && classes.hideInPrint
+                    }`}
                     {...cell.getCellProps()}
                   >
                     {cell.render("Cell")}

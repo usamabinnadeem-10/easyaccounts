@@ -27,7 +27,11 @@ import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
 import instance from "../../../utils/axiosApi";
 
-import {getGazaanaOptions, formatTransaction, getStockQuantity} from "./utils";
+import {
+  getGazaanaOptions,
+  formatTransaction,
+  getStockQuantity,
+} from "./utils";
 import { useStyles } from "./styles";
 import { getURL } from "../../utilities/stringUtils";
 
@@ -125,7 +129,9 @@ const Transaction = (props) => {
     transactionDetails?.length &&
       transaction &&
       Object.entries(transactionStore.allStock).length &&
-      setTableData(formatTransaction(transactionStore.allStock, transactionDetails));
+      setTableData(
+        formatTransaction(transactionStore.allStock, transactionDetails)
+      );
     transaction && setPaidAmount(transaction.amount_paid);
   }, [transactionDetails, transactionStore.allStock]);
 
@@ -179,17 +185,21 @@ const Transaction = (props) => {
       let currentQuantity = copyTableData[i][constants.DEFAULTS.QUANTITY];
       let currentProduct = copyTableData[i][constants.DEFAULTS.PRODUCT];
       let currentWarehouse = copyTableData[i][constants.DEFAULTS.WAREHOUSE];
-      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA].value
+      let currentGazaana = copyTableData[i][constants.DEFAULTS.GAZAANA].value;
       let actualQuantityIndex = stock.findIndex((value) => {
-        return value.product === currentProduct.value &&
-        value.warehouse === currentWarehouse.value
-        && value.yards_per_piece === currentGazaana;
+        return (
+          value.product === currentProduct.value &&
+          value.warehouse === currentWarehouse.value &&
+          value.yards_per_piece === currentGazaana
+        );
       });
       let actualQuantity = stock[actualQuantityIndex]?.stock_quantity;
       if (!actualQuantity) {
         return {
           okay: false,
-          error: `(check line ${i + 1}) ${currentWarehouse.label} has ${0} thaan of ${currentProduct.label} ${currentGazaana} gaz`,
+          error: `(check line ${i + 1}) ${
+            currentWarehouse.label
+          } has ${0} thaan of ${currentProduct.label} ${currentGazaana} gaz`,
         };
       }
       if (currentQuantity > actualQuantity) {
@@ -197,7 +207,9 @@ const Transaction = (props) => {
           okay: false,
           error: `(check line ${i + 1}) ${
             currentWarehouse.label
-          } has ${actualQuantity} thaan ${currentGazaana} gaz of ${currentProduct.label}`,
+          } has ${actualQuantity} thaan ${currentGazaana} gaz of ${
+            currentProduct.label
+          }`,
         };
       }
       stock[actualQuantityIndex].stock_quantity -= currentQuantity;
@@ -261,33 +273,37 @@ const Transaction = (props) => {
     row[constants.DEFAULTS.TOTAL] =
       row[constants.DEFAULTS.RATE] *
         row[constants.DEFAULTS.QUANTITY] *
-        (
-          row[constants.DEFAULTS.GAZAANA]?.value ||
-          row[constants.DEFAULTS.PRODUCT]?.["basic_unit"]
-        )
-        || 0;
+        row[constants.DEFAULTS.GAZAANA]?.value || 0;
+
+    row[constants.DEFAULTS.TOTAL_GAZAANA] =
+      row[constants.DEFAULTS.QUANTITY] *
+        row[constants.DEFAULTS.GAZAANA]?.value || 0;
 
     // if both product and warehouse are set, then add the stock options for gazaana for that row
     if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.WAREHOUSE]) {
-      row['gazaanaOptions'] = getGazaanaOptions(
-        transactionStore.allStock, 
+      row["gazaanaOptions"] = getGazaanaOptions(
+        transactionStore.allStock,
         row[constants.DEFAULTS.PRODUCT].value,
         row[constants.DEFAULTS.WAREHOUSE].value
-        )
+      );
     } else {
-      row['gazaanaOptions'] = []
-      row['gazaana'] = null;
+      row["gazaanaOptions"] = [];
+      row["gazaana"] = null;
     }
 
-    if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.WAREHOUSE] && row[constants.DEFAULTS.GAZAANA]) {
-      row['stock_quantity'] = getStockQuantity(
-        transactionStore.allStock, 
+    if (
+      row[constants.DEFAULTS.PRODUCT] &&
+      row[constants.DEFAULTS.WAREHOUSE] &&
+      row[constants.DEFAULTS.GAZAANA]
+    ) {
+      row["stock_quantity"] = getStockQuantity(
+        transactionStore.allStock,
         row[constants.DEFAULTS.PRODUCT].value,
         row[constants.DEFAULTS.WAREHOUSE].value,
         row[constants.DEFAULTS.GAZAANA]?.value
-      )
+      );
     } else {
-      row['stock_quantity'] = null;
+      row["stock_quantity"] = null;
     }
 
     setTableData(newState);
@@ -335,7 +351,7 @@ const Transaction = (props) => {
     history.push({
       pathname: getURL(VIEW_SINGLE_TRANSACTION, "uuid", transaction.id),
       state: transaction,
-      });
+    });
   };
 
   // finalize transaction or save as draft
@@ -365,12 +381,13 @@ const Transaction = (props) => {
       discount: discount || 0,
       type: selectedOptions.currentTransactionType,
       detail: detail || null,
+      manual_invoice_serial: selectedOptions.currentManualInvoiceSerial,
       transaction_detail: tableData.map((data, index) => {
         return {
           id: data.id,
           new: data.new,
           product: data.product.value,
-          yards_per_piece: data.gazaana.value,
+          yards_per_piece: parseFloat(data.gazaana.value),
           quantity: data.quantity,
           rate: data.rate,
           warehouse: data.warehouse.value,
@@ -402,7 +419,11 @@ const Transaction = (props) => {
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(true, "error", error?.response?.data?.detail || constants.ERROR_DEFAULTS.OOPS);
+          openSnackbar(
+            true,
+            "error",
+            error?.response?.data?.detail || constants.ERROR_DEFAULTS.OOPS
+          );
         });
     } else {
       instance
@@ -448,9 +469,9 @@ const Transaction = (props) => {
             options={options}
             customColumnOptions={[
               {
-                columnNameToOverride: 'Gazaana',
-                optionsNameInTable: 'gazaanaOptions'
-              }
+                columnNameToOverride: "Gazaana",
+                optionsNameInTable: "gazaanaOptions",
+              },
             ]}
           />
         </Table>

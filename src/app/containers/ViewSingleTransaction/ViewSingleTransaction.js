@@ -1,18 +1,23 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
+import {useRef} from "react";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router";
 import { useLocation } from "react-router";
 
+import { useReactToPrint } from "react-to-print";
+
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomTable from "../../components/CustomTable/CustomTable";
 
-// import { Tooltip } from "@mui/material";
-// import { IconButton } from "@mui/material";
-// import { Avatar } from "@mui/material";
+import PrintIcon from '@mui/icons-material/Print';
+import { Box } from "@mui/material";
+import { Tooltip } from "@mui/material";
+import { IconButton } from "@mui/material";
+import { Avatar } from "@mui/material";
 import { Typography } from "@mui/material";
 import { useStyles } from "./styles";
 
@@ -40,6 +45,8 @@ function ViewSingleTransaction({
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
+  const componentRef = useRef();
+
 
   const [ID, setID] = useState(uuid || transactionID);
   const [transaction, setTransaction] = useState(null);
@@ -93,6 +100,10 @@ function ViewSingleTransaction({
       setTotal(transaction.transaction_detail.reduce((prev, curr) => prev + curr.amount, 0));
     }
   }, [transaction]);
+
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
   
 
   return (
@@ -100,11 +111,16 @@ function ViewSingleTransaction({
       {loading ? (
         <CustomLoader pageLoader loading={loading} />
       ) : (
-        <div className={classes.root}>
-          {/* <div className={classes.printIcon}>
+        <div ref={componentRef} className={classes.root}>
+          <Box sx={{
+            position: "absolute",
+            right: -15,
+            top: -10,
+            displayPrint: 'none'
+          }}>
             <Tooltip title="Print" arrow>
               <IconButton
-                onClick={() => print("transaction-wrapper")}
+                onClick={handlePrint}
                 sx={{ p: 0 }}
               >
                 <Avatar sx={{ bgcolor: "purple" }}>
@@ -112,7 +128,7 @@ function ViewSingleTransaction({
                 </Avatar>
               </IconButton>
             </Tooltip>
-          </div> */}
+          </Box>
           <div
             id="transaction-wrapper"
             className={`${classes.transactionWrapper} ${uuid && classes.wider}`}

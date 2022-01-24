@@ -72,6 +72,7 @@ function LedgerDetail({
     {
       accessor: "edit",
       Header: "Edit",
+      hideInPrint: true,
       Cell: (row) => (
         <IconButton onClick={() => handleEdit(row.row.id)}>
           <EditIcon />
@@ -81,6 +82,7 @@ function LedgerDetail({
     {
       accessor: "delete",
       Header: "Delete",
+      hideInPrint: true,
       Cell: (row) => (
         <IconButton onClick={() => handleDelete(row.row.id)}>
           <DeleteIcon />

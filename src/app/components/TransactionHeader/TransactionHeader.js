@@ -1,5 +1,7 @@
 import React from "react";
 
+import { TextField } from "@mui/material";
+
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 
@@ -32,6 +34,12 @@ function TransactionHeader(props) {
       <Grid container>
         <div className={`${classes.selectCustomer}`}>
           <Select
+            styles={{
+              control: (base, state) => ({
+                ...base,
+                minHeight: "40px",
+              }),
+            }}
             placeholder={personIdentifier}
             value={selectedOptions.currentPerson}
             onChange={(user) => updateMetaData(metaConstants.user, user)}
@@ -60,9 +68,28 @@ function TransactionHeader(props) {
                 updateMetaData(metaConstants.accountType, account)
               }
               options={options.accountTypes}
+              styles={{
+                control: (base, state) => ({
+                  ...base,
+                  minHeight: "40px",
+                  marginRight: "16px",
+                }),
+              }}
             />
           </div>
         )}
+        <TextField
+          type="number"
+          label="Book serial"
+          placeholder="Book serial"
+          size="small"
+          onChange={(e) => {
+            updateMetaData(
+              metaConstants.manualInvoiceSerial,
+              parseInt(e.target.value) || null
+            );
+          }}
+        />
       </Grid>
     </>
   );

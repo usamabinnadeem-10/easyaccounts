@@ -30,4 +30,9 @@ export const useStyles = makeStyles({
     cursor: "pointer",
   },
   pre: { whiteSpace: "break-spaces" },
+  hideInPrint: {
+    "@media print": {
+      display: "none !important",
+    },
+  },
 });

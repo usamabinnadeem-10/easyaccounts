@@ -8,6 +8,7 @@ export const DEFAULTS = {
   TOTAL: "total",
   WAREHOUSE: "warehouse",
   GAZAANA: "gazaana",
+  TOTAL_GAZAANA: "total_gazaana",
 };
 
 export const TEXT_ROWS = [
@@ -25,6 +26,7 @@ export const DEFAULT_ROW = {
   product: null,
   quantity: 0,
   rate: 0,
+  total_gazaana: 0,
   total: 0,
 };
 
@@ -36,6 +38,7 @@ export const ERROR_DEFAULTS = {
   NO_ROW: "Transaction is empty",
   NO_ACCOUNT: "Please select an account type",
   NO_PAID_AMOUNT: "Please enter the amount paid",
+  NO_MANUAL_INVOICE: "Please enter manual invoice number",
   OOPS: "Oops, something went wrong",
 };
 

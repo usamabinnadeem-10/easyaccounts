@@ -22,6 +22,7 @@ function SupplierTransaction() {
     user: null,
     date: null,
     transactionType: constants.TRANSACTION_TYPES[0].value,
+    manualInvoiceSerial: null,
   });
 
   const [transactions, setTransactions] = useState([]);
@@ -34,6 +35,7 @@ function SupplierTransaction() {
         user: data.person,
         date: data.date,
         transactionType: data.type,
+        manualInvoiceSerial: data.manual_invoice_serial,
       });
       setTransactions(data.transaction_detail);
       setTransaction({ ...data, amount_paid: location.state.paid_amount });
@@ -66,6 +68,7 @@ function SupplierTransaction() {
           currentPerson: metaData.user,
           currentTransactionType: metaData.transactionType,
           currentDate: metaData.date,
+          currentManualInvoiceSerial: metaData.manualInvoiceSerial,
         }}
         transactionDetails={location.state ? transactions : null}
         transaction={transaction}

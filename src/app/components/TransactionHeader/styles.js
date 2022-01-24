@@ -2,7 +2,7 @@ import { makeStyles } from "@mui/styles";
 
 export const useStyles = makeStyles({
   selectCustomer: {
-    width: "25%",
+    width: "20%",
     marginRight: "1rem",
   },
   metaItems: {

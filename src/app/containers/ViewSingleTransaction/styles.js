@@ -8,6 +8,9 @@ export const useStyles = makeStyles({
     position: "absolute",
     right: -15,
     top: -10,
+    '& @print': {
+      display: 'none'
+    }
   },
   wider: {
     width: "50vw !important",

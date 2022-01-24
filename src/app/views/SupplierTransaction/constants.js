@@ -39,13 +39,6 @@ export const TABLE_META = [
     optional: false,
   },
   {
-    field: FIELDS.NUMBER,
-    default: 0,
-    name: "Rate",
-    optional: false,
-    readOnly: false,
-  },
-  {
     field: FIELDS.SELECT,
     default: 0,
     name: "Gazaana",
@@ -55,9 +48,23 @@ export const TABLE_META = [
   {
     field: FIELDS.NUMBER,
     default: 0,
+    name: "Rate",
+    optional: false,
+    readOnly: false,
+  },
+  {
+    field: FIELDS.NUMBER,
+    default: 0,
     name: "Quantity",
     optional: false,
     readOnly: false,
+  },
+  {
+    field: FIELDS.NUMBER,
+    default: 0,
+    name: "Total Gaz",
+    optional: false,
+    readOnly: true,
   },
   {
     field: FIELDS.NUMBER,
@@ -81,4 +88,5 @@ export const META_CONSTANTS = {
   user: "user",
   date: "date",
   transactionType: "transactionType",
+  manualInvoiceSerial: "manualInvoiceSerial",
 };

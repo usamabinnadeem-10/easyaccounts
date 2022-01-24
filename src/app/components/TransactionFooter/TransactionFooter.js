@@ -68,12 +68,8 @@ function TransactionFooter(props) {
       </Grid>
 
       <Grid container justifyContent="space-between">
-        <Typography variant="button" fontWeight="900">
-          Items : {tableData.length - 1}
-        </Typography>
-        <Typography variant="button" fontWeight="900">
-          PKR : {total || 0} /=
-        </Typography>
+        <Typography variant="subtitle">Items : {tableData.length}</Typography>
+        <Typography variant="body1">PKR : {total || 0} /=</Typography>
       </Grid>
       {loading ? (
         <CustomLoader loading={loading} height={20} />

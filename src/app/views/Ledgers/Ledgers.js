@@ -1,13 +1,19 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
 
 import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
 
+import { useReactToPrint } from "react-to-print";
+
+import { Button } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 
+// import CustomDataGrid from "../../components/CustomDataGrid/CustomDataGrid";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
@@ -40,6 +46,7 @@ function Ledgers({
   const classes = useStyles();
   const history = useHistory();
   const state = useSelector((state) => state.essentials);
+  const componentRef = useRef();
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
@@ -89,6 +96,10 @@ function Ledgers({
     }
   }, [dialogueState]);
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   const search = () => {
     if (!currentPerson) {
       openSnackbar(true, "error", ERRORS.SELECT_PERSON + personType);
@@ -120,7 +131,9 @@ function Ledgers({
         );
         setledgerData(ledgerDataFormatted);
         setOpeningBalance(res.data.opening_balance);
-        setClosingBalance(ledgerDataFormatted[0]?.balance);
+        setClosingBalance(
+          ledgerDataFormatted[ledgerDataFormatted.length - 1]?.balance
+        );
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -206,23 +219,36 @@ function Ledgers({
         </div>
       )}
       {!daybookView && (
-        <>
-          <Typography fontWeight="bold">
-            Opening Balance:{" "}
-            {`${Math.abs(openingBalance) || "---"}${
-              openingBalance < 0 ? " DB" : " CR"
-            }`}
-          </Typography>
-          <Typography fontWeight="bold">
-            Closing Balance:{" "}
-            {`${Math.abs(closingBalance) || "---"}${
-              closingBalance < 0 ? " DB" : " CR"
-            }`}
-          </Typography>
-        </>
+        <Grid container alignItems="center" justifyContent="space-between">
+          <div>
+            <Typography fontWeight="bold">
+              Opening Balance:{" "}
+              {`${Math.abs(openingBalance) || "---"}${
+                openingBalance < 0 ? " DB" : " CR"
+              }`}
+            </Typography>
+            <Typography fontWeight="bold">
+              Closing Balance:{" "}
+              {`${Math.abs(closingBalance) || "---"}${
+                closingBalance < 0 ? " DB" : " CR"
+              }`}
+            </Typography>
+          </div>
+          <Button
+            onClick={handlePrint}
+            variant="contained"
+            size="medium"
+            color="secondary"
+            disabled={ledgerData.length === 0}
+          >
+            PRINT
+          </Button>
+        </Grid>
       )}
 
-      <div className={classes.table}>
+      {/* <CustomDataGrid /> */}
+
+      <div className={classes.table} ref={componentRef}>
         {ledgerData.length > 0 && (
           <LedgerDetail
             daybookView={daybookView}

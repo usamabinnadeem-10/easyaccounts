@@ -8,6 +8,7 @@ export const useStyles = makeStyles({
     backgroundColor: "rgba(105, 105, 105, 0.03)",
     display: "flex",
     flexDirection: "column",
+    marginBottom: "12px",
   },
   table: {
     margin: "1.2rem 0",

@@ -30,7 +30,7 @@ function TransactionTableHeader(props) {
                   <Delete />
                 </IconButton>
               ) : (
-                head.name
+                head.name.split("_").join(" ")
               )}
             </TableCell>
           );
