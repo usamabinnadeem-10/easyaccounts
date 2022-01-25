@@ -19,6 +19,7 @@ import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
+import Empty from "../../components/Empty/Empty";
 
 import {
   PERSON_TYPES,
@@ -68,9 +69,10 @@ function Ledgers({
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [transactionID, setTransactionID] = useState(null);
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
-    setCurrentPerson(null);
+    setIsEmpty(false);
   }, [personType]);
 
   useEffect(() => {
@@ -134,6 +136,7 @@ function Ledgers({
         setClosingBalance(
           ledgerDataFormatted[ledgerDataFormatted.length - 1]?.formattedBalance
         );
+        setIsEmpty(ledgerDataFormatted.length === 0);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -274,6 +277,7 @@ function Ledgers({
           )}
         </div>
       </div>
+      {isEmpty && <Empty />}
       <TransactionDrawer
         hideDrawer={hideDrawer}
         open={showDrawer}

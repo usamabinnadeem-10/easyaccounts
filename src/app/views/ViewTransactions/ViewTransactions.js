@@ -11,6 +11,7 @@ import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
+import Empty from "../../components/Empty/Empty";
 
 import {
   PERSON_TYPES,
@@ -59,6 +60,11 @@ function ViewTransactions({
 
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState({});
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useEffect(() => {
+    setIsEmpty(false);
+  }, [personType]);
 
   useEffect(() => {
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
@@ -122,8 +128,10 @@ function ViewTransactions({
     instance
       .get(URL)
       .then((res) => {
-        setTransactionData(formatTransactionData(res.data.results));
+        let formattedTransactions = formatTransactionData(res.data.results);
+        setTransactionData(formattedTransactions);
         setTransactionDataRaw(res.data.results);
+        setIsEmpty(formattedTransactions.length === 0);
         setLoading(false);
         setStartDate(null);
         setEndDate(null);
@@ -221,6 +229,7 @@ function ViewTransactions({
           />
         )}
       </div>
+      {isEmpty && <Empty />}
       <TransactionDrawer
         dontFetch
         transactionData={currentTransaction}

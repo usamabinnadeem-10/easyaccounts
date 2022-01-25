@@ -12,6 +12,7 @@ import StartEndDate from "../../components/StartEndDate/StartEndDate";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import ExpenseDetail from "../../components/ExpenseDetail/ExpenseDetail";
 import AddModal from "../../containers/AddModal/AddModal";
+import Empty from "../../components/Empty/Empty";
 
 import { Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -65,6 +66,7 @@ const ViewExpenses = ({
     deleteItem: false,
     idToDelete: null,
   });
+  const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
@@ -131,7 +133,9 @@ const ViewExpenses = ({
     instance
       .get(URL)
       .then((res) => {
-        setExpensesData(formatExpensesData(res.data));
+        let formattedExpenses = formatExpensesData(res.data);
+        setExpensesData(formattedExpenses);
+        setIsEmpty(formattedExpenses.length === 0);
         setTotalExpenses(getTotalExpenses(res.data));
         setLoading(false);
         setStartDate(null);
@@ -269,7 +273,8 @@ const ViewExpenses = ({
             handleEdit={handleEdit}
           />
         )}
-        {!!totalExpenses && (
+        {isEmpty && <Empty />}
+        {!isEmpty && (
           <Grid sx={{ mt: 2 }} container alignItems="center">
             <Typography variant="subtitle">
               Total Expenses: {totalExpenses}
