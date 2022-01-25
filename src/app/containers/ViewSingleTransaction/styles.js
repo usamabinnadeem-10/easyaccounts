@@ -5,7 +5,7 @@ export const useStyles = makeStyles({
     position: "relative",
   },
   transactionWrapper: {
-    width: "60vw",
+    width: "57vw",
     padding: "0.8rem 1.6rem",
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",

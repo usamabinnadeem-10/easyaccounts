@@ -14,4 +14,10 @@ export const useStyles = makeStyles({
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
+  headerWrapper: {
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "12px",
+  },
 });

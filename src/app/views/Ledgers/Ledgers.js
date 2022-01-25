@@ -31,6 +31,7 @@ import { SUCCESS } from "./constants";
 import { formatLedgerData } from "./utils";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 
+import { DB_TRANSLATION } from "../../../constants/db";
 import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL, formatCurrency } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
@@ -70,6 +71,7 @@ function Ledgers({
   const [showDrawer, setShowDrawer] = useState(false);
   const [transactionID, setTransactionID] = useState(null);
   const [isEmpty, setIsEmpty] = useState(false);
+  const [hideDetails, setHideDetails] = useState(false);
 
   useEffect(() => {
     setIsEmpty(false);
@@ -104,7 +106,11 @@ function Ledgers({
 
   const search = () => {
     if (!currentPerson) {
-      openSnackbar(true, "error", ERRORS.SELECT_PERSON + personType);
+      openSnackbar(
+        true,
+        "error",
+        ERRORS.SELECT_PERSON + DB_TRANSLATION[personType]
+      );
       return;
     }
     setLoading(true);
@@ -242,13 +248,15 @@ function Ledgers({
                     : "---"
                 }${openingBalance < 0 ? " DB" : " CR"}`}
               </Typography>
-              {/* <Typography variant="body2">
-                Closing Balance:{" "}
-                {`${Math.abs(closingBalance) || "---"}${
-                  closingBalance < 0 ? " DB" : " CR"
-                }`}
-              </Typography> */}
               <Typography variant="body2">{`Closing Balance: ${closingBalance}`}</Typography>
+              <Button
+                variant="contained"
+                onClick={() => setHideDetails(!hideDetails)}
+                disabled={ledgerData.length === 0}
+                sx={{ mt: 2, displayPrint: "none" }}
+              >
+                {hideDetails ? "SHOW DETAILS" : "HIDE DETAILS"}
+              </Button>
             </div>
             <Button
               onClick={handlePrint}
@@ -256,6 +264,7 @@ function Ledgers({
               size="medium"
               color="secondary"
               disabled={ledgerData.length === 0}
+              sx={{ displayPrint: "none" }}
             >
               PRINT
             </Button>
@@ -267,6 +276,7 @@ function Ledgers({
         <div className={classes.table}>
           {ledgerData.length > 0 && (
             <LedgerDetail
+              hideDetails={hideDetails}
               daybookView={daybookView}
               rows={ledgerData}
               onRowClick={onRowClick}

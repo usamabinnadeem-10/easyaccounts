@@ -1,4 +1,6 @@
 import React from "react";
+import { useState } from "react";
+import { useEffect } from "react";
 
 import CustomTable from "../CustomTable/CustomTable";
 
@@ -16,9 +18,8 @@ function LedgerDetail({
   handleEdit,
   handleDelete,
   daybookView,
+  hideDetails,
 }) {
-  const classes = useStyles();
-
   const COLUMNS = [
     {
       accessor: "date",
@@ -90,7 +91,6 @@ function LedgerDetail({
       ),
     },
   ];
-
   if (daybookView) {
     COLUMNS[5] = {
       accessor: "person_name",
@@ -101,9 +101,20 @@ function LedgerDetail({
     };
   }
 
+  const classes = useStyles();
+  const [columns, setColumns] = useState(COLUMNS);
+
+  useEffect(() => {
+    if (hideDetails) {
+      setColumns(COLUMNS.filter((column) => column.accessor !== "detail"));
+    } else {
+      setColumns(COLUMNS);
+    }
+  }, [hideDetails]);
+
   return (
     <CustomTable
-      columns={COLUMNS}
+      columns={columns}
       data={rows}
       hoverProperty={hoverProperty}
       pre

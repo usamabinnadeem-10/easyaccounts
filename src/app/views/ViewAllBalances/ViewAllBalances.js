@@ -1,6 +1,9 @@
 import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
+import { useRef } from "react";
+
+import { useReactToPrint } from "react-to-print";
 
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
@@ -9,6 +12,7 @@ import CustomToggleButtons from "../../components/CustomToggleButtons/CustomTogg
 import Empty from "../../components/Empty/Empty";
 
 import { LoadingButton } from "@mui/lab";
+import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 
 import { makeQueryParamURL } from "../../utilities/stringUtils";
@@ -20,6 +24,7 @@ import { formatBalances } from "./utils";
 
 const Balances = () => {
   const classes = useStyles();
+  const componentRef = useRef();
 
   const [snackbarState, setSnackbarState] = useState({});
   const [loading, setLoading] = useState(false);
@@ -60,6 +65,7 @@ const Balances = () => {
       .get(makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, query))
       .then((res) => {
         let formattedBalances = formatBalances(res.data);
+        console.log(formattedBalances);
         setBalancesData(formattedBalances);
         setIsEmpty(formattedBalances.length === 0);
         setLoading(false);
@@ -70,13 +76,27 @@ const Balances = () => {
       });
   };
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <div className={classes.root}>
-        <Typography variant="h5" fontWeight={900} sx={{ mb: 2 }}>
-          View All Balances
-        </Typography>
+        <div className={classes.headerWrapper}>
+          <Typography variant="h5" fontWeight={900} sx={{ mb: 2 }}>
+            View All Balances
+          </Typography>
+          <Button
+            disabled={balancesData.length === 0}
+            onClick={handlePrint}
+            variant="contained"
+            color="secondary"
+          >
+            PRINT
+          </Button>
+        </div>
         <div className={classes.selectPerson}>
           <CustomToggleButtons
             buttons={PERSONS}
@@ -92,10 +112,11 @@ const Balances = () => {
             SEARCH
           </LoadingButton>
         </div>
-
-        {balancesData.length > 0 && (
-          <CustomTable data={balancesData} columns={COLUMNS} />
-        )}
+        <div ref={componentRef}>
+          {balancesData.length > 0 && (
+            <CustomTable data={balancesData} columns={COLUMNS} />
+          )}
+        </div>
         {isEmpty && <Empty />}
       </div>
       {loading && <CustomLoader pageLoader loading={loading} />}

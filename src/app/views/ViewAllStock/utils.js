@@ -16,6 +16,7 @@ export const formatStockData = (data, props) => {
     };
   });
   newStockData.push({
+    product: "TOTAL",
     stock_quantity: formatCurrency(
       convertCurrencyToNumber(
         newStockData.reduce(

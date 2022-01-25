@@ -17,7 +17,7 @@ export const formatLedgerData = (data, opening) => {
       date: getReadableDate(element.date),
       credit: nature === "C" ? formatCurrency(amount) : "",
       debit: nature === "D" ? formatCurrency(amount) : "",
-      balance: balance,
+      balance: formatCurrency(balance),
       formattedBalance: `${formatCurrency(balance)} ${
         balance < 0 ? "DB" : "CR"
       }`,
