@@ -4,6 +4,10 @@ export const useStyles = makeStyles({
   root: {
     width: "75vw",
     padding: "0.8rem 1.6rem",
+    "@media print": {
+      width: "100%",
+      padding: "0.8rem 0.8rem",
+    },
   },
   selectPerson: {
     display: "flex",

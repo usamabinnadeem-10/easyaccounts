@@ -1,10 +1,12 @@
 import React from "react";
+import { useEffect } from "react";
 import { useState } from "react";
 
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
+import Empty from "../../components/Empty/Empty";
 
 import { LoadingButton } from "@mui/lab";
 import { Typography } from "@mui/material";
@@ -14,7 +16,7 @@ import { useStyles } from "./styles";
 import instance from "../../../utils/axiosApi";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import { PERSONS, COLUMNS } from "./constants";
-import {formatBalances} from "./utils";
+import { formatBalances } from "./utils";
 
 const Balances = () => {
   const classes = useStyles();
@@ -23,6 +25,11 @@ const Balances = () => {
   const [loading, setLoading] = useState(false);
   const [balancesData, setBalancesData] = useState([]);
   const [currentPerson, setCurrentPerson] = useState("C");
+  const [isEmpty, setIsEmpty] = useState(false);
+
+  useEffect(() => {
+    setIsEmpty(false);
+  }, [currentPerson]);
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {
@@ -52,7 +59,9 @@ const Balances = () => {
     instance
       .get(makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, query))
       .then((res) => {
-        setBalancesData(formatBalances(res.data));
+        let formattedBalances = formatBalances(res.data);
+        setBalancesData(formattedBalances);
+        setIsEmpty(formattedBalances.length === 0);
         setLoading(false);
       })
       .catch((error) => {
@@ -87,6 +96,7 @@ const Balances = () => {
         {balancesData.length > 0 && (
           <CustomTable data={balancesData} columns={COLUMNS} />
         )}
+        {isEmpty && <Empty />}
       </div>
       {loading && <CustomLoader pageLoader loading={loading} />}
     </>

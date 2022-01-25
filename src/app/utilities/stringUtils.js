@@ -54,3 +54,11 @@ export const formatCurrency = (value, style = "decimal") =>
 export const convertDate = (from, to, date) => {
   return moment(date, from).format(to);
 };
+
+export const convertCurrencyToNumber = (currency) => {
+  if (typeof currency === "string" || currency instanceof String) {
+    let amount = currency.replace(/[,]+/g, "");
+    return parseFloat(amount);
+  }
+  return currency;
+};

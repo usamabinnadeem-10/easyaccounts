@@ -20,4 +20,8 @@ export const COLUMNS = [
     accessor: "balance",
     Header: "Balance",
   },
+  {
+    accessor: "status",
+    Header: "CR/DB",
+  },
 ];
