@@ -31,7 +31,7 @@ import { formatLedgerData } from "./utils";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 
 import instance from "../../../utils/axiosApi";
-import { makeQueryParamURL } from "../../utilities/stringUtils";
+import { makeQueryParamURL, formatCurrency } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 
@@ -132,7 +132,7 @@ function Ledgers({
         setledgerData(ledgerDataFormatted);
         setOpeningBalance(res.data.opening_balance);
         setClosingBalance(
-          ledgerDataFormatted[ledgerDataFormatted.length - 1]?.balance
+          ledgerDataFormatted[ledgerDataFormatted.length - 1]?.formattedBalance
         );
         setLoading(false);
         setStartDate(null);
@@ -218,47 +218,61 @@ function Ledgers({
           />
         </div>
       )}
-      {!daybookView && (
-        <Grid container alignItems="center" justifyContent="space-between">
-          <div>
-            <Typography fontWeight="bold">
-              Opening Balance:{" "}
-              {`${Math.abs(openingBalance) || "---"}${
-                openingBalance < 0 ? " DB" : " CR"
-              }`}
-            </Typography>
-            <Typography fontWeight="bold">
-              Closing Balance:{" "}
-              {`${Math.abs(closingBalance) || "---"}${
-                closingBalance < 0 ? " DB" : " CR"
-              }`}
-            </Typography>
-          </div>
-          <Button
-            onClick={handlePrint}
-            variant="contained"
-            size="medium"
-            color="secondary"
-            disabled={ledgerData.length === 0}
-          >
-            PRINT
-          </Button>
-        </Grid>
-      )}
+      <div className={classes.ledgerWrapper} ref={componentRef}>
+        {!daybookView && (
+          <Grid container alignItems="center" justifyContent="space-between">
+            <div>
+              {currentPerson && (
+                <Typography>
+                  {`Ledger for `}
+                  <Typography component="span" fontWeight={700}>
+                    {currentPerson.label}
+                  </Typography>
+                </Typography>
+              )}
 
-      {/* <CustomDataGrid /> */}
-
-      <div className={classes.table} ref={componentRef}>
-        {ledgerData.length > 0 && (
-          <LedgerDetail
-            daybookView={daybookView}
-            rows={ledgerData}
-            onRowClick={onRowClick}
-            hoverProperty={"transaction"}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
+              <Typography variant="body2">
+                Opening Balance:{" "}
+                {`${
+                  Math.abs(openingBalance)
+                    ? formatCurrency(openingBalance)
+                    : "---"
+                }${openingBalance < 0 ? " DB" : " CR"}`}
+              </Typography>
+              {/* <Typography variant="body2">
+                Closing Balance:{" "}
+                {`${Math.abs(closingBalance) || "---"}${
+                  closingBalance < 0 ? " DB" : " CR"
+                }`}
+              </Typography> */}
+              <Typography variant="body2">{`Closing Balance: ${closingBalance}`}</Typography>
+            </div>
+            <Button
+              onClick={handlePrint}
+              variant="contained"
+              size="medium"
+              color="secondary"
+              disabled={ledgerData.length === 0}
+            >
+              PRINT
+            </Button>
+          </Grid>
         )}
+
+        {/* <CustomDataGrid /> */}
+
+        <div className={classes.table}>
+          {ledgerData.length > 0 && (
+            <LedgerDetail
+              daybookView={daybookView}
+              rows={ledgerData}
+              onRowClick={onRowClick}
+              hoverProperty={"transaction"}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+          )}
+        </div>
       </div>
       <TransactionDrawer
         hideDrawer={hideDrawer}

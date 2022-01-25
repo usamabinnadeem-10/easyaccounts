@@ -15,4 +15,9 @@ export const useStyles = makeStyles({
   table: {
     margin: "1.2rem 0",
   },
+  expensesWrapper: {
+    "@media print": {
+      margin: "12px",
+    },
+  },
 });

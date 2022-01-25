@@ -31,8 +31,8 @@ import {
   getDateFromString,
   makeDate,
   getURL,
+  convertDate,
 } from "../../utilities/stringUtils";
-
 
 function LedgerTransaction(props) {
   const classes = useStyles();
@@ -148,6 +148,11 @@ function LedgerTransaction(props) {
           openSnackbar(true, "error", constants.ERRORS.OOPS);
         });
     } else {
+      data["date"] = convertDate(
+        constants.DATE.DD_MM_YYYY,
+        constants.DATE.YYYY_MM_DD,
+        data["date"]
+      );
       instance
         .put(getURL(LEDGER_URLS.UPDATE_LEDGER, "uuid", location.state.id), data)
         .then((res) => {

@@ -81,7 +81,8 @@ function TransactionHeader(props) {
         <TextField
           type="number"
           label="Book serial"
-          placeholder="Book serial"
+          defaultValue={selectedOptions.currentManualInvoiceSerial}
+          value={selectedOptions.currentManualInvoiceSerial}
           size="small"
           onChange={(e) => {
             updateMetaData(

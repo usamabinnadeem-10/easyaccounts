@@ -1,4 +1,4 @@
-import { getReadableDate } from "../../utilities/stringUtils";
+import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
 export const formatLedgerData = (data, opening) => {
   let ledger = [];
@@ -15,9 +15,12 @@ export const formatLedgerData = (data, opening) => {
     ledger.push({
       ...element,
       date: getReadableDate(element.date),
-      credit: nature === "C" ? amount : "",
-      debit: nature === "D" ? amount : "",
+      credit: nature === "C" ? formatCurrency(amount) : "",
+      debit: nature === "D" ? formatCurrency(amount) : "",
       balance: balance,
+      formattedBalance: `${formatCurrency(balance)} ${
+        balance < 0 ? "DB" : "CR"
+      }`,
     });
   });
   // return ledger.reverse();

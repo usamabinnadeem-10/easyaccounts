@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
-import {useRef} from "react";
+import { useRef } from "react";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -13,7 +13,7 @@ import { useReactToPrint } from "react-to-print";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomTable from "../../components/CustomTable/CustomTable";
 
-import PrintIcon from '@mui/icons-material/Print';
+import PrintIcon from "@mui/icons-material/Print";
 import { Box } from "@mui/material";
 import { Tooltip } from "@mui/material";
 import { IconButton } from "@mui/material";
@@ -39,14 +39,13 @@ function ViewSingleTransaction({
   warehouses,
   products,
   accounts,
-  persons
+  persons,
 }) {
   const { uuid } = useParams();
   const classes = useStyles();
   const dispatch = useDispatch();
   const location = useLocation();
   const componentRef = useRef();
-
 
   const [ID, setID] = useState(uuid || transactionID);
   const [transaction, setTransaction] = useState(null);
@@ -56,24 +55,31 @@ function ViewSingleTransaction({
   const transactions = useSelector((state) => state.transactions);
 
   useEffect(() => {
-    if (location.state){
+    if (location.state) {
       setTransaction(formatTransaction(location.state, warehouses, products));
       setLoading(false);
-    }else {
+    } else {
       if (!dontFetch) {
-        let isTransaction = isTransactionAvailable(transactions.transactions, ID)
+        let isTransaction = isTransactionAvailable(
+          transactions.transactions,
+          ID
+        );
         if (!isTransaction) {
           dispatch(getSingleTransaction(ID));
         } else {
-          setTransaction(formatTransaction(isTransaction, warehouses, products));
+          setTransaction(
+            formatTransaction(isTransaction, warehouses, products)
+          );
           setLoading(false);
         }
       } else {
-        setTransaction(formatTransaction(transactionData, warehouses, products));
+        setTransaction(
+          formatTransaction(transactionData, warehouses, products)
+        );
         setLoading(false);
       }
     }
-    
+
     return () => {
       dispatch(setFetchedFalse());
     };
@@ -92,19 +98,22 @@ function ViewSingleTransaction({
         setLoading(false);
       }
     }
-    
   }, [transactions.fetched]);
 
   useEffect(() => {
     if (transaction) {
-      setTotal(transaction.transaction_detail.reduce((prev, curr) => prev + curr.amount, 0));
+      setTotal(
+        transaction.transaction_detail.reduce(
+          (prev, curr) => prev + curr.amount,
+          0
+        )
+      );
     }
   }, [transaction]);
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
-  
 
   return (
     <>
@@ -112,17 +121,16 @@ function ViewSingleTransaction({
         <CustomLoader pageLoader loading={loading} />
       ) : (
         <div ref={componentRef} className={classes.root}>
-          <Box sx={{
-            position: "absolute",
-            right: -15,
-            top: -10,
-            displayPrint: 'none'
-          }}>
+          <Box
+            sx={{
+              position: "absolute",
+              right: -15,
+              top: -10,
+              displayPrint: "none",
+            }}
+          >
             <Tooltip title="Print" arrow>
-              <IconButton
-                onClick={handlePrint}
-                sx={{ p: 0 }}
-              >
+              <IconButton onClick={handlePrint} sx={{ p: 0 }}>
                 <Avatar sx={{ bgcolor: "purple" }}>
                   <PrintIcon />
                 </Avatar>
@@ -131,24 +139,26 @@ function ViewSingleTransaction({
           </Box>
           <div
             id="transaction-wrapper"
-            className={`${classes.transactionWrapper} ${uuid && classes.wider}`}
+            className={`${classes.transactionWrapper}`}
           >
             <div className={classes.meta}>
-              {getMeta(transaction, {persons, accounts}).map((field, index) => {
-                return (
-                  <div key={index} className={classes.metaItem}>
-                    <Typography variant="subtitle2" sx={{ width: 110 }}>
-                      {field.label}
-                    </Typography>
-                    <Typography
-                      sx={{ ml: 2, textTransform: "capitalize" }}
-                      fontWeight="700"
-                    >
-                      {field.value}
-                    </Typography>
-                  </div>
-                );
-              })}
+              {getMeta(transaction, { persons, accounts }).map(
+                (field, index) => {
+                  return (
+                    <div key={index} className={classes.metaItem}>
+                      <Typography variant="subtitle2" sx={{ width: 110 }}>
+                        {field.label}
+                      </Typography>
+                      <Typography
+                        sx={{ ml: 2, textTransform: "capitalize" }}
+                        fontWeight="700"
+                      >
+                        {field.value}
+                      </Typography>
+                    </div>
+                  );
+                }
+              )}
             </div>
             <div className={classes.table}>
               <CustomTable
@@ -157,8 +167,8 @@ function ViewSingleTransaction({
                 data={transaction[DB.TRANSACTION_DETAIL]}
               />
               <div className={classes.total}>
-                <Typography align="right" variant="button" fontWeight={900}>
-                  Total: PKR {total}/=
+                <Typography align="right" variant="h6">
+                  {transaction.total}
                 </Typography>
               </div>
             </div>

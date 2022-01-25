@@ -1,6 +1,6 @@
 import { DB, DB_TRANSLATION } from "../../../constants/db";
 
-import { getReadableDate } from "../../utilities/stringUtils";
+import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
 export const getMeta = (transaction, essentials) => {
   let person = essentials.persons[transaction[DB.PERSON]];
@@ -8,6 +8,10 @@ export const getMeta = (transaction, essentials) => {
     {
       value: transaction[DB.SERIAL],
       label: "Invoice #",
+    },
+    {
+      value: transaction[DB.BOOK_SERIAL],
+      label: "Book #",
     },
     {
       value: person.label,
@@ -71,9 +75,10 @@ const formatTransactionDetails = (details, warehouses, products) => {
   details.forEach((detail) => {
     newDetails.push({
       ...detail,
+      amount: formatCurrency(detail.amount),
       [DB.WAREHOUSE]: warehouses[detail[DB.WAREHOUSE]].label,
       [DB.PRODUCT]: products[detail[DB.PRODUCT]].label,
-      total_gazaana: detail.yards_per_piece * detail.quantity,
+      total_gazaana: formatCurrency(detail.yards_per_piece * detail.quantity),
     });
   });
   return newDetails;
@@ -82,15 +87,24 @@ const formatTransactionDetails = (details, warehouses, products) => {
 export const formatTransaction = (transaction, warehouses, products) => {
   return {
     ...transaction,
+    total: formatCurrency(
+      transaction.transaction_detail.reduce(
+        (prev, curr) => prev + curr.amount,
+        0
+      ),
+      "currency"
+    ),
     date: getReadableDate(transaction.date),
     quantity: transaction.transaction_detail.reduce(
       (prevValue, currentValue) => prevValue + currentValue.quantity,
       0
     ),
-    gazaana: transaction.transaction_detail.reduce(
-      (prevValue, currentValue) =>
-        prevValue + currentValue.quantity * currentValue.yards_per_piece,
-      0
+    gazaana: formatCurrency(
+      transaction.transaction_detail.reduce(
+        (prevValue, currentValue) =>
+          prevValue + currentValue.quantity * currentValue.yards_per_piece,
+        0
+      )
     ),
     [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
       transaction.transaction_detail,

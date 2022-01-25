@@ -37,6 +37,7 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
     {
       accessor: "edit",
       Header: "Edit",
+      hideInPrint: true,
       Cell: (row) => (
         <IconButton onClick={() => handleEdit(row.row.id)}>
           <EditIcon />
@@ -46,6 +47,7 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
     {
       accessor: "delete",
       Header: "Delete",
+      hideInPrint: true,
       Cell: (row) => (
         <IconButton onClick={() => handleDelete(row.row.id)}>
           <DeleteIcon />

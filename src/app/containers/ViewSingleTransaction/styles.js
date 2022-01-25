@@ -4,22 +4,14 @@ export const useStyles = makeStyles({
   root: {
     position: "relative",
   },
-  printIcon: {
-    position: "absolute",
-    right: -15,
-    top: -10,
-    '& @print': {
-      display: 'none'
-    }
-  },
-  wider: {
-    width: "50vw !important",
-  },
   transactionWrapper: {
-    width: "100%",
+    width: "60vw",
     padding: "0.8rem 1.6rem",
     borderRadius: "0.6rem",
     backgroundColor: "rgba(105, 105, 105, 0.03)",
+    "@media print": {
+      width: "100vw !important",
+    },
   },
   meta: {
     display: "flex",

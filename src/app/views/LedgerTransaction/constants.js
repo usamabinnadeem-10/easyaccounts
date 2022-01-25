@@ -23,3 +23,8 @@ export const SUCCESS = {
   POST: "Ledger entry posted",
   EDIT: "Ledger entry edited",
 };
+
+export const DATE = {
+  DD_MM_YYYY: "DD-MM-YYYY",
+  YYYY_MM_DD: "YYYY-MM-DD",
+};

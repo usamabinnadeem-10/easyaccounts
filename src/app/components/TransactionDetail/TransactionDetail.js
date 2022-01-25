@@ -25,7 +25,14 @@ function TransactionDetail({
   const COLUMNS = [
     {
       accessor: "serial",
-      Header: "ID",
+      Header: "Invoice #",
+      Cell: (row) => (
+        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+      ),
+    },
+    {
+      accessor: "manual_invoice_serial",
+      Header: "Book #",
       Cell: (row) => (
         <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
       ),
