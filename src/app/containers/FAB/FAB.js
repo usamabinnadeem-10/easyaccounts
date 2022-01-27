@@ -120,6 +120,7 @@ const FAB = () => {
                           mt: 1.2,
                           width: 45,
                           height: 45,
+                          backgroundColor: fab.customColor || "secondary",
                         }}
                       >
                         {fab.icon}

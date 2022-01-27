@@ -34,11 +34,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         allStock: action.payload,
         shouldFetchStock: false,
+        fetched: true,
       };
     case actionTypes.SET_SHOULD_FETCH:
       return {
         ...state,
         shouldFetchStock: action.payload,
+        fetched: false,
       };
     default:
       return state;

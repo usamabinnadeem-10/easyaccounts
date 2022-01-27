@@ -53,7 +53,7 @@ export const getMeta = (transaction, essentials) => {
         label: "Paid on:",
       },
       {
-        value: transaction[DB.PAID_AMOUNT],
+        value: formatCurrency(transaction[DB.PAID_AMOUNT]),
         label: "Amount Paid:",
       },
     ];

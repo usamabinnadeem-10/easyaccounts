@@ -1,6 +1,6 @@
 import * as actionTypes from "./actionTypes";
 
-import { renameKeys, groupByField } from "../../utils/objectUtils";
+import { renameKeys } from "../../utils/objectUtils";
 
 const initialState = {
   warehouses: [],

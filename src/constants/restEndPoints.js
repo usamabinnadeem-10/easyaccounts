@@ -43,6 +43,7 @@ export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
+  TRANSFER_STOCK: `${TRANSACTION}transfer-stock/`,
 };
 
 const LEDGER = "ledger/";

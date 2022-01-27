@@ -3,7 +3,6 @@ import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 export const formatLedgerData = (data, opening) => {
   let ledger = [];
   let balance = opening;
-  // data.reverse();
   data.forEach((element) => {
     let amount = element.amount;
     let nature = element.nature;
@@ -23,6 +22,5 @@ export const formatLedgerData = (data, opening) => {
       }`,
     });
   });
-  // return ledger.reverse();
   return ledger;
 };

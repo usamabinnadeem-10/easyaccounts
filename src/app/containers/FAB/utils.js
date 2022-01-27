@@ -22,6 +22,8 @@ export const chooseModal = (name, state) => {
       return getExpenseForm(state.expenseAccounts, state.accountTypes);
     case DEFAULTS.ADD_ACOUNT_TYPE:
       return ADD_ACCOUNT_TYPE_FORM;
+    case DEFAULTS.TRANSFER_ENTRY:
+      return [];
     default:
       return [];
   }

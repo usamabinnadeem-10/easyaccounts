@@ -20,6 +20,7 @@ function CustomerTransaction() {
     date: null,
     transactionType: constants.TRANSACTION_TYPES[0].value,
     accountType: null,
+    manualInvoiceSerial: null,
   });
 
   const [transactions, setTransactions] = useState([]);
@@ -33,6 +34,7 @@ function CustomerTransaction() {
         date: data.date,
         transactionType: data.type,
         accountType: location.state.account_type,
+        manualInvoiceSerial: data.manual_invoice_serial,
       });
       setTransactions(data.transaction_detail);
       setTransaction({ ...data, amount_paid: location.state.paid_amount });
@@ -70,6 +72,7 @@ function CustomerTransaction() {
           currentAccountType: metaData.accountType,
           currentTransactionType: metaData.transactionType,
           currentDate: metaData.date,
+          currentManualInvoiceSerial: metaData.manualInvoiceSerial,
         }}
         transactionDetails={location.state ? transactions : null}
         transaction={transaction}

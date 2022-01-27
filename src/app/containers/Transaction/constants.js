@@ -38,7 +38,7 @@ export const ERROR_DEFAULTS = {
   NO_ROW: "Transaction is empty",
   NO_ACCOUNT: "Please select an account type",
   NO_PAID_AMOUNT: "Please enter the amount paid",
-  NO_MANUAL_INVOICE: "Please enter manual invoice number",
+  NO_MANUAL_INVOICE: "Please enter book bill number",
   OOPS: "Oops, something went wrong",
 };
 

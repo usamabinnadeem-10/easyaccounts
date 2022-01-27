@@ -98,4 +98,5 @@ export const META_CONSTANTS = {
   date: "date",
   transactionType: "transactionType",
   accountType: "accountType",
+  manualInvoiceSerial: "manualInvoiceSerial",
 };

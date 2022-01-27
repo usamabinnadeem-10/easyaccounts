@@ -34,6 +34,8 @@ import {
 } from "./utils";
 import { useStyles } from "./styles";
 import { getURL } from "../../utilities/stringUtils";
+import {findErrorMessage} from "../../utilities/objectUtils";
+
 
 const Transaction = (props) => {
   const {
@@ -328,6 +330,10 @@ const Transaction = (props) => {
       description: constants.ERROR_DEFAULTS.NO_PERSON + personIdentifier,
     },
     {
+      isError: !selectedOptions.currentManualInvoiceSerial,
+      description: constants.ERROR_DEFAULTS.NO_MANUAL_INVOICE,
+    },
+    {
       isError:
         selectedOptions.currentTransactionType === "paid" &&
         !selectedOptions.currentAccountType,
@@ -435,7 +441,7 @@ const Transaction = (props) => {
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(true, "error", constants.ERROR_DEFAULTS.OOPS);
+          openSnackbar(true, "error", findErrorMessage(error?.response?.data) || constants.ERROR_DEFAULTS.OOPS);
         });
     }
   };

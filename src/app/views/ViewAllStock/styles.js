@@ -19,3 +19,12 @@ export const useStyles = makeStyles({
     backgroundColor: "rgba(105, 105, 105, 0.03)",
   },
 });
+
+export const selectStyles = () => {
+  return {
+    menu: (provided, state) => ({
+      ...provided,
+      zIndex: 100,
+    }),
+  };
+};

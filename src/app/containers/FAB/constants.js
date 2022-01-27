@@ -3,6 +3,7 @@ import { AccountCircle } from "@mui/icons-material";
 import { Receipt } from "@mui/icons-material";
 import { Inventory2 } from "@mui/icons-material";
 import { Home } from "@mui/icons-material";
+import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MoneyIcon from "@mui/icons-material/Money";
@@ -11,6 +12,7 @@ import {
   CUSTOMER_TRANSACTION,
   SUPPLIER_TRANSACTION,
   LEDGER_TRANSACTION,
+  ALL_STOCK,
 } from "../../../constants/routesConstants";
 
 import { FIELDS } from "../../../constants/fieldTypes";
@@ -23,11 +25,12 @@ export const DEFAULTS = {
   ADD_PRODUCT: "Add Product",
   ADD_WAREHOUSE: "Add Warehouse",
   ADD_EXPENSE_ACCOUNT: "Add Expense Account",
-  ADD_EXPENSE: "Add Expense Entry",
-  NEW_CUSTOMER_TRANSACTION: "Customer Transaction",
-  NEW_SUPPLIER_TRANSACTION: "Supplier Transaction",
-  LEDGER_ENTRY: "New Ledger Entry",
-  ADD_ACOUNT_TYPE: "New Account Type",
+  ADD_EXPENSE: "Expense Entry",
+  NEW_CUSTOMER_TRANSACTION: "Customer Transaction / Bill",
+  NEW_SUPPLIER_TRANSACTION: "Supplier Transaction / Bill",
+  LEDGER_ENTRY: "Ledger Entry",
+  ADD_ACOUNT_TYPE: "Add Account Type",
+  TRANSFER_ENTRY: "Transfer Stock",
 };
 
 export const TRANSACTION = "TRANSACTION";
@@ -55,25 +58,35 @@ export const ACTION_FABS = [
   {
     icon: <AttachMoney />,
     tooltip: DEFAULTS.ADD_EXPENSE,
+    customColor: "#e63737",
   },
-
+  {
+    icon: <CompareArrowsIcon />,
+    tooltip: DEFAULTS.TRANSFER_ENTRY,
+    customColor: "#2cd4b8",
+    route: ALL_STOCK,
+    type: TRANSACTION,
+  },
   {
     icon: <Receipt />,
     tooltip: DEFAULTS.NEW_SUPPLIER_TRANSACTION,
     route: SUPPLIER_TRANSACTION,
     type: TRANSACTION,
+    customColor: "#3565de",
   },
   {
     icon: <MenuBookIcon />,
     tooltip: DEFAULTS.LEDGER_ENTRY,
     route: LEDGER_TRANSACTION,
     type: TRANSACTION,
+    customColor: "#e3326a",
   },
   {
     icon: <Receipt />,
     tooltip: DEFAULTS.NEW_CUSTOMER_TRANSACTION,
     route: CUSTOMER_TRANSACTION,
     type: TRANSACTION,
+    customColor: "#f79123",
   },
 ];
 

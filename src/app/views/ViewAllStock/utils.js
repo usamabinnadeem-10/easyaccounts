@@ -18,19 +18,17 @@ export const formatStockData = (data, props) => {
   newStockData.push({
     product: "TOTAL",
     stock_quantity: formatCurrency(
-      convertCurrencyToNumber(
-        newStockData.reduce(
-          (acc, stockData) => acc + stockData.stock_quantity,
-          0
-        )
+      newStockData.reduce(
+        (acc, stockData) =>
+          acc + convertCurrencyToNumber(stockData.stock_quantity),
+        0
       )
     ),
     total_gazaana: formatCurrency(
-      convertCurrencyToNumber(
-        newStockData.reduce(
-          (acc, stockData) => acc + stockData.total_gazaana,
-          0
-        )
+      newStockData.reduce(
+        (acc, stockData) =>
+          acc + convertCurrencyToNumber(stockData.total_gazaana),
+        0
       )
     ),
   });
