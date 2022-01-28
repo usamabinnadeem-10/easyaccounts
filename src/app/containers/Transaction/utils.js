@@ -20,6 +20,7 @@ export const formatTransaction = (allStock, transactionDetails) => {
     return transactionDetails.map((value) => {
         return {
             ...value,
+            total_gazaana: value.quantity * value.gazaana.value,
             gazaanaOptions: getGazaanaOptions(allStock, value.product.value, value.warehouse.value),
             stock_quantity: getStockQuantity(allStock, value.product.value, value.warehouse.value, value.gazaana.value)
         }

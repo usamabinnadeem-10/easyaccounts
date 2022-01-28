@@ -42,9 +42,8 @@ export const getMeta = (transaction, essentials) => {
       label: "Total Gazaana:",
     },
   ];
-
   let account =
-    essentials.accounts[transaction[DB.ACCOUNT_TYPE]]?.label || "---";
+    essentials?.accounts?.[transaction[DB.ACCOUNT_TYPE]]?.label || "---";
   if (transaction[DB.PAID_AMOUNT]) {
     data = [
       ...data,
@@ -71,6 +70,7 @@ export const isTransactionAvailable = (transactions, transactionID) => {
 };
 
 const formatTransactionDetails = (details, warehouses, products) => {
+  debugger;
   let newDetails = [];
   details.forEach((detail) => {
     newDetails.push({
@@ -85,6 +85,7 @@ const formatTransactionDetails = (details, warehouses, products) => {
 };
 
 export const formatTransaction = (transaction, warehouses, products) => {
+  debugger;
   return {
     ...transaction,
     total: formatCurrency(
