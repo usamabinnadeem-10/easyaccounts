@@ -62,7 +62,7 @@ export const TABLE_META = [
   {
     field: FIELDS.NUMBER,
     default: 0,
-    name: "Total Gaz",
+    name: "Total_Gazaana",
     optional: false,
     readOnly: true,
   },
