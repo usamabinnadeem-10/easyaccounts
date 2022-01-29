@@ -11,6 +11,8 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { useStyles } from "./styles";
 
+import {convertCurrencyToNumber} from "../../utilities/stringUtils";
+
 function LedgerDetail({
   rows,
   onRowClick,
@@ -61,10 +63,10 @@ function LedgerDetail({
       Header: "Balance",
       Cell: (row) => (
         <div
-          className={`${row.value < 0 ? classes.debit : classes.credit}`}
+          className={`${convertCurrencyToNumber(row.value) < 0 ? classes.debit : classes.credit}`}
           onClick={() => onRowClick(row.row.id)}
         >
-          {row.value < 0
+          {convertCurrencyToNumber(row.value) < 0
             ? `${row.value.toString().substring(1)} DB`
             : `${row.value} CR`}
         </div>

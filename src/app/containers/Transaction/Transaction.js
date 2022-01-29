@@ -150,6 +150,7 @@ const Transaction = (props) => {
         gazaana: lastRow?.gazaana ?? null,
         rate: lastRow?.rate ?? 0,
         total: lastRow?.total ?? 0,
+        total_gazaana: lastRow?.total_gazaana ?? 0,
       };
       if (transaction) {
         newRow.new = true;
