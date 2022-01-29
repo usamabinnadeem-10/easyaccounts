@@ -31,12 +31,13 @@ import {
 } from "../../utilities/stringUtils";
 import { EXPENSE_URLS } from "../../../constants/restEndPoints";
 import { ERRORS, SUCCESS } from "./constants";
+import { formatExpensesData, getTotalExpenses } from "./utils";
+
 import {
-  formatExpensesData,
-  getTotalExpenses,
+  makeDate,
+  getDateFromString,
   convertCurrencyToNumber,
-} from "./utils";
-import { makeDate, getDateFromString } from "../../utilities/stringUtils";
+} from "../../utilities/stringUtils";
 
 const ViewExpenses = ({
   daybookView,
@@ -79,7 +80,7 @@ const ViewExpenses = ({
         )
         .then((res) => {
           setExpensesData(newExpensesData);
-          setTotalExpenses(getTotalExpenses(newExpensesData));
+
           openSnackbar(true, "success", SUCCESS.DELETED);
           setDialogueState({
             ...dialogueState,
@@ -94,6 +95,10 @@ const ViewExpenses = ({
         });
     }
   }, [dialogueState]);
+
+  useEffect(() => {
+    setTotalExpenses(getTotalExpenses(expensesData));
+  }, [expensesData]);
 
   // open snackbar
   const openSnackbar = (open, severity, message) => {

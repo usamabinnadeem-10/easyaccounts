@@ -1,4 +1,8 @@
-import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
+import {
+  getReadableDate,
+  formatCurrency,
+  convertCurrencyToNumber,
+} from "../../utilities/stringUtils";
 
 export const formatExpensesData = (expenses) => {
   return expenses.map((expense) => {
@@ -11,13 +15,10 @@ export const formatExpensesData = (expenses) => {
 };
 
 export const getTotalExpenses = (expenses) => {
-  return formatCurrency(expenses.reduce((prev, curr) => prev + curr.amount, 0));
-};
-
-export const convertCurrencyToNumber = (currency) => {
-  if (typeof currency === "string" || currency instanceof String) {
-    let amount = currency.replace(/[,]+/g, "");
-    return parseFloat(amount);
-  }
-  return currency;
+  return formatCurrency(
+    expenses.reduce(
+      (prev, curr) => prev + convertCurrencyToNumber(curr.amount),
+      0
+    )
+  );
 };
