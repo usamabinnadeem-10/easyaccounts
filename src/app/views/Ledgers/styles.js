@@ -11,7 +11,8 @@ export const useStyles = makeStyles({
     marginBottom: "12px",
   },
   table: {
-    margin: "1.2rem 0",
+    margin: "1.6rem 0",
+    marginBottom: "48px",
   },
   ledgerWrapper: {
     "@media print": {

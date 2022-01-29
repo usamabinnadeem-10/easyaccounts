@@ -1,6 +1,6 @@
 import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
-export const formatLedgerData = (data, opening) => {
+export const formatLedgerData = (data, opening, persons) => {
   let ledger = [];
   let balance = opening;
   data.forEach((element) => {
@@ -17,7 +17,8 @@ export const formatLedgerData = (data, opening) => {
       credit: nature === "C" ? formatCurrency(amount) : "",
       debit: nature === "D" ? formatCurrency(amount) : "",
       balance: formatCurrency(balance),
-      formattedBalance: `${formatCurrency(balance)} ${
+      person_name: persons?.[element.person]?.label,
+      formattedBalance: `${formatCurrency(Math.abs(balance))} ${
         balance < 0 ? "DB" : "CR"
       }`,
     });

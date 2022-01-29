@@ -57,8 +57,9 @@ function Ledgers({
   const [currentPerson, setCurrentPerson] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
+  const [ledgerDataRaw, setLedgerDataRaw] = useState([]);
   const [ledgerData, setledgerData] = useState(
-    daybookView ? formatLedgerData(defaultLedgers) : []
+    daybookView ? formatLedgerData(defaultLedgers, 0, persons) : []
   );
   const [openingBalance, setOpeningBalance] = useState(0);
   const [closingBalance, setClosingBalance] = useState(0);
@@ -75,6 +76,7 @@ function Ledgers({
   const [transactionID, setTransactionID] = useState(null);
   const [isEmpty, setIsEmpty] = useState(false);
   const [hideDetails, setHideDetails] = useState(false);
+  const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
     setIsEmpty(false);
@@ -108,6 +110,31 @@ function Ledgers({
     content: () => componentRef.current,
   });
 
+  const handleFormattingLedger = (response, isLoadMore = false) => {
+    let newLedgerData = [];
+    if (isLoadMore) {
+      newLedgerData = [...ledgerDataRaw, ...response.data.results];
+    } else {
+      newLedgerData = response.data.results;
+    }
+    setLedgerDataRaw(newLedgerData);
+    let ledgerDataFormatted = formatLedgerData(
+      newLedgerData,
+      response.data.opening_balance,
+      persons
+    );
+    setNextPage(response.data.next);
+    setledgerData(ledgerDataFormatted);
+    setOpeningBalance(response.data.opening_balance);
+    setClosingBalance(
+      ledgerDataFormatted[ledgerDataFormatted.length - 1]?.formattedBalance
+    );
+    setIsEmpty(ledgerDataFormatted.length === 0);
+    setLoading(false);
+    setStartDate(null);
+    setEndDate(null);
+  };
+
   const search = () => {
     if (!currentPerson) {
       openSnackbar(
@@ -136,20 +163,8 @@ function Ledgers({
 
     instance
       .get(URL)
-      .then((res) => {
-        let ledgerDataFormatted = formatLedgerData(
-          res.data.results,
-          res.data.opening_balance
-        );
-        setledgerData(ledgerDataFormatted);
-        setOpeningBalance(res.data.opening_balance);
-        setClosingBalance(
-          ledgerDataFormatted[ledgerDataFormatted.length - 1]?.formattedBalance
-        );
-        setIsEmpty(ledgerDataFormatted.length === 0);
-        setLoading(false);
-        setStartDate(null);
-        setEndDate(null);
+      .then((response) => {
+        handleFormattingLedger(response);
       })
       .catch((error) => {
         setLoading(false);
@@ -199,6 +214,12 @@ function Ledgers({
 
   const hideDrawer = () => {
     setShowDrawer(false);
+  };
+
+  const loadMoreData = () => {
+    instance.get(nextPage).then((response) => {
+      handleFormattingLedger(response, true);
+    });
   };
 
   return (
@@ -258,6 +279,7 @@ function Ledgers({
                 onClick={() => setHideDetails(!hideDetails)}
                 disabled={ledgerData.length === 0}
                 sx={{ mt: 2, displayPrint: "none" }}
+                size="small"
               >
                 {hideDetails ? "SHOW DETAILS" : "HIDE DETAILS"}
               </Button>
@@ -290,6 +312,11 @@ function Ledgers({
             />
           )}
         </div>
+        {nextPage && !daybookView && (
+          <Button sx={{ mb: 3 }} onClick={() => loadMoreData()} fullWidth>
+            LOAD MORE
+          </Button>
+        )}
       </div>
       {isEmpty && <Empty />}
       <TransactionDrawer

@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 
 import { useHistory } from "react-router";
 
+import { Button } from "@mui/material";
+
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
@@ -64,6 +66,7 @@ function ViewTransactions({
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState({});
   const [isEmpty, setIsEmpty] = useState(false);
+  const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
     setIsEmpty(false);
@@ -79,7 +82,7 @@ function ViewTransactions({
             dialogueState.idToDelete
           )
         )
-        .then((res) => {
+        .then((response) => {
           search();
           dispatch(setShouldFetchDaybook(true));
           openSnackbar(true, "success", SUCCESS.DELETED);
@@ -107,6 +110,22 @@ function ViewTransactions({
     });
   };
 
+  const handleFormattingTransactions = (response, isLoadMore = false) => {
+    let formattedTransactions = formatTransactionData(response.data.results);
+    let raw = response.data.results;
+    if (isLoadMore) {
+      formattedTransactions = [...transactionData, ...formattedTransactions];
+      raw = [...transactionDataRaw, ...raw];
+    }
+    setNextPage(response.data.next);
+    setTransactionData(formattedTransactions);
+    setTransactionDataRaw(raw);
+    setIsEmpty(formattedTransactions.length === 0);
+    setLoading(false);
+    setStartDate(null);
+    setEndDate(null);
+  };
+
   const search = () => {
     if (!currentPerson) {
       openSnackbar(true, "error", ERRORS.SELECT_PERSON + personType);
@@ -131,14 +150,8 @@ function ViewTransactions({
 
     instance
       .get(URL)
-      .then((res) => {
-        let formattedTransactions = formatTransactionData(res.data.results);
-        setTransactionData(formattedTransactions);
-        setTransactionDataRaw(res.data.results);
-        setIsEmpty(formattedTransactions.length === 0);
-        setLoading(false);
-        setStartDate(null);
-        setEndDate(null);
+      .then((response) => {
+        handleFormattingTransactions(response);
       })
       .catch((error) => {
         setLoading(false);
@@ -192,6 +205,12 @@ function ViewTransactions({
     });
   };
 
+  const loadMoreData = () => {
+    instance.get(nextPage).then((response) => {
+      handleFormattingTransactions(response, true);
+    });
+  };
+
   return (
     <>
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
@@ -233,6 +252,11 @@ function ViewTransactions({
           />
         )}
       </div>
+      {!daybookView && nextPage && (
+        <Button fullWidth onClick={() => loadMoreData()}>
+          LOAD MORE
+        </Button>
+      )}
       {isEmpty && <Empty />}
       <TransactionDrawer
         dontFetch
