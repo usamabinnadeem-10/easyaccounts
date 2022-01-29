@@ -22,6 +22,9 @@ import {
   getAllStock,
   setShouldFetch,
 } from "../../../store/transactions/actions";
+import {
+  setShouldFetchDaybook,
+} from "../../../store/accounts/actions";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
 import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
@@ -421,6 +424,7 @@ const Transaction = (props) => {
         )
         .then((res) => {
           dispatch(setShouldFetch(true));
+          dispatch(setShouldFetchDaybook(true));
           setLoading(false);
           redirect(res.data);
         })
@@ -437,6 +441,7 @@ const Transaction = (props) => {
         .post(TRANSACTION_URLS.CREATE_TRANSACTION, transactionData)
         .then((res) => {
           dispatch(setShouldFetch(true));
+          dispatch(setShouldFetchDaybook(true));
           setLoading(false);
           redirect(res.data);
         })

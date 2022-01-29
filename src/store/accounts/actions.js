@@ -26,3 +26,10 @@ export const addDataToDaybook = (data) => {
     payload: data,
   };
 };
+
+export const setShouldFetchDaybook = (data) => {
+  return {
+    type: actionTypes.SET_SHOULD_FETCH_DAYBOOK,
+    payload: data,
+  }
+}

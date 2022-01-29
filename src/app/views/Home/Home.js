@@ -44,7 +44,7 @@ const Home = (props) => {
 
   return (
     <>
-      <SideBar />
+      <SideBar fetched={fetched} />
       <div className={classes.homeOffset}>
         {fetched ? (
           <Switch>
@@ -52,7 +52,7 @@ const Home = (props) => {
               let Component = route.component;
               return (
                 <Route key={index} path={route.path} exact>
-                  <Component {...essentials}/>
+                  <Component {...essentials} />
                 </Route>
               );
             })}
@@ -61,7 +61,7 @@ const Home = (props) => {
           <CustomLoader loading={!fetched} pageLoader />
         )}
       </div>
-      <FAB />
+      <FAB fetched={fetched} />
     </>
   );
 };

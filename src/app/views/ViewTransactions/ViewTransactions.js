@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useEffect } from "react";
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useHistory } from "react-router";
 
@@ -26,6 +27,7 @@ import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 import { formatTransactionData, formatTransactionDetails } from "./utils";
+import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
 function ViewTransactions({
   daybookView,
@@ -38,6 +40,7 @@ function ViewTransactions({
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
@@ -78,6 +81,7 @@ function ViewTransactions({
         )
         .then((res) => {
           search();
+          dispatch(setShouldFetchDaybook(true));
           openSnackbar(true, "success", SUCCESS.DELETED);
         })
         .catch((error) => {

@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 
 import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
 import { useLocation } from "react-router";
 
@@ -25,6 +26,7 @@ import {
   PERSON_TYPES,
   STORE_PERSON,
 } from "../../components/SelectPerson/constants";
+import {setShouldFetchDaybook} from "../../../store/accounts/actions";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
 import {
@@ -37,6 +39,7 @@ import {
 function LedgerTransaction(props) {
   const classes = useStyles();
   const location = useLocation();
+  const dispatch = useDispatch();
 
   const state = useSelector((state) => state.essentials);
 
@@ -139,6 +142,7 @@ function LedgerTransaction(props) {
       instance
         .post(LEDGER_URLS.CREATE_LEDGER, data)
         .then((res) => {
+          dispatch(setShouldFetchDaybook(true));
           setPosting(false);
           resetState();
           openSnackbar(true, "success", constants.SUCCESS.POST);
@@ -156,6 +160,7 @@ function LedgerTransaction(props) {
       instance
         .put(getURL(LEDGER_URLS.UPDATE_LEDGER, "uuid", location.state.id), data)
         .then((res) => {
+          dispatch(setShouldFetchDaybook(true));
           setPosting(false);
           resetState();
           openSnackbar(true, "success", constants.SUCCESS.EDIT);

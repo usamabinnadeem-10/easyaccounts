@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
@@ -36,6 +37,7 @@ import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL, formatCurrency } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
+import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
 function Ledgers({
   daybookView,
@@ -49,6 +51,7 @@ function Ledgers({
   const history = useHistory();
   const state = useSelector((state) => state.essentials);
   const componentRef = useRef();
+  const dispatch = useDispatch();
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
   const [currentPerson, setCurrentPerson] = useState(null);
@@ -85,6 +88,7 @@ function Ledgers({
         )
         .then((res) => {
           search();
+          dispatch(setShouldFetchDaybook(true));
           setDialogueState({
             ...dialogueState,
             open: false,

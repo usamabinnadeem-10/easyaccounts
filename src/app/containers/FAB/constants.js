@@ -19,6 +19,7 @@ import { FIELDS } from "../../../constants/fieldTypes";
 import { DB } from "../../../constants/db";
 
 import * as actions from "../../../store/essentials/actions";
+import {setShouldFetchDaybook} from "../../../store/accounts/actions";
 
 export const DEFAULTS = {
   ADD_CUSTOMER: "Add Customer / Supplier",
@@ -211,6 +212,12 @@ export const getExpenseForm = (expenseAccounts, accountTypes) => {
   return {
     heading: "Add Expense",
     action: actions.addExpenseDetail,
+    dispatchActions: [
+      {
+        actionName: setShouldFetchDaybook,
+        data: true,
+      }
+    ],
     formData: [
       {
         label: "Date",

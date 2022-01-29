@@ -19,7 +19,7 @@ import { paperWhite } from "../../../constants/colors";
 
 import { getIcon } from "./utils";
 
-const SideBar = () => {
+const SideBar = ({ fetched }) => {
   let history = useHistory();
 
   const [open, setOpen] = useState({
@@ -74,6 +74,7 @@ const SideBar = () => {
                   {panel.panelData.map((panelData, index) => {
                     return (
                       <ListItemButton
+                        disabled={!fetched}
                         onClick={() => history.push(panelData.route)}
                         key={index}
                         sx={{ pl: 4 }}

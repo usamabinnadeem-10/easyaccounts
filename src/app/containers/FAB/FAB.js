@@ -22,7 +22,7 @@ import { TRANSACTION } from "./constants";
 import { useStyles } from "./styles";
 import { chooseModal } from "./utils";
 
-const FAB = () => {
+const FAB = ({ fetched }) => {
   const [clicked, setClicked] = useState(false);
   const [openAddModal, setOpenAddModal] = useState(false);
   const [form, setForm] = useState([]);
@@ -94,6 +94,7 @@ const FAB = () => {
         >
           {!clicked ? (
             <Fab
+              disabled={!fetched}
               color="primary"
               onClick={() => handleClick()}
               sx={{

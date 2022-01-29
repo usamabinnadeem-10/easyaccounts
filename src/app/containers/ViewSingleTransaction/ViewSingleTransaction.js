@@ -30,8 +30,6 @@ import { getMeta, isTransactionAvailable, formatTransaction } from "./utils";
 import { DB } from "../../../constants/db";
 import { COLUMNS } from "./constants";
 
-// import { print } from "../../../utils/print";
-
 function ViewSingleTransaction({
   transactionID,
   dontFetch = false,
@@ -167,8 +165,14 @@ function ViewSingleTransaction({
                 data={transaction[DB.TRANSACTION_DETAIL]}
               />
               <div className={classes.total}>
-                <Typography align="right" variant="h6">
+                <Typography align="right" variant="body1">
                   {transaction.total}
+                </Typography>
+                <Typography align="right" variant="body1">
+                  {`- ${transaction.discount}`}
+                </Typography>
+                <Typography align="right" variant="h6">
+                  {transaction.totalAfterDiscount}
                 </Typography>
               </div>
             </div>

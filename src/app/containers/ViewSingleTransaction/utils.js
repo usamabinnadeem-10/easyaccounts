@@ -26,20 +26,8 @@ export const getMeta = (transaction, essentials) => {
       label: "Nature:",
     },
     {
-      value: transaction[DB.DISCOUNT],
-      label: "Discount:",
-    },
-    {
       value: transaction[DB.DETAIL] || "---",
       label: "Detail:",
-    },
-    {
-      value: transaction.quantity,
-      label: "Total Thaan:",
-    },
-    {
-      value: transaction.gazaana,
-      label: "Total Gazaana:",
     },
   ];
   let account =
@@ -69,50 +57,64 @@ export const isTransactionAvailable = (transactions, transactionID) => {
   }
 };
 
-const formatTransactionDetails = (details, warehouses, products) => {
-  debugger;
+const formatTransactionDetails = (
+  details,
+  warehouses,
+  products,
+  grandTotalQuantity,
+  grandTotalGazaana
+) => {
   let newDetails = [];
   details.forEach((detail) => {
     newDetails.push({
       ...detail,
       amount: formatCurrency(detail.amount),
-      [DB.WAREHOUSE]: warehouses[detail[DB.WAREHOUSE]].label,
-      [DB.PRODUCT]: products[detail[DB.PRODUCT]].label,
+      [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]].label,
+      [DB.PRODUCT]: products?.[detail[DB.PRODUCT]].label,
       total_gazaana: formatCurrency(detail.yards_per_piece * detail.quantity),
     });
+  });
+  newDetails.push({
+    product: "TOTAL",
+    quantity: grandTotalQuantity,
+    total_gazaana: grandTotalGazaana,
   });
   return newDetails;
 };
 
 export const formatTransaction = (transaction, warehouses, products) => {
-  debugger;
+  let totalAmount = transaction.transaction_detail.reduce(
+    (prev, curr) => prev + curr.amount,
+    0
+  );
+  let grandTotalGazaana = transaction.transaction_detail.reduce(
+    (prevValue, currentValue) =>
+      prevValue + currentValue.quantity * currentValue.yards_per_piece,
+    0
+  );
+  let grandTotalQuantity = transaction.transaction_detail.reduce(
+    (prevValue, currentValue) => prevValue + currentValue.quantity,
+    0
+  );
   return {
     ...transaction,
-    total: formatCurrency(
-      transaction.transaction_detail.reduce(
-        (prev, curr) => prev + curr.amount,
-        0
-      ),
-      "currency"
-    ),
+    total: formatCurrency(totalAmount, "currency"),
     date: getReadableDate(transaction.date),
-    quantity: transaction.transaction_detail.reduce(
-      (prevValue, currentValue) => prevValue + currentValue.quantity,
-      0
-    ),
-    gazaana: formatCurrency(
-      transaction.transaction_detail.reduce(
-        (prevValue, currentValue) =>
-          prevValue + currentValue.quantity * currentValue.yards_per_piece,
-        0
-      )
-    ),
+    quantity: grandTotalQuantity,
+    gazaana: formatCurrency(grandTotalGazaana),
     [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
       transaction.transaction_detail,
       warehouses,
-      products
+      products,
+      grandTotalQuantity,
+      grandTotalGazaana
     ),
     [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
     [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
+    [DB.DISCOUNT]: formatCurrency(transaction[DB.DISCOUNT], "currency"),
+    totalAfterDiscount: formatCurrency(
+      totalAmount - transaction.discount,
+      "currency"
+    ),
   };
 };

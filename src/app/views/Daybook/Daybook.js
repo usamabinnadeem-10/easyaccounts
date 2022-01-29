@@ -4,13 +4,14 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Ledgers from "../Ledgers/Ledgers";
 import ViewTransactions from "../ViewTransactions/ViewTransactions";
 import ViewExpenses from "../ViewExpenses/ViewExpenses";
 import AccountTypeCard from "../../components/AccountTypeCard/AccountTypeCard";
-import StartEndDate from "../../components/StartEndDate/StartEndDate";
 
+import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
 
 import { useStyles } from "./styles";
@@ -25,12 +26,23 @@ const Daybook = (props) => {
 
   const daybookData = useSelector((state) => state.accounts.daybook);
   const [date, setDate] = React.useState(null);
+  const [displayDate, setDisplayDate] = React.useState(null);
 
   useEffect(() => {
-    if (!daybookData.fetched) {
-      dispatch(getDaybook(date));
+    if (daybookData.shouldFetch) {
+      dispatch(getDaybook());
     }
-  }, [daybookData.fetched, date]);
+  }, [daybookData.shouldFetch]);
+
+  useEffect(() => {
+    if (date) {
+      let currentDate = makeDate(date);
+      dispatch(getDaybook(currentDate));
+      setDisplayDate(moment(currentDate, "YYYY-MM-DD").format("Do MMMM YYYY"));
+    } else {
+      setDisplayDate(moment().format("Do MMMM YYYY"));
+    }
+  }, [date]);
 
   return (
     <div>
@@ -40,12 +52,23 @@ const Daybook = (props) => {
         <div className={classes.root}>
           <div className={classes.header}>
             <Typography variant="h5" fontWeight={900}>
-              Daybook for {moment().format("Do MMMM YYYY")}
+              Daybook for {displayDate}
             </Typography>
-            <StartEndDate
-              getStartDate={(date) => setDate(makeDate(date))}
-              renderOnlySingleDate
-            />
+            <div>
+              <Button
+                variant="contained"
+                size="small"
+                sx={{ mr: 2 }}
+                onClick={() => dispatch(getDaybook(date))}
+              >
+                REFRESH
+              </Button>
+              <CustomDatePicker
+                placeholder="Date"
+                getDate={(date) => setDate(date)}
+                value={date}
+              />
+            </div>
           </div>
 
           <Typography variant="button" fontWeight={900} sx={{ mb: 2 }}>

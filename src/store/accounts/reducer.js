@@ -8,11 +8,21 @@ const initialState = {
     accounts: [],
     fetched: false,
     error: false,
+    shouldFetch: true,
   },
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.GET_DAYBOOK:
+      return {
+        ...state,
+        daybook: {
+          ...state.daybook,
+          ...action.payload,
+          fetched: false,
+        },
+      };
     case actionTypes.GET_DAYBOOK_SUCCESS:
       return {
         ...state,
@@ -20,6 +30,7 @@ const reducer = (state = initialState, action) => {
           ...state.daybook,
           ...action.payload,
           fetched: true,
+          shouldFetch: false,
         },
       };
     case actionTypes.GET_DAYBOOK_FAIL:
@@ -40,6 +51,14 @@ const reducer = (state = initialState, action) => {
             action.data.data,
             ...state.daybook[action.data.account],
           ],
+        },
+      };
+    case actionTypes.SET_SHOULD_FETCH_DAYBOOK:
+      return {
+        ...state,
+        daybook: {
+          ...state.daybook,
+          shouldFetch: action.payload,
         },
       };
     default:

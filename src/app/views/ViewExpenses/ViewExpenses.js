@@ -51,7 +51,7 @@ const ViewExpenses = ({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [expensesData, setExpensesData] = useState(
-    daybookView ? defaultExpenses : []
+    daybookView ? formatExpensesData(defaultExpenses) : []
   );
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});

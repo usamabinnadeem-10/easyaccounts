@@ -29,5 +29,6 @@ export const useStyles = makeStyles({
     marginTop: "0.8rem",
     display: "flex",
     justifyContent: "flex-end",
+    flexDirection: "column",
   },
 });

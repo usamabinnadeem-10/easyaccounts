@@ -98,6 +98,11 @@ const AddModal = ({
       } else {
         dispatch(form.action(data));
       }
+      if (form.dispatchActions?.length > 0){
+        form.dispatchActions.forEach((action) => {
+          dispatch(action.actionName(action.data))
+        })
+      }
     }
   };
 
