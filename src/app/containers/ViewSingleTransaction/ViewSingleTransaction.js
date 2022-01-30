@@ -30,7 +30,7 @@ import {
 
 import { getMeta, isTransactionAvailable, formatTransaction } from "./utils";
 import { DB } from "../../../constants/db";
-import { COLUMNS } from "./constants";
+import { COLUMNS, getColumns } from "./constants";
 
 function ViewSingleTransaction({
   transactionID,
@@ -51,7 +51,7 @@ function ViewSingleTransaction({
   const [transaction, setTransaction] = useState(null);
   const [total, setTotal] = useState(0.0);
   const [loading, setLoading] = useState(true);
-  const [columns, setColumns] = useState(COLUMNS);
+  const [columns, setColumns] = useState(getColumns());
   const [gatePassView, setGatePassView] = useState(false);
 
   const transactions = useSelector((state) => state.transactions);
@@ -93,16 +93,12 @@ function ViewSingleTransaction({
 
   useEffect(() => {
     if (gatePassView) {
-      setColumns(
-        COLUMNS.filter(
-          (col) => col.accessor !== DB.RATE && col.accessor !== DB.AMOUNT
-        )
-      );
+      setColumns(getColumns(true));
       handlePrint();
       setTimeout(() => {
-        setColumns(COLUMNS);
+        setColumns(getColumns());
         setGatePassView(!gatePassView);
-      }, 1000);
+      }, 2000);
     }
   }, [gatePassView]);
 
