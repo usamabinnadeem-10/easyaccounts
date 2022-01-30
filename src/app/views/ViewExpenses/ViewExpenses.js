@@ -256,9 +256,9 @@ const ViewExpenses = ({
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography variant="h6" fontWeight={500}>
+            <Typography variant="body1" fontWeight={500}>
               {`Expenses (${expensesData[0].date}) - (${
-                expensesData[expensesData.length - 1].date
+                expensesData[expensesData.length - 2].date
               })`}
             </Typography>
             <Button
@@ -279,13 +279,6 @@ const ViewExpenses = ({
           />
         )}
         {isEmpty && <Empty />}
-        {!isEmpty && (
-          <Grid sx={{ mt: 2 }} container alignItems="center">
-            <Typography variant="subtitle">
-              Total Expenses: {totalExpenses}
-            </Typography>
-          </Grid>
-        )}
       </div>
     </>
   );

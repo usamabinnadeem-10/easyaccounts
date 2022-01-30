@@ -10,6 +10,8 @@ import { useLocation } from "react-router";
 
 import { useReactToPrint } from "react-to-print";
 
+import { Button } from "@mui/material";
+
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomTable from "../../components/CustomTable/CustomTable";
 
@@ -49,6 +51,8 @@ function ViewSingleTransaction({
   const [transaction, setTransaction] = useState(null);
   const [total, setTotal] = useState(0.0);
   const [loading, setLoading] = useState(true);
+  const [columns, setColumns] = useState(COLUMNS);
+  const [gatePassView, setGatePassView] = useState(false);
 
   const transactions = useSelector((state) => state.transactions);
 
@@ -83,6 +87,25 @@ function ViewSingleTransaction({
     };
   }, []);
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
+  useEffect(() => {
+    if (gatePassView) {
+      setColumns(
+        COLUMNS.filter(
+          (col) => col.accessor !== DB.RATE && col.accessor !== DB.AMOUNT
+        )
+      );
+      handlePrint();
+      setTimeout(() => {
+        setColumns(COLUMNS);
+        setGatePassView(!gatePassView);
+      }, 1000);
+    }
+  }, [gatePassView]);
+
   useEffect(() => {
     if (location.state) {
       setTransaction(formatTransaction(location.state, warehouses, products));
@@ -108,10 +131,6 @@ function ViewSingleTransaction({
       );
     }
   }, [transaction]);
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   return (
     <>
@@ -161,21 +180,31 @@ function ViewSingleTransaction({
             <div className={classes.table}>
               <CustomTable
                 noTableStyles
-                columns={COLUMNS}
+                columns={columns}
                 data={transaction[DB.TRANSACTION_DETAIL]}
               />
-              <div className={classes.total}>
-                <Typography align="right" variant="body1">
-                  {transaction.total}
-                </Typography>
-                <Typography align="right" variant="body1">
-                  {`- ${transaction.discount}`}
-                </Typography>
-                <Typography align="right" variant="h6">
-                  {transaction.totalAfterDiscount}
-                </Typography>
-              </div>
+              {!gatePassView && (
+                <div className={classes.total}>
+                  <Typography align="right" variant="body1">
+                    {transaction.total}
+                  </Typography>
+                  <Typography align="right" variant="body1">
+                    {`- ${transaction.discount}`}
+                  </Typography>
+                  <Typography align="right" variant="h6">
+                    {transaction.totalAfterDiscount}
+                  </Typography>
+                </div>
+              )}
             </div>
+            <Button
+              sx={{ displayPrint: "none" }}
+              variant="contained"
+              size="small"
+              onClick={() => setGatePassView(!gatePassView)}
+            >
+              Generate Gate Pass
+            </Button>
           </div>
         </div>
       )}

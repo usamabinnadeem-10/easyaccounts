@@ -8,6 +8,8 @@ import { Chip } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 
+import { formatCurrency } from "../../utilities/stringUtils";
+
 function TransactionDetail({
   rows,
   onRowClick,
@@ -27,70 +29,98 @@ function TransactionDetail({
       accessor: "serial",
       Header: "Invoice #",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "manual_invoice_serial",
       Header: "Book #",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "date",
       Header: "Date",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "total",
       Header: "Amount",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {formatCurrency(row.value)}
+        </div>
       ),
     },
     {
       accessor: "discount",
       Header: "Discount",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {formatCurrency(row.value)}
+        </div>
       ),
     },
     {
       accessor: "type",
       Header: "Type",
-      Cell: (row) => (
-        <Chip
-          size="small"
-          color={CHIP_COLORS[row.value]}
-          label={row.value.replace("_", " ")}
-          sx={{
-            fontWeight: 900,
-            borderRadius: 1.5,
-            textTransform: "capitalize",
-          }}
-        />
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <Chip
+              size="small"
+              color={CHIP_COLORS[row.value]}
+              label={row.value?.replace("_", " ")}
+              sx={{
+                fontWeight: 900,
+                borderRadius: 1.5,
+                textTransform: "capitalize",
+              }}
+            />
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
     {
       accessor: "edit",
       Header: "Edit",
-      Cell: (row) => (
-        <IconButton onClick={() => handleEdit(row.row.id)}>
-          <EditIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleEdit(row.row.id)}>
+              <EditIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
     {
       accessor: "delete",
       Header: "Delete",
-      Cell: (row) => (
-        <IconButton onClick={() => handleDelete(row.row.id)}>
-          <DeleteIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleDelete(row.row.id)}>
+              <DeleteIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
   ];
 

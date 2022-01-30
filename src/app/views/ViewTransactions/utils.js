@@ -2,17 +2,27 @@ import { getReadableDate } from "../../utilities/stringUtils";
 
 export const formatTransactionData = (data) => {
   let transactions = [];
+  let grandTotal = 0;
+  let totalDiscount = 0;
   data.forEach((element) => {
     let total = 0.0;
     element.transaction_detail.forEach((detail) => {
       total += detail.amount;
     });
+    totalDiscount += element.discount;
+    grandTotal += total;
     transactions.push({
       ...element,
       date: getReadableDate(element.date),
       total: total,
     });
   });
+  transactions.length > 0 &&
+    transactions.push({
+      serial: "TOTAL",
+      total: grandTotal,
+      discount: totalDiscount,
+    });
   return transactions;
 };
 

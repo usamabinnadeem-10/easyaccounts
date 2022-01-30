@@ -127,7 +127,8 @@ function Ledgers({
     setledgerData(ledgerDataFormatted);
     setOpeningBalance(response.data.opening_balance);
     setClosingBalance(
-      ledgerDataFormatted[ledgerDataFormatted.length - 1]?.formattedBalance
+      ledgerDataFormatted[ledgerDataFormatted.length - 2]?.formattedBalance ||
+        "---"
     );
     setIsEmpty(ledgerDataFormatted.length === 0);
     setLoading(false);

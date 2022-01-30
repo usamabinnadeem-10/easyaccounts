@@ -38,21 +38,33 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       accessor: "edit",
       Header: "Edit",
       hideInPrint: true,
-      Cell: (row) => (
-        <IconButton onClick={() => handleEdit(row.row.id)}>
-          <EditIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleEdit(row.row.id)}>
+              <EditIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
     {
       accessor: "delete",
       Header: "Delete",
       hideInPrint: true,
-      Cell: (row) => (
-        <IconButton onClick={() => handleDelete(row.row.id)}>
-          <DeleteIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleDelete(row.row.id)}>
+              <DeleteIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
   ];
 

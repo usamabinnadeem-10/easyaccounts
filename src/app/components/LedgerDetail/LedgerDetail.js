@@ -11,7 +11,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import { useStyles } from "./styles";
 
-import {convertCurrencyToNumber} from "../../utilities/stringUtils";
+import { convertCurrencyToNumber } from "../../utilities/stringUtils";
 
 function LedgerDetail({
   rows,
@@ -27,70 +27,102 @@ function LedgerDetail({
       accessor: "date",
       Header: "Date",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "transaction_serial",
       Header: "Invoice #",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value || "--"}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value || "--"}
+        </div>
       ),
     },
     {
       accessor: "detail",
       Header: "Detail",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "debit",
       Header: "Debit",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "credit",
       Header: "Credit",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     },
     {
       accessor: "balance",
       Header: "Balance",
-      Cell: (row) => (
-        <div
-          className={`${convertCurrencyToNumber(row.value) < 0 ? classes.debit : classes.credit}`}
-          onClick={() => onRowClick(row.row.id)}
-        >
-          {convertCurrencyToNumber(row.value) < 0
-            ? `${row.value.toString().substring(1)} DB`
-            : `${row.value} CR`}
-        </div>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <div
+              className={`${
+                convertCurrencyToNumber(row.value) < 0
+                  ? classes.debit
+                  : classes.credit
+              }`}
+              onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+            >
+              {convertCurrencyToNumber(row.value) < 0
+                ? `${row.value.toString().substring(1)} DB`
+                : `${row.value} CR`}
+            </div>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
     {
       accessor: "edit",
       Header: "Edit",
       hideInPrint: true,
-      Cell: (row) => (
-        <IconButton onClick={() => handleEdit(row.row.id)}>
-          <EditIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleEdit(row.row.id)}>
+              <EditIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
     {
       accessor: "delete",
       Header: "Delete",
       hideInPrint: true,
-      Cell: (row) => (
-        <IconButton onClick={() => handleDelete(row.row.id)}>
-          <DeleteIcon />
-        </IconButton>
-      ),
+      Cell: (row) => {
+        if (row.row.id) {
+          return (
+            <IconButton onClick={() => handleDelete(row.row.id)}>
+              <DeleteIcon />
+            </IconButton>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
     },
   ];
   if (daybookView) {
@@ -98,7 +130,9 @@ function LedgerDetail({
       accessor: "person_name",
       Header: "Person",
       Cell: (row) => (
-        <div onClick={() => onRowClick(row.row.id)}>{row.value}</div>
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
       ),
     };
   }
