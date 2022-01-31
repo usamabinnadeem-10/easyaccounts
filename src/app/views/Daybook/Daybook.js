@@ -64,6 +64,7 @@ const Daybook = (props) => {
                 REFRESH
               </Button>
               <CustomDatePicker
+                fullWidth={false}
                 placeholder="Date"
                 getDate={(date) => setDate(date)}
                 value={date}

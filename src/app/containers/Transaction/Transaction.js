@@ -22,10 +22,11 @@ import {
   getAllStock,
   setShouldFetch,
 } from "../../../store/transactions/actions";
+import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 import {
-  setShouldFetchDaybook,
-} from "../../../store/accounts/actions";
-import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
+  TRANSACTION_URLS,
+  LEDGER_URLS,
+} from "../../../constants/restEndPoints";
 import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
 
 import instance from "../../../utils/axiosApi";
@@ -35,10 +36,10 @@ import {
   formatTransaction,
   getStockQuantity,
 } from "./utils";
-import { useStyles } from "./styles";
-import { getURL } from "../../utilities/stringUtils";
-import {findErrorMessage} from "../../utilities/objectUtils";
 
+import { useStyles } from "./styles";
+import { getURL, makeQueryParamURL } from "../../utilities/stringUtils";
+import { findErrorMessage } from "../../utilities/objectUtils";
 
 const Transaction = (props) => {
   const {
@@ -74,6 +75,7 @@ const Transaction = (props) => {
     constants.ERROR_DEFAULTS.ROW_INCOMPLETE
   );
   const [shouldValidate, setShouldValidate] = useState(true);
+  const [currentPersonBalance, setCurrentPersonBalance] = useState(null);
 
   const TRANSACTION_FOOTER = [
     {
@@ -112,6 +114,27 @@ const Transaction = (props) => {
       );
     }
   }, [selectedOptions.currentTransactionType, transactionDetails, transaction]);
+
+  useEffect(() => {
+    let personId = selectedOptions?.currentPerson?.value;
+    if (personId) {
+      let URL = makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, [
+        { key: "person_id", value: personId },
+      ]);
+      instance
+        .get(URL)
+        .then((response) => {
+          setCurrentPersonBalance(
+            response.data[selectedOptions.currentPerson.label]
+          );
+        })
+        .catch((error) => {
+          setCurrentPersonBalance(null);
+        });
+    } else {
+      setCurrentPersonBalance(null);
+    }
+  }, [selectedOptions.currentPerson]);
 
   // fetch all stock from backend
   useEffect(() => {
@@ -355,6 +378,18 @@ const Transaction = (props) => {
       isError: selectedOptions.currentTransactionType === "paid" && !paidAmount,
       description: constants.ERROR_DEFAULTS.NO_PAID_AMOUNT,
     },
+    {
+      isError: total < 0,
+      description: constants.ERROR_DEFAULTS.LOW_TOTAL,
+    },
+    {
+      isError: paidAmount > total,
+      description: constants.ERROR_DEFAULTS.PAID_AMOUNT_ERROR,
+    },
+    {
+      isError: total < 0,
+      description: constants.ERROR_DEFAULTS.LOW_TOTAL,
+    },
   ];
 
   const redirect = (transaction) => {
@@ -447,60 +482,70 @@ const Transaction = (props) => {
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(true, "error", findErrorMessage(error?.response?.data) || constants.ERROR_DEFAULTS.OOPS);
+          openSnackbar(
+            true,
+            "error",
+            findErrorMessage(error?.response?.data) ||
+              constants.ERROR_DEFAULTS.OOPS
+          );
         });
     }
   };
 
   return (
-    <div className={classes.root}>
-      <TransactionHeader
-        personIdentifier={personIdentifier}
-        selectedOptions={selectedOptions}
-        options={options}
-        updateMetaData={updateMetaData}
-        metaConstants={metaConstants}
-        showAccountTypes={showAccountTypes}
-        transactionTypes={transactionTypes}
-      />
-
-      <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
-        <Table>
-          <TransactionTableHeader
-            tableMeta={tableMeta}
-            selected={selected}
-            deleteRows={deleteRows}
-          />
-
-          <TransactionTableBody
-            tableData={tableData}
-            tableMeta={tableMeta}
-            constants={constants}
-            handleSetSelected={handleSetSelected}
-            handleStateChange={handleStateChange}
+    <>
+      {transactionStore.fetched && (
+        <div className={classes.root}>
+          <TransactionHeader
+            currentBalance={currentPersonBalance}
+            personIdentifier={personIdentifier}
+            selectedOptions={selectedOptions}
             options={options}
-            customColumnOptions={[
-              {
-                columnNameToOverride: "Gazaana",
-                optionsNameInTable: "gazaanaOptions",
-              },
-            ]}
+            updateMetaData={updateMetaData}
+            metaConstants={metaConstants}
+            showAccountTypes={showAccountTypes}
+            transactionTypes={transactionTypes}
           />
-        </Table>
-      </TableContainer>
 
-      <TransactionFooter
-        addRow={addRow}
-        transactionFooter={TRANSACTION_FOOTER}
-        tableData={tableData}
-        total={total}
-        loading={loading}
-        makeTransaction={makeTransaction}
-        transaction={transaction}
-      />
+          <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
+            <Table>
+              <TransactionTableHeader
+                tableMeta={tableMeta}
+                selected={selected}
+                deleteRows={deleteRows}
+              />
 
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
-    </div>
+              <TransactionTableBody
+                tableData={tableData}
+                tableMeta={tableMeta}
+                constants={constants}
+                handleSetSelected={handleSetSelected}
+                handleStateChange={handleStateChange}
+                options={options}
+                customColumnOptions={[
+                  {
+                    columnNameToOverride: "Gazaana",
+                    optionsNameInTable: "gazaanaOptions",
+                  },
+                ]}
+              />
+            </Table>
+          </TableContainer>
+
+          <TransactionFooter
+            addRow={addRow}
+            transactionFooter={TRANSACTION_FOOTER}
+            tableData={tableData}
+            total={total}
+            loading={loading}
+            makeTransaction={makeTransaction}
+            transaction={transaction}
+          />
+
+          <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
+        </div>
+      )}
+    </>
   );
 };
 

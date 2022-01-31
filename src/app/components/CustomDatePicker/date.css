@@ -3,4 +3,10 @@
   border-radius: 4px;
   font-size: 16px;
   padding: 0 !important;
+  width: 100%;
+}
+
+.date-wrapper {
+  height: 100%;
+  width: 100%;
 }

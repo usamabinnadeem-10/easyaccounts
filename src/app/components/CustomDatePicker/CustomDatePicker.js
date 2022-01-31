@@ -4,7 +4,12 @@ import DatePicker from "react-modern-calendar-datepicker";
 
 import "./date.css";
 
-export default function CustomDatePicker({ getDate, value, placeholder }) {
+export default function CustomDatePicker({
+  getDate,
+  value,
+  placeholder,
+  fullWidth = true,
+}) {
   return (
     <DatePicker
       value={value}
@@ -13,6 +18,7 @@ export default function CustomDatePicker({ getDate, value, placeholder }) {
       shouldHighlightWeekends
       calendarPopperPosition="bottom"
       inputClassName="input-date"
+      wrapperClassName={fullWidth && "date-wrapper"}
     />
   );
 }

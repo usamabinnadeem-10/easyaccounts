@@ -7,6 +7,7 @@ import { styled } from "@mui/material/styles";
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
   "& .MuiToggleButtonGroup-grouped": {
     margin: theme.spacing(0.5),
+    width: "100%",
     border: 0,
     "&.Mui-disabled": {
       border: 0,
@@ -17,6 +18,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       fontWeight: 900,
       marginRight: "0.3rem",
       minWidth: "4rem",
+      width: "fit-content",
     },
     "&:first-of-type": {
       borderRadius: theme.shape.borderRadius,
@@ -24,6 +26,7 @@ const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
       marginRight: "0.3rem",
       fontWeight: 900,
       minWidth: "4rem",
+      width: "fit-content",
     },
   },
 }));

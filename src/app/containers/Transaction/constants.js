@@ -40,6 +40,7 @@ export const ERROR_DEFAULTS = {
   NO_PAID_AMOUNT: "Please enter the amount paid",
   NO_MANUAL_INVOICE: "Please enter book bill number",
   OOPS: "Oops, something went wrong",
+  PAID_AMOUNT_ERROR: "Paid amount can not be greater than total",
 };
 
 export const FIELD_TYPES = {

@@ -13,6 +13,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import SaveIcon from "@mui/icons-material/Save";
 import EditIcon from "@mui/icons-material/Edit";
 
+import { formatCurrency } from "../../utilities/stringUtils";
+
 function TransactionFooter(props) {
   const {
     addRow,
@@ -38,9 +40,6 @@ function TransactionFooter(props) {
               return (
                 <TextField
                   key={index}
-                  inputProps={{
-                    min: 0,
-                  }}
                   label={field.placeholder}
                   type={field.type}
                   multiline
@@ -69,7 +68,9 @@ function TransactionFooter(props) {
 
       <Grid container justifyContent="space-between">
         <Typography variant="subtitle">Items : {tableData.length}</Typography>
-        <Typography variant="body1">PKR : {total || 0} /=</Typography>
+        <Typography variant="h6" color={total < 0 && "error"}>
+          PKR : {formatCurrency(total) || 0} /=
+        </Typography>
       </Grid>
       {loading ? (
         <CustomLoader loading={loading} height={20} />

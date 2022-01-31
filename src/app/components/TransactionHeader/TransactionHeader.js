@@ -14,6 +14,7 @@ import { useStyles } from "./styles";
 
 function TransactionHeader(props) {
   const {
+    currentBalance,
     personIdentifier,
     updateMetaData,
     selectedOptions,
@@ -31,9 +32,12 @@ function TransactionHeader(props) {
         {`New ${personIdentifier} Transaction`}
       </Typography>
 
-      <Grid container>
-        <div className={`${classes.selectCustomer}`}>
+      <Grid container rowSpacing={3} columnSpacing={4}>
+        <Grid item xs={6} className={`${classes.selectCustomer}`}>
           <Select
+            tabSelectsValue
+            escapeClearsValue
+            isClearable
             styles={{
               control: (base, state) => ({
                 ...base,
@@ -45,22 +49,25 @@ function TransactionHeader(props) {
             onChange={(user) => updateMetaData(metaConstants.user, user)}
             options={options.people}
           />
-        </div>
-        <CustomDatePicker
-          getDate={(date) => updateMetaData(metaConstants.date, date)}
-          value={selectedOptions.currentDate}
-        />
-        <div className={classes.metaItems}>
-          <CustomToggleButtons
-            buttons={transactionTypes}
-            getSelectedValue={(type) =>
-              updateMetaData(metaConstants.transactionType, type)
-            }
-            selectedValue={selectedOptions.currentTransactionType}
+          {currentBalance && (
+            <div className={classes.currentBalance}>
+              <Typography
+                variant="subtitle2"
+                color={currentBalance >= 0 ? "success.main" : "error.main"}
+              >{`${Math.abs(currentBalance)} ${
+                currentBalance >= 0 ? " CR" : " DB"
+              }`}</Typography>
+            </div>
+          )}
+        </Grid>
+        <Grid item xs={6}>
+          <CustomDatePicker
+            getDate={(date) => updateMetaData(metaConstants.date, date)}
+            value={selectedOptions.currentDate}
           />
-        </div>
+        </Grid>
         {showAccountTypes && (
-          <div>
+          <Grid item xs={6}>
             <Select
               placeholder={"Account Type"}
               value={selectedOptions.currentAccountType}
@@ -72,25 +79,36 @@ function TransactionHeader(props) {
                 control: (base, state) => ({
                   ...base,
                   minHeight: "40px",
-                  marginRight: "16px",
                 }),
               }}
             />
-          </div>
+          </Grid>
         )}
-        <TextField
-          type="number"
-          label="Book serial"
-          defaultValue={selectedOptions.currentManualInvoiceSerial}
-          value={selectedOptions.currentManualInvoiceSerial}
-          size="small"
-          onChange={(e) => {
-            updateMetaData(
-              metaConstants.manualInvoiceSerial,
-              parseInt(e.target.value) || null
-            );
-          }}
-        />
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            type="number"
+            label="Book serial"
+            defaultValue={selectedOptions.currentManualInvoiceSerial}
+            value={selectedOptions.currentManualInvoiceSerial}
+            size="small"
+            onChange={(e) => {
+              updateMetaData(
+                metaConstants.manualInvoiceSerial,
+                parseInt(e.target.value) || null
+              );
+            }}
+          />
+        </Grid>
+        <Grid item xs={showAccountTypes ? 6 : 12} className={classes.metaItems}>
+          <CustomToggleButtons
+            buttons={transactionTypes}
+            getSelectedValue={(type) =>
+              updateMetaData(metaConstants.transactionType, type)
+            }
+            selectedValue={selectedOptions.currentTransactionType}
+          />
+        </Grid>
       </Grid>
     </>
   );
