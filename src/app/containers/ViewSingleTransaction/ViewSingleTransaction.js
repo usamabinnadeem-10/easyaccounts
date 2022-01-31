@@ -30,7 +30,7 @@ import {
 
 import { getMeta, isTransactionAvailable, formatTransaction } from "./utils";
 import { DB } from "../../../constants/db";
-import { COLUMNS, getColumns } from "./constants";
+import { getColumns } from "./constants";
 
 function ViewSingleTransaction({
   transactionID,
@@ -94,11 +94,8 @@ function ViewSingleTransaction({
   useEffect(() => {
     if (gatePassView) {
       setColumns(getColumns(true));
-      handlePrint();
-      setTimeout(() => {
-        setColumns(getColumns());
-        setGatePassView(!gatePassView);
-      }, 2000);
+    } else {
+      setColumns(getColumns());
     }
   }, [gatePassView]);
 
@@ -199,7 +196,7 @@ function ViewSingleTransaction({
               size="small"
               onClick={() => setGatePassView(!gatePassView)}
             >
-              Generate Gate Pass
+              {`${gatePassView ? "Normal view" : "Gate Pass View"}`}
             </Button>
           </div>
         </div>
