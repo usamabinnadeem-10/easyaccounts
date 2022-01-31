@@ -154,6 +154,7 @@ function LedgerDetail({
       data={rows}
       hoverProperty={hoverProperty}
       pre
+      bordered
     />
   );
 }

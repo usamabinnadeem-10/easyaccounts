@@ -1,10 +1,24 @@
 import React from "react";
 
+import Table from "@mui/material/Table";
+import TableBody from "@mui/material/TableBody";
+import TableCell from "@mui/material/TableCell";
+import TableContainer from "@mui/material/TableContainer";
+import TableHead from "@mui/material/TableHead";
+import TableRow from "@mui/material/TableRow";
+
 import { useTable } from "react-table";
 
 import { useStyles } from "./styles";
 
-function CustomTable({ columns, data, hoverProperty, noTableStyles, pre }) {
+function CustomTable({
+  columns,
+  data,
+  hoverProperty,
+  noTableStyles,
+  pre,
+  bordered = false,
+}) {
   const getRowId = (row) => row.id;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -17,53 +31,60 @@ function CustomTable({ columns, data, hoverProperty, noTableStyles, pre }) {
   const classes = useStyles();
 
   return (
-    <table
+    <TableContainer
       {...getTableProps()}
       className={`${
         noTableStyles ? classes.noTableStyles : classes.tableWrapper
       }`}
     >
-      <thead className={classes.tableHead}>
-        {headerGroups.map((headerGroup) => (
-          <tr {...headerGroup.getHeaderGroupProps()}>
-            {headerGroup.headers.map((column) => (
-              <th
-                className={`${column.hideInPrint && classes.hideInPrint} ${
-                  classes.headCell
+      <Table size="small">
+        <TableHead className={classes.tableHead}>
+          {headerGroups.map((headerGroup) => (
+            <TableRow {...headerGroup.getHeaderGroupProps()}>
+              {headerGroup.headers.map((column) => (
+                <TableCell
+                  className={`${column.hideInPrint && classes.hideInPrint} ${
+                    classes.headCell
+                  }`}
+                  {...column.getHeaderProps()}
+                >
+                  {column.render("Header")}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableHead>
+        <TableBody {...getTableBodyProps()}>
+          {rows.map((row, i) => {
+            prepareRow(row);
+            return (
+              <TableRow
+                hover
+                className={`${
+                  row.original[hoverProperty] ? classes.hover : ""
                 }`}
-                {...column.getHeaderProps()}
+                {...row.getRowProps()}
               >
-                {column.render("Header")}
-              </th>
-            ))}
-          </tr>
-        ))}
-      </thead>
-      <tbody {...getTableBodyProps()}>
-        {rows.map((row, i) => {
-          prepareRow(row);
-          return (
-            <tr
-              className={`${row.original[hoverProperty] ? classes.hover : ""}`}
-              {...row.getRowProps()}
-            >
-              {row.cells.map((cell) => {
-                return (
-                  <td
-                    className={`${classes.rowCell} ${pre ? classes.pre : ""} ${
-                      cell.column.hideInPrint && classes.hideInPrint
-                    }`}
-                    {...cell.getCellProps()}
-                  >
-                    {cell.render("Cell")}
-                  </td>
-                );
-              })}
-            </tr>
-          );
-        })}
-      </tbody>
-    </table>
+                {row.cells.map((cell) => {
+                  return (
+                    <TableCell
+                      className={`
+                      ${classes.rowCell} 
+                      ${pre ? classes.pre : ""}
+                      ${bordered ? classes.bordered : ""}
+                      ${cell.column.hideInPrint && classes.hideInPrint}`}
+                      {...cell.getCellProps()}
+                    >
+                      {cell.render("Cell")}
+                    </TableCell>
+                  );
+                })}
+              </TableRow>
+            );
+          })}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 

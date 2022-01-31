@@ -85,7 +85,7 @@ function TransactionFooter(props) {
             {transaction ? "Edit" : "Finalize"}
           </Button>
 
-          <Button
+          {/* <Button
             endIcon={<SaveIcon />}
             variant="contained"
             sx={{ fontWeight: 900 }}
@@ -93,7 +93,7 @@ function TransactionFooter(props) {
             onClick={() => makeTransaction(true)}
           >
             Save as draft
-          </Button>
+          </Button> */}
         </Grid>
       )}
     </>

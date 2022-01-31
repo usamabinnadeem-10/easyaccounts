@@ -21,10 +21,8 @@ export const useStyles = makeStyles({
   },
   rowCell: {
     maxWidth: "200px",
-    padding: "0.5rem 0",
     borderBottom: "0.5px solid rgba(105, 105, 105, 0.2)",
     overflowWrap: "anywhere",
-    paddingRight: "0.4rem",
   },
   hover: {
     cursor: "pointer",
@@ -34,5 +32,8 @@ export const useStyles = makeStyles({
     "@media print": {
       display: "none !important",
     },
+  },
+  bordered: {
+    border: "0.5px solid rgba(105, 105, 105, 0.3)",
   },
 });

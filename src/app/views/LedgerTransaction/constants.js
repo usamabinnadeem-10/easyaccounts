@@ -1,12 +1,12 @@
 export const TRANSACTION_TYPES = [
   {
-    name: "Debit",
+    name: "نام",
     value: "D",
     color: "error",
     accountTypes: true,
   },
   {
-    name: "Credit",
+    name: "جمع",
     value: "C",
     color: "success",
   },

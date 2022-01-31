@@ -26,7 +26,7 @@ import {
   PERSON_TYPES,
   STORE_PERSON,
 } from "../../components/SelectPerson/constants";
-import {setShouldFetchDaybook} from "../../../store/accounts/actions";
+import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
 import {
@@ -203,7 +203,11 @@ function LedgerTransaction(props) {
             onChange={(account) => handleSetAccountType(account)}
             options={state.accountTypes}
           />
-          <CustomDatePicker getDate={(date) => setDate(date)} value={date} />
+          <CustomDatePicker
+            getDate={(date) => setDate(date)}
+            value={date}
+            fullWidth={false}
+          />
         </Grid>
 
         <SelectPerson
