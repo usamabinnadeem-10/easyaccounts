@@ -2,6 +2,7 @@ import React from "react";
 import { useState } from "react";
 import { useEffect } from "react";
 import { useRef } from "react";
+import { useMemo } from "react";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -55,6 +56,14 @@ function ViewSingleTransaction({
   const [gatePassView, setGatePassView] = useState(false);
 
   const transactions = useSelector((state) => state.transactions);
+
+  const metaItems = useMemo(() => {
+    if (transaction && persons && accounts) {
+      return getMeta(transaction, { persons, accounts }, gatePassView);
+    } else {
+      return [];
+    }
+  }, [transaction, persons, accounts, gatePassView]);
 
   useEffect(() => {
     if (location.state) {
@@ -152,23 +161,21 @@ function ViewSingleTransaction({
             className={`${classes.transactionWrapper}`}
           >
             <div className={classes.meta}>
-              {getMeta(transaction, { persons, accounts }).map(
-                (field, index) => {
-                  return (
-                    <div key={index} className={classes.metaItem}>
-                      <Typography variant="subtitle2" sx={{ width: 110 }}>
-                        {field.label}
-                      </Typography>
-                      <Typography
-                        sx={{ ml: 2, textTransform: "capitalize" }}
-                        fontWeight="700"
-                      >
-                        {field.value}
-                      </Typography>
-                    </div>
-                  );
-                }
-              )}
+              {metaItems.map((field, index) => {
+                return (
+                  <div key={index} className={classes.metaItem}>
+                    <Typography variant="subtitle2" sx={{ width: 110 }}>
+                      {field.label}
+                    </Typography>
+                    <Typography
+                      sx={{ ml: 2, textTransform: "capitalize" }}
+                      fontWeight="700"
+                    >
+                      {field.value}
+                    </Typography>
+                  </div>
+                );
+              })}
             </div>
             <div className={classes.table}>
               <CustomTable

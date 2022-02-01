@@ -2,7 +2,7 @@ import { DB, DB_TRANSLATION } from "../../../constants/db";
 
 import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
-export const getMeta = (transaction, essentials) => {
+export const getMeta = (transaction, essentials, gatePassView = false) => {
   let person = essentials.persons[transaction[DB.PERSON]];
   let data = [
     {
@@ -21,18 +21,25 @@ export const getMeta = (transaction, essentials) => {
       value: transaction[DB.DATE],
       label: "Date:",
     },
-    {
-      value: transaction[DB.TYPE]?.replace("_", " "),
-      label: "Nature:",
-    },
-    {
-      value: transaction[DB.DETAIL] || "---",
-      label: "Detail:",
-    },
   ];
+
+  if (!gatePassView) {
+    data = [
+      ...data,
+      {
+        value: transaction[DB.TYPE]?.replace("_", " "),
+        label: "Nature:",
+      },
+      {
+        value: transaction[DB.DETAIL] || "---",
+        label: "Detail:",
+      },
+    ];
+  }
+
   let account =
     essentials?.accounts?.[transaction[DB.ACCOUNT_TYPE]]?.label || "---";
-  if (transaction[DB.PAID_AMOUNT]) {
+  if (transaction[DB.PAID_AMOUNT] && !gatePassView) {
     data = [
       ...data,
       {
