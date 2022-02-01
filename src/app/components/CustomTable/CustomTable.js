@@ -43,9 +43,11 @@ function CustomTable({
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <TableCell
-                  className={`${column.hideInPrint && classes.hideInPrint} ${
-                    classes.headCell
-                  }`}
+                  className={`${column.hideInPrint && classes.hideInPrint}
+                    ${classes.headCell}`}
+                  sx={{
+                    color: column.color,
+                  }}
                   {...column.getHeaderProps()}
                 >
                   {column.render("Header")}

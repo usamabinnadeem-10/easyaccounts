@@ -42,6 +42,15 @@ function LedgerDetail({
       ),
     },
     {
+      accessor: "manual_invoice_serial",
+      Header: "Book #",
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value || "--"}
+        </div>
+      ),
+    },
+    {
       accessor: "detail",
       Header: "Detail",
       Cell: (row) => (
@@ -53,6 +62,7 @@ function LedgerDetail({
     {
       accessor: "debit",
       Header: "Debit (نام)",
+      color: "#C91D22",
       Cell: (row) => (
         <div
           className={classes.debit}
@@ -65,6 +75,7 @@ function LedgerDetail({
     {
       accessor: "credit",
       Header: "Credit (جمع)",
+      color: "#00A465",
       Cell: (row) => (
         <div
           className={classes.credit}
