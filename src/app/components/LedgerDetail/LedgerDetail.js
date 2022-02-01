@@ -52,18 +52,24 @@ function LedgerDetail({
     },
     {
       accessor: "debit",
-      Header: "Debit",
+      Header: "Debit (نام)",
       Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+        <div
+          className={classes.debit}
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+        >
           {row.value}
         </div>
       ),
     },
     {
       accessor: "credit",
-      Header: "Credit",
+      Header: "Credit (جمع)",
       Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+        <div
+          className={classes.credit}
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+        >
           {row.value}
         </div>
       ),

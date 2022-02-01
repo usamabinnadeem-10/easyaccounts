@@ -35,6 +35,8 @@ export const DB = {
   BALANCE: "balance",
   GAZAANA: "yards_per_piece",
   BOOK_SERIAL: "manual_invoice_serial",
+  PHONE_NUMBER: "phone_number",
+  CITY: "city",
 };
 
 export const DB_TRANSLATION = {

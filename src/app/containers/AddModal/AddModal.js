@@ -98,10 +98,10 @@ const AddModal = ({
       } else {
         dispatch(form.action(data));
       }
-      if (form.dispatchActions?.length > 0){
+      if (form.dispatchActions?.length > 0) {
         form.dispatchActions.forEach((action) => {
-          dispatch(action.actionName(action.data))
-        })
+          dispatch(action.actionName(action.data));
+        });
       }
     }
   };
@@ -151,7 +151,7 @@ const AddModal = ({
                 label={field.label}
                 fullWidth
                 size="small"
-                required
+                required={field.required}
                 sx={{ mb: 2.5, width: 0.9 }}
                 type={field.type}
                 InputProps={{

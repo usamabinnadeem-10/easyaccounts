@@ -259,7 +259,7 @@ function Ledgers({
             <div>
               {currentPerson && (
                 <Typography>
-                  {`Ledger for `}
+                  {`${DB_TRANSLATION[currentPerson.person_type]} : `}
                   <Typography component="span" fontWeight={700}>
                     {currentPerson.label}
                   </Typography>
@@ -275,6 +275,11 @@ function Ledgers({
                 }${openingBalance < 0 ? " DB" : " CR"}`}
               </Typography>
               <Typography variant="body2">{`Closing Balance: ${closingBalance}`}</Typography>
+              {ledgerData.length > 0 && (
+                <Typography variant="body2">{`${ledgerData[0].date} - ${
+                  ledgerData[ledgerData.length - 2].date
+                }`}</Typography>
+              )}
               <Button
                 variant="contained"
                 onClick={() => setHideDetails(!hideDetails)}

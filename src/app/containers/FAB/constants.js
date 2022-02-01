@@ -19,7 +19,7 @@ import { FIELDS } from "../../../constants/fieldTypes";
 import { DB } from "../../../constants/db";
 
 import * as actions from "../../../store/essentials/actions";
-import {setShouldFetchDaybook} from "../../../store/accounts/actions";
+import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
 export const DEFAULTS = {
   ADD_CUSTOMER: "Add Customer / Supplier",
@@ -120,9 +120,25 @@ export const ADD_CUSTOMER_FORM = {
       required: true,
     },
     {
+      label: "Phone Number (+923001234567)",
+      type: FIELDS.STRING,
+      name: DB.PHONE_NUMBER,
+      required: true,
+    },
+    {
       label: "Business Name",
       type: FIELDS.STRING,
       name: DB.BUSINESS_NAME,
+    },
+    {
+      label: "Address",
+      type: FIELDS.STRING,
+      name: DB.ADDRESS,
+    },
+    {
+      label: "City",
+      type: FIELDS.STRING,
+      name: DB.ADDRESS,
     },
   ],
 };
@@ -216,7 +232,7 @@ export const getExpenseForm = (expenseAccounts, accountTypes) => {
       {
         actionName: setShouldFetchDaybook,
         data: true,
-      }
+      },
     ],
     formData: [
       {
