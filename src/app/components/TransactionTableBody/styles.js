@@ -6,12 +6,8 @@ export const customStyles = (columnName) => {
     }),
     control: (base, state) => ({
       ...base,
-      width:
-        columnName === "Product"
-          ? "200px"
-          : columnName === "Warehouse"
-          ? "150px"
-          : "",
+      minWidth: "100px",
+      width: "max-content",
     }),
   };
 };

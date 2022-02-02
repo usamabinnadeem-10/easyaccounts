@@ -64,10 +64,7 @@ function TransactionTableBody(props) {
                   );
                 case constants.FIELD_TYPES.SELECT:
                   return (
-                    <TableCell
-                      key={columnIndex}
-                      sx={{ py: 0, width: "10%", px: 1 }}
-                    >
+                    <TableCell key={columnIndex} sx={{ py: 0, px: 1 }}>
                       <CreatableSelect
                         styles={customStyles(column.name)}
                         isClearable
