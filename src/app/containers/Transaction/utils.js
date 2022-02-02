@@ -1,14 +1,40 @@
-export const getGazaanaOptions = (allStock, product, warehouse) => {
-  return allStock
-    .filter(
-      (stock) => stock.product === product && stock.warehouse === warehouse
-    )
-    .map((stock) => {
-      return {
-        value: stock.yards_per_piece,
-        label: stock.yards_per_piece,
-      };
-    });
+export const getGazaanaOptions = (allStock, product) => {
+  let filtered = allStock.filter(
+    (stock) => stock.product === product && stock.stock_quantity > 0
+  );
+  let unique = {};
+  let filteredUnique = [];
+  filtered.forEach((stock) => {
+    if (!unique[stock.yards_per_piece]) {
+      unique[stock.yards_per_piece] = true;
+      filteredUnique.push(stock);
+    }
+  });
+  return filteredUnique.length > 0
+    ? filteredUnique.map((stock) => {
+        return {
+          value: stock.yards_per_piece,
+          label: stock.yards_per_piece,
+        };
+      })
+    : [];
+};
+
+export const getWarehouseOptions = (allStock, product, gazaana, warehouses) => {
+  let filtered = allStock.filter(
+    (stock) =>
+      stock.product === product &&
+      stock.stock_quantity > 0 &&
+      stock.yards_per_piece === gazaana
+  );
+  return filtered.length > 0
+    ? filtered.map((stock) => {
+        return {
+          value: stock.warehouse,
+          label: warehouses[stock.warehouse].label,
+        };
+      })
+    : [];
 };
 
 export const getStockQuantity = (allStock, product, warehouse, gazaana) => {

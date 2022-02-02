@@ -213,3 +213,12 @@ export const addExpenseDetailSuccess = () => {
     type: actionTypes.ADD_EXPENSE_DETAIL_SUCCESS,
   };
 };
+
+
+// action for showing error
+export const setError = (data) => {
+  return {
+    type: actionTypes.SET_ERROR,
+    payload: data,
+  }
+}

@@ -11,7 +11,7 @@ import Transaction from "../../containers/Transaction/Transaction";
 import { useStyles } from "./styles";
 import * as constants from "./constants";
 
-function CustomerTransaction() {
+function CustomerTransaction(props) {
   const classes = useStyles();
   const location = useLocation();
 
@@ -53,6 +53,7 @@ function CustomerTransaction() {
   return (
     <div className={classes.root}>
       <Transaction
+        {...props}
         tableMeta={constants.TABLE_META}
         updateMetaData={updateMetaData}
         defaultRow={constants.DEFAULT_ROW}

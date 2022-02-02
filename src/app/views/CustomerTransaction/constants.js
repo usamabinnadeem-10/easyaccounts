@@ -42,12 +42,6 @@ export const TABLE_META = [
   },
   {
     field: FIELDS.SELECT,
-    default: null,
-    name: "Warehouse",
-    optional: false,
-  },
-  {
-    field: FIELDS.SELECT,
     default: 0,
     name: "Gazaana",
     optional: false,
@@ -66,6 +60,12 @@ export const TABLE_META = [
     name: "Quantity",
     optional: false,
     readOnly: false,
+  },
+  {
+    field: FIELDS.SELECT,
+    default: null,
+    name: "Warehouse",
+    optional: false,
   },
   {
     field: FIELDS.NUMBER,

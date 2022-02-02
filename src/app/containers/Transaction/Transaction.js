@@ -33,6 +33,7 @@ import instance from "../../../utils/axiosApi";
 
 import {
   getGazaanaOptions,
+  getWarehouseOptions,
   formatTransaction,
   getStockQuantity,
 } from "./utils";
@@ -115,6 +116,7 @@ const Transaction = (props) => {
     }
   }, [selectedOptions.currentTransactionType, transactionDetails, transaction]);
 
+  // fetch balance for current person
   useEffect(() => {
     let personId = selectedOptions?.currentPerson?.value;
     if (personId) {
@@ -308,16 +310,28 @@ const Transaction = (props) => {
       row[constants.DEFAULTS.QUANTITY] *
         row[constants.DEFAULTS.GAZAANA]?.value || 0;
 
-    // if both product and warehouse are set, then add the stock options for gazaana for that row
-    if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.WAREHOUSE]) {
+    if (row[constants.DEFAULTS.PRODUCT]) {
       row["gazaanaOptions"] = getGazaanaOptions(
         transactionStore.allStock,
-        row[constants.DEFAULTS.PRODUCT].value,
-        row[constants.DEFAULTS.WAREHOUSE].value
+        row[constants.DEFAULTS.PRODUCT].value
       );
     } else {
       row["gazaanaOptions"] = [];
       row["gazaana"] = null;
+      row["warehouseOptions"] = [];
+      row["warehouse"] = null;
+    }
+
+    if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.GAZAANA]) {
+      row["warehouseOptions"] = getWarehouseOptions(
+        transactionStore.allStock,
+        row[constants.DEFAULTS.PRODUCT].value,
+        row[constants.DEFAULTS.GAZAANA].value,
+        props.warehouses
+      );
+    } else {
+      row["warehouseOptions"] = [];
+      row["warehouse"] = null;
     }
 
     if (
@@ -526,6 +540,10 @@ const Transaction = (props) => {
                   {
                     columnNameToOverride: "Gazaana",
                     optionsNameInTable: "gazaanaOptions",
+                  },
+                  {
+                    columnNameToOverride: "Warehouse",
+                    optionsNameInTable: "warehouseOptions",
                   },
                 ]}
               />

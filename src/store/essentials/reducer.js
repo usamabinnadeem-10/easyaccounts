@@ -12,6 +12,7 @@ const initialState = {
   fetched: false,
   added: false,
   adding: false,
+  error: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -229,6 +230,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: false,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_EXPENSE_DETAIL:
@@ -242,7 +244,15 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: true,
         adding: false,
+        error: '',
       };
+    case actionTypes.SET_ERROR:
+      return {
+        ...state,
+        added: false,
+        adding: false,
+        error: action.payload,
+      }
 
     default:
       return state;

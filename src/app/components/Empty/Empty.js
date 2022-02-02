@@ -3,7 +3,7 @@ import React from "react";
 import { styled } from "@mui/styles";
 import { Typography } from "@mui/material";
 
-import box from "../../../assets/box.png";
+import box from "../../../assets/box.svg";
 
 const CenteredDiv = styled("div")(({ theme }) => ({
   display: "flex",

@@ -12,7 +12,7 @@ import { useStyles } from "./styles";
 
 import * as constants from "./constants";
 
-function SupplierTransaction() {
+function SupplierTransaction(props) {
   const classes = useStyles();
   const location = useLocation();
 
@@ -52,6 +52,7 @@ function SupplierTransaction() {
   return (
     <div className={classes.root}>
       <Transaction
+        {...props}
         tableMeta={constants.TABLE_META}
         updateMetaData={updateMetaData}
         defaultRow={constants.DEFAULT_ROW}

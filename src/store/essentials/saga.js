@@ -53,8 +53,14 @@ function* addNewAccountTypeSaga(action) {
 }
 
 function* addNewPersonSaga(action) {
-  let response = yield call(api.addPersonApi, action.payload);
-  yield put(actions.addNewPersonSuccess(response.data));
+  try {
+    let response = yield call(api.addPersonApi, action.payload);
+    yield put(actions.addNewPersonSuccess(response.data));
+  } catch (error) {
+    let errorObj = error.response.data;
+    let key = Object.keys(errorObj)[0];
+    yield put(actions.setError(errorObj[key][0]))
+  }
 }
 
 function* addNewWarehouseSaga(action) {

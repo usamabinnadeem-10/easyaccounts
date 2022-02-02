@@ -67,7 +67,11 @@ const AddModal = ({
       openSnackbar(true, "success", "Added successfully");
       handleClose();
     }
-  }, [essentials.added, essentials.adding]);
+    if (essentials.error){
+      setLoading(false);
+      openSnackbar(true, "error", essentials.error);
+    }
+  }, [essentials.added, essentials.adding, essentials.error]);
 
   const handleChange = (value, label) => {
     setState({
