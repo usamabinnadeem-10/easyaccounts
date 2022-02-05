@@ -12,7 +12,7 @@ const initialState = {
   fetched: false,
   added: false,
   adding: false,
-  error: '',
+  error: "",
 };
 
 const reducer = (state = initialState, action) => {
@@ -230,7 +230,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: false,
         adding: false,
-        error: '',
+        error: "",
       };
 
     case actionTypes.ADD_EXPENSE_DETAIL:
@@ -244,7 +244,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: true,
         adding: false,
-        error: '',
+        error: "",
       };
     case actionTypes.SET_ERROR:
       return {
@@ -252,7 +252,19 @@ const reducer = (state = initialState, action) => {
         added: false,
         adding: false,
         error: action.payload,
-      }
+      };
+    case actionTypes.CANCEL_INVOICE:
+      return {
+        ...state,
+        added: false,
+        adding: true,
+      };
+    case actionTypes.CANCEL_INVOICE_SUCCESS:
+      return {
+        ...state,
+        added: true,
+        adding: false,
+      };
 
     default:
       return state;

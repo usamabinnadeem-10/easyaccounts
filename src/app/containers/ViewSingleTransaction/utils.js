@@ -3,14 +3,14 @@ import { DB, DB_TRANSLATION } from "../../../constants/db";
 import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
 export const getMeta = (transaction, essentials, gatePassView = false) => {
-  let person = essentials.persons[transaction[DB.PERSON]];
+  let person = essentials?.persons?.[transaction[DB.PERSON]];
   let data = [
     {
       value: transaction[DB.SERIAL],
       label: "Invoice #",
     },
     {
-      value: transaction[DB.BOOK_SERIAL],
+      value: `${transaction[DB.SERIAL_TYPE]}-${transaction[DB.BOOK_SERIAL]}`,
       label: "Book #",
     },
     {
@@ -90,7 +90,7 @@ const formatTransactionDetails = (
 };
 
 export const formatTransaction = (transaction, warehouses, products) => {
-  let totalAmount = transaction.transaction_detail.reduce(
+  let totalAmount = transaction?.transaction_detail?.reduce(
     (prev, curr) => prev + curr.amount,
     0
   );

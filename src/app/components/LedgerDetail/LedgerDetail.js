@@ -22,7 +22,7 @@ function LedgerDetail({
   daybookView,
   hideDetails,
 }) {
-  const COLUMNS = [
+  let COLUMNS = [
     {
       accessor: "date",
       Header: "Date",
@@ -61,7 +61,7 @@ function LedgerDetail({
     },
     {
       accessor: "debit",
-      Header: "Debit (نام)",
+      Header: "Debit (بنام)",
       color: "#C91D22",
       Cell: (row) => (
         <div
@@ -85,30 +85,55 @@ function LedgerDetail({
         </div>
       ),
     },
-    {
-      accessor: "balance",
-      Header: "Balance",
-      Cell: (row) => {
-        if (row.row.id) {
-          return (
-            <div
-              className={`${
-                convertCurrencyToNumber(row.value) < 0
-                  ? classes.debit
-                  : classes.credit
-              }`}
-              onClick={row.row.id ? () => onRowClick(row.row.id) : null}
-            >
-              {convertCurrencyToNumber(row.value) < 0
-                ? `${row.value.toString().substring(1)} DB`
-                : `${row.value} CR`}
-            </div>
-          );
-        } else {
-          return <div></div>;
-        }
+  ];
+
+  if (!daybookView) {
+    COLUMNS = [
+      ...COLUMNS,
+      {
+        accessor: "balance",
+        Header: "Balance",
+        Cell: (row) => {
+          if (row.row.id) {
+            return (
+              <div
+                className={`${
+                  convertCurrencyToNumber(row.value) < 0
+                    ? classes.debit
+                    : classes.credit
+                }`}
+                onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+              >
+                {convertCurrencyToNumber(row.value) < 0
+                  ? `${row.value.toString().substring(1)} DB`
+                  : `${row.value} CR`}
+              </div>
+            );
+          } else {
+            return <div></div>;
+          }
+        },
       },
-    },
+    ];
+  }
+
+  if (daybookView) {
+    COLUMNS = [
+      ...COLUMNS,
+      {
+        accessor: "person_name",
+        Header: "Person",
+        Cell: (row) => (
+          <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+            {row.value}
+          </div>
+        ),
+      },
+    ];
+  }
+
+  COLUMNS = [
+    ...COLUMNS,
     {
       accessor: "edit",
       Header: "Edit",
@@ -142,17 +167,6 @@ function LedgerDetail({
       },
     },
   ];
-  if (daybookView) {
-    COLUMNS[5] = {
-      accessor: "person_name",
-      Header: "Person",
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
-      ),
-    };
-  }
 
   const classes = useStyles();
   const [columns, setColumns] = useState(COLUMNS);

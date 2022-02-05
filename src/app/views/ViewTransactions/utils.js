@@ -13,6 +13,7 @@ export const formatTransactionData = (data) => {
     grandTotal += total;
     transactions.push({
       ...element,
+      manual_invoice_serial: `${element.manual_serial_type}-${element.manual_invoice_serial}`,
       date: getReadableDate(element.date),
       total: total,
     });

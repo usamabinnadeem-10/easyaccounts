@@ -76,6 +76,7 @@ const ViewAllStock = (props) => {
   useEffect(() => {
     if (allStock.length > 0) {
       setStockData(formatStockData(allStock, props));
+      setLoading(false);
     }
   }, [allStock]);
 

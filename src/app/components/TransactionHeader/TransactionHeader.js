@@ -23,7 +23,7 @@ function TransactionHeader(props) {
     showAccountTypes,
     options,
   } = props;
-
+  console.log(Math.abs(currentBalance));
   const classes = useStyles();
 
   return (
@@ -42,6 +42,10 @@ function TransactionHeader(props) {
               control: (base, state) => ({
                 ...base,
                 minHeight: "40px",
+              }),
+              menu: (base) => ({
+                ...base,
+                zIndex: 10000,
               }),
             }}
             placeholder={personIdentifier}
@@ -92,6 +96,7 @@ function TransactionHeader(props) {
             defaultValue={selectedOptions.currentManualInvoiceSerial}
             value={selectedOptions.currentManualInvoiceSerial}
             size="small"
+            min={0}
             onChange={(e) => {
               updateMetaData(
                 metaConstants.manualInvoiceSerial,

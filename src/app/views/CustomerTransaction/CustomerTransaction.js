@@ -54,6 +54,7 @@ function CustomerTransaction(props) {
     <div className={classes.root}>
       <Transaction
         {...props}
+        prefixes={constants.PREFIXES}
         tableMeta={constants.TABLE_META}
         updateMetaData={updateMetaData}
         defaultRow={constants.DEFAULT_ROW}

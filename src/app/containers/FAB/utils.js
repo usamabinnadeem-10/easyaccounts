@@ -6,6 +6,7 @@ import {
   getExpenseForm,
   ADD_ACCOUNT_TYPE_FORM,
   ADD_EXPENSE_ACCOUNT_FORM,
+  CANCEL_INVOICE_FORM,
 } from "./constants";
 
 export const chooseModal = (name, state) => {
@@ -24,6 +25,8 @@ export const chooseModal = (name, state) => {
       return ADD_ACCOUNT_TYPE_FORM;
     case DEFAULTS.TRANSFER_ENTRY:
       return [];
+    case DEFAULTS.CANCEL_INVOICE:
+      return CANCEL_INVOICE_FORM;
     default:
       return [];
   }

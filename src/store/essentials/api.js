@@ -1,6 +1,10 @@
 import instance from "../../utils/axiosApi";
 
-import { ESSENTIAL_URLS, EXPENSE_URLS } from "../../constants/restEndPoints";
+import {
+  ESSENTIAL_URLS,
+  EXPENSE_URLS,
+  TRANSACTION_URLS,
+} from "../../constants/restEndPoints";
 
 // APIs to get essentials
 
@@ -52,4 +56,8 @@ export const addPersonApi = (data) => {
 
 export const addExpenseDetailApi = (data) => {
   return instance.post(EXPENSE_URLS.CREATE_EXPENSE_DETAIL, data);
+};
+
+export const cancelInvoiceApi = (data) => {
+  return instance.post(TRANSACTION_URLS.CANCEL_INVOICE, data);
 };

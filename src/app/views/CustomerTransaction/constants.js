@@ -22,6 +22,12 @@ export const TRANSACTION_TYPES = [
   },
 ];
 
+export const PREFIXES = {
+  "paid" : "INV",
+  "credit" : "INV",
+  "maal_wapsi" : "MWC",
+}
+
 export const NATURES = {
   paid: "D",
   credit: "D",

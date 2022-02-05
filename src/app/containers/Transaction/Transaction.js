@@ -44,6 +44,7 @@ import { findErrorMessage } from "../../utilities/objectUtils";
 
 const Transaction = (props) => {
   const {
+    prefixes,
     tableMeta,
     updateMetaData,
     defaultRow,
@@ -77,6 +78,9 @@ const Transaction = (props) => {
   );
   const [shouldValidate, setShouldValidate] = useState(true);
   const [currentPersonBalance, setCurrentPersonBalance] = useState(null);
+  const [customSelectOptions, setCustomSelectOptions] = useState(
+    constants.CUSTOM_COLUMN_OPTIONS
+  );
 
   const TRANSACTION_FOOTER = [
     {
@@ -104,15 +108,20 @@ const Transaction = (props) => {
 
   // check if the quantity needs to be validated when adding or finalizing transaction
   useEffect(() => {
+    let currentType = selectedOptions.currentTransactionType;
     // if editing transaction, set validate to false
     if (transaction && transactionDetails?.length) {
       setShouldValidate(false);
     } else {
       setShouldValidate(
-        transactionTypes.find(
-          (element) => element.value === selectedOptions.currentTransactionType
-        ).validate
+        transactionTypes.find((element) => element.value === currentType)
+          .validate
       );
+    }
+    if (currentType === "paid" || currentType === "credit") {
+      setCustomSelectOptions(constants.CUSTOM_COLUMN_OPTIONS);
+    } else {
+      setCustomSelectOptions([constants.CUSTOM_COLUMN_OPTIONS[0]]);
     }
   }, [selectedOptions.currentTransactionType, transactionDetails, transaction]);
 
@@ -440,7 +449,8 @@ const Transaction = (props) => {
       discount: discount || 0,
       type: selectedOptions.currentTransactionType,
       detail: detail || null,
-      manual_invoice_serial: selectedOptions.currentManualInvoiceSerial,
+      manual_invoice_serial: `${selectedOptions.currentManualInvoiceSerial}`,
+      manual_serial_type: prefixes[selectedOptions.currentTransactionType],
       transaction_detail: tableData.map((data, index) => {
         return {
           id: data.id,
@@ -536,16 +546,7 @@ const Transaction = (props) => {
                 handleSetSelected={handleSetSelected}
                 handleStateChange={handleStateChange}
                 options={options}
-                customColumnOptions={[
-                  {
-                    columnNameToOverride: "Gazaana",
-                    optionsNameInTable: "gazaanaOptions",
-                  },
-                  {
-                    columnNameToOverride: "Warehouse",
-                    optionsNameInTable: "warehouseOptions",
-                  },
-                ]}
+                customColumnOptions={customSelectOptions}
               />
             </Table>
           </TableContainer>

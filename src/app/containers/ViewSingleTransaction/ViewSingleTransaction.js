@@ -58,7 +58,7 @@ function ViewSingleTransaction({
   const transactions = useSelector((state) => state.transactions);
 
   const metaItems = useMemo(() => {
-    if (transaction && persons && accounts) {
+    if (transaction) {
       return getMeta(transaction, { persons, accounts }, gatePassView);
     } else {
       return [];

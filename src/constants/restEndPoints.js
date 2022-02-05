@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = "http://127.0.0.1:8000/";
-export const BASE = "https://a94d-110-39-11-4.ngrok.io";
+export const BASE = "http://127.0.0.1:8000/";
+// export const BASE = "https://a94d-110-39-11-4.ngrok.io";
 
 const ESSENTIALS = "essentials/";
 const CUSTOMER = "C";
@@ -45,6 +45,7 @@ export const TRANSACTION_URLS = {
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
   TRANSFER_STOCK: `${TRANSACTION}transfer-stock/`,
+  CANCEL_INVOICE: `${TRANSACTION}cancel-invoice/`,
 };
 
 const LEDGER = "ledger/";

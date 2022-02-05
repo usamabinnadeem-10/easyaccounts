@@ -7,6 +7,7 @@ import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import MenuBookIcon from "@mui/icons-material/MenuBook";
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MoneyIcon from "@mui/icons-material/Money";
+import CancelIcon from "@mui/icons-material/Cancel";
 
 import {
   CUSTOMER_TRANSACTION,
@@ -32,6 +33,7 @@ export const DEFAULTS = {
   LEDGER_ENTRY: "Ledger Entry",
   ADD_ACOUNT_TYPE: "Add Account Type",
   TRANSFER_ENTRY: "Transfer Stock",
+  CANCEL_INVOICE: "Cancel Invoice",
 };
 
 export const TRANSACTION = "TRANSACTION";
@@ -55,6 +57,11 @@ export const ACTION_FABS = [
   {
     icon: <AccountBalanceIcon />,
     tooltip: DEFAULTS.ADD_ACOUNT_TYPE,
+  },
+  {
+    icon: <CancelIcon />,
+    tooltip: DEFAULTS.CANCEL_INVOICE,
+    customColor: "#000",
   },
   {
     icon: <AttachMoney />,
@@ -269,4 +276,49 @@ export const getExpenseForm = (expenseAccounts, accountTypes) => {
       },
     ],
   };
+};
+
+const INVOICE_OPTIONS = [
+  {
+    label: "Customer Invoice",
+    value: "INV",
+  },
+  {
+    label: "Maal Wapsi Customer",
+    value: "MWC",
+  },
+  {
+    label: "Supplier Purchase",
+    value: "SUP",
+  },
+  {
+    label: "Maal Wapsi Supplier",
+    value: "MWS",
+  },
+];
+
+export const CANCEL_INVOICE_FORM = {
+  heading: "Cancel Invoice",
+  action: actions.cancelInvoice,
+  formData: [
+    {
+      label: "Serial Type",
+      type: FIELDS.SELECT,
+      name: DB.SERIAL_TYPE,
+      options: INVOICE_OPTIONS,
+      required: true,
+    },
+    {
+      label: "Serial Number",
+      type: FIELDS.NUMBER,
+      name: DB.BOOK_SERIAL,
+      required: true,
+    },
+    {
+      label: "Why are you deleting?",
+      type: FIELDS.STRING,
+      name: DB.COMMENT,
+      required: false,
+    },
+  ],
 };

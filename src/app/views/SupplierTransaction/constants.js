@@ -15,6 +15,11 @@ export const TRANSACTION_TYPES = [
   },
 ];
 
+export const PREFIXES = {
+  "purchase" : "SUP",
+  "maal_wapsi" : "MWS",
+}
+
 export const NATURES = {
   purchase: "C",
   maal_wapsi: "D",

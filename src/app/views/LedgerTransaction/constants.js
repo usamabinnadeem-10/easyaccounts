@@ -1,6 +1,6 @@
 export const TRANSACTION_TYPES = [
   {
-    name: "نام",
+    name: "بنام",
     value: "D",
     color: "error",
     accountTypes: true,

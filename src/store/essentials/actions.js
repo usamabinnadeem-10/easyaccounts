@@ -214,11 +214,23 @@ export const addExpenseDetailSuccess = () => {
   };
 };
 
-
 // action for showing error
 export const setError = (data) => {
   return {
     type: actionTypes.SET_ERROR,
     payload: data,
-  }
-}
+  };
+};
+
+export const cancelInvoice = (data) => {
+  return {
+    type: actionTypes.CANCEL_INVOICE,
+    payload: data,
+  };
+};
+
+export const cancelInvoiceSuccess = () => {
+  return {
+    type: actionTypes.CANCEL_INVOICE_SUCCESS,
+  };
+};

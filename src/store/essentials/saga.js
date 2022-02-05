@@ -16,6 +16,7 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
     takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
+    takeLatest(actionTypes.CANCEL_INVOICE, cancelInvoiceSaga),
   ]);
 }
 
@@ -59,7 +60,7 @@ function* addNewPersonSaga(action) {
   } catch (error) {
     let errorObj = error.response.data;
     let key = Object.keys(errorObj)[0];
-    yield put(actions.setError(errorObj[key][0]))
+    yield put(actions.setError(errorObj[key][0]));
   }
 }
 
@@ -81,6 +82,17 @@ function* addNewProductSaga(action) {
 function* addExpenseDetailSaga(action) {
   yield call(api.addExpenseDetailApi, action.payload);
   yield put(actions.addExpenseDetailSuccess());
+}
+
+function* cancelInvoiceSaga(action) {
+  try {
+    yield call(api.cancelInvoiceApi, action.payload);
+    yield put(actions.cancelInvoiceSuccess());
+  } catch (error) {
+    let errorObj = error.response.data;
+    let key = Object.keys(errorObj)[0];
+    yield put(actions.setError(errorObj[key]));
+  }
 }
 
 export default essentialSagas;

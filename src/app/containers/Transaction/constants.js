@@ -48,3 +48,14 @@ export const FIELD_TYPES = {
   SELECT: FIELDS.SELECT,
   NUMBER: FIELDS.NUMBER,
 };
+
+export const CUSTOM_COLUMN_OPTIONS = [
+  {
+    columnNameToOverride: "Gazaana",
+    optionsNameInTable: "gazaanaOptions",
+  },
+  {
+    columnNameToOverride: "Warehouse",
+    optionsNameInTable: "warehouseOptions",
+  },
+]
