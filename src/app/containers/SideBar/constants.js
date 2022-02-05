@@ -5,6 +5,7 @@ import {
   VIEW_EXPENSES,
   ALL_BALANCES,
   ALL_STOCK,
+  DETAILED_STOCK,
 } from "../../../constants/routesConstants";
 
 export const VIEW = "View";
@@ -17,6 +18,7 @@ export const EXPENSE = "Expenses";
 export const REPORTS = "Reports";
 export const BALANCES = "Balances";
 export const STOCK = "Stock";
+export const VIEW_DETAILED_STOCK = "Detailed Stock";
 
 // export const
 
@@ -54,6 +56,10 @@ export const SIDEBAR = [
       {
         name: STOCK,
         route: ALL_STOCK,
+      },
+      {
+        name: VIEW_DETAILED_STOCK,
+        route: DETAILED_STOCK,
       },
     ],
   },

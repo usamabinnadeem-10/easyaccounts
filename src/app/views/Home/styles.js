@@ -5,6 +5,5 @@ export const useStyles = makeStyles({
     marginLeft: "260px",
     marginTop: "1rem",
     marginRight: "50px",
-    width: "max-content",
   },
 });

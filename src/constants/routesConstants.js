@@ -10,3 +10,4 @@ export const VIEW_DAYBOOK = `${HOME}/daybook`;
 export const VIEW_EXPENSES = `${HOME}/expenses`;
 export const ALL_BALANCES = `${HOME}/balances`;
 export const ALL_STOCK = `${HOME}/all-stock`;
+export const DETAILED_STOCK = `${HOME}/detailed-stock`;

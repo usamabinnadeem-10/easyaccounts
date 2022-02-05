@@ -318,7 +318,7 @@ export const CANCEL_INVOICE_FORM = {
       label: "Why are you deleting?",
       type: FIELDS.STRING,
       name: DB.COMMENT,
-      required: false,
+      required: true,
     },
   ],
 };
