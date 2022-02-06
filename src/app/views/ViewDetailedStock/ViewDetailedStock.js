@@ -50,17 +50,33 @@ const ViewDetailedStock = (props) => {
           utils.formatDetailedStock(
             response.data,
             props.persons,
-            props.warehouses
+            props.warehouses,
+            warehouse
           )
         );
       });
   };
 
+  const handlePrint = useReactToPrint({
+    content: () => componentRef.current,
+  });
+
   return (
     <styled.StyledGrid container direction="column">
-      <styled.Heading variant="h5" fontWeight={900}>
-        Detailed Stock
-      </styled.Heading>
+      <styled.StyledGrid mb={3} container justifyContent="space-between">
+        <styled.Heading variant="h5" fontWeight={900}>
+          Detailed Stock
+        </styled.Heading>
+        <styled.StyledButton
+          size="small"
+          variant="contained"
+          onClick={handlePrint}
+          disabled={formattedStock.length === 0}
+        >
+          Print
+        </styled.StyledButton>
+      </styled.StyledGrid>
+
       <styled.StyledGrid
         align="center"
         mt={2}
@@ -114,7 +130,7 @@ const ViewDetailedStock = (props) => {
           Search
         </styled.StyledButton>
       </styled.StyledGrid>
-      <styled.StyledGrid mt={3}>
+      <styled.StyledGrid container ref={componentRef} mt={3}>
         <CustomTable
           bordered
           columns={constants.COLUMNS}

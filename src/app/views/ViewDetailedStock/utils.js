@@ -1,6 +1,11 @@
 import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 
-export const formatDetailedStock = (data, persons, warehouses) => {
+export const formatDetailedStock = (
+  data,
+  persons,
+  warehouses,
+  currentWarehouse
+) => {
   let stock = [];
   let balance = data.opening_stock;
   let totalCR = 0.0;
@@ -29,17 +34,80 @@ export const formatDetailedStock = (data, persons, warehouses) => {
       transactionType: value.transaction__type,
     });
   });
-  data.transfers.forEach((transfer) => {
-    stock.push({
-      id: transfer.id,
+
+  // filter the transfers where from or to is currentWarehouse
+  if (currentWarehouse?.value) {
+    data.transfers.forEach((transfer, index) => {
+      let data = {
+        id: `${transfer.id}`,
+        date: getReadableDate(transfer.date),
+        gazaana: transfer.yards_per_piece,
+        serial: "TR",
+        bookSerial: "TR",
+        transactionType: "transfer",
+      };
+      if (currentWarehouse.value === transfer.to_warehouse_id) {
+        balance += transfer.quantity;
+        totalCR += transfer.quantity;
+        stock.push({
+          ...data,
+          credit: transfer.quantity,
+          stock: balance,
+          gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
+          warehouse: warehouses?.[transfer.to_warehouse_id].label,
+        });
+      } else if (currentWarehouse.value === transfer.from_warehouse_id) {
+        balance -= transfer.quantity;
+        totalDB += transfer.quantity;
+        stock.push({
+          ...data,
+          debit: transfer.quantity,
+          stock: balance,
+          gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
+          warehouse: warehouses?.[transfer.from_warehouse_id].label,
+        });
+      }
     });
-  });
-  stock.push({
-    date: "TOTAL",
-    credit: totalCR,
-    debit: totalDB,
-    stock: "---",
-    gazaanaBalance: "---",
-  });
+  } else {
+    data.transfers.forEach((transfer, index) => {
+      totalCR += transfer.quantity;
+      totalDB += transfer.quantity;
+      balance -= transfer.quantity;
+      let data = {
+        date: getReadableDate(transfer.date),
+        gazaana: transfer.yards_per_piece,
+        serial: "TR",
+        bookSerial: "TR",
+        transactionType: "transfer",
+      };
+      stock.push({
+        ...data,
+        id: `${transfer.id}0`,
+        debit: transfer.quantity,
+        warehouse: warehouses?.[transfer.from_warehouse_id].label,
+        stock: balance,
+        gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
+      });
+      balance += transfer.quantity;
+      stock.push({
+        ...data,
+        id: `${transfer.id}1`,
+        credit: transfer.quantity,
+        warehouse: warehouses?.[transfer.to_warehouse_id].label,
+        stock: balance,
+        gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
+      });
+    });
+  }
+  stock.length > 0 &&
+    stock.push({
+      date: "TOTAL",
+      credit: totalCR,
+      debit: totalDB,
+      stock: formatCurrency(balance),
+      gazaanaBalance: stock[stock.length - 1].gazaanaBalance,
+      rowVariant: "h6",
+      rowFontWeight: "900",
+    });
   return stock;
 };
