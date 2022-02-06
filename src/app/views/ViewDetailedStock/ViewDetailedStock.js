@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react";
 import { useState } from "react";
 import { useRef } from "react";
 
@@ -32,10 +31,13 @@ const ViewDetailedStock = (props) => {
   const [gazaana, setGazaana] = useState(null);
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [openingStock, setOpeningStock] = useState(null);
   const [formattedStock, setFormattedStock] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleClick = () => {
+    setIsEmpty(false);
+    setIsLoading(true);
     api
       .getDetailedStock(
         product?.value,
@@ -45,15 +47,18 @@ const ViewDetailedStock = (props) => {
         warehouse?.value
       )
       .then((response) => {
-        setOpeningStock(response.data.opening_stock);
-        setFormattedStock(
-          utils.formatDetailedStock(
-            response.data,
-            props.persons,
-            props.warehouses,
-            warehouse
-          )
+        let formatted = utils.formatDetailedStock(
+          response.data,
+          props.persons,
+          props.warehouses,
+          warehouse
         );
+        setFormattedStock(formatted);
+        setIsEmpty(formatted.length === 0);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
       });
   };
 
@@ -126,16 +131,32 @@ const ViewDetailedStock = (props) => {
           getEndDate={(value) => setEndDate(makeDate(value))}
         />
 
-        <styled.StyledButton variant="contained" onClick={handleClick}>
+        <styled.StyledButton
+          disabled={!product}
+          variant="contained"
+          onClick={handleClick}
+        >
           Search
         </styled.StyledButton>
       </styled.StyledGrid>
-      <styled.StyledGrid container ref={componentRef} mt={3}>
-        <CustomTable
-          bordered
-          columns={constants.COLUMNS}
-          data={formattedStock}
-        />
+      <styled.StyledGrid
+        container
+        direction="column"
+        alignItems="center"
+        ref={componentRef}
+        mt={3}
+      >
+        {isEmpty ? (
+          <Empty />
+        ) : isLoading ? (
+          <CustomLoader />
+        ) : (
+          <CustomTable
+            bordered
+            columns={constants.COLUMNS}
+            data={formattedStock}
+          />
+        )}
       </styled.StyledGrid>
     </styled.StyledGrid>
   );
