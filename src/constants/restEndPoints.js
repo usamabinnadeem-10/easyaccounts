@@ -47,6 +47,7 @@ export const TRANSACTION_URLS = {
   TRANSFER_STOCK: `${TRANSACTION}transfer-stock/`,
   CANCEL_INVOICE: `${TRANSACTION}cancel-invoice/`,
   VIEW_DETAILED_STOCK: `${TRANSACTION}detailed-stock/`,
+  PRODUCT_PERFORMANCE: `${TRANSACTION}product-performance-history/`,
 };
 
 const LEDGER = "ledger/";

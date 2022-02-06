@@ -11,3 +11,4 @@ export const VIEW_EXPENSES = `${HOME}/expenses`;
 export const ALL_BALANCES = `${HOME}/balances`;
 export const ALL_STOCK = `${HOME}/all-stock`;
 export const DETAILED_STOCK = `${HOME}/detailed-stock`;
+export const PRODUCT_PERFORMANCE = `${HOME}/product-performance`;

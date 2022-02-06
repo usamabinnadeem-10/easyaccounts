@@ -23,7 +23,6 @@ function TransactionHeader(props) {
     showAccountTypes,
     options,
   } = props;
-  console.log(Math.abs(currentBalance));
   const classes = useStyles();
 
   return (

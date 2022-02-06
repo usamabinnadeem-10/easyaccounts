@@ -7,6 +7,8 @@ import Customers from "@mui/icons-material/GroupAdd";
 import Products from "@mui/icons-material/Inventory";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
+import ArticleIcon from "@mui/icons-material/Article";
+import QueryStatsIcon from "@mui/icons-material/QueryStats";
 
 import {
   VIEW,
@@ -18,6 +20,8 @@ import {
   TRANSACTION,
   DAYBOOK,
   EXPENSE,
+  VIEW_DETAILED_STOCK,
+  PRODUCT_PERFORMANCE_HISTORY,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -40,6 +44,10 @@ export const getIcon = (panel) => {
       return <LibraryBooksIcon />;
     case EXPENSE:
       return <LocalAtmIcon />;
+    case VIEW_DETAILED_STOCK:
+      return <ArticleIcon />;
+    case PRODUCT_PERFORMANCE_HISTORY:
+      return <QueryStatsIcon />;
     default:
       break;
   }

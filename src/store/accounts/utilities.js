@@ -20,7 +20,6 @@ const findIndexAndAppendData = (array, data) => {
       });
     }
   });
-  console.log(newAccountsData);
   return newAccountsData;
 };
 

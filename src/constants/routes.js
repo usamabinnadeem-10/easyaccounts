@@ -11,6 +11,7 @@ import ViewExpenses from "../app/views/ViewExpenses/ViewExpenses";
 import ViewAllBalances from "../app/views/ViewAllBalances/ViewAllBalances";
 import ViewAllStock from "../app/views/ViewAllStock/ViewAllStock";
 import ViewDetailedStock from "../app/views/ViewDetailedStock/ViewDetailedStock";
+import ProductPerformance from "../app/views/ProductPerformance/ProductPerformance";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -58,5 +59,9 @@ export const authenticatedRoutes = [
   {
     component: ViewDetailedStock,
     path: url.DETAILED_STOCK,
+  },
+  {
+    component: ProductPerformance,
+    path: url.PRODUCT_PERFORMANCE,
   },
 ];

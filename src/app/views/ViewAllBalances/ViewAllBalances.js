@@ -65,7 +65,6 @@ const Balances = () => {
       .get(makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, query))
       .then((res) => {
         let formattedBalances = formatBalances(res.data);
-        console.log(formattedBalances);
         setBalancesData(formattedBalances);
         setIsEmpty(formattedBalances.length === 0);
         setLoading(false);
