@@ -3,6 +3,8 @@ import {
   convertCurrencyToNumber,
 } from "../../utilities/stringUtils";
 
+import { FIELDS } from "../../containers/CustomFilters/constants";
+
 export const formatStockData = (data, props) => {
   let newStockData = data.map((stockData) => {
     return {
@@ -33,4 +35,46 @@ export const formatStockData = (data, props) => {
     ),
   });
   return newStockData;
+};
+
+export const getFilters = (essentials) => {
+  return [
+    {
+      qp: "product",
+      options: essentials.products,
+      type: FIELDS.SELECT,
+      placeholder: "Product",
+    },
+    {
+      qp: "warehouse",
+      options: essentials.warehouses,
+      type: FIELDS.SELECT,
+      placeholder: "Warehouse",
+    },
+    {
+      qp: "stock_quantity__gte",
+      type: FIELDS.NUMBER,
+      placeholder: "Stock Qty (more than)",
+    },
+    {
+      qp: "stock_quantity__lte",
+      type: FIELDS.NUMBER,
+      placeholder: "Stock Qty (less than)",
+    },
+    {
+      qp: "yards_per_piece__gte",
+      type: FIELDS.NUMBER,
+      placeholder: "Gazaana (more than)",
+    },
+    {
+      qp: "yards_per_piece__lte",
+      type: FIELDS.NUMBER,
+      placeholder: "Gazaana (less than)",
+    },
+    {
+      qp: "yards_per_piece",
+      type: FIELDS.NUMBER,
+      placeholder: "Gazaana (equal to)",
+    },
+  ];
 };

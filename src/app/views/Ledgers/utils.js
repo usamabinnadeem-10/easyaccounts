@@ -17,7 +17,9 @@ export const formatLedgerData = (data, opening, persons) => {
     }
     ledger.push({
       ...element,
-      manual_invoice_serial: `${element.manual_serial_type}-${element.manual_invoice_serial}`,
+      manual_invoice_serial: `${element.manual_serial_type || "-"}-${
+        element.manual_invoice_serial || "-"
+      }`,
       date: getReadableDate(element.date),
       credit: nature === "C" ? formatCurrency(amount) : "",
       debit: nature === "D" ? formatCurrency(amount) : "",

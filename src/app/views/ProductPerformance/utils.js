@@ -34,3 +34,7 @@ export const formatDataForChart = (data) => {
     average: val.average_rate,
   }));
 };
+
+export const getTableData = (data) => {
+  return data.map((data, index) => ({ ...data, id: index }));
+};

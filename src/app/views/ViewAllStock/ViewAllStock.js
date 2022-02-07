@@ -11,6 +11,7 @@ import { useReactToPrint } from "react-to-print";
 
 import Select from "react-select";
 
+import CustomFilters from "../../containers/CustomFilters/CustomFilters";
 import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
@@ -24,7 +25,8 @@ import { TextField } from "@mui/material";
 import { StyledPaper } from "./styled";
 import { useStyles, selectStyles } from "./styles";
 import { getColumns } from "./constants";
-import { formatStockData } from "./utils";
+import { formatStockData, getFilters } from "./utils";
+import { ESSENTIAL_URLS } from "../../../constants/restEndPoints";
 
 import {
   setShouldFetch,
@@ -41,6 +43,12 @@ const ViewAllStock = (props) => {
   const stock = useSelector((state) => state.transactions);
   const allStock = useSelector((state) => state.transactions.allStock);
   const warehouses = useSelector((state) => state.essentials.warehouses);
+  const products = useSelector((state) => state.essentials.products);
+
+  let filters = useMemo(
+    () => getFilters({ warehouses, products }),
+    [warehouses, products]
+  );
 
   const [stockData, setStockData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -112,6 +120,10 @@ const ViewAllStock = (props) => {
     content: () => componentRef.current,
   });
 
+  const onSearch = (data) => {
+    setStockData(formatStockData(data, props));
+  };
+
   return (
     <>
       {isModalOpen && (
@@ -165,7 +177,11 @@ const ViewAllStock = (props) => {
           </StyledPaper>
         </Modal>
       )}
-
+      <CustomFilters
+        api={ESSENTIAL_URLS.ALL_STOCK}
+        filters={filters}
+        onSearch={onSearch}
+      />
       <div ref={componentRef} className={classes.root}>
         {stockData.length > 0 && (
           <Button

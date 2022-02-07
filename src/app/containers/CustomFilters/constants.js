@@ -1,6 +1,6 @@
 export const FIELDS = {
   SELECT: "SELECT",
-  NUMBER: "NUMBER",
-  TEXT: "TEXT",
-  DATE: "DATE",
+  NUMBER: "number",
+  TEXT: "text",
+  DATE: "date",
 };
