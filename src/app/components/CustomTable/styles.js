@@ -21,6 +21,7 @@ export const useStyles = makeStyles({
   },
   rowCell: {
     maxWidth: "200px",
+    minWidth: "100px",
     borderBottom: "0.5px solid rgba(105, 105, 105, 0.2)",
     overflowWrap: "anywhere",
   },

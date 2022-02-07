@@ -117,13 +117,19 @@ const CustomFilters = ({ api, onSearch, filters }) => {
           >
             FILTERS
           </StyledButton>
-          <StyledMenu anchorEl={anchorEl} open={open} onClose={handleClose}>
+          <StyledMenu
+            variant="menu"
+            anchorEl={anchorEl}
+            open={open}
+            onClose={handleClose}
+          >
             {filters.map((filter, index) => (
               <MenuItem disableRipple key={index}>
                 {filter.type === constants.FIELDS.SELECT ? (
                   <Autocomplete
                     clearOnEscape
                     autoComplete
+                    autoHighlight
                     fullWidth
                     size="small"
                     getOptionLabel={(option) => option.label}

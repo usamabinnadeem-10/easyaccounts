@@ -145,7 +145,7 @@ export const ADD_CUSTOMER_FORM = {
     {
       label: "City",
       type: FIELDS.STRING,
-      name: DB.ADDRESS,
+      name: DB.CITY,
     },
   ],
 };
