@@ -5,6 +5,12 @@ import { Chip } from "@mui/material";
 import { TextField } from "@mui/material";
 import { MenuItem } from "@mui/material";
 
+import DateAdapter from "@mui/lab/AdapterMoment";
+import LocalizationProvider from "@mui/lab/LocalizationProvider";
+import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+
+import moment from "moment";
+
 import { StyledButton } from "./styled";
 import { StyledGrid } from "./styled";
 import { StyledMenu } from "./styled";
@@ -146,11 +152,31 @@ const CustomFilters = ({ api, onSearch, filters }) => {
                     )}
                     value={filterState[filter.qp]}
                   />
+                ) : filter.type === constants.FIELDS.DATE ? (
+                  <LocalizationProvider dateAdapter={DateAdapter}>
+                    <DesktopDatePicker
+                      label={filter.placeholder}
+                      value={filterState[filter.qp]}
+                      minDate={moment(Date.now()).subtract(10, "years")}
+                      maxDate={moment(Date.now()).add(10, "years")}
+                      onChange={(value) =>
+                        handleSetFilter(
+                          moment(value).format("yyyy-MM-DD"),
+                          filter
+                        )
+                      }
+                      renderInput={(params) => (
+                        <TextField size="small" {...params} />
+                      )}
+                    />
+                  </LocalizationProvider>
                 ) : (
                   <TextField
                     onChange={(e) => handleSetFilter(e.target.value, filter)}
                     label={filter.placeholder}
                     type={filter.type}
+                    size="small"
+                    fullWidth
                     // value={filterState[filter.qp]}
                     InputLabelProps={{ shrink: true }}
                   />

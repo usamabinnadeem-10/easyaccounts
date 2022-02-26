@@ -5,7 +5,7 @@ export const TABS = [
   },
   {
     id: 1,
-    label: "Pass Cheque",
+    label: "Cheque List",
   },
   {
     id: 2,

@@ -64,8 +64,11 @@ const EXTERNAL = "external/";
 export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
+    LIST: `${CHEQUE}${PERSONAL}${LIST}`,
   },
   EXTERNAL: {
     CREATE: `${CHEQUE}${EXTERNAL}${CREATE}`,
+    LIST: `${CHEQUE}${EXTERNAL}${LIST}`,
+    HISTORY: `${CHEQUE}${EXTERNAL}${LIST}cheque-history/`,
   },
 };
