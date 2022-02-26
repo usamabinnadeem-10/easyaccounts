@@ -9,6 +9,8 @@ import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import LocalAtmIcon from "@mui/icons-material/LocalAtm";
 import ArticleIcon from "@mui/icons-material/Article";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
+import CreditCardIcon from "@mui/icons-material/CreditCard";
+import CreditScoreIcon from "@mui/icons-material/CreditScore";
 
 import {
   VIEW,
@@ -22,6 +24,9 @@ import {
   EXPENSE,
   VIEW_DETAILED_STOCK,
   PRODUCT_PERFORMANCE_HISTORY,
+  CHEQUE_MANAGEMENT,
+  PERSONAL_CHEQUES,
+  EXTERNAL_CHEQUES,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -48,6 +53,12 @@ export const getIcon = (panel) => {
       return <ArticleIcon />;
     case PRODUCT_PERFORMANCE_HISTORY:
       return <QueryStatsIcon />;
+    case CHEQUE_MANAGEMENT:
+      return <CreditCardIcon />;
+    case PERSONAL_CHEQUES:
+      return <CreditScoreIcon />;
+    case EXTERNAL_CHEQUES:
+      return <LocalAtmIcon />;
     default:
       break;
   }

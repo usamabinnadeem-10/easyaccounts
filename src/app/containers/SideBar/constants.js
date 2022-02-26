@@ -7,6 +7,8 @@ import {
   ALL_STOCK,
   DETAILED_STOCK,
   PRODUCT_PERFORMANCE,
+  PERSONAL_CHEQUE,
+  EXTERNAL_CHEQUE,
 } from "../../../constants/routesConstants";
 
 export const VIEW = "View";
@@ -21,8 +23,9 @@ export const BALANCES = "Balances";
 export const STOCK = "Stock";
 export const VIEW_DETAILED_STOCK = "Detailed Stock";
 export const PRODUCT_PERFORMANCE_HISTORY = "Product Performance";
-
-// export const
+export const CHEQUE_MANAGEMENT = "Cheque Management";
+export const PERSONAL_CHEQUES = "Personal Cheques";
+export const EXTERNAL_CHEQUES = "Party Cheques";
 
 export const DRAWER_WIDTH = 240;
 
@@ -66,6 +69,19 @@ export const SIDEBAR = [
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
         route: PRODUCT_PERFORMANCE,
+      },
+    ],
+  },
+  {
+    panelName: CHEQUE_MANAGEMENT,
+    panelData: [
+      {
+        name: PERSONAL_CHEQUES,
+        route: PERSONAL_CHEQUE,
+      },
+      {
+        name: EXTERNAL_CHEQUES,
+        route: EXTERNAL_CHEQUE,
       },
     ],
   },

@@ -57,3 +57,13 @@ export const LEDGER_URLS = {
   UPDATE_LEDGER: `${LEDGER}:uuid/`,
   ALL_BALANCES: `${LEDGER}balances/all/`,
 };
+
+const CHEQUE = "cheque/";
+const PERSONAL = "personal/";
+const EXTERNAL = "external/";
+export const CHEQUE_URLS = {
+  PERSONAL: {
+    ISSUE: `${CHEQUE}${PERSONAL}issue/`,
+  },
+  EXTERNAL: {},
+};

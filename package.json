@@ -15,6 +15,7 @@
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
     "axios": "^0.23.0",
+    "formik": "^2.2.9",
     "moment": "^2.29.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -31,7 +32,8 @@
     "redux-devtools-extension": "^2.13.9",
     "redux-saga": "^1.1.3",
     "typeface-poppins": "^1.1.13",
-    "web-vitals": "^1.1.2"
+    "web-vitals": "^1.1.2",
+    "yup": "^0.32.11"
   },
   "scripts": {
     "start": "react-scripts start",

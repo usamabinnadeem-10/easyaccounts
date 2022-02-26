@@ -121,7 +121,10 @@ function Ledgers({
     let ledgerDataFormatted = formatLedgerData(
       newLedgerData,
       response.data.opening_balance,
-      persons
+      persons,
+      response.data.pending_cheques,
+      response.data.transferred_cheques.amount,
+      response.data.transferred_to_this_person
     );
     setNextPage(response.data.next);
     setledgerData(ledgerDataFormatted);
@@ -192,7 +195,7 @@ function Ledgers({
 
   const onRowClick = (id) => {
     let transaction = ledgerData.filter((ledger) => ledger.id === id)[0]
-      .transaction;
+      ?.transaction;
     transaction && setShowDrawer(true);
     setTransactionID(transaction);
   };

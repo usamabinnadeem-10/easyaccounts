@@ -94,7 +94,7 @@ function LedgerDetail({
         accessor: "balance",
         Header: "Balance",
         Cell: (row) => {
-          if (row.row.id) {
+          if (typeof row.row.id === "string") {
             return (
               <div
                 className={`${
