@@ -117,7 +117,7 @@ const IssuePersonalCheque = (props) => {
               component={FormDateField}
               name={FIELDS.due_date}
               label="Due Date"
-              inputFormat="DD/MM/yyyy"
+              inputformat="DD/MM/yyyy"
               size="small"
             />
             <Field
@@ -127,7 +127,7 @@ const IssuePersonalCheque = (props) => {
               component={FormDateField}
               name={FIELDS.date}
               label="Cheque Entry Date"
-              inputFormat="DD/MM/yyyy"
+              inputformat="DD/MM/yyyy"
               size="small"
             />
             <StyledButton
