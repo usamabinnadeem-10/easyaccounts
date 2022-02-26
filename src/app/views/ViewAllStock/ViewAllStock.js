@@ -16,6 +16,7 @@ import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Empty from "../../components/Empty/Empty";
+import Heading from "../../components/Heading";
 
 import { Button } from "@mui/material";
 import { Modal } from "@mui/material";
@@ -75,8 +76,10 @@ const ViewAllStock = (props) => {
     if (stock.shouldFetchStock) {
       dispatch(getAllStock());
     }
-    if (stock.fetched && stock.allStock.length > 0) {
-      setStockData(formatStockData(stock.allStock, props));
+    if (stock.fetched) {
+      if (stock.allStock.length > 0) {
+        setStockData(formatStockData(stock.allStock, props));
+      }
       setLoading(false);
     }
   }, [stock.shouldFetchStock, stock.fetched]);
@@ -193,10 +196,7 @@ const ViewAllStock = (props) => {
             PRINT
           </Button>
         )}
-
-        <Typography variant="h5" fontWeight={900} sx={{ mb: 2 }}>
-          All Stock
-        </Typography>
+        <Heading heading={"All Stock"} />
         {stockData.length > 0 ? (
           <CustomTable columns={COLUMNS} data={stockData} />
         ) : (

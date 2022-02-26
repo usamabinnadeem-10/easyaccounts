@@ -65,5 +65,7 @@ export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
   },
-  EXTERNAL: {},
+  EXTERNAL: {
+    CREATE: `${CHEQUE}${EXTERNAL}${CREATE}`,
+  },
 };

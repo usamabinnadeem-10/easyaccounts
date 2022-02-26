@@ -10,10 +10,10 @@ import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import Empty from "../../components/Empty/Empty";
+import Heading from "../../components/Heading";
 
 import { LoadingButton } from "@mui/lab";
 import { Button } from "@mui/material";
-import { Typography } from "@mui/material";
 
 import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { useStyles } from "./styles";
@@ -84,9 +84,7 @@ const Balances = () => {
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <div className={classes.root}>
         <div className={classes.headerWrapper}>
-          <Typography variant="h5" fontWeight={900} sx={{ mb: 2 }}>
-            View All Balances
-          </Typography>
+          <Heading heading={"View All Balances"} />
           <Button
             disabled={balancesData.length === 0}
             onClick={handlePrint}

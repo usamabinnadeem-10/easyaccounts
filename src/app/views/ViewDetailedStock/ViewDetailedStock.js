@@ -12,6 +12,7 @@ import StartEndDate from "../../components/StartEndDate/StartEndDate";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Empty from "../../components/Empty/Empty";
+import Heading from "../../components/Heading";
 
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
@@ -69,9 +70,7 @@ const ViewDetailedStock = (props) => {
   return (
     <styled.StyledGrid container direction="column">
       <styled.StyledGrid mb={3} container justifyContent="space-between">
-        <styled.Heading variant="h5" fontWeight={900}>
-          Detailed Stock
-        </styled.Heading>
+        <Heading heading={"Detailed Stock"} />
         <styled.StyledButton
           size="small"
           variant="contained"

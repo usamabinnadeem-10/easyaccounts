@@ -2,10 +2,9 @@ import React from "react";
 
 import { useSelector } from "react-redux";
 
-import { Heading } from "./styled";
-
 import CustomFilters from "../../containers/CustomFilters/CustomFilters";
 import CustomTable from "../../components/CustomTable/CustomTable";
+import Heading from "../../components/Heading";
 
 import * as utils from "./utils";
 import * as constants from "./constants";
@@ -26,9 +25,7 @@ const ProductPerformance = (props) => {
 
   return (
     <>
-      <Heading variant="h5" fontWeight={900}>
-        Product Performance
-      </Heading>
+      <Heading heading={"Product Performance"} />
       <CustomFilters
         filters={filters}
         api={TRANSACTION_URLS.PRODUCT_PERFORMANCE}

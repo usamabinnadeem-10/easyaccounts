@@ -4,8 +4,9 @@ import SelectPerson from "../SelectPerson/SelectPerson";
 import StartEndDate from "../StartEndDate/StartEndDate";
 
 import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
+
+import Heading from "../Heading";
 
 import { useStyles } from "./styles";
 
@@ -26,9 +27,7 @@ function SearchAndSelect({
   const classes = useStyles();
   return (
     <>
-      <Typography variant="h5" fontWeight="900" sx={{ mb: 4 }}>
-        {header}
-      </Typography>
+      <Heading heading={header} />
       <SelectPerson
         currentPerson={currentPerson}
         personType={personType}

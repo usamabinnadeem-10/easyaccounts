@@ -2,10 +2,12 @@ import React from "react";
 import { useState } from "react";
 
 import { Grid } from "@mui/material";
+import { Typography } from "@mui/material";
 
 import CustomTabs from "../../components/CustomTabs";
 import CustomTabPanel from "../../components/CustomTabPanel";
 import IssuePersonalCheque from "../../containers/IssuePersonalCheque";
+import Heading from "../../components/Heading";
 
 import { TABS } from "./constants";
 
@@ -15,7 +17,8 @@ const PersonalCheques = (props) => {
     setActiveTab(newValue);
   };
   return (
-    <Grid sx={{ ml: 3 }} container direction="column">
+    <Grid sx={{ ml: 2 }} container direction="column">
+      <Heading heading={"Personal Cheques"} />
       <CustomTabs
         activeTab={activeTab}
         handleChangeTab={handleChange}

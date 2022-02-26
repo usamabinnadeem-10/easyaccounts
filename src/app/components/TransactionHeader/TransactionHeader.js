@@ -4,6 +4,7 @@ import { TextField } from "@mui/material";
 
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import Heading from "../../components/Heading";
 
 import Select from "react-select";
 
@@ -27,10 +28,7 @@ function TransactionHeader(props) {
 
   return (
     <>
-      <Typography variant="h5" fontWeight="900" sx={{ mb: 2 }}>
-        {`New ${personIdentifier} Transaction`}
-      </Typography>
-
+      <Heading heading={`New ${personIdentifier} Transaction`} />
       <Grid container rowSpacing={3} columnSpacing={4}>
         <Grid item xs={6} className={`${classes.selectCustomer}`}>
           <Select

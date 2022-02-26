@@ -13,6 +13,7 @@ import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import ExpenseDetail from "../../components/ExpenseDetail/ExpenseDetail";
 import AddModal from "../../containers/AddModal/AddModal";
 import Empty from "../../components/Empty/Empty";
+import Heading from "../../components/Heading";
 
 import { Button } from "@mui/material";
 import { LoadingButton } from "@mui/lab";
@@ -226,9 +227,7 @@ const ViewExpenses = ({
       <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       {!daybookView && (
         <div className={classes.root}>
-          <Typography variant="h5" sx={{ mb: 2, fontWeight: 900 }}>
-            View Expenses
-          </Typography>
+          <Heading heading={"View Expenses"} />
 
           <div className={classes.dateContainer}>
             <StartEndDate

@@ -12,8 +12,8 @@ import ViewAllBalances from "../app/views/ViewAllBalances/ViewAllBalances";
 import ViewAllStock from "../app/views/ViewAllStock/ViewAllStock";
 import ViewDetailedStock from "../app/views/ViewDetailedStock/ViewDetailedStock";
 import ProductPerformance from "../app/views/ProductPerformance/ProductPerformance";
-import PersonalCheques from "../app/views/PersonalCheques/PersonalCheques";
-import ExternalCheques from "../app/views/ExternalCheques/ExternalCheques";
+import PersonalCheques from "../app/views/PersonalCheques";
+import ExternalCheques from "../app/views/ExternalCheques";
 
 export const unauthenticatedRoutes = [{}];
 

@@ -3,21 +3,21 @@ import { useState } from "react";
 
 import ChequeForm from "../ChequeForm";
 
-import * as api from "./api";
-
 import { withSnackbar } from "../../hoc/withSnackbar";
 import { findErrorMessage } from "../../utilities/objectUtils";
 
-const IssuePersonalCheque = (props) => {
+import * as api from "./api";
+
+const ExternalChequeEntry = (props) => {
   const [loading, setLoading] = useState(false);
 
   const handleSubmit = (values, actions) => {
     setLoading(true);
     api
-      .issueCheckApi(values)
+      .createExternalChequeApi(values)
       .then((response) => {
         setLoading(false);
-        props.showSuccessSnackbar("Cheque issued");
+        props.showSuccessSnackbar("Party check added");
         actions.resetForm();
       })
       .catch((error) => {
@@ -25,8 +25,7 @@ const IssuePersonalCheque = (props) => {
         props.showErrorSnackbar(findErrorMessage(error.response.data));
       });
   };
-
-  return <ChequeForm onSubmit={handleSubmit} isLoading={loading} isPersonal />;
+  return <ChequeForm isLoading={loading} onSubmit={handleSubmit} />;
 };
 
-export default withSnackbar(IssuePersonalCheque);
+export default withSnackbar(ExternalChequeEntry);

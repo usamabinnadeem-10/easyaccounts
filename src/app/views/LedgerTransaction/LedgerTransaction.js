@@ -12,6 +12,7 @@ import CustomToggleButtons from "../../components/CustomToggleButtons/CustomTogg
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 import SelectPerson from "../../components/SelectPerson/SelectPerson";
+import Heading from "../../components/Heading";
 
 import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -182,9 +183,7 @@ function LedgerTransaction(props) {
     <>
       <Grid container direction="column" className={classes.root}>
         <Grid container justifyContent="space-between" sx={{ mb: 4 }}>
-          <Typography variant="h5" fontWeight="900">
-            {title}
-          </Typography>
+          <Heading heading={title} />
           <CustomToggleButtons
             buttons={constants.TRANSACTION_TYPES}
             selectedValue={transactionType}
