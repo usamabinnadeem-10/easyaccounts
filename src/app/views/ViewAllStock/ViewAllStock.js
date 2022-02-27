@@ -29,10 +29,7 @@ import { getColumns } from "./constants";
 import { formatStockData, getFilters } from "./utils";
 import { ESSENTIAL_URLS } from "../../../constants/restEndPoints";
 
-import {
-  setShouldFetch,
-  getAllStock,
-} from "../../../store/transactions/actions";
+import { getAllStock } from "../../../store/transactions/actions";
 import instance from "../../../utils/axiosApi";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
 

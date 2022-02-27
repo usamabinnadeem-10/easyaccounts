@@ -70,5 +70,7 @@ export const CHEQUE_URLS = {
     CREATE: `${CHEQUE}${EXTERNAL}${CREATE}`,
     LIST: `${CHEQUE}${EXTERNAL}${LIST}`,
     HISTORY: `${CHEQUE}${EXTERNAL}${LIST}cheque-history/`,
+    CREATE_HISTORY: `${CHEQUE}${EXTERNAL}${CREATE}cheque-history/`,
+    CREATE_HISTORY_WITH_CHEQUE: `${CHEQUE}${EXTERNAL}${CREATE}cheque-history-with-cheque/`,
   },
 };

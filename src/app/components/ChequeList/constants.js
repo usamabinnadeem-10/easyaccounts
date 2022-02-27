@@ -4,12 +4,14 @@ import { Tooltip } from "@mui/material";
 
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 
+import ChequeActionMenu from "../../components/ChequeActionMenu";
+
 import { formatCurrency } from "../../utilities/stringUtils";
 import { capitalizeFirstLetter } from "../../utilities/stringUtils";
 
 import { STATUS_COLORS } from "../Cheque/constants";
 
-export const getColumns = (onClick, isPersonal) => {
+export const getColumns = (onClick, isPersonal, actions) => {
   return [
     {
       Header: "Serial",
@@ -65,6 +67,23 @@ export const getColumns = (onClick, isPersonal) => {
                 <OpenInNewIcon />
               </IconButton>
             </Tooltip>
+          );
+        } else {
+          return <div></div>;
+        }
+      },
+    },
+    {
+      Header: "Add History",
+      accessor: "history",
+      Cell: (row) => {
+        if (typeof row.row.id === "string") {
+          return (
+            <ChequeActionMenu
+              chequeStatus={row.row.values.status}
+              actions={actions}
+              chequeId={row.row.id}
+            />
           );
         } else {
           return <div></div>;
