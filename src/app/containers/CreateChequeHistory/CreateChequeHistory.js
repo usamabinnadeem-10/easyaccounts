@@ -74,7 +74,7 @@ const CreateChequeHistory = ({
                   component={FormTextField}
                   size="small"
                   name={FIELDS.AMOUNT}
-                  label="Cheque Amount"
+                  label={isChequeEntry ? "Cheque Amount" : "Amount"}
                   fullWidth
                 />
                 {isChequeEntry && (
@@ -124,7 +124,7 @@ const CreateChequeHistory = ({
                     component={FormAutoCompleteField}
                     options={accounts}
                     name={FIELDS.ACCOUNT_TYPE}
-                    label="Select Bank"
+                    label="Account Type"
                   />
                 )}
 
@@ -134,12 +134,17 @@ const CreateChequeHistory = ({
                   }}
                   component={FormDateField}
                   name={FIELDS.DATE}
-                  label="Due Date"
+                  label="Entry Date"
                   inputformat="DD/MM/yyyy"
                   size="small"
                   fullWidth
                 />
-                <StyledButton fullWidth variant="contained" loading={loading}>
+                <StyledButton
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  loading={loading}
+                >
                   Submit
                 </StyledButton>
               </Grid>

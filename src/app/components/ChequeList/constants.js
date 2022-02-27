@@ -11,7 +11,7 @@ import { capitalizeFirstLetter } from "../../utilities/stringUtils";
 
 import { STATUS_COLORS } from "../Cheque/constants";
 
-export const getColumns = (onClick, isPersonal, actions) => {
+export const getColumns = (onClick, isPersonal) => {
   return [
     {
       Header: "Serial",
@@ -81,8 +81,8 @@ export const getColumns = (onClick, isPersonal, actions) => {
           return (
             <ChequeActionMenu
               chequeStatus={row.row.values.status}
-              actions={actions}
               chequeId={row.row.id}
+              isPersonal={isPersonal}
             />
           );
         } else {

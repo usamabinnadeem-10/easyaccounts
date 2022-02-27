@@ -14,7 +14,7 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
       label: "Book #",
     },
     {
-      value: person.label,
+      value: person?.label,
       label: `${DB_TRANSLATION[person.person_type]}:`,
     },
     {
