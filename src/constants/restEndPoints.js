@@ -61,10 +61,18 @@ export const LEDGER_URLS = {
 const CHEQUE = "cheque/";
 const PERSONAL = "personal/";
 const EXTERNAL = "external/";
+const PASS = "pass/";
+const CANCEL = "cancel/";
+const RETURN = "return/";
+const TRANSFER = "transfer/";
 export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
     LIST: `${CHEQUE}${PERSONAL}${LIST}`,
+    PASS: `${CHEQUE}${PERSONAL}${PASS}:uuid/`,
+    CANCEL: `${CHEQUE}${PERSONAL}${CANCEL}:uuid/`,
+    RETURN: `${CHEQUE}${PERSONAL}${RETURN}`,
+    RE_ISSUE: `${CHEQUE}${PERSONAL}${RETURN}reissue/`,
   },
   EXTERNAL: {
     CREATE: `${CHEQUE}${EXTERNAL}${CREATE}`,
@@ -72,5 +80,9 @@ export const CHEQUE_URLS = {
     HISTORY: `${CHEQUE}${EXTERNAL}${LIST}cheque-history/`,
     CREATE_HISTORY: `${CHEQUE}${EXTERNAL}${CREATE}cheque-history/`,
     CREATE_HISTORY_WITH_CHEQUE: `${CHEQUE}${EXTERNAL}${CREATE}cheque-history-with-cheque/`,
+    PASS: `${CHEQUE}${EXTERNAL}${PASS}`,
+    TRANSFER: `${CHEQUE}${EXTERNAL}${TRANSFER}`,
+    RETURN: `${CHEQUE}${EXTERNAL}${RETURN}`,
+    RETURN_TRANSFER: `${CHEQUE}${EXTERNAL}${TRANSFER}${RETURN}`,
   },
 };

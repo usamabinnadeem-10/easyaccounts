@@ -83,6 +83,7 @@ const Cheque = ({
             <ChequeActionMenu
               chequeId={chequeData.id}
               chequeStatus={chequeData.status}
+              chequeSerial={chequeData.serial}
               isPersonal={isPersonal}
             />
           </Grid>

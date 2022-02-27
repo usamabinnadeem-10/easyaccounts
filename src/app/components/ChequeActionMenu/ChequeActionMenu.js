@@ -7,9 +7,17 @@ import { IconButton } from "@mui/material";
 
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
+import ChequeActions from "../../containers/ChequeActions";
 import CreateChequeHistory from "../../containers/CreateChequeHistory";
 
-const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
+import { ACTION_TYPES } from "../../containers/ChequeActions/constants";
+
+const ChequeActionMenu = ({
+  chequeId,
+  chequeStatus,
+  isPersonal,
+  chequeSerial,
+}) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
 
@@ -19,12 +27,24 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
     chequeId: "",
   });
 
+  const [chequeActionState, setChequeActionState] = useState({
+    actionType: null,
+    open: false,
+    chequeId: null,
+    isPersonal: false,
+  });
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
     setAnchorEl(null);
   };
+  const getChequeIdHelper = (chequeId, isPersonal) => ({
+    chequeId: chequeId,
+    isPersonal: isPersonal,
+    open: true,
+  });
 
   // add history other than cheque
   const handleAddHistory = (chequeId) => {
@@ -44,29 +64,76 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
     });
   };
 
-  // transfer cheque of one party to another
-  const handleTransferCheque = (chequeId) => {};
-
-  // return external transferred cheque
-  const handleReturnTransferredCheque = (chequeId) => {};
-
-  // return external cheque to original party
-  const handleReturnExternalCheque = (chequeId) => {};
-
-  // reissue personal cheque to a party
-  const handleReissueReturnedPersonalCheque = (chequeId) => {};
+  // -----------------------------EXTERNAL CHEQUE FUNCTIONS--------------------------------- //
 
   // pass external cheque
-  const handlePassExternalCheque = (chequeId) => {};
+  const handlePassExternalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.PASS,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
 
-  // clear external transferred cheque
-  const handlePassExternalTransferredCheque = (chequeId) => {};
+  // transfer external cheque of one party to another
+  const handleTransferExternalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.TRANSFER,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
+
+  // return external cheque to original party
+  const handleReturnExternalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.RETURN,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
+
+  // return external transferred cheque
+  const handleReturnExternalTransferredCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
+
+  // -----------------------------PERSONAL CHEQUE FUNCTIONS--------------------------------- //
 
   // pass personal cheque
-  const handlePassPersonalCheque = (chequeId) => {};
+  const handlePassPersonalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.PERSONAL.PASS,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
+
+  // pass cancel personal cheque
+  const handleCancelPersonalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.PERSONAL.CANCEL,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
 
   // return personal cheque from party
-  const handleReturnPersonalCheque = (chequeId) => {};
+  const handleReturnPersonalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.PERSONAL.RETURN,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
+
+  // reissue personal cheque to a party
+  const handleReissueReturnedPersonalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.PERSONAL.RE_ISSUE,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
+
+  // // clear external transferred cheque
+  // const handlePassExternalTransferredCheque = (chequeId) => {};
 
   const ACTIONS = {
     PERSONAL: {
@@ -85,6 +152,10 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
           action: handleReissueReturnedPersonalCheque,
           name: "Re-issue personal cheque",
         },
+        {
+          action: handleCancelPersonalCheque,
+          name: "Cancel personal cheque",
+        },
       ],
       cleared: [],
       cancelled: [],
@@ -92,7 +163,7 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
     EXTERNAL: {
       pending: [
         {
-          action: handleTransferCheque,
+          action: handleTransferExternalCheque,
           name: "Transfer cheque",
         },
         {
@@ -114,13 +185,13 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
       ],
       transferred: [
         {
-          action: handleReturnTransferredCheque,
+          action: handleReturnExternalTransferredCheque,
           name: "Return transferred cheque",
         },
-        {
-          action: handlePassExternalTransferredCheque,
-          name: "Clear transferred cheque",
-        },
+        // {
+        //   action: handlePassExternalTransferredCheque,
+        //   name: "Clear transferred cheque",
+        // },
       ],
       cleared: [],
       returned: [],
@@ -154,6 +225,7 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
         </>
       )}
       <CreateChequeHistory
+        chequeSerial={chequeSerial}
         chequeId={chequeId}
         isChequeEntry={addHistoryState.isChequeEntry}
         open={addHistoryState.showModal}
@@ -161,6 +233,17 @@ const ChequeActionMenu = ({ chequeId, chequeStatus, isPersonal }) => {
           setAddHistoryState({
             showModal: false,
             chequeId: "",
+          })
+        }
+      />
+      <ChequeActions
+        {...chequeActionState}
+        onClose={() =>
+          setChequeActionState({
+            actionType: null,
+            open: false,
+            chequeId: null,
+            isPersonal: false,
           })
         }
       />

@@ -139,7 +139,7 @@ function LedgerDetail({
       Header: "Edit",
       hideInPrint: true,
       Cell: (row) => {
-        if (row.row.id) {
+        if (typeof row.row.id === "string") {
           return (
             <IconButton onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
@@ -155,7 +155,7 @@ function LedgerDetail({
       Header: "Delete",
       hideInPrint: true,
       Cell: (row) => {
-        if (row.row.id) {
+        if (typeof row.row.id === "string") {
           return (
             <IconButton onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />

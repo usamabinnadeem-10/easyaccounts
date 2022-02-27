@@ -63,6 +63,12 @@ function Ledgers({
   );
   const [openingBalance, setOpeningBalance] = useState(0);
   const [closingBalance, setClosingBalance] = useState(0);
+  const [chequeBalances, setChequeBalances] = useState({
+    pendingCheques: 0,
+    pendingTransferred: 0,
+    pendingTransferredToThis: 0,
+    pendingPersonal: 0,
+  });
   const [loading, setLoading] = useState(false);
   const [snackbarState, setSnackbarState] = useState({});
   const [dialogueState, setDialogueState] = useState({
@@ -121,10 +127,10 @@ function Ledgers({
     let ledgerDataFormatted = formatLedgerData(
       newLedgerData,
       response.data.opening_balance,
-      persons,
-      response.data.pending_cheques,
-      response.data.transferred_cheques.amount,
-      response.data.transferred_to_this_person
+      persons
+      // response.data.pending_cheques,
+      // response.data.transferred_cheques.amount,
+      // response.data.transferred_to_this_person
     );
     setNextPage(response.data.next);
     setledgerData(ledgerDataFormatted);
@@ -133,6 +139,12 @@ function Ledgers({
       ledgerDataFormatted[ledgerDataFormatted.length - 2]?.formattedBalance ||
         "---"
     );
+    setChequeBalances({
+      pendingCheques: response.data.pending_cheques,
+      pendingTransferred: response.data.transferred_cheques,
+      pendingTransferredToThis: response.data.transferred_to_this_person,
+      pendingPersonal: response.data.personal_pending,
+    });
     setIsEmpty(ledgerDataFormatted.length === 0);
     setLoading(false);
     setStartDate(null);
@@ -279,9 +291,25 @@ function Ledgers({
               </Typography>
               <Typography variant="body2">{`Closing Balance: ${closingBalance}`}</Typography>
               {ledgerData.length > 0 && (
-                <Typography variant="body2">{`${ledgerData[0].date} - ${
-                  ledgerData[ledgerData.length - 2].date
-                }`}</Typography>
+                <>
+                  <Typography variant="body2">{`${ledgerData[0].date} - ${
+                    ledgerData[ledgerData.length - 2].date
+                  }`}</Typography>
+
+                  <Typography variant="body2" color="error">
+                    Pending cheques: {chequeBalances.pendingCheques}
+                  </Typography>
+                  <Typography variant="body2" color="error">
+                    Pending transferred: {chequeBalances.pendingTransferred}
+                  </Typography>
+                  <Typography variant="body2" color="error">
+                    Pending transferred to this person:{" "}
+                    {chequeBalances.pendingTransferredToThis}
+                  </Typography>
+                  <Typography variant="body2" color="error">
+                    Pending personal cheques: {chequeBalances.pendingPersonal}
+                  </Typography>
+                </>
               )}
               <Button
                 variant="contained"

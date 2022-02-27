@@ -32,6 +32,7 @@ const CreateChequeHistory = ({
   isChequeEntry,
   open,
   onClose,
+  chequeSerial,
   ...props
 }) => {
   const accounts = useSelector((state) => state.essentials.accountTypes);
@@ -66,6 +67,9 @@ const CreateChequeHistory = ({
             <Form>
               <Grid container direction="column" gap={2} alignItems="center">
                 <Typography variant="h6">
+                  <Typography variant="h6" component="span" color="primary">
+                    Cheque # {chequeSerial}{" "}
+                  </Typography>
                   {isChequeEntry
                     ? "Add Cheque (History)"
                     : "Add Payment (History)"}

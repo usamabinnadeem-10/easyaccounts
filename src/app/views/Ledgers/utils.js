@@ -3,10 +3,10 @@ import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
 export const formatLedgerData = (
   data,
   opening,
-  persons,
-  pending_cheques = 0,
-  transferred = 0,
-  transferred_to_this = 0
+  persons
+  // pending_cheques = 0,
+  // transferred = 0,
+  // transferred_to_this = 0
 ) => {
   let ledger = [];
   let balance = opening;
@@ -39,22 +39,22 @@ export const formatLedgerData = (
   });
   ledger.length > 0 &&
     ledger.push({
-      id: 0,
+      id: 1,
       date: "TOTAL",
       credit: formatCurrency(totalCR),
       debit: formatCurrency(totalDB),
     });
-  ledger.length > 0 &&
-    ledger.push({
-      id: 1,
-      date: "Pending Cheques",
-      debit: Math.abs(pending_cheques),
-    }) &&
-    ledger.push({
-      id: 2,
-      date: "Pending Transferred Cheques",
-      debit: Math.abs(transferred),
-      credit: Math.abs(transferred_to_this),
-    });
+  // ledger.length > 0 &&
+  //   ledger.push({
+  //     id: 1,
+  //     date: "Pending Cheques",
+  //     debit: Math.abs(pending_cheques),
+  //   }) &&
+  //   ledger.push({
+  //     id: 2,
+  //     date: "Pending Transferred Cheques",
+  //     debit: Math.abs(transferred),
+  //     credit: Math.abs(transferred_to_this),
+  //   });
   return ledger;
 };

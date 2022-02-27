@@ -83,6 +83,7 @@ export const getColumns = (onClick, isPersonal) => {
               chequeStatus={row.row.values.status}
               chequeId={row.row.id}
               isPersonal={isPersonal}
+              chequeSerial={row.row.values.serial}
             />
           );
         } else {
