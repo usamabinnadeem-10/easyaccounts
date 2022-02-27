@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-export const BASE = "http://127.0.0.1:8000/";
-// export const BASE = "https://a94d-110-39-11-4.ngrok.io";
+// export const BASE = "http://127.0.0.1:8000/";
+export const BASE = "https://3f60-39-59-98-82.ngrok.io";
 
 const ESSENTIALS = "essentials/";
 const CUSTOMER = "C";
