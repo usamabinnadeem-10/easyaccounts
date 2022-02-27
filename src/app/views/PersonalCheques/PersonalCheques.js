@@ -11,6 +11,7 @@ import CustomTabs from "../../components/CustomTabs";
 import CustomTabPanel from "../../components/CustomTabPanel";
 import IssuePersonalCheque from "../../containers/IssuePersonalCheque";
 import Heading from "../../components/Heading";
+import Empty from "../../components/Empty";
 
 import { TABS } from "./constants";
 import { getFilters } from "./utils";
@@ -21,6 +22,7 @@ const PersonalCheques = (props) => {
 
   const [activeTab, setActiveTab] = useState(TABS[0].id);
   const [cheques, setCheques] = useState([]);
+  const [isEmpty, setIsEmpty] = useState(false);
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -33,13 +35,13 @@ const PersonalCheques = (props) => {
         tabs={TABS}
       />
       <CustomTabPanel activeTab={activeTab} index={0}>
-        <IssuePersonalCheque />
-      </CustomTabPanel>
-      <CustomTabPanel activeTab={activeTab} index={1}>
         <CustomFilters
           api={CHEQUE_URLS.PERSONAL.LIST}
           filters={getFilters(essentials)}
-          onSearch={(data) => setCheques(data)}
+          onSearch={(data) => {
+            setCheques(data);
+            data.length === 0 && setIsEmpty(true);
+          }}
         />
         {cheques.length > 0 && (
           <ChequeList
@@ -49,9 +51,10 @@ const PersonalCheques = (props) => {
             accounts={props.accounts}
           />
         )}
+        {isEmpty && <Empty />}
       </CustomTabPanel>
-      <CustomTabPanel activeTab={activeTab} index={2}>
-        <h3>3</h3>
+      <CustomTabPanel activeTab={activeTab} index={1}>
+        <IssuePersonalCheque />
       </CustomTabPanel>
     </Grid>
   );

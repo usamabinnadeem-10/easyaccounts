@@ -28,7 +28,10 @@ const ChequeList = ({ cheques, isPersonal, persons, accounts }) => {
         persons={persons}
         accounts={accounts}
         open={showDrawer}
-        onClose={() => setShowDrawer(false)}
+        onClose={() => {
+          setShowDrawer(false);
+          setChequeId(null);
+        }}
         chequeId={chequeId}
         isExternal={!isPersonal}
       />

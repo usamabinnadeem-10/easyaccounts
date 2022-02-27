@@ -9,6 +9,7 @@ import { Typography } from "@mui/material";
 import { Chip } from "@mui/material";
 
 import ChequeHistory from "../ChequeHistory";
+import ChequeActionMenu from "../ChequeActionMenu";
 
 import { StyledBox } from "./styled";
 import { StyledGrid } from "./styled";
@@ -62,7 +63,10 @@ const Cheque = ({
         persons={persons}
         accounts={accounts}
         chequeId={chequeId}
-        onClose={() => setShowDrawer(false)}
+        onClose={() => {
+          setShowDrawer(false);
+          setChequeId(null);
+        }}
         isExternal
       />
       <StyledBox>
@@ -72,8 +76,15 @@ const Cheque = ({
           alignItems="center"
           gap={2}
         >
-          <Grid item xs={12}>
+          <Grid item xs={9}>
             <Typography>{findBank(chequeData.bank)}</Typography>
+          </Grid>
+          <Grid item xs={1}>
+            <ChequeActionMenu
+              chequeId={chequeData.id}
+              chequeStatus={chequeData.status}
+              isPersonal={isPersonal}
+            />
           </Grid>
           <Grid item xs={6}>
             <Typography variant="body1">

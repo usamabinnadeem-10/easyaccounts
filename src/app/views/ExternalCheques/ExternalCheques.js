@@ -9,6 +9,7 @@ import CustomTabs from "../../components/CustomTabs";
 import CustomTabPanel from "../../components/CustomTabPanel";
 import Heading from "../../components/Heading";
 import ExternalChequeEntry from "../../containers/ExternalChequeEntry";
+import Empty from "../../components/Empty";
 
 import { Grid } from "@mui/material";
 
@@ -21,6 +22,7 @@ const ExternalCheques = (props) => {
 
   const [cheques, setCheques] = useState([]);
   const [activeTab, setActiveTab] = useState(TABS[0].id);
+  const [isEmpty, setIsEmpty] = useState(false);
   const handleChange = (event, newValue) => {
     setActiveTab(newValue);
   };
@@ -34,13 +36,13 @@ const ExternalCheques = (props) => {
       />
 
       <CustomTabPanel activeTab={activeTab} index={0}>
-        <ExternalChequeEntry />
-      </CustomTabPanel>
-      <CustomTabPanel activeTab={activeTab} index={1}>
         <CustomFilters
           api={CHEQUE_URLS.EXTERNAL.LIST}
           filters={getFilters(essentials)}
-          onSearch={(data) => setCheques(data)}
+          onSearch={(data) => {
+            setCheques(data);
+            data.length === 0 && setIsEmpty(true);
+          }}
         />
         {cheques.length > 0 && (
           <ChequeList
@@ -49,6 +51,10 @@ const ExternalCheques = (props) => {
             accounts={props.accounts}
           />
         )}
+        {isEmpty && <Empty />}
+      </CustomTabPanel>
+      <CustomTabPanel activeTab={activeTab} index={1}>
+        <ExternalChequeEntry />
       </CustomTabPanel>
     </Grid>
   );
