@@ -9,6 +9,8 @@ import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker
 
 import Select from "react-select";
 
+import MuiPhoneNumber from "material-ui-phone-number";
+
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -67,7 +69,7 @@ const AddModal = ({
       openSnackbar(true, "success", "Added successfully");
       handleClose();
     }
-    if (essentials.error){
+    if (essentials.error) {
       setLoading(false);
       openSnackbar(true, "error", essentials.error);
     }
@@ -144,6 +146,19 @@ const AddModal = ({
                   value={getDateFromString(state.date)}
                 />
               </div>
+            ) : field.type === FIELDS.PHONE_NUMBER ? (
+              <MuiPhoneNumber
+                key={index}
+                defaultCountry={"pk"}
+                onlyCountries={["pk"]}
+                onChange={(value) => handleChange(value, field.name)}
+                sx={{ mb: 2.5, width: 0.9 }}
+                variant="outlined"
+                size="small"
+                countryCodeEditable={false}
+                label="Phone Number"
+                autoFormat={false}
+              />
             ) : (
               <TextField
                 error={error && field.required && !state[field.name]}

@@ -128,7 +128,7 @@ export const ADD_CUSTOMER_FORM = {
     },
     {
       label: "Phone Number (+923001234567)",
-      type: FIELDS.STRING,
+      type: FIELDS.PHONE_NUMBER,
       name: DB.PHONE_NUMBER,
       required: true,
     },

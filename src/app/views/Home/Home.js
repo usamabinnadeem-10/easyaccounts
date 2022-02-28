@@ -31,7 +31,7 @@ const Home = (props) => {
 
   useEffect(() => {
     dispatch(getAllEssentials());
-    history.push(HOME);
+    // history.push(HOME);
   }, []);
 
   useEffect(() => {
