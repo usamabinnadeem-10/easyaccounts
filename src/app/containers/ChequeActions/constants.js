@@ -25,9 +25,7 @@ const getDefault = (chequeId) => ({
 export const getInitialValues = (isPersonal, actionType, chequeId) => {
   if (isPersonal) {
     switch (actionType) {
-      case ACTION_TYPES.PERSONAL.PASS || ACTION_TYPES.PERSONAL.CANCEL:
-        return {};
-      case ACTION_TYPES.PERSONAL.RETURN:
+      case ACTION_TYPES.PERSONAL.RETURN || ACTION_TYPES.PERSONAL.PASS || ACTION_TYPES.PERSONAL.CANCEL:
         return getDefault(chequeId);
       case ACTION_TYPES.PERSONAL.RE_ISSUE:
         return {
