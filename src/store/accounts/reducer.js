@@ -9,6 +9,9 @@ const initialState = {
     fetched: false,
     error: false,
     shouldFetch: true,
+    externalCheques: [],
+    externalChequesHistory: [],
+    personalCheques: [],
   },
 };
 

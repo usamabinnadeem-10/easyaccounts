@@ -1,8 +1,7 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable react-hooks/exhaustive-deps */
-
+import { useState } from "react";
 import { useEffect } from "react";
-import { useRef } from "react";
 
 import { useSelector } from "react-redux";
 
@@ -17,30 +16,32 @@ const DEFAULTS = {
 
 const useEssentials = () => {
   let essentials = useSelector((state) => state.essentials);
-  let values = useRef({});
+  let [values, setValues] = useState({});
 
   useEffect(() => {
     if (essentials.fetched) {
+      let newValues = {};
       for (let [key, value] of Object.entries(essentials)) {
         let currentEssential = DEFAULTS[key];
         if (currentEssential) {
           value.forEach((val) => {
-            !(currentEssential in values.current) &&
-              (values.current[currentEssential] = {});
-            values.current = {
-              ...values.current,
+            !(currentEssential in newValues) &&
+              (newValues[currentEssential] = {});
+            newValues = {
+              ...newValues,
               [currentEssential]: {
-                ...values.current[currentEssential],
+                ...newValues[currentEssential],
                 [val.value]: val,
               },
             };
           });
         }
       }
+      setValues(newValues);
     }
   }, [essentials.fetched, essentials]);
 
-  return values.current;
+  return values;
 };
 
 export default useEssentials;

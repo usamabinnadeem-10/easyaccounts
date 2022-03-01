@@ -7,8 +7,6 @@ import * as actionTypes from "./actionTypes";
 import * as actions from "./actions";
 import * as api from "./api";
 
-import { formatAccountsData } from "./utilities";
-
 function* accountsSagas() {
   yield all([takeLatest(actionTypes.GET_DAYBOOK, getDaybookSaga)]);
 }
@@ -21,7 +19,10 @@ function* getDaybookSaga(action) {
       transactions: data.transactions,
       ledgers: data.ledgers,
       expenses: data.expenses,
-      accounts: formatAccountsData(data.balance_ledgers, data.balance_expenses),
+      accounts: data.balance_ledgers,
+      externalCheques: data.external_cheques,
+      externalChequesHistory: data.external_cheques_history,
+      personalCheques: data.personal_cheques,
     };
     yield put(actions.getDaybookSuccess(formattedData));
   } catch (error) {

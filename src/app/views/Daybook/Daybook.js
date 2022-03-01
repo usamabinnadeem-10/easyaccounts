@@ -4,12 +4,14 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
+import ChequeList from "../../components/ChequeList";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Ledgers from "../Ledgers/Ledgers";
 import ViewTransactions from "../ViewTransactions/ViewTransactions";
 import ViewExpenses from "../ViewExpenses/ViewExpenses";
 import AccountTypeCard from "../../components/AccountTypeCard/AccountTypeCard";
+import ChequeHistoryTable from "../../components/ChequeHistoryTable";
 
 import { Button } from "@mui/material";
 import { Typography } from "@mui/material";
@@ -132,6 +134,55 @@ const Daybook = (props) => {
                 {...props}
                 daybookView
                 defaultLedgers={daybookData.ledgers}
+              />
+            </>
+          )}
+          {daybookData.externalCheques.length > 0 && (
+            <>
+              <Typography
+                variant="button"
+                fontWeight={900}
+                sx={{ mt: 3, mb: 1 }}
+              >
+                Party Cheques
+              </Typography>
+              <ChequeList
+                isPersonal={false}
+                cheques={daybookData.externalCheques}
+                persons={props.persons}
+                accounts={props.accounts}
+              />
+            </>
+          )}
+          {daybookData.externalChequesHistory.length > 0 && (
+            <>
+              <Typography
+                variant="button"
+                fontWeight={900}
+                sx={{ mt: 3, mb: 1 }}
+              >
+                Party Cheques History
+              </Typography>
+              <ChequeHistoryTable
+                historyData={daybookData.externalChequesHistory}
+                accounts={props.accounts}
+              />
+            </>
+          )}
+          {daybookData.personalCheques.length > 0 && (
+            <>
+              <Typography
+                variant="button"
+                fontWeight={900}
+                sx={{ mt: 3, mb: 1 }}
+              >
+                Personal Cheques
+              </Typography>
+              <ChequeList
+                isPersonal={true}
+                cheques={daybookData.personalCheques}
+                persons={props.persons}
+                accounts={props.accounts}
               />
             </>
           )}

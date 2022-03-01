@@ -41,7 +41,6 @@ const Home = (props) => {
   }, [location.pathname, history]);
 
   const fetched = useSelector((state) => state.essentials.fetched);
-
   return (
     <>
       <SideBar fetched={fetched} />
