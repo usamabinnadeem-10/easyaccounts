@@ -13,9 +13,9 @@ export const StyledBox = styled(Box)(({ theme }) => ({
 }));
 
 export const StyledGrid = styled(Grid, {
-  shouldForwardProp: (prop) => prop !== "bgColor",
-})(({ theme, bgColor }) => ({
-  backgroundColor: bgColor || "#fff",
+  shouldForwardProp: (prop) => prop !== "bgcolor",
+})(({ theme, bgcolor }) => ({
+  backgroundColor: bgcolor || "#fff",
   padding: theme.spacing(2),
 }));
 

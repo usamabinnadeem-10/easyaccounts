@@ -98,7 +98,7 @@ const Cheque = ({
             </Typography>
           </Grid>
         </StyledGrid>
-        <StyledGrid container bgColor="#F0F0F0">
+        <StyledGrid container alignItems="center" bgcolor="#F0F0F0">
           <Grid item xs={6}>
             <Grid container direction="column">
               {details.map((detail, index) => (
@@ -108,23 +108,27 @@ const Cheque = ({
               ))}
             </Grid>
           </Grid>
-          <Grid item xs={4}>
-            <AmountBox>
-              <Typography variant="body1">
-                {formatCurrency(chequeData.amount)}/=
-              </Typography>
-            </AmountBox>
+          <Grid item xs={6}>
+            <Grid container justifyContent="flex-end">
+              <AmountBox>
+                <Typography variant="body1">
+                  {formatCurrency(chequeData.amount)}/=
+                </Typography>
+              </AmountBox>
+            </Grid>
           </Grid>
         </StyledGrid>
         <StyledGrid container justify="space-between">
           <Grid item xs={8}>
             <Typography variant="h6">{chequeData.cheque_number}</Typography>
           </Grid>
-          <Grid item xs={3}>
-            <Chip
-              label={chequeData.status}
-              color={STATUS_COLORS[chequeData.status]}
-            />
+          <Grid item xs={4}>
+            <Grid container justifyContent="flex-end">
+              <Chip
+                label={chequeData.status}
+                color={STATUS_COLORS[chequeData.status]}
+              />
+            </Grid>
           </Grid>
         </StyledGrid>
         {!isPersonal && viewHistoryButton && (

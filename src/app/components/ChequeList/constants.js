@@ -74,8 +74,8 @@ export const getColumns = (onClick, isPersonal) => {
       },
     },
     {
-      Header: "Add History",
-      accessor: "history",
+      Header: "Actions",
+      accessor: "actions",
       Cell: (row) => {
         if (typeof row.row.id === "string") {
           return (
