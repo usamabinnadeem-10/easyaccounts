@@ -11,6 +11,7 @@ import ArticleIcon from "@mui/icons-material/Article";
 import QueryStatsIcon from "@mui/icons-material/QueryStats";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
+import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
 import {
   VIEW,
@@ -27,6 +28,7 @@ import {
   CHEQUE_MANAGEMENT,
   PERSONAL_CHEQUES,
   EXTERNAL_CHEQUES,
+  ACCOUNTS_HISTORY,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -59,6 +61,8 @@ export const getIcon = (panel) => {
       return <CreditScoreIcon />;
     case EXTERNAL_CHEQUES:
       return <LocalAtmIcon />;
+    case ACCOUNTS_HISTORY:
+      return <ManageSearchIcon />;
     default:
       break;
   }

@@ -24,6 +24,7 @@ export const ESSENTIAL_URLS = {
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
   ALL_STOCK: `${ESSENTIALS}stock-quantity/`,
+  ACCOUNT_HISTORY: `${ESSENTIALS}account-history/`,
 };
 
 const EXPENSE = "expense/";

@@ -14,6 +14,7 @@ import ViewDetailedStock from "../app/views/ViewDetailedStock/ViewDetailedStock"
 import ProductPerformance from "../app/views/ProductPerformance/ProductPerformance";
 import PersonalCheques from "../app/views/PersonalCheques";
 import ExternalCheques from "../app/views/ExternalCheques";
+import AccountHistory from "../app/views/AccountHistory";
 
 export const unauthenticatedRoutes = [{}];
 
@@ -73,5 +74,9 @@ export const authenticatedRoutes = [
   {
     component: ExternalCheques,
     path: url.EXTERNAL_CHEQUE,
+  },
+  {
+    component: AccountHistory,
+    path: url.ACCOUNT_HISTORY,
   },
 ];

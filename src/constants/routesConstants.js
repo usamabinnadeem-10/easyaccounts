@@ -14,3 +14,4 @@ export const DETAILED_STOCK = `${HOME}/detailed-stock`;
 export const PRODUCT_PERFORMANCE = `${HOME}/product-performance`;
 export const PERSONAL_CHEQUE = `${HOME}/personal-cheques`;
 export const EXTERNAL_CHEQUE = `${HOME}/external-cheques`;
+export const ACCOUNT_HISTORY = `${HOME}/account-history`;

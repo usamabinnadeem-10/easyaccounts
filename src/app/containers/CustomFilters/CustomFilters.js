@@ -18,8 +18,11 @@ import { StyledMenu } from "./styled";
 import * as constants from "./constants";
 import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL } from "../../utilities/stringUtils";
+import { findErrorMessage } from "../../utilities/objectUtils";
 
-const CustomFilters = ({ api, onSearch, filters }) => {
+import { withSnackbar } from "../../hoc/withSnackbar";
+
+const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [filterState, setFilterState] = React.useState({});
   const [activeFilters, setActiveFilters] = React.useState([]);
@@ -85,10 +88,16 @@ const CustomFilters = ({ api, onSearch, filters }) => {
         }))
       );
     }
-    instance.get(URL).then((response) => {
-      onSearch(response.data);
-      setIsLoading(false);
-    });
+    instance
+      .get(URL)
+      .then((response) => {
+        onSearch(response.data);
+        setIsLoading(false);
+      })
+      .catch((error) => {
+        setIsLoading(false);
+        showErrorSnackbar(findErrorMessage(error.response.data));
+      });
   };
 
   return (
@@ -150,7 +159,7 @@ const CustomFilters = ({ api, onSearch, filters }) => {
                         label={filter.placeholder}
                       />
                     )}
-                    value={filterState[filter.qp]}
+                    value={filterState[filter.qp] || null}
                   />
                 ) : filter.type === constants.FIELDS.DATE ? (
                   <LocalizationProvider dateAdapter={DateAdapter}>
@@ -202,4 +211,4 @@ const CustomFilters = ({ api, onSearch, filters }) => {
   );
 };
 
-export default CustomFilters;
+export default withSnackbar(CustomFilters);
