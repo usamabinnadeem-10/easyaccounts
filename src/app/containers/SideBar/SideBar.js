@@ -13,6 +13,9 @@ import Collapse from "@mui/material/Collapse";
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 
+import AddModal from "../AddModal/AddModal";
+
+import { MODAL_DEFAULTS } from "./constants";
 import { SIDEBAR } from "./constants";
 import { DRAWER_WIDTH } from "./constants";
 import { paperWhite } from "../../../constants/colors";
@@ -27,6 +30,9 @@ const SideBar = ({ fetched }) => {
     expand: false,
   });
 
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [form, setForm] = useState([]);
+
   const handleOpen = (panel) => {
     setOpen({
       panel: panel,
@@ -34,64 +40,82 @@ const SideBar = ({ fetched }) => {
     });
   };
 
+  const handleOpenAddModal = (name) => {
+    setForm(MODAL_DEFAULTS[name]);
+    setIsAddModalOpen(true);
+  };
+
   return (
-    <Drawer
-      variant="permanent"
-      sx={{
-        "& .MuiDrawer-paper": {
-          width: DRAWER_WIDTH,
-          bgcolor: paperWhite,
-          py: 2,
-        },
-      }}
-    >
-      <List disablePadding dense>
-        {SIDEBAR.map((panel, index) => {
-          return (
-            <div key={index}>
-              <ListItemButton onClick={() => handleOpen(index)} disableRipple>
-                <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon>
-                <ListItemText primary={panel.panelName} />
-                {open.panel === index && open.expand ? (
-                  <ExpandLess />
-                ) : (
-                  <ExpandMore />
-                )}
-              </ListItemButton>
-              <Collapse
-                in={open.expand && open.panel === index}
-                timeout="auto"
-                unmountOnExit
-              >
-                <List
-                  dense
-                  component="div"
-                  disablePadding
-                  sx={{
-                    mb: 1,
-                  }}
+    <>
+      {isAddModalOpen && (
+        <AddModal
+          open={isAddModalOpen}
+          handleClose={() => setIsAddModalOpen(false)}
+          form={form}
+        />
+      )}
+      <Drawer
+        variant="permanent"
+        sx={{
+          "& .MuiDrawer-paper": {
+            width: DRAWER_WIDTH,
+            bgcolor: paperWhite,
+            py: 2,
+          },
+        }}
+      >
+        <List disablePadding dense>
+          {SIDEBAR.map((panel, index) => {
+            return (
+              <div key={index}>
+                <ListItemButton onClick={() => handleOpen(index)} disableRipple>
+                  <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon>
+                  <ListItemText primary={panel.panelName} />
+                  {open.panel === index && open.expand ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )}
+                </ListItemButton>
+                <Collapse
+                  in={open.expand && open.panel === index}
+                  timeout="auto"
+                  unmountOnExit
                 >
-                  {panel.panelData.map((panelData, index) => {
-                    return (
-                      <ListItemButton
-                        disabled={!fetched}
-                        onClick={() => history.push(panelData.route)}
-                        key={index}
-                        sx={{ pl: 4 }}
-                        disableRipple
-                      >
-                        <ListItemIcon>{getIcon(panelData.name)}</ListItemIcon>
-                        <ListItemText primary={panelData.name} />
-                      </ListItemButton>
-                    );
-                  })}
-                </List>
-              </Collapse>
-            </div>
-          );
-        })}
-      </List>
-    </Drawer>
+                  <List
+                    dense
+                    component="div"
+                    disablePadding
+                    sx={{
+                      mb: 1,
+                    }}
+                  >
+                    {panel.panelData.map((panelData, index) => {
+                      return (
+                        <ListItemButton
+                          disabled={!fetched}
+                          onClick={
+                            panelData.route
+                              ? () => history.push(panelData.route)
+                              : () => handleOpenAddModal(panelData.modal)
+                          }
+                          key={index}
+                          sx={{ pl: 4 }}
+                          disableRipple
+                        >
+                          <ListItemIcon>{getIcon(panelData.name)}</ListItemIcon>
+                          <ListItemText primary={panelData.name} />
+                        </ListItemButton>
+                      );
+                    })}
+                  </List>
+                </Collapse>
+              </div>
+            );
+          })}
+        </List>
+      </Drawer>
+    </>
   );
 };
 

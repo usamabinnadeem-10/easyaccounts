@@ -109,7 +109,20 @@ export const getAllExpenseAccountsSuccess = (data) => {
   };
 };
 
-// actions to add new
+export const getAllAreas = () => {
+  return {
+    type: actionTypes.GET_ALL_AREAS,
+  };
+};
+
+export const getAllAreasSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_AREAS_SUCCESS,
+    payload: data,
+  };
+};
+
+// ADD NEW ACTIONS
 
 export const addNewPerson = (data) => {
   return {
@@ -153,6 +166,15 @@ export const addNewExpenseAccount = (data) => {
   };
 };
 
+export const addNewArea = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_AREA,
+    payload: data,
+  };
+};
+
+// ADD NEW SUCCESS ACTIONS
+
 export const addNewPersonSuccess = (data) => {
   return {
     type: actionTypes.ADD_NEW_PERSON_SUCCESS,
@@ -194,6 +216,15 @@ export const addNewExpenseAccountSuccess = (data) => {
     payload: data,
   };
 };
+
+export const addNewAreaSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_AREA_SUCCESS,
+    payload: data,
+  };
+};
+
+// ---------------------------------------------------------------- //
 
 export const resetAdded = () => {
   return {

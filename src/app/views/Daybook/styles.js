@@ -15,5 +15,7 @@ export const useStyles = makeStyles({
   accountTypesWrapper: {
     display: "flex",
     marginBottom: "1.5rem",
+    flexWrap: "wrap",
+    rowGap: "20px",
   },
 });

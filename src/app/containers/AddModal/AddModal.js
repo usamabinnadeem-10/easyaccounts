@@ -24,14 +24,16 @@ import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
+import { withSnackbar } from "../../hoc/withSnackbar";
+
 const AddModal = ({
   open,
   handleClose,
   form,
-  openSnackbar,
-  closeSnackbar,
   isEdit = false,
   defaultFormState,
+  showErrorSnackbar,
+  showSuccessSnackbar,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
@@ -41,6 +43,12 @@ const AddModal = ({
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
+
+  const closeModal = () => {
+    setTimeout(() => {
+      handleClose();
+    }, 1000);
+  };
 
   useEffect(() => {
     return () => {
@@ -66,12 +74,12 @@ const AddModal = ({
     }
     if (essentials.added) {
       setLoading(false);
-      openSnackbar(true, "success", "Added successfully");
-      handleClose();
+      showSuccessSnackbar("Added successfully");
+      closeModal();
     }
     if (essentials.error) {
       setLoading(false);
-      openSnackbar(true, "error", essentials.error);
+      showErrorSnackbar(essentials.error);
     }
   }, [essentials.added, essentials.adding, essentials.error]);
 
@@ -93,7 +101,7 @@ const AddModal = ({
     let canPost = true;
     form.formData.forEach((element) => {
       if (element.required && !data[element.name]) {
-        openSnackbar(true, "error", `Please fill ${element.label}`);
+        showErrorSnackbar(`Please fill ${element.label}`);
         setError(true);
         canPost = false;
       }
@@ -194,4 +202,4 @@ const AddModal = ({
   );
 };
 
-export default AddModal;
+export default withSnackbar(AddModal);

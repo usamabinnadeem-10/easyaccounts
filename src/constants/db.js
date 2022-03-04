@@ -39,6 +39,7 @@ export const DB = {
   PHONE_NUMBER: "phone_number",
   CITY: "city",
   COMMENT: "comment",
+  OPENING_BALANCE: "opening_balance",
 };
 
 export const DB_TRANSLATION = {

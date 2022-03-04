@@ -9,6 +9,7 @@ const initialState = {
   suppliers: [],
   products: [],
   expenseAccounts: [],
+  areas: [],
   fetched: false,
   added: false,
   adding: false,
@@ -104,6 +105,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         expenseAccounts: expenses,
+      };
+
+    case actionTypes.GET_ALL_AREAS_SUCCESS:
+      const areas = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", action.payload)
+      );
+      return {
+        ...state,
+        areas: areas,
       };
 
     // actions to add new
@@ -224,6 +236,22 @@ const reducer = (state = initialState, action) => {
         added: true,
         adding: false,
       };
+
+    case actionTypes.ADD_NEW_AREA_SUCCESS:
+      let newAreasRenamed = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", [action.payload])
+      );
+      let newAreas = [...state.areas, ...newAreasRenamed];
+      return {
+        ...state,
+        areas: newAreas,
+        added: true,
+        adding: false,
+      };
+
+    // ---------------------------------------------------------------- //
 
     case actionTypes.RESET_ADDED:
       return {

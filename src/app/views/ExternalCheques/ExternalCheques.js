@@ -41,7 +41,7 @@ const ExternalCheques = (props) => {
           filters={getFilters(essentials)}
           onSearch={(data) => {
             setCheques(data);
-            data.length === 0 && setIsEmpty(true);
+            data.length === 0 ? setIsEmpty(true) : setIsEmpty(false);
           }}
         />
         {cheques.length > 0 && (

@@ -4,6 +4,10 @@ export const COLUMNS = [
     accessor: "type",
   },
   {
+    Header: "Date",
+    accessor: "date",
+  },
+  {
     Header: "Debit",
     accessor: "debit",
   },

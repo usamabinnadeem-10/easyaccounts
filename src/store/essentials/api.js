@@ -32,6 +32,10 @@ export const getExpenseAccountsApi = () => {
   return instance.get(EXPENSE_URLS.LIST_EXPENSES_ACCOUNTS);
 };
 
+export const getAreasApi = () => {
+  return instance.get(ESSENTIAL_URLS.LIST.AREAS);
+};
+
 // APIs to add essentials
 
 export const addExpenseAccountApi = (data) => {
@@ -60,4 +64,8 @@ export const addExpenseDetailApi = (data) => {
 
 export const cancelInvoiceApi = (data) => {
   return instance.post(TRANSACTION_URLS.CANCEL_INVOICE, data);
+};
+
+export const addAreaApi = (data) => {
+  return instance.post(ESSENTIAL_URLS.CREATE.AREA, data);
 };

@@ -13,6 +13,14 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import CreditScoreIcon from "@mui/icons-material/CreditScore";
 import ManageSearchIcon from "@mui/icons-material/ManageSearch";
 
+import AccountCircle from "@mui/icons-material/AccountCircle";
+import Inventory2 from "@mui/icons-material/Inventory2";
+import Home from "@mui/icons-material/Home";
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
+import MoneyIcon from "@mui/icons-material/Money";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+
 import {
   VIEW,
   LEDGER,
@@ -29,6 +37,13 @@ import {
   PERSONAL_CHEQUES,
   EXTERNAL_CHEQUES,
   ACCOUNTS_HISTORY,
+  CREATE_NEW,
+  PERSON,
+  PRODUCT,
+  WAREHOUSE,
+  ACCOUNT,
+  EXPENSE_ACCOUNT,
+  AREA,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -63,6 +78,20 @@ export const getIcon = (panel) => {
       return <LocalAtmIcon />;
     case ACCOUNTS_HISTORY:
       return <ManageSearchIcon />;
+    case CREATE_NEW:
+      return <AddCircleOutlineIcon />;
+    case PERSON:
+      return <AccountCircle />;
+    case PRODUCT:
+      return <Inventory2 />;
+    case WAREHOUSE:
+      return <Home />;
+    case ACCOUNT:
+      return <MoneyIcon />;
+    case EXPENSE_ACCOUNT:
+      return <AccountBalanceIcon />;
+    case AREA:
+      return <LocationOnIcon />;
     default:
       break;
   }

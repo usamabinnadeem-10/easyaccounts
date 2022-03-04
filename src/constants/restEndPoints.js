@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = "http://127.0.0.1:8000/";
-export const BASE = "https://953e-39-59-98-82.ngrok.io";
+export const BASE = "http://127.0.0.1:8000/";
+// export const BASE = "https://953e-39-59-98-82.ngrok.io";
 
 const ESSENTIALS = "essentials/";
 const CUSTOMER = "C";
@@ -15,12 +15,14 @@ export const ESSENTIAL_URLS = {
     PRODUCT: `${ESSENTIALS}product/${LIST}`,
     CUSTOMERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${CUSTOMER}`,
     SUPPLIERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${SUPPLIER}`,
+    AREAS: `${ESSENTIALS}area/${LIST}`,
   },
   CREATE: {
     ACCOUNT_TYPE: `${ESSENTIALS}account-type/${CREATE}`,
     WAREHOUSE: `${ESSENTIALS}warehouse/${CREATE}`,
     PRODUCT: `${ESSENTIALS}product/${CREATE}`,
     PERSON: `${ESSENTIALS}person/${CREATE}`,
+    AREA: `${ESSENTIALS}area/${CREATE}`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
   ALL_STOCK: `${ESSENTIALS}stock-quantity/`,

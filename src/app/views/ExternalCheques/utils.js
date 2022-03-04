@@ -13,7 +13,7 @@ export const getFilters = (essentials) => {
     },
     {
       qp: "status",
-      options: STATUS.PERSONAL,
+      options: STATUS.EXTERNAL,
       type: FIELDS.SELECT,
       placeholder: "Status",
     },
@@ -56,7 +56,7 @@ export const getFilters = (essentials) => {
       qp: "bank",
       options: BANKS,
       type: FIELDS.SELECT,
-      placeholder: "Status",
+      placeholder: "Bank",
     },
   ];
 };
