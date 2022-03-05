@@ -173,7 +173,7 @@ export const getPersonForm = (essentials) => {
       {
         label: "Type",
         type: FIELDS.SELECT,
-        name: "person_type",
+        name: DB.PERSON_TYPE,
         options: PERSON_OPTIONS,
         required: true,
       },
@@ -188,11 +188,14 @@ export const getPersonForm = (essentials) => {
         type: FIELDS.SELECT,
         options: essentials.areas,
         required: true,
+        name: DB.AREA,
       },
       {
         label: "City",
-        type: FIELDS.STRING,
+        type: FIELDS.SELECT,
         name: DB.CITY,
+        options: essentials.cities,
+        required: true,
       },
       {
         label: "Business Name",
@@ -203,6 +206,28 @@ export const getPersonForm = (essentials) => {
         label: "Address",
         type: FIELDS.STRING,
         name: DB.ADDRESS,
+      },
+    ],
+  };
+};
+
+export const getAreaForm = (essentials) => {
+  return {
+    heading: "Add Area",
+    action: actions.addNewArea,
+    formData: [
+      {
+        label: "Area Name",
+        type: FIELDS.STRING,
+        name: DB.NAME,
+        required: true,
+      },
+      {
+        label: "Area City",
+        type: FIELDS.SELECT,
+        name: DB.CITY,
+        options: essentials.cities,
+        required: true,
       },
     ],
   };
@@ -281,30 +306,14 @@ export const MODAL_DEFAULTS = {
       },
     ],
   },
-  [AREA]: {
-    heading: "Add Area",
-    action: actions.addNewArea,
-    formData: [
-      {
-        label: "Area Name",
-        type: FIELDS.STRING,
-        name: DB.NAME,
-        required: true,
-      },
-      {
-        label: "Area City",
-        type: FIELDS.STRING,
-        name: DB.CITY,
-        required: true,
-      },
-    ],
-  },
 };
 
 export const chooseModal = (name, essentials) => {
   switch (name) {
     case PERSON:
       return getPersonForm(essentials);
+    case AREA:
+      return getAreaForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

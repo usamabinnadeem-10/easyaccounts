@@ -40,6 +40,7 @@ export const DB = {
   CITY: "city",
   COMMENT: "comment",
   OPENING_BALANCE: "opening_balance",
+  AREA: "area",
 };
 
 export const DB_TRANSLATION = {

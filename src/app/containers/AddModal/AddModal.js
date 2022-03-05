@@ -7,10 +7,9 @@ import { useDispatch } from "react-redux";
 
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
 
-import Select from "react-select";
-
 import MuiPhoneNumber from "material-ui-phone-number";
 
+import Autocomplete from "@mui/material/Autocomplete";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
@@ -19,7 +18,6 @@ import TextField from "@mui/material/TextField";
 import { LoadingButton } from "@mui/lab";
 
 import { useStyles } from "./styles";
-import { customStyles } from "./styles";
 import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
 import { makeDate, getDateFromString } from "../../utilities/stringUtils";
@@ -93,7 +91,7 @@ const AddModal = ({
   const submit = () => {
     let data = { ...state };
     for (let key in state) {
-      if (typeof state[key] === "object") {
+      if (typeof state[key] === "object" && !!state[key]) {
         data[key] = data[key].value;
       }
     }
@@ -137,12 +135,30 @@ const AddModal = ({
           {form.formData.map((field, index) => {
             return field.type === FIELDS.SELECT ? (
               <div key={index} className={classes.select}>
-                <Select
-                  styles={customStyles(error, state[field.name])}
-                  placeholder={field.label}
-                  value={state[field.name] || null}
-                  onChange={(value) => handleChange(value, field.name)}
+                <Autocomplete
+                  clearOnEscape
+                  autoComplete
+                  autoHighlight
+                  fullWidth
+                  size="small"
+                  getOptionLabel={(option) => option.label}
                   options={field.options}
+                  onChange={(e, value, reason) => {
+                    if (reason === "clear" || !value) {
+                      handleChange(null, field.name);
+                    } else {
+                      handleChange(value, field.name);
+                    }
+                  }}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label={field.label}
+                      error={error}
+                    />
+                  )}
+                  value={state[field.name] || null}
                 />
               </div>
             ) : field.type === FIELDS.DATE ? (

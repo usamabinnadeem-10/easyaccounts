@@ -8,6 +8,8 @@ export const useStyles = makeStyles({
     transform: "translate(-50%, -50%)",
     width: 300,
     padding: "1.5rem",
+    maxHeight: "80vh",
+    overflow: "auto",
   },
   select: {
     marginBottom: "1rem",
@@ -19,21 +21,3 @@ export const useStyles = makeStyles({
     marginBottom: "1rem",
   },
 });
-
-export const customStyles = (error, value) => {
-  return {
-    menu: (provided, state) => ({
-      ...provided,
-      zIndex: 100,
-    }),
-    control: (base, state) => ({
-      ...base,
-      // state.isFocused can display different borderColor if you need it
-      borderColor: !error || value ? "#ddd" : "red",
-      // overwrittes hover style
-      "&:hover": {
-        borderColor: !error || value ? "#ddd" : "red",
-      },
-    }),
-  };
-};

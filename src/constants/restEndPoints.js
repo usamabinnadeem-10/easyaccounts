@@ -92,3 +92,7 @@ export const CHEQUE_URLS = {
     DELETE: `${CHEQUE}${EXTERNAL}${DELETE}:uuid/`,
   },
 };
+
+export const CSC_URLS = {
+  CITIES_BY_COUNTRY: `countries/PK/cities`,
+};

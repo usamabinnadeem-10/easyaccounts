@@ -122,6 +122,19 @@ export const getAllAreasSuccess = (data) => {
   };
 };
 
+export const getAllCities = () => {
+  return {
+    type: actionTypes.GET_ALL_CITIES,
+  };
+};
+
+export const getAllCitiesSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_CITIES_SUCCESS,
+    payload: data,
+  };
+};
+
 // ADD NEW ACTIONS
 
 export const addNewPerson = (data) => {

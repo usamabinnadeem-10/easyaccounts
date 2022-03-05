@@ -10,6 +10,7 @@ const initialState = {
   products: [],
   expenseAccounts: [],
   areas: [],
+  cities: [],
   fetched: false,
   added: false,
   adding: false,
@@ -117,6 +118,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         areas: areas,
+      };
+
+    case actionTypes.GET_ALL_CITIES_SUCCESS:
+      const cities = renameKeys(
+        "id",
+        "value",
+        renameKeys("name", "label", action.payload)
+      );
+      return {
+        ...state,
+        cities: cities,
       };
 
     // actions to add new
