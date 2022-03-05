@@ -98,6 +98,14 @@ const ChequeActionMenu = ({
     });
   };
 
+  // delete external cheque
+  const handleDeleteExternalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.DELETE,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
+
   // -----------------------------PERSONAL CHEQUE FUNCTIONS--------------------------------- //
 
   // pass personal cheque
@@ -132,8 +140,26 @@ const ChequeActionMenu = ({
     });
   };
 
+  // delete personal cheque
+  const handleDeletePersonalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.PERSONAL.DELETE,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
+
   // // clear external transferred cheque
   // const handlePassExternalTransferredCheque = (chequeId) => {};
+
+  const EXTERNAL_DELETE = {
+    action: handleDeleteExternalCheque,
+    name: "Delete party cheque",
+  };
+
+  const PERSONAL_DELETE = {
+    action: handleDeletePersonalCheque,
+    name: "Delete personal cheque",
+  };
 
   const ACTIONS = {
     PERSONAL: {
@@ -146,6 +172,7 @@ const ChequeActionMenu = ({
           action: handleReturnPersonalCheque,
           name: "Return personal cheque",
         },
+        PERSONAL_DELETE,
       ],
       returned: [
         {
@@ -156,9 +183,10 @@ const ChequeActionMenu = ({
           action: handleCancelPersonalCheque,
           name: "Cancel personal cheque",
         },
+        PERSONAL_DELETE,
       ],
-      cleared: [],
-      cancelled: [],
+      cleared: [PERSONAL_DELETE],
+      cancelled: [PERSONAL_DELETE],
     },
     EXTERNAL: {
       pending: [
@@ -182,19 +210,21 @@ const ChequeActionMenu = ({
           action: handlePassExternalCheque,
           name: "Clear party cheque",
         },
+        EXTERNAL_DELETE,
       ],
       transferred: [
         {
           action: handleReturnExternalTransferredCheque,
           name: "Return transferred cheque",
         },
+        EXTERNAL_DELETE,
         // {
         //   action: handlePassExternalTransferredCheque,
         //   name: "Clear transferred cheque",
         // },
       ],
-      cleared: [],
-      returned: [],
+      cleared: [EXTERNAL_DELETE],
+      returned: [EXTERNAL_DELETE],
     },
   };
 

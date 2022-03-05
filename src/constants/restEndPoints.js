@@ -68,6 +68,7 @@ const PASS = "pass/";
 const CANCEL = "cancel/";
 const RETURN = "return/";
 const TRANSFER = "transfer/";
+const DELETE = "delete/";
 export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
@@ -76,6 +77,7 @@ export const CHEQUE_URLS = {
     CANCEL: `${CHEQUE}${PERSONAL}${CANCEL}:uuid/`,
     RETURN: `${CHEQUE}${PERSONAL}${RETURN}`,
     RE_ISSUE: `${CHEQUE}${PERSONAL}${RETURN}reissue/`,
+    DELETE: `${CHEQUE}${PERSONAL}${DELETE}:uuid/`,
   },
   EXTERNAL: {
     CREATE: `${CHEQUE}${EXTERNAL}${CREATE}`,
@@ -87,5 +89,6 @@ export const CHEQUE_URLS = {
     TRANSFER: `${CHEQUE}${EXTERNAL}${TRANSFER}`,
     RETURN: `${CHEQUE}${EXTERNAL}${RETURN}`,
     RETURN_TRANSFER: `${CHEQUE}${EXTERNAL}${TRANSFER}${RETURN}`,
+    DELETE: `${CHEQUE}${EXTERNAL}${DELETE}:uuid/`,
   },
 };

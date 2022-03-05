@@ -27,6 +27,11 @@ export const reissuePersonalCheque = (data) => {
   return instance.post(CHEQUE_URLS.PERSONAL.RE_ISSUE, data);
 };
 
+export const deletePersonalCheque = (data) => {
+  let URL = getURL(CHEQUE_URLS.PERSONAL.DELETE, "uuid", data.cheque);
+  return instance.delete(URL);
+};
+
 // -------------------------------------------------------------- //
 
 // EXTERNAL CHEQUE APIS
@@ -46,6 +51,11 @@ export const returnExternalTransferredCheque = (data) => {
   return instance.post(CHEQUE_URLS.EXTERNAL.RETURN_TRANSFER, data);
 };
 
+export const deleteExternalCheque = (data) => {
+  let URL = getURL(CHEQUE_URLS.EXTERNAL.DELETE, "uuid", data.cheque);
+  return instance.delete(URL);
+};
+
 // -------------------------------------------------------------- //
 
 export const API_MAPPING = {
@@ -53,8 +63,10 @@ export const API_MAPPING = {
   [ACTION_TYPES.PERSONAL.CANCEL]: cancelPersonalCheque,
   [ACTION_TYPES.PERSONAL.RETURN]: returnPersonalCheque,
   [ACTION_TYPES.PERSONAL.RE_ISSUE]: reissuePersonalCheque,
+  [ACTION_TYPES.PERSONAL.DELETE]: deletePersonalCheque,
+  // -------------------------------------------------------------- //
   [ACTION_TYPES.EXTERNAL.PASS]: passExternalCheque,
   [ACTION_TYPES.EXTERNAL.RETURN]: returnExternalCheque,
   [ACTION_TYPES.EXTERNAL.TRANSFER]: transferExternalCheque,
-  [ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED]: returnExternalTransferredCheque,
+  [ACTION_TYPES.EXTERNAL.DELETE]: deleteExternalCheque,
 };

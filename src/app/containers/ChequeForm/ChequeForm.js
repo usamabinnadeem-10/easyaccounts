@@ -28,7 +28,6 @@ const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
 
   const handleSubmit = (values, actions) => {
     onSubmit(formatValues(values), actions);
-    actions.resetForm();
   };
 
   return (

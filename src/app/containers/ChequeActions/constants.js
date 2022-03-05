@@ -1,15 +1,17 @@
 export const ACTION_TYPES = {
   PERSONAL: {
-    PASS: "PERSONAL_PASS",
-    RETURN: "PERSONAL_RETURN",
-    RE_ISSUE: "PERSONAL_RE_ISSUE",
-    CANCEL: "PERSONAL_CANCEL",
+    PASS: "Pass personal cheque",
+    RETURN: "Return personal cheque",
+    RE_ISSUE: "Re-issue personal cheque",
+    CANCEL: "Cancel personal cheque",
+    DELETE: "Delete personal cheque",
   },
   EXTERNAL: {
-    PASS: "EXTERNAL_PASS",
-    RETURN: "EXTERNAL_RETURN",
-    RETURN_TRANSFERRED: "EXTERNAL_RETURN_TRANSFERRED",
-    TRANSFER: "EXTERNAL_TRANSFER",
+    PASS: "Pass party cheque",
+    RETURN: "Return party cheque",
+    RETURN_TRANSFERRED: "Return party's transferred cheque",
+    TRANSFER: "Transfer party cheque",
+    DELETE: "Delete party cheque",
   },
 };
 
@@ -25,7 +27,9 @@ const getDefault = (chequeId) => ({
 export const getInitialValues = (isPersonal, actionType, chequeId) => {
   if (isPersonal) {
     switch (actionType) {
-      case ACTION_TYPES.PERSONAL.RETURN || ACTION_TYPES.PERSONAL.PASS || ACTION_TYPES.PERSONAL.CANCEL:
+      case ACTION_TYPES.PERSONAL.RETURN ||
+        ACTION_TYPES.PERSONAL.PASS ||
+        ACTION_TYPES.PERSONAL.CANCEL:
         return getDefault(chequeId);
       case ACTION_TYPES.PERSONAL.RE_ISSUE:
         return {
