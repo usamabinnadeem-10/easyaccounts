@@ -14,10 +14,11 @@ import { Button } from "@mui/material";
 import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
 
+import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+
 // import CustomDataGrid from "../../components/CustomDataGrid/CustomDataGrid";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 import Empty from "../../components/Empty/Empty";
@@ -39,6 +40,8 @@ import { getURL } from "../../utilities/stringUtils";
 import { makeDate } from "../../utilities/stringUtils";
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
+import { withSnackbar } from "../../hoc/withSnackbar";
+
 function Ledgers({
   daybookView,
   defaultLedgers,
@@ -46,6 +49,8 @@ function Ledgers({
   products,
   accounts,
   persons,
+  showSuccessSnackbar,
+  showErrorSnackbar,
 }) {
   const classes = useStyles();
   const history = useHistory();
@@ -70,7 +75,6 @@ function Ledgers({
     pendingPersonal: 0,
   });
   const [loading, setLoading] = useState(false);
-  const [snackbarState, setSnackbarState] = useState({});
   const [dialogueState, setDialogueState] = useState({
     open: false,
     dialogueValue: null,
@@ -104,10 +108,10 @@ function Ledgers({
             deleteItem: false,
             idToDelete: null,
           });
-          openSnackbar(true, "success", SUCCESS.DELETED);
+          showSuccessSnackbar(SUCCESS.DELETED);
         })
         .catch((error) => {
-          openSnackbar(true, "error", ERRORS.OOPS);
+          showErrorSnackbar(ERRORS.OOPS);
         });
     }
   }, [dialogueState]);
@@ -153,11 +157,7 @@ function Ledgers({
 
   const search = () => {
     if (!currentPerson) {
-      openSnackbar(
-        true,
-        "error",
-        ERRORS.SELECT_PERSON + DB_TRANSLATION[personType]
-      );
+      showErrorSnackbar(ERRORS.SELECT_PERSON + DB_TRANSLATION[personType]);
       return;
     }
     setLoading(true);
@@ -184,25 +184,8 @@ function Ledgers({
       })
       .catch((error) => {
         setLoading(false);
-        openSnackbar(true, "error", ERRORS.OOPS);
+        showErrorSnackbar(ERRORS.OOPS);
       });
-  };
-
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
   };
 
   const onRowClick = (id) => {
@@ -238,9 +221,17 @@ function Ledgers({
     });
   };
 
+  const handleOpenWhatsapp = () => {
+    if (currentPerson?.phone_number) {
+      let URL = `https://wa.me/${currentPerson.phone_number}`;
+      window.open(URL);
+    } else {
+      showErrorSnackbar("This person does not have a phone number");
+    }
+  };
+
   return (
     <>
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <ConfirmationModal
         open={dialogueState.open}
         setDialogueState={(value) =>
@@ -321,16 +312,30 @@ function Ledgers({
                 {hideDetails ? "SHOW DETAILS" : "HIDE DETAILS"}
               </Button>
             </div>
-            <Button
-              onClick={handlePrint}
-              variant="contained"
-              size="medium"
-              color="secondary"
-              disabled={ledgerData.length === 0}
-              sx={{ displayPrint: "none" }}
-            >
-              PRINT
-            </Button>
+            <Grid item>
+              <Button
+                onClick={handlePrint}
+                variant="contained"
+                size="medium"
+                color="secondary"
+                disabled={ledgerData.length === 0}
+                sx={{ displayPrint: "none", mr: 2 }}
+              >
+                PRINT
+              </Button>
+
+              <Button
+                onClick={handleOpenWhatsapp}
+                variant="contained"
+                size="medium"
+                color="success"
+                disabled={ledgerData.length === 0}
+                sx={{ displayPrint: "none" }}
+                startIcon={<WhatsAppIcon />}
+              >
+                Whatsapp
+              </Button>
+            </Grid>
           </Grid>
         )}
 
@@ -369,4 +374,4 @@ function Ledgers({
   );
 }
 
-export default Ledgers;
+export default withSnackbar(Ledgers);
