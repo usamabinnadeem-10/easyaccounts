@@ -33,7 +33,7 @@ export const BANKS = [
   },
   {
     value: "askari",
-    label: "Al Baraka Bank",
+    label: "Askari Bank",
   },
   {
     value: "islami",

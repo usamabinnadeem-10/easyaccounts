@@ -28,6 +28,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         fetched: false,
+        error: "Oops, something went wrong",
       };
 
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:

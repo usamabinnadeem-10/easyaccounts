@@ -5,10 +5,10 @@ import { FIELDS } from "./constants";
 const REQUIRED = "Required";
 
 export const personalSchema = Yup.object().shape({
-  [FIELDS.person]: Yup.string().required(REQUIRED),
+  [FIELDS.person]: Yup.object().required(REQUIRED),
   [FIELDS.cheque_number]: Yup.string().required(REQUIRED),
-  [FIELDS.bank]: Yup.string().required(REQUIRED),
-  [FIELDS.account_type]: Yup.string().required(REQUIRED),
+  [FIELDS.bank]: Yup.object().required(REQUIRED),
+  [FIELDS.account_type]: Yup.object().required(REQUIRED),
   [FIELDS.due_date]: Yup.date().typeError("Invalid Date").required(REQUIRED),
   [FIELDS.date]: Yup.date().typeError("Invalid Date"),
   [FIELDS.amount]: Yup.number()
@@ -18,9 +18,9 @@ export const personalSchema = Yup.object().shape({
 });
 
 export const externalSchema = Yup.object().shape({
-  [FIELDS.person]: Yup.string().required(REQUIRED),
+  [FIELDS.person]: Yup.object().required(REQUIRED),
   [FIELDS.cheque_number]: Yup.string().required(REQUIRED),
-  [FIELDS.bank]: Yup.string().required(REQUIRED),
+  [FIELDS.bank]: Yup.object().required(REQUIRED),
   [FIELDS.due_date]: Yup.date().typeError("Invalid Date").required(REQUIRED),
   [FIELDS.date]: Yup.date().typeError("Invalid Date"),
   [FIELDS.amount]: Yup.number()

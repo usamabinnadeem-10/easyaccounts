@@ -22,12 +22,16 @@ import { getAllEssentials } from "../../../store/essentials/actions";
 
 import { useStyles } from "./styles";
 
+import { withSnackbar } from "../../hoc/withSnackbar";
+
 const Home = (props) => {
   let location = useLocation();
   let history = useHistory();
   let classes = useStyles();
   let dispatch = useDispatch();
   let essentials = useEssentials();
+
+  const { fetched, error } = useSelector((state) => state.essentials);
 
   useEffect(() => {
     dispatch(getAllEssentials());
@@ -40,7 +44,12 @@ const Home = (props) => {
     }
   }, [location.pathname, history]);
 
-  const fetched = useSelector((state) => state.essentials.fetched);
+  useEffect(() => {
+    if (error) {
+      props.showErrorSnackbar(error);
+    }
+  }, [error]);
+
   return (
     <>
       <SideBar fetched={fetched} />
@@ -65,4 +74,4 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default withSnackbar(Home);

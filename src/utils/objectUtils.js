@@ -11,3 +11,10 @@ export const renameKeys = (oldKey, newKey, arr) => {
   });
   return arr;
 };
+
+export const isObject = (value) => {
+  if (typeof value === "object" && !Array.isArray(value) && value !== null) {
+    return true;
+  }
+  return false;
+};

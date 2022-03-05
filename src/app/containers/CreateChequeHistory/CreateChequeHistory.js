@@ -27,6 +27,8 @@ import { BANKS } from "../../../constants/banks";
 import { withSnackbar } from "../../hoc/withSnackbar";
 import { findErrorMessage } from "../../utilities/objectUtils";
 
+import { formatValues } from "../ChequeForm/utils";
+
 const CreateChequeHistory = ({
   chequeId,
   isChequeEntry,
@@ -42,7 +44,7 @@ const CreateChequeHistory = ({
   const handleSubmit = (values, actions) => {
     setLoading(true);
     api
-      .createChequeHistory(values, isChequeEntry)
+      .createChequeHistory(formatValues(values), isChequeEntry)
       .then((response) => {
         setLoading(false);
         props.showSuccessSnackbar("Added successfully");
@@ -63,97 +65,73 @@ const CreateChequeHistory = ({
           validationSchema={isChequeEntry ? schema.CHEQUE : schema.OTHER}
           onSubmit={async (values, actions) => handleSubmit(values, actions)}
         >
-          {({ setFieldValue }) => (
-            <Form>
-              <Grid container direction="column" gap={2} alignItems="center">
-                <Typography variant="h6">
-                  <Typography variant="h6" component="span" color="primary">
-                    Cheque # {chequeSerial}{" "}
-                  </Typography>
-                  {isChequeEntry
-                    ? "Add Cheque (History)"
-                    : "Add Payment (History)"}
+          <Form>
+            <Grid container direction="column" gap={2} alignItems="center">
+              <Typography variant="h6">
+                <Typography variant="h6" component="span" color="primary">
+                  Cheque # {chequeSerial}{" "}
                 </Typography>
-                <Field
-                  component={FormTextField}
-                  size="small"
-                  name={FIELDS.AMOUNT}
-                  label={isChequeEntry ? "Cheque Amount" : "Amount"}
-                  fullWidth
-                />
-                {isChequeEntry && (
-                  <>
-                    <Field
-                      onChange={(event, value, reason) => {
-                        if (reason === "clear" || !value) {
-                          setFieldValue(FIELDS.BANK, "");
-                        } else {
-                          setFieldValue(FIELDS.BANK, value?.value);
-                        }
-                      }}
-                      component={FormAutoCompleteField}
-                      options={BANKS}
-                      name={FIELDS.BANK}
-                      label="Select Bank"
-                    />
-                    <Field
-                      component={FormTextField}
-                      size="small"
-                      name={FIELDS.CHEQUE_NUMBER}
-                      label="Cheque Number"
-                      fullWidth
-                    />
-                    <Field
-                      onChange={(value) => {
-                        setFieldValue(FIELDS.DUE_DATE, value || "");
-                      }}
-                      component={FormDateField}
-                      name={FIELDS.DUE_DATE}
-                      label="Due Date"
-                      inputformat="DD/MM/yyyy"
-                      size="small"
-                      fullWidth
-                    />
-                  </>
-                )}
-                {!isChequeEntry && (
+                {isChequeEntry
+                  ? "Add Cheque (History)"
+                  : "Add Payment (History)"}
+              </Typography>
+              <Field
+                component={FormTextField}
+                size="small"
+                name={FIELDS.AMOUNT}
+                label={isChequeEntry ? "Cheque Amount" : "Amount"}
+                fullWidth
+              />
+              {isChequeEntry && (
+                <>
                   <Field
-                    onChange={(event, value, reason) => {
-                      if (reason === "clear" || !value) {
-                        setFieldValue(FIELDS.ACCOUNT_TYPE, "");
-                      } else {
-                        setFieldValue(FIELDS.ACCOUNT_TYPE, value?.value);
-                      }
-                    }}
                     component={FormAutoCompleteField}
-                    options={accounts}
-                    name={FIELDS.ACCOUNT_TYPE}
-                    label="Account Type"
+                    options={BANKS}
+                    name={FIELDS.BANK}
+                    label="Select Bank"
                   />
-                )}
-
+                  <Field
+                    component={FormTextField}
+                    size="small"
+                    name={FIELDS.CHEQUE_NUMBER}
+                    label="Cheque Number"
+                    fullWidth
+                  />
+                  <Field
+                    component={FormDateField}
+                    name={FIELDS.DUE_DATE}
+                    label="Due Date"
+                    size="small"
+                    fullWidth
+                  />
+                </>
+              )}
+              {!isChequeEntry && (
                 <Field
-                  onChange={(value) => {
-                    setFieldValue(FIELDS.DATE, value || "");
-                  }}
-                  component={FormDateField}
-                  name={FIELDS.DATE}
-                  label="Entry Date"
-                  inputformat="DD/MM/yyyy"
-                  size="small"
-                  fullWidth
+                  component={FormAutoCompleteField}
+                  options={accounts}
+                  name={FIELDS.ACCOUNT_TYPE}
+                  label="Account Type"
                 />
-                <StyledButton
-                  type="submit"
-                  fullWidth
-                  variant="contained"
-                  loading={loading}
-                >
-                  Submit
-                </StyledButton>
-              </Grid>
-            </Form>
-          )}
+              )}
+
+              <Field
+                component={FormDateField}
+                name={FIELDS.DATE}
+                label="Entry Date"
+                size="small"
+                fullWidth
+              />
+              <StyledButton
+                type="submit"
+                fullWidth
+                variant="contained"
+                loading={loading}
+              >
+                Submit
+              </StyledButton>
+            </Grid>
+          </Form>
         </Formik>
       </StyledPaper>
     </Modal>

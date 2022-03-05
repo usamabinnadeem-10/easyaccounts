@@ -24,6 +24,8 @@ import { StyledForm } from "./styled";
 import { withSnackbar } from "../../hoc/withSnackbar";
 import { findErrorMessage } from "../../utilities/objectUtils";
 
+import { formatValues } from "../ChequeForm/utils";
+
 const ChequeActions = ({
   open,
   onClose,
@@ -40,7 +42,7 @@ const ChequeActions = ({
 
   const handleSubmit = (values, actions) => {
     setLoading(true);
-    API_MAPPING[actionType](values)
+    API_MAPPING[actionType](formatValues(values))
       .then((response) => {
         setLoading(false);
         props.showSuccessSnackbar(`Cheque ${actionType} successfully`);
@@ -63,13 +65,6 @@ const ChequeActions = ({
         case ACTION_TYPES.PERSONAL.RE_ISSUE:
           return (
             <Field
-              onChange={(event, value, reason) => {
-                if (reason === "clear" || !value) {
-                  setFieldValue(FIELDS.PERSON, "");
-                } else {
-                  setFieldValue(FIELDS.PERSON, value?.value);
-                }
-              }}
               component={FormAutoCompleteField}
               options={[...suppliers, ...customers]}
               name={FIELDS.PERSON}
@@ -84,13 +79,6 @@ const ChequeActions = ({
         case ACTION_TYPES.EXTERNAL.PASS:
           return (
             <Field
-              onChange={(event, value, reason) => {
-                if (reason === "clear" || !value) {
-                  setFieldValue(FIELDS.ACCOUNT_TYPE, "");
-                } else {
-                  setFieldValue(FIELDS.ACCOUNT_TYPE, value?.value);
-                }
-              }}
               component={FormAutoCompleteField}
               options={accounts}
               name={FIELDS.ACCOUNT_TYPE}

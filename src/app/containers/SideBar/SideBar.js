@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 
+import { useSelector } from "react-redux";
+
 import { useHistory } from "react-router";
 
 import Drawer from "@mui/material/Drawer";
@@ -15,7 +17,7 @@ import ExpandMore from "@mui/icons-material/ExpandMore";
 
 import AddModal from "../AddModal/AddModal";
 
-import { MODAL_DEFAULTS } from "./constants";
+import { chooseModal } from "./constants";
 import { SIDEBAR } from "./constants";
 import { DRAWER_WIDTH } from "./constants";
 import { paperWhite } from "../../../constants/colors";
@@ -24,6 +26,7 @@ import { getIcon } from "./utils";
 
 const SideBar = ({ fetched }) => {
   let history = useHistory();
+  const essentials = useSelector((state) => state.essentials);
 
   const [open, setOpen] = useState({
     panel: 0,
@@ -41,7 +44,7 @@ const SideBar = ({ fetched }) => {
   };
 
   const handleOpenAddModal = (name) => {
-    setForm(MODAL_DEFAULTS[name]);
+    setForm(chooseModal(name, essentials));
     setIsAddModalOpen(true);
   };
 

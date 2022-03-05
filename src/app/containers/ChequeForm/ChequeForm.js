@@ -15,7 +15,9 @@ import { Wrapper } from "./styled";
 
 import { INITIAL_VALUES } from "./constants";
 import { FIELDS } from "./constants";
+
 import { personalSchema, externalSchema } from "./validation";
+import { formatValues } from "./utils";
 
 import { BANKS } from "../../../constants/banks";
 
@@ -25,7 +27,8 @@ const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
   const accounts = useSelector((state) => state.essentials.accountTypes);
 
   const handleSubmit = (values, actions) => {
-    onSubmit(values, actions);
+    onSubmit(formatValues(values), actions);
+    actions.resetForm();
   };
 
   return (
@@ -35,96 +38,65 @@ const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
       initialValues={INITIAL_VALUES}
       validationSchema={isPersonal ? personalSchema : externalSchema}
     >
-      {({ setFieldValue }) => (
-        <Form>
-          <Wrapper container direction="column" rowGap={2}>
+      <Form>
+        <Wrapper container direction="column" rowGap={2}>
+          <Field
+            component={FormAutoCompleteField}
+            options={[...suppliers, ...customers]}
+            name={FIELDS.person}
+            label="Select Party"
+          />
+          <Field
+            component={FormTextField}
+            size="small"
+            name={FIELDS.cheque_number}
+            label="Cheque Number"
+            fullWidth
+          />
+          <Field
+            component={FormAutoCompleteField}
+            options={BANKS}
+            name={FIELDS.bank}
+            label="Bank"
+          />
+          {isPersonal && (
             <Field
-              onChange={(event, value, reason) => {
-                if (reason === "clear" || !value) {
-                  setFieldValue(FIELDS.person, "");
-                } else {
-                  setFieldValue(FIELDS.person, value?.value);
-                }
-              }}
               component={FormAutoCompleteField}
-              options={[...suppliers, ...customers]}
-              name={FIELDS.person}
-              label="Select Party"
+              options={accounts}
+              name={FIELDS.account_type}
+              label="Bank Account"
             />
-            <Field
-              component={FormTextField}
-              size="small"
-              name={FIELDS.cheque_number}
-              label="Cheque Number"
-              fullWidth
-            />
-            <Field
-              onChange={(event, value, reason) => {
-                if (reason === "clear" || !value) {
-                  setFieldValue(FIELDS.bank, "");
-                } else {
-                  setFieldValue(FIELDS.bank, value?.value);
-                }
-              }}
-              component={FormAutoCompleteField}
-              options={BANKS}
-              name={FIELDS.bank}
-              label="Bank"
-            />
-            {isPersonal && (
-              <Field
-                onChange={(event, value, reason) => {
-                  if (reason === "clear" || !value) {
-                    setFieldValue(FIELDS.account_type, "");
-                  } else {
-                    setFieldValue(FIELDS.account_type, value?.value);
-                  }
-                }}
-                component={FormAutoCompleteField}
-                options={accounts}
-                name={FIELDS.account_type}
-                label="Bank Account"
-              />
-            )}
+          )}
 
-            <Field
-              component={FormTextField}
-              size="small"
-              name={FIELDS.amount}
-              label="Cheque Amount"
-              fullWidth
-            />
-            <Field
-              onChange={(value) => {
-                setFieldValue(FIELDS.due_date, value || "");
-              }}
-              component={FormDateField}
-              name={FIELDS.due_date}
-              label="Due Date"
-              inputformat="DD/MM/yyyy"
-              size="small"
-            />
-            <Field
-              onChange={(value) => {
-                setFieldValue(FIELDS.date, value || "");
-              }}
-              component={FormDateField}
-              name={FIELDS.date}
-              label="Cheque Entry Date"
-              inputformat="DD/MM/yyyy"
-              size="small"
-            />
-            <StyledButton
-              loading={isLoading}
-              type="submit"
-              fullWidth
-              variant="contained"
-            >
-              Submit
-            </StyledButton>
-          </Wrapper>
-        </Form>
-      )}
+          <Field
+            component={FormTextField}
+            size="small"
+            name={FIELDS.amount}
+            label="Cheque Amount"
+            fullWidth
+          />
+          <Field
+            component={FormDateField}
+            name={FIELDS.due_date}
+            label="Due Date"
+            size="small"
+          />
+          <Field
+            component={FormDateField}
+            name={FIELDS.date}
+            label="Cheque Entry Date"
+            size="small"
+          />
+          <StyledButton
+            loading={isLoading}
+            type="submit"
+            fullWidth
+            variant="contained"
+          >
+            Submit
+          </StyledButton>
+        </Wrapper>
+      </Form>
     </Formik>
   );
 };

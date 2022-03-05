@@ -9,13 +9,13 @@ const defaultSchema = Yup.object().shape({
 
 const personSchema = defaultSchema.concat(
   Yup.object().shape({
-    person: Yup.string().required(REQUIRED),
+    person: Yup.object().required(REQUIRED),
   })
 );
 
 const accountSchema = defaultSchema.concat(
   Yup.object().shape({
-    account_type: Yup.string().required(REQUIRED),
+    account_type: Yup.object().required(REQUIRED),
   })
 );
 

@@ -1,5 +1,3 @@
-import { store } from "../../../index";
-
 import {
   LEDGERS,
   TRANSACTIONS,
@@ -161,8 +159,8 @@ const PRODUCT_OPTIONS = [
   },
 ];
 
-export const MODAL_DEFAULTS = {
-  [PERSON]: {
+export const getPersonForm = (essentials) => {
+  return {
     heading: "Add Customer / Supplier",
     action: actions.addNewPerson,
     formData: [
@@ -188,7 +186,7 @@ export const MODAL_DEFAULTS = {
       {
         label: "Area",
         type: FIELDS.SELECT,
-        options: [],
+        options: essentials.areas,
         required: true,
       },
       {
@@ -207,7 +205,10 @@ export const MODAL_DEFAULTS = {
         name: DB.ADDRESS,
       },
     ],
-  },
+  };
+};
+
+export const MODAL_DEFAULTS = {
   [PRODUCT]: {
     heading: "Add Product",
     action: actions.addNewProduct,
@@ -298,4 +299,13 @@ export const MODAL_DEFAULTS = {
       },
     ],
   },
+};
+
+export const chooseModal = (name, essentials) => {
+  switch (name) {
+    case PERSON:
+      return getPersonForm(essentials);
+    default:
+      return MODAL_DEFAULTS[name];
+  }
 };

@@ -1,7 +1,5 @@
 import React from "react";
 
-import { Field } from "formik";
-
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 
@@ -26,45 +24,73 @@ export const FormTextField = ({
   );
 };
 
-export const FormAutoCompleteField = ({ field, form, ...props }) => {
+export const FormAutoCompleteField = ({
+  field: { value, name },
+  form: { touched, errors, setFieldTouched, setFieldValue },
+  options,
+  label,
+  onChange,
+  ...props
+}) => {
   return (
     <Autocomplete
-      {...props}
-      fullWidth
-      clearOnEscape
+      onChange={(event, value, reason) => {
+        setFieldTouched(name);
+        if (reason === "clear" || !value) {
+          setFieldValue(name, "");
+        } else {
+          setFieldValue(name, value);
+        }
+      }}
+      isOptionEqualToValue={(option, value) => {
+        if (value) {
+          return option.value === value.value;
+        }
+        return true;
+      }}
+      value={value}
+      options={options}
       size="small"
+      clearOnEscape
+      fullWidth
       renderInput={(params) => (
-        <Field
+        <TextField
+          error={touched[name] && !!errors[name]}
+          helperText={touched[name] && errors[name]}
+          fullWidth
+          label={label}
           {...params}
-          {...props}
-          field={field}
-          form={form}
-          component={FormTextField}
         />
       )}
     />
   );
 };
 
-export const FormDateField = ({ field, form, ...props }) => {
+export const FormDateField = ({
+  field: { name, value },
+  form: { touched, errors, setFieldValue, setFieldTouched },
+  ...props
+}) => {
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DesktopDatePicker
-        {...props}
-        value={field.value}
+        value={value || null}
         minDate={moment(Date.now()).subtract(10, "years")}
         maxDate={moment(Date.now()).add(10, "years")}
-        // showToolbar
-        // toolbarTitle={props.label || "Date"}
-        // toolbarFormat="DD-MM-YYYY"
-        onChange={(value) => props.onChange(moment(value).format("yyyy-MM-DD"))}
+        onChange={(value) => {
+          setFieldTouched(name);
+          setFieldValue(name, moment(value).format("yyyy-MM-DD"));
+        }}
+        inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
-          <Field
+          <TextField
+            fullWidth
+            label={props.label}
+            size={props.size}
+            error={touched[name] && !!errors[name]}
+            helperText={touched[name] && errors[name]}
+            name={name}
             {...params}
-            {...props}
-            field={field}
-            form={form}
-            component={FormTextField}
           />
         )}
       />
