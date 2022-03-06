@@ -11,7 +11,6 @@ import { Button } from "@mui/material";
 
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 import Empty from "../../components/Empty/Empty";
@@ -27,9 +26,10 @@ import { useStyles } from "./styles";
 import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
-import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 import { formatTransactionData, formatTransactionDetails } from "./utils";
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
+
+import { withSnackbar } from "../../hoc/withSnackbar";
 
 function ViewTransactions({
   daybookView,
@@ -38,6 +38,8 @@ function ViewTransactions({
   persons,
   products,
   warehouses,
+  showErrorSnackbar,
+  showSuccessSnackbar,
 }) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
@@ -55,7 +57,6 @@ function ViewTransactions({
     daybookView ? defaultTransactions : []
   );
   const [loading, setLoading] = useState(false);
-  const [snackbarState, setSnackbarState] = useState({});
   const [dialogueState, setDialogueState] = useState({
     open: false,
     dialogueValue: null,
@@ -85,30 +86,13 @@ function ViewTransactions({
         .then((response) => {
           search();
           dispatch(setShouldFetchDaybook(true));
-          openSnackbar(true, "success", SUCCESS.DELETED);
+          showSuccessSnackbar(SUCCESS.DELETED);
         })
         .catch((error) => {
-          openSnackbar(true, "error", ERRORS.OOPS);
+          showErrorSnackbar(ERRORS.OOPS);
         });
     }
   }, [dialogueState]);
-
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
-  };
 
   const handleFormattingTransactions = (response, isLoadMore = false) => {
     let formattedTransactions = formatTransactionData(response.data.results);
@@ -128,7 +112,7 @@ function ViewTransactions({
 
   const search = () => {
     if (!currentPerson) {
-      openSnackbar(true, "error", ERRORS.SELECT_PERSON + personType);
+      showErrorSnackbar(ERRORS.SELECT_PERSON + personType);
       return;
     }
     setLoading(true);
@@ -139,11 +123,11 @@ function ViewTransactions({
       },
       startDate && {
         key: "start",
-        value: makeDate(startDate),
+        value: startDate,
       },
       endDate && {
         key: "end",
-        value: makeDate(endDate),
+        value: endDate,
       },
     ];
     const URL = makeQueryParamURL(TRANSACTION_URLS.CREATE_TRANSACTION, params);
@@ -155,7 +139,7 @@ function ViewTransactions({
       })
       .catch((error) => {
         setLoading(false);
-        openSnackbar(true, "error", ERRORS.OOPS);
+        showErrorSnackbar(ERRORS.OOPS);
       });
   };
 
@@ -183,7 +167,7 @@ function ViewTransactions({
         transaction: {
           ...transactionToEdit,
           person: person,
-          date: getDateFromString(transactionToEdit.date),
+          date: transactionToEdit.date,
           transaction_detail: formatTransactionDetails(
             transactionToEdit.transaction_detail,
             products,
@@ -213,7 +197,6 @@ function ViewTransactions({
 
   return (
     <>
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <ConfirmationModal
         open={dialogueState.open}
         setDialogueState={(value) =>
@@ -272,4 +255,4 @@ function ViewTransactions({
   );
 }
 
-export default ViewTransactions;
+export default withSnackbar(ViewTransactions);

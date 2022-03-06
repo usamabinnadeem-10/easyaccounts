@@ -6,7 +6,6 @@ import { useRef } from "react";
 import { useReactToPrint } from "react-to-print";
 
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import Empty from "../../components/Empty/Empty";
@@ -22,11 +21,12 @@ import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import { PERSONS, COLUMNS } from "./constants";
 import { formatBalances } from "./utils";
 
-const Balances = () => {
+import { withSnackbar } from "../../hoc/withSnackbar";
+
+const Balances = ({ showErrorSnackbar }) => {
   const classes = useStyles();
   const componentRef = useRef();
 
-  const [snackbarState, setSnackbarState] = useState({});
   const [loading, setLoading] = useState(false);
   const [balancesData, setBalancesData] = useState([]);
   const [currentPerson, setCurrentPerson] = useState("C");
@@ -35,23 +35,6 @@ const Balances = () => {
   useEffect(() => {
     setIsEmpty(false);
   }, [currentPerson]);
-
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
-  };
 
   const search = () => {
     let query = [
@@ -71,7 +54,7 @@ const Balances = () => {
       })
       .catch((error) => {
         setLoading(false);
-        openSnackbar(true, "error", "Oops, something went wrong");
+        showErrorSnackbar("Oops, something went wrong");
       });
   };
 
@@ -81,7 +64,6 @@ const Balances = () => {
 
   return (
     <>
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       <div className={classes.root}>
         <div className={classes.headerWrapper}>
           <Heading heading={"View All Balances"} />
@@ -121,4 +103,4 @@ const Balances = () => {
   );
 };
 
-export default Balances;
+export default withSnackbar(Balances);

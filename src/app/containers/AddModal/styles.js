@@ -6,7 +6,7 @@ export const useStyles = makeStyles({
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    width: 300,
+    width: "30vw",
     padding: "1.5rem",
     maxHeight: "80vh",
     overflow: "auto",
@@ -18,6 +18,6 @@ export const useStyles = makeStyles({
     display: "flex",
     justifyContent: "center",
     height: "35px",
-    marginBottom: "1rem",
+    marginBottom: "1.5rem",
   },
 });

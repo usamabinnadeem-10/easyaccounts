@@ -16,7 +16,6 @@ import { Typography } from "@mui/material";
 
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 
-// import CustomDataGrid from "../../components/CustomDataGrid/CustomDataGrid";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
@@ -37,7 +36,6 @@ import { DB_TRANSLATION } from "../../../constants/db";
 import instance from "../../../utils/axiosApi";
 import { makeQueryParamURL, formatCurrency } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
-import { makeDate } from "../../utilities/stringUtils";
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
 import { withSnackbar } from "../../hoc/withSnackbar";
@@ -168,11 +166,11 @@ function Ledgers({
       },
       startDate && {
         key: "start",
-        value: makeDate(startDate),
+        value: startDate,
       },
       endDate && {
         key: "end",
-        value: makeDate(endDate),
+        value: endDate,
       },
     ];
     const URL = makeQueryParamURL(LEDGER_URLS.CREATE_LEDGER, params);
@@ -338,8 +336,6 @@ function Ledgers({
             </Grid>
           </Grid>
         )}
-
-        {/* <CustomDataGrid /> */}
 
         <div className={classes.table}>
           {ledgerData.length > 0 && (

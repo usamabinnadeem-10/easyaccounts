@@ -18,7 +18,6 @@ import { Typography } from "@mui/material";
 
 import { useStyles } from "./styles";
 
-import { makeDate } from "../../utilities/stringUtils";
 import moment from "moment";
 import { getDaybook } from "../../../store/accounts/actions";
 
@@ -38,9 +37,8 @@ const Daybook = (props) => {
 
   useEffect(() => {
     if (date) {
-      let currentDate = makeDate(date);
-      dispatch(getDaybook(currentDate));
-      setDisplayDate(moment(currentDate, "YYYY-MM-DD").format("Do MMMM YYYY"));
+      dispatch(getDaybook(date));
+      setDisplayDate(moment(date, "YYYY-MM-DD").format("Do MMMM YYYY"));
     } else {
       setDisplayDate(moment().format("Do MMMM YYYY"));
     }

@@ -40,6 +40,7 @@ export const DB = {
   CITY: "city",
   COMMENT: "comment",
   OPENING_BALANCE: "opening_balance",
+  OPENING_BALANCE_DATE: "opening_balance_date",
   AREA: "area",
 };
 

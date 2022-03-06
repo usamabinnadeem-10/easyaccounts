@@ -12,7 +12,6 @@ import { useReactToPrint } from "react-to-print";
 import Select from "react-select";
 
 import CustomFilters from "../../containers/CustomFilters/CustomFilters";
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomTable from "../../components/CustomTable/CustomTable";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Empty from "../../components/Empty/Empty";
@@ -32,6 +31,8 @@ import { ESSENTIAL_URLS } from "../../../constants/restEndPoints";
 import { getAllStock } from "../../../store/transactions/actions";
 import instance from "../../../utils/axiosApi";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
+
+import { withSnackbar } from "../../hoc/withSnackbar";
 
 const ViewAllStock = (props) => {
   const classes = useStyles();
@@ -54,11 +55,6 @@ const ViewAllStock = (props) => {
   const [currentStock, setCurrentStock] = useState(null);
   const [transferQuantity, setTransferQuantity] = useState(null);
   const [toWarehouse, setToWarehouse] = useState(null);
-  const [snackbarState, setSnackbarState] = useState({
-    open: false,
-    message: "",
-    severity: "error",
-  });
 
   const handleTransferClick = (rowId) => {
     if (allStock.length > 0) {
@@ -99,20 +95,13 @@ const ViewAllStock = (props) => {
         setIsModalOpen(false);
         setCurrentStock(null);
         setTransferQuantity(null);
-        setSnackbarState({
-          open: true,
-          severity: "success",
-          message: "Stock transferred",
-        });
+        props.showSuccessSnackbar("Stock transferred");
         dispatch(getAllStock());
       })
       .catch((error) => {
-        setSnackbarState({
-          open: true,
-          severity: "error",
-          message:
-            error?.response?.data?.detail || "Oops, something went wrong",
-        });
+        props.showErrorSnackbar(
+          error?.response?.data?.detail || "Oops, something went wrong"
+        );
       });
   };
 
@@ -201,12 +190,8 @@ const ViewAllStock = (props) => {
         )}
       </div>
       {loading && <CustomLoader pageLoader loading={loading} />}
-      <CustomSnackbar
-        {...snackbarState}
-        handleClose={() => setSnackbarState({ ...snackbarState, open: false })}
-      />
     </>
   );
 };
 
-export default ViewAllStock;
+export default withSnackbar(ViewAllStock);

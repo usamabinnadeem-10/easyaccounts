@@ -20,7 +20,6 @@ import { LoadingButton } from "@mui/lab";
 import { useStyles } from "./styles";
 import { FIELDS } from "../../../constants/fieldTypes";
 import { resetAdded } from "../../../store/essentials/actions";
-import { makeDate, getDateFromString } from "../../utilities/stringUtils";
 
 import { withSnackbar } from "../../hoc/withSnackbar";
 
@@ -41,12 +40,6 @@ const AddModal = ({
   const [state, setState] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
-
-  const closeModal = () => {
-    setTimeout(() => {
-      handleClose();
-    }, 1000);
-  };
 
   useEffect(() => {
     return () => {
@@ -73,7 +66,7 @@ const AddModal = ({
     if (essentials.added) {
       setLoading(false);
       showSuccessSnackbar("Added successfully");
-      closeModal();
+      handleClose();
     }
     if (essentials.error) {
       setLoading(false);
@@ -155,7 +148,7 @@ const AddModal = ({
                       {...params}
                       variant="outlined"
                       label={field.label}
-                      error={error}
+                      error={error && field.required}
                     />
                   )}
                   value={state[field.name] || null}
@@ -164,10 +157,9 @@ const AddModal = ({
             ) : field.type === FIELDS.DATE ? (
               <div key={index} className={classes.dateWrapper}>
                 <CustomDatePicker
-                  getDate={(date) =>
-                    setState({ ...state, date: makeDate(date) })
-                  }
-                  value={getDateFromString(state.date)}
+                  getDate={(date) => setState({ ...state, date: date })}
+                  value={state.date}
+                  fullWidth
                 />
               </div>
             ) : field.type === FIELDS.PHONE_NUMBER ? (

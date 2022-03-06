@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 
 import { useLocation } from "react-router";
 
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
 import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
@@ -15,7 +14,6 @@ import SelectPerson from "../../components/SelectPerson/SelectPerson";
 import Heading from "../../components/Heading";
 
 import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
 import { TextField } from "@mui/material";
 import LoadingButton from "@mui/lab/LoadingButton";
 
@@ -30,12 +28,9 @@ import {
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
-import {
-  getDateFromString,
-  makeDate,
-  getURL,
-  convertDate,
-} from "../../utilities/stringUtils";
+import { getURL, convertDate } from "../../utilities/stringUtils";
+
+import { withSnackbar } from "../../hoc/withSnackbar";
 
 function LedgerTransaction(props) {
   const classes = useStyles();
@@ -52,7 +47,6 @@ function LedgerTransaction(props) {
   const [accountType, setAccountType] = useState(null);
   const [currentPerson, setCurrentPerson] = useState(null);
   const [date, setDate] = useState(null);
-  const [snackbarState, setSnackbarState] = useState({});
   const [amount, setAmount] = useState("");
   const [detail, setDetail] = useState("");
   const [posting, setPosting] = useState(false);
@@ -68,7 +62,7 @@ function LedgerTransaction(props) {
       setAmount(data.amount);
       setTransactionType(data.nature);
       setDetail(data.detail);
-      setDate(getDateFromString(data.date));
+      setDate(data.date);
     }
   }, []);
 
@@ -87,23 +81,6 @@ function LedgerTransaction(props) {
     },
   ];
 
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
-  };
-
   const resetState = () => {
     setDate(null);
     setAmount("");
@@ -113,11 +90,11 @@ function LedgerTransaction(props) {
   const postLedger = () => {
     const balance = parseFloat(amount);
     if (!currentPerson) {
-      openSnackbar(true, "error", constants.ERRORS.NO_PERSON + personType);
+      props.showErrorSnackbar(constants.ERRORS.NO_PERSON + personType);
       return;
     }
     if (!balance) {
-      openSnackbar(true, "error", constants.ERRORS.NO_AMOUNT);
+      props.showErrorSnackbar(constants.ERRORS.NO_AMOUNT);
       return;
     }
 
@@ -125,7 +102,7 @@ function LedgerTransaction(props) {
       transactionType === constants.TRANSACTION_TYPES[1].value &&
       !accountType
     ) {
-      openSnackbar(true, "error", constants.ERRORS.NO_ACCOUNT);
+      props.showErrorSnackbar(constants.ERRORS.NO_ACCOUNT);
       return;
     }
     setPosting(true);
@@ -137,7 +114,7 @@ function LedgerTransaction(props) {
       account_type: accountType?.value || null,
     };
     if (date) {
-      data["date"] = makeDate(date);
+      data["date"] = date;
     }
     if (!location.state) {
       instance
@@ -146,11 +123,11 @@ function LedgerTransaction(props) {
           dispatch(setShouldFetchDaybook(true));
           setPosting(false);
           resetState();
-          openSnackbar(true, "success", constants.SUCCESS.POST);
+          props.showSuccessSnackbar(constants.SUCCESS.POST);
         })
         .catch((error) => {
           setPosting(false);
-          openSnackbar(true, "error", constants.ERRORS.OOPS);
+          props.showErrorSnackbar(constants.ERRORS.OOPS);
         });
     } else {
       data["date"] = convertDate(
@@ -164,11 +141,11 @@ function LedgerTransaction(props) {
           dispatch(setShouldFetchDaybook(true));
           setPosting(false);
           resetState();
-          openSnackbar(true, "success", constants.SUCCESS.EDIT);
+          props.showSuccessSnackbar(constants.SUCCESS.EDIT);
         })
         .catch((error) => {
           setPosting(false);
-          openSnackbar(true, "error", constants.ERRORS.OOPS);
+          props.showErrorSnackbar(constants.ERRORS.OOPS);
         });
     }
   };
@@ -247,10 +224,8 @@ function LedgerTransaction(props) {
           {location.state ? "Edit" : "Post"}
         </LoadingButton>
       </Grid>
-
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
     </>
   );
 }
 
-export default LedgerTransaction;
+export default withSnackbar(LedgerTransaction);

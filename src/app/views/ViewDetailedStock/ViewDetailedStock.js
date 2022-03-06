@@ -14,8 +14,6 @@ import CustomLoader from "../../components/CustomLoader/CustomLoader";
 import Empty from "../../components/Empty/Empty";
 import Heading from "../../components/Heading";
 
-import { makeDate, getDateFromString } from "../../utilities/stringUtils";
-
 import * as api from "./api";
 import * as styled from "./styled";
 import * as utils from "./utils";
@@ -124,10 +122,10 @@ const ViewDetailedStock = (props) => {
           />
         </styled.StyledGrid>
         <StartEndDate
-          startDate={getDateFromString(startDate)}
-          endDate={getDateFromString(endDate)}
-          getStartDate={(value) => setStartDate(makeDate(value))}
-          getEndDate={(value) => setEndDate(makeDate(value))}
+          startDate={startDate}
+          endDate={endDate}
+          getStartDate={(value) => setStartDate(value)}
+          getEndDate={(value) => setEndDate(value)}
         />
 
         <styled.StyledButton

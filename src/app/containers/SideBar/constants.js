@@ -178,16 +178,24 @@ export const getPersonForm = (essentials) => {
         required: true,
       },
       {
+        label: "Opening Balance (use minus for debit balance)",
+        type: FIELDS.NUMBER,
+        name: DB.OPENING_BALANCE,
+      },
+      {
+        label: "Opening Balance Date",
+        type: FIELDS.DATE,
+        name: DB.OPENING_BALANCE_DATE,
+      },
+      {
         label: "Phone Number (+923001234567)",
         type: FIELDS.PHONE_NUMBER,
         name: DB.PHONE_NUMBER,
-        required: true,
       },
       {
         label: "Area",
         type: FIELDS.SELECT,
         options: essentials.areas,
-        required: true,
         name: DB.AREA,
       },
       {
@@ -195,7 +203,6 @@ export const getPersonForm = (essentials) => {
         type: FIELDS.SELECT,
         name: DB.CITY,
         options: essentials.cities,
-        required: true,
       },
       {
         label: "Business Name",

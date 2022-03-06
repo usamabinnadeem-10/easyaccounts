@@ -7,7 +7,6 @@ import { useDispatch } from "react-redux";
 
 import { useHistory } from "react-router";
 
-import CustomSnackbar from "../CustomSnackbar/CustomSnackbar";
 import TransactionFooter from "../../components/TransactionFooter/TransactionFooter";
 import TransactionHeader from "../../components/TransactionHeader/TransactionHeader";
 import TransactionTableBody from "../../components/TransactionTableBody/TransactionTableBody";
@@ -42,6 +41,8 @@ import { useStyles } from "./styles";
 import { getURL, makeQueryParamURL } from "../../utilities/stringUtils";
 import { findErrorMessage } from "../../utilities/objectUtils";
 
+import { withSnackbar } from "../../hoc/withSnackbar";
+
 const Transaction = (props) => {
   const {
     prefixes,
@@ -57,6 +58,7 @@ const Transaction = (props) => {
     natures,
     transactionDetails,
     transaction,
+    showErrorSnackbar,
   } = props;
 
   const classes = useStyles();
@@ -67,7 +69,6 @@ const Transaction = (props) => {
 
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
-  const [snackbarState, setSnackbarState] = useState({});
   const [total, setTotal] = useState(0);
   const [discount, setDiscount] = useState("");
   const [paidAmount, setPaidAmount] = useState("");
@@ -195,25 +196,8 @@ const Transaction = (props) => {
       newTableData.push(newRow);
       setTableData(newTableData);
     } else {
-      openSnackbar(true, "error", errorMessage);
+      showErrorSnackbar(errorMessage);
     }
-  };
-
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
   };
 
   // test if quantity of line items is valid
@@ -428,7 +412,7 @@ const Transaction = (props) => {
       let check = FINALIZE_ERRORS[i].isError;
       let isError = typeof check === "function" ? !check() : check;
       if (isError) {
-        openSnackbar(true, "error", FINALIZE_ERRORS[i].description);
+        showErrorSnackbar(FINALIZE_ERRORS[i].description);
         return;
       }
     }
@@ -436,7 +420,7 @@ const Transaction = (props) => {
     if (shouldValidate) {
       let okay = isQuantityOkay();
       if (!okay.okay) {
-        openSnackbar(true, "error", okay.error);
+        showErrorSnackbar(okay.error);
         return;
       }
     }
@@ -471,9 +455,7 @@ const Transaction = (props) => {
         selectedOptions.currentAccountType?.value;
     }
     if (selectedOptions.currentDate) {
-      transactionData[
-        "date"
-      ] = `${selectedOptions.currentDate.year}-${selectedOptions.currentDate.month}-${selectedOptions.currentDate.day}`;
+      transactionData["date"] = selectedOptions.currentData;
     }
     if (transaction) {
       instance
@@ -489,9 +471,7 @@ const Transaction = (props) => {
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(
-            true,
-            "error",
+          showErrorSnackbar(
             error?.response?.data?.detail || constants.ERROR_DEFAULTS.OOPS
           );
         });
@@ -506,9 +486,7 @@ const Transaction = (props) => {
         })
         .catch((error) => {
           setLoading(false);
-          openSnackbar(
-            true,
-            "error",
+          showErrorSnackbar(
             findErrorMessage(error?.response?.data) ||
               constants.ERROR_DEFAULTS.OOPS
           );
@@ -560,12 +538,10 @@ const Transaction = (props) => {
             makeTransaction={makeTransaction}
             transaction={transaction}
           />
-
-          <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
         </div>
       )}
     </>
   );
 };
 
-export default Transaction;
+export default withSnackbar(Transaction);

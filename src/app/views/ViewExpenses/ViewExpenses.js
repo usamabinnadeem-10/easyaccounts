@@ -9,7 +9,6 @@ import { useReactToPrint } from "react-to-print";
 
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
 import StartEndDate from "../../components/StartEndDate/StartEndDate";
-import CustomSnackbar from "../../containers/CustomSnackbar/CustomSnackbar";
 import ExpenseDetail from "../../components/ExpenseDetail/ExpenseDetail";
 import AddModal from "../../containers/AddModal/AddModal";
 import Empty from "../../components/Empty/Empty";
@@ -34,17 +33,17 @@ import { EXPENSE_URLS } from "../../../constants/restEndPoints";
 import { ERRORS, SUCCESS } from "./constants";
 import { formatExpensesData, getTotalExpenses } from "./utils";
 
-import {
-  makeDate,
-  getDateFromString,
-  convertCurrencyToNumber,
-} from "../../utilities/stringUtils";
+import { convertCurrencyToNumber } from "../../utilities/stringUtils";
+
+import { withSnackbar } from "../../hoc/withSnackbar";
 
 const ViewExpenses = ({
   daybookView,
   defaultExpenses,
   accounts,
   expenseAccounts,
+  showErrorSnackbar,
+  showSuccessSnackbar,
 }) => {
   const classes = useStyles();
   const componentRef = useRef();
@@ -56,7 +55,6 @@ const ViewExpenses = ({
     daybookView ? formatExpensesData(defaultExpenses) : []
   );
   const [loading, setLoading] = useState(false);
-  const [snackbarState, setSnackbarState] = useState({});
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingForm, setEditingForm] = useState({});
@@ -81,8 +79,7 @@ const ViewExpenses = ({
         )
         .then((res) => {
           setExpensesData(newExpensesData);
-
-          openSnackbar(true, "success", SUCCESS.DELETED);
+          showSuccessSnackbar(SUCCESS.DELETED);
           setDialogueState({
             ...dialogueState,
             open: false,
@@ -92,7 +89,7 @@ const ViewExpenses = ({
           });
         })
         .catch((error) => {
-          openSnackbar(true, "error", ERRORS.OOPS);
+          showErrorSnackbar(ERRORS.OOPS);
         });
     }
   }, [dialogueState]);
@@ -100,23 +97,6 @@ const ViewExpenses = ({
   useEffect(() => {
     setTotalExpenses(getTotalExpenses(expensesData));
   }, [expensesData]);
-
-  // open snackbar
-  const openSnackbar = (open, severity, message) => {
-    setSnackbarState({
-      open,
-      severity,
-      message,
-    });
-  };
-
-  // close snackbar
-  const closeSnackbar = () => {
-    setSnackbarState({
-      ...snackbarState,
-      open: false,
-    });
-  };
 
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
@@ -149,7 +129,7 @@ const ViewExpenses = ({
       })
       .catch((error) => {
         setLoading(false);
-        openSnackbar(true, "error", ERRORS.OOPS);
+        showErrorSnackbar(ERRORS.OOPS);
       });
   };
 
@@ -163,13 +143,13 @@ const ViewExpenses = ({
         let newExpenseData = [...expensesData];
         newExpenseData[expenseIndexToEdit] = res.data;
         setExpensesData(newExpenseData);
-        openSnackbar(true, "success", SUCCESS.EDITED);
+        showSuccessSnackbar(SUCCESS.EDITED);
         setIsEditing(false);
         setEditingForm({});
         setOldExpenseState({});
       })
       .catch((error) => {
-        openSnackbar(true, "error", ERRORS.OOPS);
+        showErrorSnackbar(ERRORS.OOPS);
       });
   };
 
@@ -218,23 +198,20 @@ const ViewExpenses = ({
           open={isEditing}
           handleClose={() => setIsEditing(false)}
           form={editingForm}
-          openSnackbar={openSnackbar}
-          closeSnackbar={closeSnackbar}
           defaultFormState={oldExpenseState}
           isEdit
         />
       )}
-      <CustomSnackbar {...snackbarState} handleClose={closeSnackbar} />
       {!daybookView && (
         <div className={classes.root}>
           <Heading heading={"View Expenses"} />
 
           <div className={classes.dateContainer}>
             <StartEndDate
-              startDate={getDateFromString(startDate)}
-              endDate={getDateFromString(endDate)}
-              getStartDate={(date) => setStartDate(makeDate(date))}
-              getEndDate={(date) => setEndDate(makeDate(date))}
+              startDate={startDate}
+              endDate={endDate}
+              getStartDate={(date) => setStartDate(date)}
+              getEndDate={(date) => setEndDate(date)}
             />
             <LoadingButton
               onClick={() => search()}
@@ -283,4 +260,4 @@ const ViewExpenses = ({
   );
 };
 
-export default ViewExpenses;
+export default withSnackbar(ViewExpenses);

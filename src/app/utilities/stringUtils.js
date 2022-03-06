@@ -21,24 +21,8 @@ export const makeQueryParamURL = (base, params) => {
   return URL;
 };
 
-export const makeDate = (date) => {
-  return `${date.year}-${date.month}-${date.day}`;
-};
-
 export const getURL = (url, pathVariable, value) => {
   return url.replace(`:${pathVariable}`, value);
-};
-
-export const getDateFromString = (date) => {
-  if (date) {
-    let parts = date.split("-");
-    return {
-      year: parseInt(parts[0]),
-      month: parseInt(parts[1]),
-      day: parseInt(parts[2]),
-    };
-  }
-  return null;
 };
 
 export const getReadableDate = (date) => {
