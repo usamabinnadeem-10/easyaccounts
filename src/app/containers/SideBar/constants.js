@@ -148,14 +148,14 @@ const PERSON_OPTIONS = [
   },
 ];
 
-const PRODUCT_OPTIONS = [
+const NATURE_OPTIONS = [
   {
-    label: "Pieces",
-    value: "piece",
+    label: "Debit",
+    value: "D",
   },
   {
-    label: "Yards",
-    value: "yards",
+    label: "Credit",
+    value: "C",
   },
 ];
 
@@ -178,14 +178,23 @@ export const getPersonForm = (essentials) => {
         required: true,
       },
       {
-        label: "Opening Balance (use minus for debit balance)",
+        label: "Opening Balance Nature",
+        type: FIELDS.SELECT,
+        name: DB.NATURE,
+        options: NATURE_OPTIONS,
+        required: true,
+      },
+      {
+        label: "Opening Balance",
         type: FIELDS.NUMBER,
         name: DB.OPENING_BALANCE,
+        required: true,
       },
       {
         label: "Opening Balance Date",
         type: FIELDS.DATE,
         name: DB.OPENING_BALANCE_DATE,
+        required: true,
       },
       {
         label: "Phone Number (+923001234567)",
@@ -240,8 +249,8 @@ export const getAreaForm = (essentials) => {
   };
 };
 
-export const MODAL_DEFAULTS = {
-  [PRODUCT]: {
+export const getProductForm = (essentials) => {
+  return {
     heading: "Add Product",
     action: actions.addNewProduct,
     formData: [
@@ -252,20 +261,33 @@ export const MODAL_DEFAULTS = {
         required: true,
       },
       {
-        label: "Basic Quantity",
+        label: "Opening Stock",
         type: FIELDS.NUMBER,
-        name: DB.BASIC_UNIT,
+        name: DB.OPENING_STOCK,
+      },
+      {
+        label: "Opening Stock Rate",
+        type: FIELDS.NUMBER,
+        name: DB.OPENING_STOCK_RATE,
+      },
+      {
+        label: "Warehouse",
+        type: FIELDS.SELECT,
+        options: essentials.warehouses,
+        name: DB.WAREHOUSE,
         required: true,
       },
       {
-        label: "Unit",
-        type: FIELDS.SELECT,
-        name: DB.SI_UNIT,
-        options: PRODUCT_OPTIONS,
+        label: "Gazaana",
+        type: FIELDS.NUMBER,
+        name: DB.GAZAANA,
         required: true,
       },
     ],
-  },
+  };
+};
+
+export const MODAL_DEFAULTS = {
   [WAREHOUSE]: {
     heading: "Add Warehouse",
     action: actions.addNewWarehouse,
@@ -321,6 +343,8 @@ export const chooseModal = (name, essentials) => {
       return getPersonForm(essentials);
     case AREA:
       return getAreaForm(essentials);
+    case PRODUCT:
+      return getProductForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

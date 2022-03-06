@@ -1,17 +1,18 @@
 export const ACTION_TYPES = {
   PERSONAL: {
-    PASS: "Pass personal cheque",
+    PASS: "Clear personal cheque",
     RETURN: "Return personal cheque",
     RE_ISSUE: "Re-issue personal cheque",
     CANCEL: "Cancel personal cheque",
     DELETE: "Delete personal cheque",
   },
   EXTERNAL: {
-    PASS: "Pass party cheque",
+    PASS: "Clear party cheque",
     RETURN: "Return party cheque",
     RETURN_TRANSFERRED: "Return party's transferred cheque",
     TRANSFER: "Transfer party cheque",
     DELETE: "Delete party cheque",
+    COMPLETE_HISTORY: "Complete history of party cheque",
   },
 };
 

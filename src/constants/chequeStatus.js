@@ -15,5 +15,9 @@ const DEFAULTS = [
 
 export const STATUS = {
   PERSONAL: [...DEFAULTS, { value: "cancelled", label: "Cancelled" }],
-  EXTERNAL: [...DEFAULTS, { value: "transferred", label: "Transferred" }],
+  EXTERNAL: [
+    ...DEFAULTS,
+    { value: "transferred", label: "Transferred" },
+    { value: "completed_history", label: "Completed History" },
+  ],
 };

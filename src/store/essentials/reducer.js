@@ -29,7 +29,8 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         fetched: false,
-        error: "Oops, something went wrong",
+        error:
+          "Oops, something went wrong. Please check your internet connection",
       };
 
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:

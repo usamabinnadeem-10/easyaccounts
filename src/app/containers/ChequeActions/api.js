@@ -56,6 +56,10 @@ export const deleteExternalCheque = (data) => {
   return instance.delete(URL);
 };
 
+export const completeHistoryExternalCheque = (data) => {
+  return instance.post(CHEQUE_URLS.EXTERNAL.COMPLETE_HISTORY, data);
+};
+
 // -------------------------------------------------------------- //
 
 export const API_MAPPING = {
@@ -69,4 +73,5 @@ export const API_MAPPING = {
   [ACTION_TYPES.EXTERNAL.RETURN]: returnExternalCheque,
   [ACTION_TYPES.EXTERNAL.TRANSFER]: transferExternalCheque,
   [ACTION_TYPES.EXTERNAL.DELETE]: deleteExternalCheque,
+  [ACTION_TYPES.EXTERNAL.COMPLETE_HISTORY]: completeHistoryExternalCheque,
 };

@@ -157,6 +157,7 @@ const AddModal = ({
             ) : field.type === FIELDS.DATE ? (
               <div key={index} className={classes.dateWrapper}>
                 <CustomDatePicker
+                  placeholder={field.label}
                   getDate={(date) => setState({ ...state, date: date })}
                   value={state.date}
                   fullWidth

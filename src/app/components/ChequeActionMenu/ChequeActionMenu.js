@@ -106,6 +106,14 @@ const ChequeActionMenu = ({
     });
   };
 
+  // complete cheque with history
+  const handleCompleteHistoryExternalCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.COMPLETE_HISTORY,
+      ...getChequeIdHelper(chequeId, false),
+    });
+  };
+
   // -----------------------------PERSONAL CHEQUE FUNCTIONS--------------------------------- //
 
   // pass personal cheque
@@ -210,6 +218,10 @@ const ChequeActionMenu = ({
           action: handlePassExternalCheque,
           name: "Clear party cheque",
         },
+        {
+          action: handleCompleteHistoryExternalCheque,
+          name: "Complete party cheque with history",
+        },
         EXTERNAL_DELETE,
       ],
       transferred: [
@@ -225,6 +237,7 @@ const ChequeActionMenu = ({
       ],
       cleared: [EXTERNAL_DELETE],
       returned: [EXTERNAL_DELETE],
+      completed_history: [EXTERNAL_DELETE],
     },
   };
 

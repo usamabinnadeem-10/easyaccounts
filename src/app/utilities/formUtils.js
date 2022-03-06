@@ -81,11 +81,11 @@ export const FormDateField = ({
           setFieldTouched(name);
           setFieldValue(name, moment(value).format("yyyy-MM-DD"));
         }}
+        label={props.label}
         inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
           <TextField
             fullWidth
-            label={props.label}
             size={props.size}
             error={touched[name] && !!errors[name]}
             helperText={touched[name] && errors[name]}

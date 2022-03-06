@@ -14,6 +14,7 @@ import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationMo
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 import Empty from "../../components/Empty/Empty";
+import Heading from "../../components/Heading";
 
 import { ERRORS, SUCCESS, REDIRECTS } from "./constants";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
@@ -162,6 +163,7 @@ function ViewTransactions({
       />
       {!daybookView && (
         <div>
+          <Heading heading="View Transactions" />
           <CustomFilters
             api={TRANSACTION_URLS.FILTER}
             onSearch={(data) => handleFormattingTransactions(data)}

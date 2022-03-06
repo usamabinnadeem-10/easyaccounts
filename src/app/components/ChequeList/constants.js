@@ -42,7 +42,7 @@ export const getColumns = (onClick, isPersonal) => {
           return (
             <Chip
               size="small"
-              label={capitalizeFirstLetter(row.value)}
+              label={capitalizeFirstLetter(row.value.replace("_", " "))}
               color={STATUS_COLORS[row.value]}
               sx={{ fontWeight: 700 }}
             />

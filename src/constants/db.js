@@ -42,6 +42,8 @@ export const DB = {
   OPENING_BALANCE: "opening_balance",
   OPENING_BALANCE_DATE: "opening_balance_date",
   AREA: "area",
+  OPENING_STOCK: "opening_stock",
+  OPENING_STOCK_RATE: "opening_stock_rate",
 };
 
 export const DB_TRANSLATION = {

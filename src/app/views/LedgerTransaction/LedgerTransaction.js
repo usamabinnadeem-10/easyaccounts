@@ -28,7 +28,7 @@ import {
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 import instance from "../../../utils/axiosApi";
-import { getURL, convertDate } from "../../utilities/stringUtils";
+import { getURL } from "../../utilities/stringUtils";
 
 import { withSnackbar } from "../../hoc/withSnackbar";
 
@@ -130,11 +130,6 @@ function LedgerTransaction(props) {
           props.showErrorSnackbar(constants.ERRORS.OOPS);
         });
     } else {
-      data["date"] = convertDate(
-        constants.DATE.DD_MM_YYYY,
-        constants.DATE.YYYY_MM_DD,
-        data["date"]
-      );
       instance
         .put(getURL(LEDGER_URLS.UPDATE_LEDGER, "uuid", location.state.id), data)
         .then((res) => {

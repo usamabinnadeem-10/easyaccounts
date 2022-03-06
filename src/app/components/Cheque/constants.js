@@ -4,4 +4,5 @@ export const STATUS_COLORS = {
   returned: "info",
   transferred: "secondary",
   cancelled: "default",
+  completed_history: "warning",
 };

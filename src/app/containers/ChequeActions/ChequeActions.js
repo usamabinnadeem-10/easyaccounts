@@ -102,7 +102,8 @@ const ChequeActions = ({
             />
           );
         case ACTION_TYPES.EXTERNAL.RETURN ||
-          ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED:
+          ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED ||
+          ACTION_TYPES.EXTERNAL.COMPLETE_HISTORY:
           return <></>;
         default:
           return <></>;
@@ -136,7 +137,7 @@ const ChequeActions = ({
                       disabled={loading}
                       color="error"
                     >
-                      Cancel
+                      Close
                     </StyledButton>
                   </Grid>
                   <Grid item xs={2}></Grid>

@@ -17,9 +17,10 @@ export default function CustomDatePicker({
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DesktopDatePicker
+        label={placeholder || "Date"}
         value={value || null}
-        minDate={moment(Date.now()).subtract(20, "years")}
-        maxDate={moment(Date.now()).add(20, "years")}
+        minDate={moment(Date.now()).subtract(10, "years")}
+        maxDate={moment(Date.now()).add(10, "years")}
         onChange={(value) => getDate(moment(value).format("yyyy-MM-DD"))}
         inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
