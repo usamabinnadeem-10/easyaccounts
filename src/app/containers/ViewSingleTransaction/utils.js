@@ -71,7 +71,6 @@ const formatTransactionDetails = (
   grandTotalQuantity,
   grandTotalGazaana
 ) => {
-  debugger;
   let newDetails = [];
   details.forEach((detail) => {
     newDetails.push({
@@ -91,7 +90,6 @@ const formatTransactionDetails = (
 };
 
 export const formatTransaction = (transaction, warehouses, products) => {
-  debugger;
   let totalAmount = transaction?.transaction_detail?.reduce(
     (prev, curr) => prev + curr.amount,
     0

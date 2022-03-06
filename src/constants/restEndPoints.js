@@ -51,6 +51,7 @@ export const TRANSACTION_URLS = {
   CANCEL_INVOICE: `${TRANSACTION}cancel-invoice/`,
   VIEW_DETAILED_STOCK: `${TRANSACTION}detailed-stock/`,
   PRODUCT_PERFORMANCE: `${TRANSACTION}product-performance-history/`,
+  FILTER: `${TRANSACTION}search/`,
 };
 
 const LEDGER = "ledger/";

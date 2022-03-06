@@ -1,5 +1,7 @@
 import { getReadableDate } from "../../utilities/stringUtils";
 
+import { FIELDS } from "../../containers/CustomFilters/constants";
+
 export const formatTransactionData = (data) => {
   let transactions = [];
   let grandTotal = 0;
@@ -21,6 +23,7 @@ export const formatTransactionData = (data) => {
   transactions.length > 0 &&
     transactions.push({
       serial: "TOTAL",
+      manual_invoice_serial: `${transactions.length}`,
       total: grandTotal,
       discount: totalDiscount,
     });
@@ -46,4 +49,86 @@ export const formatTransactionDetails = (details, products, warehouses) => {
     });
   });
   return transactions;
+};
+
+const TRANSACTION_TYPES = [
+  {
+    label: "Credit",
+    value: "credit",
+  },
+  {
+    label: "Paid",
+    value: "paid",
+  },
+  {
+    label: "Maal Wapsi",
+    value: "maal_wapsi",
+  },
+  {
+    label: "Purchase",
+    value: "purchase",
+  },
+];
+
+export const getFilters = (essentials) => {
+  return [
+    {
+      qp: "person",
+      options: [...essentials.suppliers, ...essentials.customers],
+      type: FIELDS.SELECT,
+      placeholder: "Person",
+    },
+    {
+      qp: "account_type",
+      options: essentials.accountTypes,
+      type: FIELDS.SELECT,
+      placeholder: "Account",
+    },
+    {
+      qp: "type",
+      options: TRANSACTION_TYPES,
+      type: FIELDS.SELECT,
+      placeholder: "Transaction Type",
+    },
+    {
+      qp: "date__gte",
+      type: FIELDS.DATE,
+      placeholder: "Start Date",
+    },
+    {
+      qp: "date__lte",
+      type: FIELDS.DATE,
+      placeholder: "End Date",
+    },
+    {
+      qp: "serial__gte",
+      type: FIELDS.NUMBER,
+      placeholder: "Serial (more than)",
+    },
+    {
+      qp: "serial__lte",
+      type: FIELDS.NUMBER,
+      placeholder: "Serial (less than)",
+    },
+    {
+      qp: "transaction_detail__amount__lte",
+      type: FIELDS.NUMBER,
+      placeholder: "Amount (less than)",
+    },
+    {
+      qp: "transaction_detail__amount__gte",
+      type: FIELDS.NUMBER,
+      placeholder: "Amount (more than)",
+    },
+    {
+      qp: "discount__gte",
+      type: FIELDS.TEXT,
+      placeholder: "Discount (more than)",
+    },
+    {
+      qp: "discount__gte",
+      type: FIELDS.TEXT,
+      placeholder: "Discount (less than)",
+    },
+  ];
 };

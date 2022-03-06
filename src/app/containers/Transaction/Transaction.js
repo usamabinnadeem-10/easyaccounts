@@ -455,7 +455,7 @@ const Transaction = (props) => {
         selectedOptions.currentAccountType?.value;
     }
     if (selectedOptions.currentDate) {
-      transactionData["date"] = selectedOptions.currentData;
+      transactionData["date"] = selectedOptions.currentDate;
     }
     if (transaction) {
       instance

@@ -9,24 +9,23 @@ import { useHistory } from "react-router";
 
 import { Button } from "@mui/material";
 
+import CustomFilters from "../../containers/CustomFilters";
 import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
 import TransactionDetail from "../../components/TransactionDetail/TransactionDetail";
 import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
 import Empty from "../../components/Empty/Empty";
 
-import {
-  PERSON_TYPES,
-  STORE_PERSON,
-} from "../../components/SelectPerson/constants";
 import { ERRORS, SUCCESS, REDIRECTS } from "./constants";
 import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
 import { useStyles } from "./styles";
 
 import instance from "../../../utils/axiosApi";
-import { makeQueryParamURL } from "../../utilities/stringUtils";
 import { getURL } from "../../utilities/stringUtils";
-import { formatTransactionData, formatTransactionDetails } from "./utils";
+import {
+  formatTransactionData,
+  formatTransactionDetails,
+  getFilters,
+} from "./utils";
 import { setShouldFetchDaybook } from "../../../store/accounts/actions";
 
 import { withSnackbar } from "../../hoc/withSnackbar";
@@ -46,17 +45,12 @@ function ViewTransactions({
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
-  const [currentPerson, setCurrentPerson] = useState(null);
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [transactionData, setTransactionData] = useState(
     daybookView ? formatTransactionData(defaultTransactions) : []
   );
   const [transactionDataRaw, setTransactionDataRaw] = useState(
     daybookView ? defaultTransactions : []
   );
-  const [loading, setLoading] = useState(false);
   const [dialogueState, setDialogueState] = useState({
     open: false,
     dialogueValue: null,
@@ -70,10 +64,6 @@ function ViewTransactions({
   const [nextPage, setNextPage] = useState(null);
 
   useEffect(() => {
-    setIsEmpty(false);
-  }, [personType]);
-
-  useEffect(() => {
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
       instance
         .delete(
@@ -84,7 +74,7 @@ function ViewTransactions({
           )
         )
         .then((response) => {
-          search();
+          showSuccessSnackbar("Deleted, please search again to refresh data");
           dispatch(setShouldFetchDaybook(true));
           showSuccessSnackbar(SUCCESS.DELETED);
         })
@@ -94,53 +84,17 @@ function ViewTransactions({
     }
   }, [dialogueState]);
 
-  const handleFormattingTransactions = (response, isLoadMore = false) => {
-    let formattedTransactions = formatTransactionData(response.data.results);
-    let raw = response.data.results;
+  const handleFormattingTransactions = (data, isLoadMore = false) => {
+    let formattedTransactions = formatTransactionData(data.results);
+    let raw = data.results;
     if (isLoadMore) {
       formattedTransactions = [...transactionData, ...formattedTransactions];
       raw = [...transactionDataRaw, ...raw];
     }
-    setNextPage(response.data.next);
+    setNextPage(data.next);
     setTransactionData(formattedTransactions);
     setTransactionDataRaw(raw);
     setIsEmpty(formattedTransactions.length === 0);
-    setLoading(false);
-    setStartDate(null);
-    setEndDate(null);
-  };
-
-  const search = () => {
-    if (!currentPerson) {
-      showErrorSnackbar(ERRORS.SELECT_PERSON + personType);
-      return;
-    }
-    setLoading(true);
-    const params = [
-      {
-        key: "person",
-        value: currentPerson.value,
-      },
-      startDate && {
-        key: "start",
-        value: startDate,
-      },
-      endDate && {
-        key: "end",
-        value: endDate,
-      },
-    ];
-    const URL = makeQueryParamURL(TRANSACTION_URLS.CREATE_TRANSACTION, params);
-
-    instance
-      .get(URL)
-      .then((response) => {
-        handleFormattingTransactions(response);
-      })
-      .catch((error) => {
-        setLoading(false);
-        showErrorSnackbar(ERRORS.OOPS);
-      });
   };
 
   const hideDrawer = () => {
@@ -207,20 +161,11 @@ function ViewTransactions({
         }
       />
       {!daybookView && (
-        <div className={classes.root}>
-          <SearchAndSelect
-            header="View Transactions"
-            currentPerson={currentPerson}
-            personType={personType}
-            setCurrentPerson={setCurrentPerson}
-            options={state[STORE_PERSON[personType]]}
-            setPersonType={setPersonType}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            loading={loading}
-            search={search}
+        <div>
+          <CustomFilters
+            api={TRANSACTION_URLS.FILTER}
+            onSearch={(data) => handleFormattingTransactions(data)}
+            filters={getFilters(state)}
           />
         </div>
       )}

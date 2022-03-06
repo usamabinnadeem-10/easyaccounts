@@ -96,7 +96,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
       })
       .catch((error) => {
         setIsLoading(false);
-        showErrorSnackbar(findErrorMessage(error.response.data));
+        showErrorSnackbar(findErrorMessage(error?.response?.data));
       });
   };
 
