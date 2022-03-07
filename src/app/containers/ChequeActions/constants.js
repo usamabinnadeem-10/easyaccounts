@@ -13,6 +13,7 @@ export const ACTION_TYPES = {
     TRANSFER: "Transfer party cheque",
     DELETE: "Delete party cheque",
     COMPLETE_HISTORY: "Complete history of party cheque",
+    COMPLETE_TRANSFER: "Clear party transferred cheque",
   },
 };
 

@@ -10,6 +10,7 @@ import { formatCurrency } from "../../utilities/stringUtils";
 import { capitalizeFirstLetter } from "../../utilities/stringUtils";
 
 import { STATUS_COLORS } from "../Cheque/constants";
+import { STATUS_VARIANTS } from "../Cheque/constants";
 
 export const getColumns = (onClick, isPersonal) => {
   return [
@@ -44,6 +45,7 @@ export const getColumns = (onClick, isPersonal) => {
               size="small"
               label={capitalizeFirstLetter(row.value.replace("_", " "))}
               color={STATUS_COLORS[row.value]}
+              variant={STATUS_VARIANTS[row.value]}
               sx={{ fontWeight: 700 }}
             />
           );
@@ -51,6 +53,10 @@ export const getColumns = (onClick, isPersonal) => {
           return <div></div>;
         }
       },
+    },
+    {
+      Header: "Transferred to",
+      accessor: "transferred_to",
     },
     {
       Header: "View",

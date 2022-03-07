@@ -114,6 +114,14 @@ const ChequeActionMenu = ({
     });
   };
 
+  // complete external transferred cheque
+  const handleCompleteExternalTransferredCheque = (chequeId) => {
+    setChequeActionState({
+      actionType: ACTION_TYPES.EXTERNAL.COMPLETE_TRANSFER,
+      ...getChequeIdHelper(chequeId, true),
+    });
+  };
+
   // -----------------------------PERSONAL CHEQUE FUNCTIONS--------------------------------- //
 
   // pass personal cheque
@@ -155,9 +163,6 @@ const ChequeActionMenu = ({
       ...getChequeIdHelper(chequeId, true),
     });
   };
-
-  // // clear external transferred cheque
-  // const handlePassExternalTransferredCheque = (chequeId) => {};
 
   const EXTERNAL_DELETE = {
     action: handleDeleteExternalCheque,
@@ -229,15 +234,16 @@ const ChequeActionMenu = ({
           action: handleReturnExternalTransferredCheque,
           name: "Return transferred cheque",
         },
+        {
+          action: handleCompleteExternalTransferredCheque,
+          name: "Clear transferred cheque",
+        },
         EXTERNAL_DELETE,
-        // {
-        //   action: handlePassExternalTransferredCheque,
-        //   name: "Clear transferred cheque",
-        // },
       ],
       cleared: [EXTERNAL_DELETE],
       returned: [EXTERNAL_DELETE],
       completed_history: [EXTERNAL_DELETE],
+      completed_transfer: [EXTERNAL_DELETE],
     },
   };
 

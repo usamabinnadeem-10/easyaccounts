@@ -19,5 +19,6 @@ export const STATUS = {
     ...DEFAULTS,
     { value: "transferred", label: "Transferred" },
     { value: "completed_history", label: "Completed History" },
+    { value: "completed_transfer", label: "Completed Transfer" },
   ],
 };

@@ -16,9 +16,13 @@ import { StyledGrid } from "./styled";
 import { AmountBox } from "./styled";
 
 import { STATUS_COLORS } from "./constants";
+import { STATUS_VARIANTS } from "./constants";
 
 import { BANKS } from "../../../constants/banks";
-import { formatCurrency } from "../../utilities/stringUtils";
+import {
+  formatCurrency,
+  capitalizeFirstLetter,
+} from "../../utilities/stringUtils";
 
 const Cheque = ({
   chequeData,
@@ -125,8 +129,12 @@ const Cheque = ({
           <Grid item xs={4}>
             <Grid container justifyContent="flex-end">
               <Chip
-                label={chequeData.status}
+                label={capitalizeFirstLetter(chequeData.status).replace(
+                  "_",
+                  " "
+                )}
                 color={STATUS_COLORS[chequeData.status]}
+                variant={STATUS_VARIANTS[chequeData.status] || null}
               />
             </Grid>
           </Grid>
