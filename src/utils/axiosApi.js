@@ -2,6 +2,8 @@ import axios from "axios";
 
 import { BASE } from "../constants/restEndPoints";
 
+import { isExpired } from "react-jwt";
+
 export const cscInstance = axios.create({
   baseURL: "https://api.countrystatecity.in/v1/",
   headers: {
@@ -11,9 +13,6 @@ export const cscInstance = axios.create({
 
 const instance = axios.create({
   baseURL: BASE,
-  // headers: {
-  //   Authorization: `Bearer ${localStorage.getItem("access")}`,
-  // },
 });
 
 export const setHeaders = () => {
@@ -36,15 +35,20 @@ instance.interceptors.response.use(
   async (error) => {
     const originalRequest = error.config;
     const refreshToken = localStorage.getItem("refresh");
+    const isRefreshExpired = isExpired(refreshToken);
+    if (isRefreshExpired) {
+      window.location.reload();
+    }
+
     if (
       error.response &&
       (error.response.status === 401 || error.response.status === 403) &&
       error.config &&
       !error.config.__isRetryRequest &&
-      refreshToken
+      refreshToken &&
+      !isRefreshExpired
     ) {
       originalRequest._retry = true;
-
       const res = await fetch(BASE + "auth/token/refresh/", {
         method: "POST",
         headers: {

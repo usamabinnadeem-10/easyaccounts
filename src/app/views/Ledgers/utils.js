@@ -58,3 +58,26 @@ export const formatLedgerData = (
   //   });
   return ledger;
 };
+
+export const getChequeTexts = (data) => [
+  {
+    text: "Pending cheques",
+    value: data.pending_cheques,
+  },
+  {
+    text: "Number of pending cheques",
+    value: data.pending_cheques_count,
+  },
+  {
+    text: "Transferred cheques",
+    value: data.transferred_cheques,
+  },
+  {
+    text: "Cheques transferred to this party",
+    value: data.transferred_to_this_person,
+  },
+  {
+    text: "Personal pending cheques",
+    value: data.personal_pending,
+  },
+];

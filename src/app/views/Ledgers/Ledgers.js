@@ -30,6 +30,7 @@ import { useStyles } from "./styles";
 import { ERRORS } from "./constants";
 import { SUCCESS } from "./constants";
 import { formatLedgerData } from "./utils";
+import { getChequeTexts } from "./utils";
 import { LEDGER_URLS } from "../../../constants/restEndPoints";
 
 import { DB_TRANSLATION } from "../../../constants/db";
@@ -66,12 +67,7 @@ function Ledgers({
   );
   const [openingBalance, setOpeningBalance] = useState(0);
   const [closingBalance, setClosingBalance] = useState(0);
-  const [chequeBalances, setChequeBalances] = useState({
-    pendingCheques: 0,
-    pendingTransferred: 0,
-    pendingTransferredToThis: 0,
-    pendingPersonal: 0,
-  });
+  const [chequeBalances, setChequeBalances] = useState([]);
   const [loading, setLoading] = useState(false);
   const [dialogueState, setDialogueState] = useState({
     open: false,
@@ -141,12 +137,7 @@ function Ledgers({
       ledgerDataFormatted[ledgerDataFormatted.length - 2]?.formattedBalance ||
         "---"
     );
-    setChequeBalances({
-      pendingCheques: response.data.pending_cheques,
-      pendingTransferred: response.data.transferred_cheques,
-      pendingTransferredToThis: response.data.transferred_to_this_person,
-      pendingPersonal: response.data.personal_pending,
-    });
+    setChequeBalances(getChequeTexts(response.data));
     setIsEmpty(ledgerDataFormatted.length === 0);
     setLoading(false);
     setStartDate(null);
@@ -284,20 +275,11 @@ function Ledgers({
                   <Typography variant="body2">{`${ledgerData[0].date} - ${
                     ledgerData[ledgerData.length - 2].date
                   }`}</Typography>
-
-                  <Typography variant="body2" color="error">
-                    Pending cheques: {chequeBalances.pendingCheques}
-                  </Typography>
-                  <Typography variant="body2" color="error">
-                    Pending transferred: {chequeBalances.pendingTransferred}
-                  </Typography>
-                  <Typography variant="body2" color="error">
-                    Pending transferred to this person:{" "}
-                    {chequeBalances.pendingTransferredToThis}
-                  </Typography>
-                  <Typography variant="body2" color="error">
-                    Pending personal cheques: {chequeBalances.pendingPersonal}
-                  </Typography>
+                  {chequeBalances.map((balance, index) => (
+                    <Typography variant="body2" color="error">
+                      {balance.text}: {balance.value}
+                    </Typography>
+                  ))}
                 </>
               )}
               <Button

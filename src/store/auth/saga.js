@@ -63,6 +63,7 @@ function* autoLoginSaga(action) {
     let activeBranch = utils.getActiveBranch();
     let refreshTokenExpired = isExpired(token);
     if (!refreshTokenExpired && token) {
+      setHeaders();
       yield put(actions.getTokenSuccess());
       if (activeBranch.branch_id) {
         yield put(actions.setActiveBranch(activeBranch));
