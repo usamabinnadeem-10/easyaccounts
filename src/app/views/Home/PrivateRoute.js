@@ -1,6 +1,7 @@
 import React from "react";
 
 import { Route } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 
 import { PropTypes } from "prop-types";
 
@@ -14,9 +15,16 @@ export const PrivateRoute = ({
     <Route
       {...rest}
       render={({ history, location, match }) =>
-        isAuthenticated
-          ? React.cloneElement(children, { history, location, match })
-          : (window.location = loginRedirect)
+        isAuthenticated ? (
+          React.cloneElement(children, { history, location, match })
+        ) : (
+          <Redirect
+            to={loginRedirect}
+            state={{
+              from: location,
+            }}
+          />
+        )
       }
     />
   );

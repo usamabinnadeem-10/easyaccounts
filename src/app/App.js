@@ -1,4 +1,5 @@
 import React from "react";
+import { Suspense } from "react";
 import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
@@ -12,8 +13,8 @@ import Branches from "./views/Branches";
 import Home from "./views/Home/Home";
 import Login from "./views/Login";
 
+import * as routes from "../constants/routesConstants";
 import { autoLogin } from "../store/auth";
-
 import { withSnackbar } from "../app/hoc/withSnackbar";
 
 function App({ showErrorSnackbar }) {
@@ -33,26 +34,28 @@ function App({ showErrorSnackbar }) {
 
   useEffect(() => {
     if (auth.hasToken && auth.isAuthenticated) {
-      history.push("/home");
+      history.push(routes.HOME);
     }
     if (auth.hasToken && !auth.isAuthenticated) {
-      history.push("/branches");
+      history.push(routes.BRANCHES);
     }
     if (!auth.hasToken && !auth.isAuthenticated) {
-      history.push("/login");
+      history.push(routes.LOGIN);
     }
   }, [auth, history]);
   return (
     <Switch>
-      <Route path="/login" exact>
-        <Login />
-      </Route>
-      <Route path="/branches" exact>
-        <Branches />
-      </Route>
-      <Route path="/home">
-        <Home />
-      </Route>
+      <Suspense fallback={<></>}>
+        <Route path={routes.LOGIN} exact>
+          <Login />
+        </Route>
+        <Route path={routes.BRANCHES} exact>
+          <Branches />
+        </Route>
+        <Route path={routes.HOME}>
+          <Home />
+        </Route>
+      </Suspense>
     </Switch>
   );
 }
