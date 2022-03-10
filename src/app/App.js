@@ -14,7 +14,9 @@ import Login from "./views/Login";
 
 import { autoLogin } from "../store/auth";
 
-function App() {
+import { withSnackbar } from "../app/hoc/withSnackbar";
+
+function App({ showErrorSnackbar }) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
@@ -22,6 +24,12 @@ function App() {
   useEffect(() => {
     dispatch(autoLogin());
   }, []);
+
+  useEffect(() => {
+    if (auth.error) {
+      showErrorSnackbar(auth.error);
+    }
+  }, [auth.error]);
 
   useEffect(() => {
     if (auth.hasToken && auth.isAuthenticated) {
@@ -51,4 +59,4 @@ function App() {
   );
 }
 
-export default App;
+export default withSnackbar(App);

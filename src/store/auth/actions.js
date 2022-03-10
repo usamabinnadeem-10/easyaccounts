@@ -40,9 +40,10 @@ export const getBranchesSuccess = (data) => {
   };
 };
 
-export const getBranchesFail = () => {
+export const getBranchesFail = (error) => {
   return {
     type: actionTypes.GET_BRANCHES_FAIL,
+    payload: error,
   };
 };
 

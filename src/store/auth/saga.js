@@ -39,8 +39,10 @@ function* getBranchesSaga(action) {
     let response = yield call(api.getBranchesApi);
     yield put(actions.getBranchesSuccess(response.data));
   } catch (error) {
+    yield put(
+      actions.getBranchesFail("You are not a part of any branch right now")
+    );
     utils.clearLocalStorage();
-    yield put(actions.getBranchesFail());
   }
 }
 

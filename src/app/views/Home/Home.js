@@ -35,7 +35,6 @@ const Home = (props) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    console.log("hello jee");
     dispatch(getAllEssentials());
     // history.push(HOME);
   }, []);

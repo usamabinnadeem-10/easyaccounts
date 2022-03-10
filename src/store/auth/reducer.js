@@ -5,9 +5,8 @@ const initialState = {
   hasToken: false,
   branches: [],
   loginFailed: false,
-  error: "",
+  error: null,
   activeBranch: null,
-  token: localStorage.getItem("access"),
 };
 
 const reducer = (state = initialState, action) => {
@@ -18,6 +17,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         hasToken: true,
+        error: null,
       };
     case actionTypes.GET_TOKEN_FAIL:
       return {
@@ -29,19 +29,23 @@ const reducer = (state = initialState, action) => {
     case actionTypes.SET_ACTIVE_BRANCH:
       return {
         ...state,
+        error: null,
         isAuthenticated: true,
         activeBranch: action.payload,
       };
     case actionTypes.GET_BRANCHES_SUCCESS:
       return {
         ...state,
+        error: null,
         branches: action.payload,
       };
     case actionTypes.GET_BRANCHES_FAIL:
       return {
+        ...state,
         isAuthenticated: false,
         hasToken: false,
         branches: [],
+        error: action.payload,
       };
     case actionTypes.LOGIN_SUCCESS:
       return {
@@ -49,6 +53,7 @@ const reducer = (state = initialState, action) => {
         isAuthenticated: true,
         hasToken: true,
         activeBranch: action.payload,
+        error: null,
       };
 
     case actionTypes.LOGIN_FAIL:
