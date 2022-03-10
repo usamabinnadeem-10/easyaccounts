@@ -1,4 +1,5 @@
 import React from "react";
+import { Suspense } from "react";
 import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
@@ -15,10 +16,12 @@ import SideBar from "../../containers/SideBar/SideBar";
 import useEssentials from "../../hooks/useEssentials";
 
 import { HOME } from "../../../constants/routesConstants";
+import { LOGIN } from "../../../constants/routesConstants";
 import { authenticatedRoutes } from "../../../constants/routes";
 import { PrivateRoute } from "./PrivateRoute";
 
-import { getAllEssentials } from "../../../store/essentials/actions";
+import { getAllEssentials } from "../../../store/essentials";
+import { resetState } from "../../../store/essentials";
 
 import { useStyles } from "./styles";
 
@@ -35,9 +38,15 @@ const Home = (props) => {
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
-    dispatch(getAllEssentials());
-    // history.push(HOME);
-  }, []);
+    if (isAuthenticated) {
+      dispatch(getAllEssentials());
+    } else {
+      history.push(LOGIN);
+    }
+    return () => {
+      dispatch(resetState());
+    };
+  }, [isAuthenticated]);
 
   useEffect(() => {
     if (location.pathname === "/") {

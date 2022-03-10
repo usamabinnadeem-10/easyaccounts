@@ -10,7 +10,7 @@ const SkeletonIconButton = ({ loading, children, onClick, title }) => {
       {loading ? (
         <Skeleton
           animation="wave"
-          variant="rectangular"
+          variant="text"
           height={40}
           width={40}
           sx={{

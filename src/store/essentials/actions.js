@@ -284,3 +284,9 @@ export const cancelInvoiceSuccess = () => {
     type: actionTypes.CANCEL_INVOICE_SUCCESS,
   };
 };
+
+export const resetState = (data) => {
+  return {
+    type: actionTypes.RESET_STATE,
+  };
+};

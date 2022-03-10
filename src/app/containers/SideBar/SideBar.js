@@ -131,7 +131,9 @@ const SideBar = ({ fetched }) => {
           })}
         </List>
         <BranchInfo>
-          <BranchName variant="body1">{activeBranch.branch_name}</BranchName>
+          <BranchName variant="body1">
+            {activeBranch?.branch_name || ""}
+          </BranchName>
           <SkeletonIconButton
             loading={!fetched}
             onClick={handleLogout}

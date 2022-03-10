@@ -310,7 +310,8 @@ const reducer = (state = initialState, action) => {
         added: true,
         adding: false,
       };
-
+    case actionTypes.RESET_STATE:
+      return initialState;
     default:
       return state;
   }

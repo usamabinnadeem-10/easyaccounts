@@ -50,11 +50,9 @@ function App({ showErrorSnackbar }) {
       <Route path="/branches" exact>
         <Branches />
       </Route>
-      {auth.hasToken && auth.isAuthenticated && (
-        <Route path="/home">
-          <Home />
-        </Route>
-      )}
+      <Route path="/home">
+        <Home />
+      </Route>
     </Switch>
   );
 }

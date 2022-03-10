@@ -1,15 +1,15 @@
 import React from "react";
 
-import ScaleLoader from "react-spinners/ScaleLoader";
+import DotLoader from "react-spinners/DotLoader";
 
 import { useStyles } from "./styles";
 
-function CustomLoader({ loading, height = 50, pageLoader }) {
+function CustomLoader({ loading, height = 50, radius, pageLoader }) {
   let classes = useStyles();
   if (pageLoader) {
     return (
       <div className={classes.loader}>
-        <ScaleLoader
+        <DotLoader
           loading={loading}
           height={height}
           radius={20}
@@ -19,7 +19,13 @@ function CustomLoader({ loading, height = 50, pageLoader }) {
       </div>
     );
   } else {
-    return <ScaleLoader loading={loading} height={height || 35} radius={20} />;
+    return (
+      <DotLoader
+        loading={loading}
+        height={height || 35}
+        radius={radius || 20}
+      />
+    );
   }
 }
 
