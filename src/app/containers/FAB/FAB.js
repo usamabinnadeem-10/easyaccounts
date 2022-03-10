@@ -59,7 +59,7 @@ const FAB = ({ fetched }) => {
       <ClickAwayListener onClickAway={() => setClicked(false)}>
         <Snackbar
           open={true}
-          anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+          anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           sx={{
             mr: 3,
             mb: 3,
@@ -71,8 +71,8 @@ const FAB = ({ fetched }) => {
               color="primary"
               onClick={() => handleClick()}
               sx={{
-                width: 60,
-                height: 60,
+                width: 45,
+                height: 45,
               }}
             >
               <AddIcon />

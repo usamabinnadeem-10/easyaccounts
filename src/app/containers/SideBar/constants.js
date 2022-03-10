@@ -197,7 +197,7 @@ export const getPersonForm = (essentials) => {
         required: true,
       },
       {
-        label: "Phone Number (+923001234567)",
+        label: "Phone Number",
         type: FIELDS.PHONE_NUMBER,
         name: DB.PHONE_NUMBER,
       },

@@ -4,7 +4,6 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
-import { Route } from "react-router-dom";
 import { Switch } from "react-router-dom";
 import { useHistory } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -17,6 +16,7 @@ import useEssentials from "../../hooks/useEssentials";
 
 import { HOME } from "../../../constants/routesConstants";
 import { authenticatedRoutes } from "../../../constants/routes";
+import { PrivateRoute } from "./PrivateRoute";
 
 import { getAllEssentials } from "../../../store/essentials/actions";
 
@@ -32,8 +32,10 @@ const Home = (props) => {
   let essentials = useEssentials();
 
   const { fetched, error } = useSelector((state) => state.essentials);
+  const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
+    console.log("hello jee");
     dispatch(getAllEssentials());
     // history.push(HOME);
   }, []);
@@ -59,9 +61,15 @@ const Home = (props) => {
             {authenticatedRoutes.map((route, index) => {
               let Component = route.component;
               return (
-                <Route key={index} path={route.path} exact>
+                <PrivateRoute
+                  isAuthenticated={isAuthenticated}
+                  loginRedirect={"/login"}
+                  key={index}
+                  path={route.path}
+                  exact
+                >
                   <Component {...essentials} />
-                </Route>
+                </PrivateRoute>
               );
             })}
           </Switch>

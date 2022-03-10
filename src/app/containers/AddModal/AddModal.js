@@ -158,7 +158,7 @@ const AddModal = ({
               <div key={index} className={classes.dateWrapper}>
                 <CustomDatePicker
                   placeholder={field.label}
-                  getDate={(date) => setState({ ...state, date: date })}
+                  getDate={(date) => handleChange(date, field.name)}
                   value={state.date}
                   fullWidth
                 />

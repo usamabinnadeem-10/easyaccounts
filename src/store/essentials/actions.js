@@ -1,5 +1,11 @@
 import * as actionTypes from "./actionTypes";
 
+export const setEssentialsFetchedFalse = () => {
+  return {
+    type: actionTypes.GET_ALL_ESSENTIALS,
+  };
+};
+
 export const getAllEssentials = () => {
   return {
     type: actionTypes.GET_ALL_ESSENTIALS,

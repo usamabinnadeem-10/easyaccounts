@@ -43,7 +43,7 @@ export const withSnackbar = (Component) => {
         <Snackbar
           anchorOrigin={{
             vertical: "bottom",
-            horizontal: "right",
+            horizontal: "left",
           }}
           autoHideDuration={duration}
           open={open}

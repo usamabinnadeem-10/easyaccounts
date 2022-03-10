@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 import { useHistory } from "react-router";
@@ -14,8 +15,10 @@ import Collapse from "@mui/material/Collapse";
 
 import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 import AddModal from "../AddModal/AddModal";
+import SkeletonIconButton from "../../components/SkeletonIconButton";
 
 import { chooseModal } from "./constants";
 import { SIDEBAR } from "./constants";
@@ -23,15 +26,25 @@ import { DRAWER_WIDTH } from "./constants";
 import { paperWhite } from "../../../constants/colors";
 
 import { getIcon } from "./utils";
+import { BranchInfo } from "./styled";
+import { BranchName } from "./styled";
+
+import { logout } from "../../../store/auth";
 
 const SideBar = ({ fetched }) => {
   let history = useHistory();
+  const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
+  const activeBranch = useSelector((state) => state.auth.activeBranch);
 
   const [open, setOpen] = useState({
     panel: 0,
     expand: false,
   });
+
+  const handleLogout = () => {
+    dispatch(logout());
+  };
 
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [form, setForm] = useState([]);
@@ -117,6 +130,16 @@ const SideBar = ({ fetched }) => {
             );
           })}
         </List>
+        <BranchInfo>
+          <BranchName variant="body1">{activeBranch.branch_name}</BranchName>
+          <SkeletonIconButton
+            loading={!fetched}
+            onClick={handleLogout}
+            title="Logout"
+          >
+            <LogoutIcon />
+          </SkeletonIconButton>
+        </BranchInfo>
       </Drawer>
     </>
   );

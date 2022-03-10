@@ -19,6 +19,11 @@ const initialState = {
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
+    case actionTypes.SET_ESSENTIALS_FETCHED_FALSE:
+      return {
+        ...state,
+        fetched: false,
+      };
     case actionTypes.GET_ALL_ESSENTIALS_SUCCESS:
       return {
         ...state,
@@ -29,8 +34,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         fetched: false,
-        error:
-          "Oops, something went wrong. Please check your internet connection",
       };
 
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:

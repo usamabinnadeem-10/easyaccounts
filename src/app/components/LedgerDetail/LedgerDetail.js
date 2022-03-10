@@ -185,7 +185,14 @@ function LedgerDetail({
 
   useEffect(() => {
     if (hideDetails) {
-      setColumns(COLUMNS.filter((column) => column.accessor !== "detail"));
+      setColumns(
+        COLUMNS.filter(
+          (column) =>
+            column.accessor !== "detail" &&
+            column.accessor !== "transaction_serial" &&
+            column.accessor !== "manual_invoice_serial"
+        )
+      );
     } else {
       setColumns(COLUMNS);
     }
