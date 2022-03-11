@@ -2,8 +2,9 @@ import React from "react";
 
 import { TextField } from "@mui/material";
 
-import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
-import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import CustomDatePicker from "../../components/CustomDatePicker";
+import CustomToggleButtons from "../../components/CustomToggleButtons";
+import CustomSwitch from "../../components/CustomSwitch";
 import Heading from "../../components/Heading";
 
 import Select from "react-select";
@@ -65,6 +66,7 @@ function TransactionHeader(props) {
           <CustomDatePicker
             getDate={(date) => updateMetaData(metaConstants.date, date)}
             value={selectedOptions.currentDate}
+            fullWidth
           />
         </Grid>
         {showAccountTypes && (
@@ -102,13 +104,31 @@ function TransactionHeader(props) {
             }}
           />
         </Grid>
-        <Grid item xs={showAccountTypes ? 6 : 12} className={classes.metaItems}>
+        {!showAccountTypes && (
+          <Grid
+            item
+            xs={showAccountTypes ? 6 : 12}
+            className={classes.metaItems}
+          ></Grid>
+        )}
+
+        <Grid item xs={6} className={classes.metaItems}>
           <CustomToggleButtons
             buttons={transactionTypes}
             getSelectedValue={(type) =>
               updateMetaData(metaConstants.transactionType, type)
             }
             selectedValue={selectedOptions.currentTransactionType}
+          />
+        </Grid>
+        <Grid item xs={6} className={classes.metaItems}>
+          <CustomSwitch
+            label="Mark as incomplete"
+            onCheckedLabel="Incomplete Invoice"
+            checked={selectedOptions.currentRequiresAction}
+            onChange={(event) =>
+              updateMetaData(metaConstants.requiresAction, event.target.checked)
+            }
           />
         </Grid>
       </Grid>

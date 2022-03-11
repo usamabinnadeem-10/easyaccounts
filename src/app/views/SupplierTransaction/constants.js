@@ -16,9 +16,9 @@ export const TRANSACTION_TYPES = [
 ];
 
 export const PREFIXES = {
-  "purchase" : "SUP",
-  "maal_wapsi" : "MWS",
-}
+  purchase: "SUP",
+  maal_wapsi: "MWS",
+};
 
 export const NATURES = {
   purchase: "C",
@@ -94,4 +94,5 @@ export const META_CONSTANTS = {
   date: "date",
   transactionType: "transactionType",
   manualInvoiceSerial: "manualInvoiceSerial",
+  requiresAction: "requiresAction",
 };

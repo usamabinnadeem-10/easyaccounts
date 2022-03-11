@@ -70,6 +70,17 @@ const TRANSACTION_TYPES = [
   },
 ];
 
+const TRANSACTION_STATUS_OPTIONS = [
+  {
+    label: "Complete",
+    value: false,
+  },
+  {
+    label: "Incomplete",
+    value: true,
+  },
+];
+
 export const getFilters = (essentials) => {
   return [
     {
@@ -99,6 +110,12 @@ export const getFilters = (essentials) => {
       qp: "date__lte",
       type: FIELDS.DATE,
       placeholder: "End Date",
+    },
+    {
+      qp: "requires_action",
+      options: TRANSACTION_STATUS_OPTIONS,
+      type: FIELDS.SELECT,
+      placeholder: "Complete / Incomplete",
     },
     {
       qp: "serial__gte",

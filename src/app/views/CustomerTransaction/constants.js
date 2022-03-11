@@ -23,10 +23,10 @@ export const TRANSACTION_TYPES = [
 ];
 
 export const PREFIXES = {
-  "paid" : "INV",
-  "credit" : "INV",
-  "maal_wapsi" : "MWC",
-}
+  paid: "INV",
+  credit: "INV",
+  maal_wapsi: "MWC",
+};
 
 export const NATURES = {
   paid: "D",
@@ -105,4 +105,5 @@ export const META_CONSTANTS = {
   transactionType: "transactionType",
   accountType: "accountType",
   manualInvoiceSerial: "manualInvoiceSerial",
+  requiresAction: "requiresAction",
 };

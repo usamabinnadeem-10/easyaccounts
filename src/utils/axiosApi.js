@@ -2,7 +2,7 @@ import axios from "axios";
 
 import { BASE } from "../constants/restEndPoints";
 
-import { isExpired } from "react-jwt";
+import createAuthRefreshInterceptor from "axios-auth-refresh";
 
 export const cscInstance = axios.create({
   baseURL: "https://api.countrystatecity.in/v1/",
@@ -28,44 +28,24 @@ export const setHeaders = () => {
   setHeaders();
 })();
 
-instance.interceptors.response.use(
-  (response) => {
-    return response;
-  },
-  async (error) => {
-    const originalRequest = error.config;
-    const refreshToken = localStorage.getItem("refresh");
-    const isRefreshExpired = isExpired(refreshToken);
-    if (isRefreshExpired) {
-      window.location.reload();
-    }
-
-    if (
-      error.response &&
-      (error.response.status === 401 || error.response.status === 403) &&
-      error.config &&
-      !error.config.__isRetryRequest &&
-      refreshToken &&
-      !isRefreshExpired
-    ) {
-      originalRequest._retry = true;
-      const res = await fetch(BASE + "auth/token/refresh/", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          refresh: refreshToken,
-        }),
-      });
-      const res_1 = await res.json();
-      localStorage.setItem("access", res_1.access);
+const refreshAuthLogic = (failedRequest) => {
+  return instance
+    .post("/auth/token/refresh/", {
+      refresh: localStorage.getItem("refresh"),
+    })
+    .then((tokenRefreshResponse) => {
+      localStorage.setItem("access", tokenRefreshResponse.data.access);
+      failedRequest.response.config.headers.Authorization = `Bearer ${tokenRefreshResponse.data.access}`;
       setHeaders();
-      originalRequest.headers["Authorization"] = "Bearer " + res_1.access;
-      return await axios(originalRequest);
-    }
-    return Promise.reject(error);
-  }
-);
+      return Promise.resolve();
+    })
+    .catch((error) => {
+      window.location.reload();
+    });
+};
+
+createAuthRefreshInterceptor(instance, refreshAuthLogic, {
+  skipWhileRefreshing: true,
+});
 
 export default instance;

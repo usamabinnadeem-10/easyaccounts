@@ -435,6 +435,7 @@ const Transaction = (props) => {
       detail: detail || null,
       manual_invoice_serial: `${selectedOptions.currentManualInvoiceSerial}`,
       manual_serial_type: prefixes[selectedOptions.currentTransactionType],
+      requires_action: selectedOptions.currentRequiresAction,
       transaction_detail: tableData.map((data, index) => {
         return {
           id: data.id,
