@@ -16,8 +16,8 @@ export const FormTextField = ({
 }) => {
   return (
     <TextField
-      {...props}
       {...field}
+      {...props}
       error={touched[field.name] && !!errors[field.name]}
       helperText={touched[field.name] && errors[field.name]}
     />
@@ -25,7 +25,7 @@ export const FormTextField = ({
 };
 
 export const FormAutoCompleteField = ({
-  field: { value, name },
+  field: { value, name, onBlur },
   form: { touched, errors, setFieldTouched, setFieldValue },
   options,
   label,
@@ -53,8 +53,10 @@ export const FormAutoCompleteField = ({
       size="small"
       clearOnEscape
       fullWidth
+      onBlur={onBlur}
       renderInput={(params) => (
         <TextField
+          onBlur={onBlur}
           error={touched[name] && !!errors[name]}
           helperText={touched[name] && errors[name]}
           fullWidth
@@ -67,7 +69,7 @@ export const FormAutoCompleteField = ({
 };
 
 export const FormDateField = ({
-  field: { name, value },
+  field: { name, value, onChange, onBlur },
   form: { touched, errors, setFieldValue, setFieldTouched },
   ...props
 }) => {
@@ -85,6 +87,7 @@ export const FormDateField = ({
         inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
           <TextField
+            onBlur={onBlur}
             fullWidth
             size={props.size}
             error={touched[name] && !!errors[name]}

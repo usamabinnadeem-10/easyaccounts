@@ -21,6 +21,10 @@ import MoneyIcon from "@mui/icons-material/Money";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 
+import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
+import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import CheckroomIcon from "@mui/icons-material/Checkroom";
+
 import {
   VIEW,
   LEDGER,
@@ -44,6 +48,9 @@ import {
   ACCOUNT,
   EXPENSE_ACCOUNT,
   AREA,
+  DYING,
+  DYING_ISSUE,
+  DYING_RETURN,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -92,6 +99,12 @@ export const getIcon = (panel) => {
       return <AccountBalanceIcon />;
     case AREA:
       return <LocationOnIcon />;
+    case DYING:
+      return <LocalLaundryServiceIcon />;
+    case DYING_ISSUE:
+      return <LocalShippingIcon />;
+    case DYING_RETURN:
+      return <CheckroomIcon />;
     default:
       break;
   }

@@ -10,6 +10,8 @@ import {
   PERSONAL_CHEQUE,
   EXTERNAL_CHEQUE,
   ACCOUNT_HISTORY,
+  ISSUE_DYING,
+  RETURN_DYING,
 } from "../../../constants/routesConstants";
 
 import { FIELDS } from "../../../constants/fieldTypes";
@@ -43,6 +45,10 @@ export const WAREHOUSE = "Warehouse";
 export const ACCOUNT = "Account Head";
 export const EXPENSE_ACCOUNT = "Expense Head";
 export const AREA = "Area";
+
+export const DYING = "Dying/Washing";
+export const DYING_ISSUE = "Issue";
+export const DYING_RETURN = "Return";
 
 export const DRAWER_WIDTH = 240;
 
@@ -132,6 +138,19 @@ export const SIDEBAR = [
       {
         name: AREA,
         modal: AREA,
+      },
+    ],
+  },
+  {
+    panelName: DYING,
+    panelData: [
+      {
+        name: DYING_ISSUE,
+        route: ISSUE_DYING,
+      },
+      {
+        name: DYING_RETURN,
+        route: RETURN_DYING,
       },
     ],
   },

@@ -17,3 +17,5 @@ export const PRODUCT_PERFORMANCE = `${HOME}/product-performance`;
 export const PERSONAL_CHEQUE = `${HOME}/personal-cheques`;
 export const EXTERNAL_CHEQUE = `${HOME}/external-cheques`;
 export const ACCOUNT_HISTORY = `${HOME}/account-history`;
+export const ISSUE_DYING = `${HOME}/dying-issue`;
+export const RETURN_DYING = `${HOME}/dying-return`;

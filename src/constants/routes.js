@@ -37,6 +37,8 @@ const ProductPerformance = lazy(() =>
 const PersonalCheques = lazy(() => import("../app/views/PersonalCheques"));
 const ExternalCheques = lazy(() => import("../app/views/ExternalCheques"));
 const AccountHistory = lazy(() => import("../app/views/AccountHistory"));
+const DyingIssue = lazy(() => import("../app/views/DyingIssue"));
+const DyingReturn = lazy(() => import("../app/views/DyingReturn"));
 
 export const authenticatedRoutes = [
   {
@@ -98,5 +100,13 @@ export const authenticatedRoutes = [
   {
     component: AccountHistory,
     path: url.ACCOUNT_HISTORY,
+  },
+  {
+    component: DyingIssue,
+    path: url.ISSUE_DYING,
+  },
+  {
+    component: DyingReturn,
+    path: url.RETURN_DYING,
   },
 ];
