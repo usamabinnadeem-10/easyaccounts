@@ -11,7 +11,7 @@ import Snackbar from "@mui/material/Snackbar";
 import Tooltip from "@mui/material/Tooltip";
 import Fade from "@mui/material/Fade";
 
-import AddIcon from "@mui/icons-material/Add";
+import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 
 import AddModal from "../AddModal/AddModal";
 
@@ -61,8 +61,8 @@ const FAB = ({ fetched }) => {
           open={true}
           anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
           sx={{
-            mr: 3,
-            mb: 3,
+            mr: 2,
+            mb: 2,
           }}
         >
           {!clicked ? (
@@ -75,7 +75,7 @@ const FAB = ({ fetched }) => {
                 height: 45,
               }}
             >
-              <AddIcon />
+              <AddCircleRoundedIcon />
             </Fab>
           ) : (
             <div className={classes.fabWrapper}>

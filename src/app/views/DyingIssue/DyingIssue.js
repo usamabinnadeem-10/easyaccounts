@@ -108,6 +108,22 @@ const DyingIssue = () => {
                       type="number"
                     />
                     <Field
+                      name={constants.FIELDS.rate_yards}
+                      component={FormTextField}
+                      fullWidth
+                      label="Yard rate"
+                      size="small"
+                      type="number"
+                    />
+                    <Field
+                      name={constants.FIELDS.actual_yards}
+                      component={FormTextField}
+                      fullWidth
+                      label="Actual rate"
+                      size="small"
+                      type="number"
+                    />
+                    <Field
                       name={constants.FIELDS.yards_per_piece_actual}
                       component={FormTextField}
                       fullWidth
@@ -141,6 +157,8 @@ const DyingIssue = () => {
                       size="small"
                       value={
                         values[constants.FIELDS.quantity] *
+                          (values[constants.FIELDS.rate_yards] /
+                            values[constants.FIELDS.actual_yards]) *
                           values[constants.FIELDS.yards_per_piece_actual] || 0
                       }
                       type="number"

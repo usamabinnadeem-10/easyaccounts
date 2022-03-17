@@ -35,4 +35,12 @@ export const validationSchema = Yup.object().shape({
     .typeError(REQUIRED)
     .min(0, NUMBER_ERROR)
     .required(REQUIRED),
+  [FIELDS.rate_yards]: Yup.number()
+    .typeError(REQUIRED)
+    .min(0, NUMBER_ERROR)
+    .required(REQUIRED),
+  [FIELDS.actual_yards]: Yup.number()
+    .typeError(REQUIRED)
+    .min(0, NUMBER_ERROR)
+    .required(REQUIRED),
 });

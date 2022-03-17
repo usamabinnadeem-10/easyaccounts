@@ -2,6 +2,7 @@ import React from "react";
 
 import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
+import { styled } from "@mui/styles";
 
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
@@ -9,13 +10,21 @@ import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
 
 import moment from "moment";
 
+export const StyledTextField = styled(TextField)(({ theme }) => ({
+  "& .MuiOutlinedInput-input": {
+    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none",
+    },
+  },
+}));
+
 export const FormTextField = ({
   field,
   form: { touched, errors },
   ...props
 }) => {
   return (
-    <TextField
+    <StyledTextField
       {...field}
       {...props}
       error={touched[field.name] && !!errors[field.name]}

@@ -9,6 +9,8 @@ export const FIELDS = {
   yards_per_piece_expected: "yards_per_piece_expected",
   calculated_yards_per_piece: "calculated_yards_per_piece",
   calculated_expected: "calculated_expected",
+  rate_yards: "rate_yards",
+  actual_yards: "actual_yards",
 };
 
 export const INITIAL_VALUES = {
@@ -22,4 +24,6 @@ export const INITIAL_VALUES = {
   [FIELDS.yards_per_piece_expected]: "",
   [FIELDS.calculated_yards_per_piece]: "",
   [FIELDS.calculated_expected]: "",
+  [FIELDS.rate_yards]: "",
+  [FIELDS.actual_yards]: "",
 };
