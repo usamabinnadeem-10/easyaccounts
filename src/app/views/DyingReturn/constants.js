@@ -16,16 +16,16 @@ export const FIELDS = {
   rate: "rate",
   total_yards: "total_yards",
   total: "total",
+  product: "product",
+  calculated_rate: "calculated_rate",
 };
 
 export const INITIAL_VALUES = {
-  [FIELDS.warehouse]: "",
+  [FIELDS.date]: "",
   [FIELDS.detail]: [
     {
-      [FIELDS.dying_unit]: "",
       [FIELDS.product]: "",
-      [FIELDS.date]: "",
-
+      [FIELDS.warehouse]: "",
       [FIELDS.quantity]: "",
       [FIELDS.calculated_rate]: "",
       [FIELDS.rate_yards]: "",

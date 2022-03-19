@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 
 import { Formik } from "formik";
 import { Field } from "formik";
+import { FastField } from "formik";
 import { FieldArray } from "formik";
 import { Form } from "formik";
 
@@ -24,6 +25,7 @@ import { FormTextField } from "../../utilities/formUtils";
 import { Wrapper } from "./styled";
 
 import { INITIAL_VALUES } from "./constants";
+import { validationSchema } from "./validation";
 
 const DyingReturn = () => {
   const essentials = useSelector((state) => state.essentials);
@@ -40,24 +42,20 @@ const DyingReturn = () => {
     <Wrapper>
       <Heading heading="Dying Return" />
       <DyingReturnMeta lotData={lotData} />
-      <Formik initialValues={INITIAL_VALUES}>
-        {({ values, setFieldValue }) => (
+      <Formik
+        initialValues={INITIAL_VALUES}
+        validationSchema={validationSchema}
+      >
+        {({ values, errors, touched, setFieldValue }) => (
           <Form>
             <Grid sx={{ my: 4 }} container justifyContent="space-between">
               <Grid item xs={5}>
-                <Field
+                <FastField
                   size="small"
                   component={FormDateField}
                   label="Date"
                   fullWidth
-                />
-              </Grid>
-              <Grid item xs={5}>
-                <Field
-                  component={FormAutoCompleteField}
-                  label="Warehouse"
-                  options={essentials.warehouses}
-                  name={"warehouse"}
+                  name="date"
                 />
               </Grid>
             </Grid>
@@ -69,17 +67,31 @@ const DyingReturn = () => {
                 values.detail.length > 0 && (
                   <Grid container direction="column" rowGap={2}>
                     {values.detail.map((row, index) => (
-                      <Grid container key={index}>
-                        <Grid item xs={2}>
-                          <Field
+                      <Grid
+                        gap={1}
+                        sx={{
+                          borderBottom: "1px solid rgba(105,105,105, 0.4)",
+                          pb: 1,
+                        }}
+                        container
+                        key={index}
+                        justifyContent="space-between"
+                      >
+                        <Grid item xs={4}>
+                          <FastField
                             component={FormAutoCompleteField}
                             options={essentials.products}
                             name={`detail.${index}.product`}
                             label="Product"
+                            isError={
+                              !!errors.detail?.[index]?.product &&
+                              touched.detail?.[index]?.product
+                            }
+                            errorText={errors.detail?.[index]?.product}
                           />
                         </Grid>
-                        <Grid item xs={1}>
-                          <Field
+                        <Grid item xs={3} lg={2}>
+                          <FastField
                             component={FormTextField}
                             type="number"
                             size="small"
@@ -96,19 +108,29 @@ const DyingReturn = () => {
                                   values.detail[index].rate_yards || 0
                               );
                             }}
+                            isError={
+                              !!errors.detail?.[index]?.quantity &&
+                              touched.detail?.[index]?.quantity
+                            }
+                            errorText={errors.detail?.[index]?.quantity}
                           />
                         </Grid>
-                        <Grid item xs={1}>
-                          <Field
+                        <Grid item xs={3} lg={2}>
+                          <FastField
                             component={FormTextField}
                             type="number"
                             size="small"
                             name={`detail.${index}.actual_yards`}
                             label="Actual"
+                            isError={
+                              !!errors.detail?.[index]?.actual_yards &&
+                              touched.detail?.[index]?.actual_yards
+                            }
+                            errorText={errors.detail?.[index]?.actual_yards}
                           />
                         </Grid>
-                        <Grid item xs={1}>
-                          <Field
+                        <Grid item xs={3} lg={2}>
+                          <FastField
                             component={FormTextField}
                             type="number"
                             size="small"
@@ -125,24 +147,15 @@ const DyingReturn = () => {
                                   values.detail[index].quantity || 0
                               );
                             }}
-                          />
-                        </Grid>
-                        <Grid item xs={1}>
-                          <Field
-                            component={FormTextField}
-                            type="number"
-                            size="small"
-                            name={`detail.${index}.total_yards`}
-                            label="Gazaana"
-                            disabled
-                            value={
-                              values.detail[index].quantity *
-                                values.detail[index].rate_yards || 0
+                            isError={
+                              !!errors.detail?.[index]?.rate_yards &&
+                              touched.detail?.[index]?.rate_yards
                             }
+                            errorText={errors.detail?.[index]?.rate_yards}
                           />
                         </Grid>
-                        <Grid item xs={2}>
-                          <Field
+                        <Grid item xs={4}>
+                          <FastField
                             component={FormAutoCompleteField}
                             options={[
                               {
@@ -156,18 +169,38 @@ const DyingReturn = () => {
                             ]}
                             name={`detail.${index}.unit`}
                             label="Unit"
+                            isError={
+                              !!errors.detail?.[index]?.unit &&
+                              touched.detail?.[index]?.unit
+                            }
+                            errorText={errors.detail?.[index]?.unit}
                           />
                         </Grid>
-                        <Grid item xs={1}>
-                          <Field
+                        <Grid item xs={3} lg={2}>
+                          <FastField
                             component={FormTextField}
                             type="number"
                             size="small"
                             name={`detail.${index}.rate`}
                             label="Rate"
+                            isError={
+                              !!errors.detail?.[index]?.rate &&
+                              touched.detail?.[index]?.rate
+                            }
+                            errorText={errors.detail?.[index]?.rate}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={4} lg={2}>
+                          <FastField
+                            component={FormTextField}
+                            type="number"
+                            size="small"
+                            name={`detail.${index}.total_yards`}
+                            label="Gazaana"
+                            disabled
+                          />
+                        </Grid>
+                        <Grid item xs={4} lg={2}>
                           <Field
                             component={FormTextField}
                             type="number"
@@ -186,8 +219,21 @@ const DyingReturn = () => {
                             }
                           />
                         </Grid>
-                        <Grid item xs={1}>
-                          <Grid container>
+                        <Grid item xs={4}>
+                          <FastField
+                            component={FormAutoCompleteField}
+                            label="Warehouse"
+                            options={essentials.warehouses}
+                            name={`detail.${index}.warehouse`}
+                            isError={
+                              !!errors.detail?.[index]?.warehouse &&
+                              touched.detail?.[index]?.warehouse
+                            }
+                            errorText={errors.detail?.[index]?.warehouse}
+                          />
+                        </Grid>
+                        <Grid item xs={3} lg={2}>
+                          <Grid container justifyContent="flex-end">
                             <IconButton
                               disabled={values.detail.length === 1}
                               onClick={() => arrayHelpers.remove(index)}

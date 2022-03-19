@@ -21,14 +21,19 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
 export const FormTextField = ({
   field,
   form: { touched, errors },
+  isError,
+  errorText,
   ...props
 }) => {
   return (
     <StyledTextField
       {...field}
       {...props}
-      error={touched[field.name] && !!errors[field.name]}
-      helperText={touched[field.name] && errors[field.name]}
+      error={(touched[field.name] && !!errors[field.name]) || isError}
+      helperText={
+        (touched[field.name] && errors[field.name]) ||
+        (isError ? errorText : null)
+      }
     />
   );
 };
@@ -39,6 +44,8 @@ export const FormAutoCompleteField = ({
   options,
   label,
   onChange,
+  isError,
+  errorText,
   ...props
 }) => {
   return (
@@ -51,23 +58,25 @@ export const FormAutoCompleteField = ({
           setFieldValue(name, value);
         }
       }}
-      isOptionEqualToValue={(option, value) => {
-        if (value) {
-          return option.value === value.value;
-        }
-        return true;
-      }}
+      // isOptionEqualToValue={(option, value) => {
+      //   if (value) {
+      //     return option.value === value.value;
+      //   }
+      //   return true;
+      // }}
       value={value}
       options={options}
       size="small"
       clearOnEscape
       fullWidth
-      onBlur={onBlur}
+      onBlur={() => setFieldTouched(name)}
       renderInput={(params) => (
         <TextField
           onBlur={onBlur}
-          error={touched[name] && !!errors[name]}
-          helperText={touched[name] && errors[name]}
+          error={(touched[name] && !!errors[name]) || isError}
+          helperText={
+            (touched[name] && errors[name]) || (isError ? errorText : null)
+          }
           fullWidth
           label={label}
           {...params}
