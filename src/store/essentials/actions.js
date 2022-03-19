@@ -192,6 +192,13 @@ export const addNewArea = (data) => {
   };
 };
 
+export const addOpeningStock = (data) => {
+  return {
+    type: actionTypes.ADD_OPENING_STOCK,
+    payload: data,
+  };
+};
+
 // ADD NEW SUCCESS ACTIONS
 
 export const addNewPersonSuccess = (data) => {
@@ -239,6 +246,20 @@ export const addNewExpenseAccountSuccess = (data) => {
 export const addNewAreaSuccess = (data) => {
   return {
     type: actionTypes.ADD_NEW_AREA_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addOpeningStockSuccess = (data) => {
+  return {
+    type: actionTypes.ADD_OPENING_STOCK_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addOpeningStockFail = (data) => {
+  return {
+    type: actionTypes.ADD_OPENING_STOCK_FAIL,
     payload: data,
   };
 };

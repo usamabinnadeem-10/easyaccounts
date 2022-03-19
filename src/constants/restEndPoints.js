@@ -33,6 +33,7 @@ export const ESSENTIAL_URLS = {
     PRODUCT: `${ESSENTIALS}product/${CREATE}`,
     PERSON: `${ESSENTIALS}person/${CREATE}`,
     AREA: `${ESSENTIALS}area/${CREATE}`,
+    OPENING_STOCK: `${ESSENTIALS}create-opening-stock/`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
   ALL_STOCK: `${ESSENTIALS}stock-quantity/`,

@@ -76,3 +76,7 @@ export const cancelInvoiceApi = (data) => {
 export const addAreaApi = (data) => {
   return instance.post(ESSENTIAL_URLS.CREATE.AREA, data);
 };
+
+export const addOpeningStockApi = (data) => {
+  return instance.post(ESSENTIAL_URLS.CREATE.OPENING_STOCK, data);
+};

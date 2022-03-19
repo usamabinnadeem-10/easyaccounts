@@ -268,6 +268,26 @@ const reducer = (state = initialState, action) => {
         adding: false,
       };
 
+    case actionTypes.ADD_OPENING_STOCK:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_OPENING_STOCK_SUCCESS:
+      return {
+        ...state,
+        adding: false,
+        added: true,
+      };
+
+    case actionTypes.ADD_OPENING_STOCK_FAIL:
+      return {
+        ...state,
+        adding: false,
+        error: action.payload,
+      };
+
     // ---------------------------------------------------------------- //
 
     case actionTypes.RESET_ADDED:

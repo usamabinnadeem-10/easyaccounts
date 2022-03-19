@@ -20,6 +20,7 @@ import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import MoneyIcon from "@mui/icons-material/Money";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
+import DnsIcon from "@mui/icons-material/Dns";
 
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
@@ -51,6 +52,7 @@ import {
   DYING,
   DYING_ISSUE,
   DYING_RETURN,
+  OPENING_STOCK,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -105,6 +107,8 @@ export const getIcon = (panel) => {
       return <LocalShippingIcon />;
     case DYING_RETURN:
       return <CheckroomIcon />;
+    case OPENING_STOCK:
+      return <DnsIcon />;
     default:
       break;
   }

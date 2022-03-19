@@ -7,6 +7,8 @@ import * as actionTypes from "./actionTypes";
 import * as actions from "./actions";
 import * as api from "./api";
 
+import { findErrorMessage } from "../../app/utilities/objectUtils";
+
 function* essentialSagas() {
   yield all([
     takeLatest(actionTypes.GET_ALL_ESSENTIALS, getAllEssentialsSaga),
@@ -16,6 +18,7 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
     takeLatest(actionTypes.ADD_NEW_AREA, addNewAreaSaga),
+    takeLatest(actionTypes.ADD_OPENING_STOCK, addOpeningStockSaga),
     takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
     takeLatest(actionTypes.CANCEL_INVOICE, cancelInvoiceSaga),
   ]);
@@ -65,9 +68,7 @@ function* addNewPersonSaga(action) {
     let response = yield call(api.addPersonApi, action.payload);
     yield put(actions.addNewPersonSuccess(response.data));
   } catch (error) {
-    let errorObj = error.response.data;
-    let key = Object.keys(errorObj)[0];
-    yield put(actions.setError(errorObj[key][0]));
+    yield put(actions.setError(findErrorMessage(error.response.data)));
   }
 }
 
@@ -94,6 +95,17 @@ function* addExpenseDetailSaga(action) {
 function* addNewAreaSaga(action) {
   let response = yield call(api.addAreaApi, action.payload);
   yield put(actions.addNewAreaSuccess(response.data));
+}
+
+function* addOpeningStockSaga(action) {
+  try {
+    let response = yield call(api.addOpeningStockApi, action.payload);
+    yield put(actions.addOpeningStockSuccess(response.data));
+  } catch (error) {
+    yield put(
+      actions.addOpeningStockFail(findErrorMessage(error.response.data))
+    );
+  }
 }
 
 function* cancelInvoiceSaga(action) {
