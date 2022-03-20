@@ -3,11 +3,15 @@ import React from "react";
 import { useSelector } from "react-redux";
 
 import { Formik } from "formik";
+import { FastField } from "formik";
+import { FieldArray } from "formik";
 import { Field } from "formik";
 import { Form } from "formik";
 
 import { Grid } from "@mui/material";
+import { Typography } from "@mui/material";
 
+import AddRemove from "../../components/AddRemove";
 import Heading from "../../components/Heading";
 
 import { FormAutoCompleteField } from "../../utilities/formUtils";
@@ -29,7 +33,7 @@ const DyingIssue = () => {
         initialValues={constants.INITIAL_VALUES}
         validationSchema={validationSchema}
       >
-        {({ values, setFieldValue }) => (
+        {({ values, errors, touched }) => (
           <Form>
             <Grid container direction="column" rowGap={6}>
               <Meta container rowGap={2} justifyContent="space-between">
@@ -79,106 +83,135 @@ const DyingIssue = () => {
                 </Grid>
               </Meta>
               <Grid container justifyContent="space-between">
+                <Grid item xs={4}>
+                  <Field
+                    name={constants.FIELDS.raw_product}
+                    component={FormAutoCompleteField}
+                    options={[
+                      {
+                        label: "30/56",
+                        value: "21421412",
+                      },
+                      {
+                        label: "100/75",
+                        value: "asd",
+                      },
+                    ]}
+                    label="Raw product"
+                    size="small"
+                  />
+                </Grid>
                 <Grid item xs={5}>
-                  <Grid rowGap={2} container direction="column">
-                    <Grid item xs={12}>
+                  <Grid container justifyContent="space-between">
+                    <Grid item xs={5}>
                       <Field
-                        name={constants.FIELDS.raw_product}
-                        component={FormAutoCompleteField}
-                        options={[
-                          {
-                            label: "30/56",
-                            value: "21421412",
-                          },
-                          {
-                            label: "100/75",
-                            value: "asd",
-                          },
-                        ]}
-                        label="Raw product"
+                        name={constants.FIELDS.formula_numerator}
+                        component={FormTextField}
+                        fullWidth
+                        label="Formula 1"
                         size="small"
+                        type="number"
                       />
                     </Grid>
-                    <Field
-                      name={constants.FIELDS.quantity}
-                      component={FormTextField}
-                      fullWidth
-                      label="Thaan quantity"
-                      size="small"
-                      type="number"
-                    />
-                    <Field
-                      name={constants.FIELDS.rate_yards}
-                      component={FormTextField}
-                      fullWidth
-                      label="Yard rate"
-                      size="small"
-                      type="number"
-                    />
-                    <Field
-                      name={constants.FIELDS.actual_yards}
-                      component={FormTextField}
-                      fullWidth
-                      label="Actual rate"
-                      size="small"
-                      type="number"
-                    />
-                    <Field
-                      name={constants.FIELDS.yards_per_piece_actual}
-                      component={FormTextField}
-                      fullWidth
-                      label="Gazaana (actual)"
-                      size="small"
-                      type="number"
-                    />
-                    <Field
-                      name={constants.FIELDS.yards_per_piece_expected}
-                      component={FormTextField}
-                      fullWidth
-                      label="Gazaana (expected)"
-                      size="small"
-                      type="number"
-                    />
+                    <Grid item xs={5}>
+                      <Field
+                        name={constants.FIELDS.formula_denominator}
+                        component={FormTextField}
+                        fullWidth
+                        label="Formula 2"
+                        size="small"
+                        type="number"
+                      />
+                    </Grid>
                   </Grid>
                 </Grid>
-                <Grid item xs={5}>
-                  <Grid
-                    rowGap={2}
-                    container
-                    direction="column"
-                    justifyContent="flex-end"
-                    sx={{ height: 1 }}
-                  >
-                    <Field
-                      name={constants.FIELDS.calculated_yards_per_piece}
-                      component={FormTextField}
-                      fullWidth
-                      label="Total yards (actual)"
-                      size="small"
-                      value={
-                        values[constants.FIELDS.quantity] *
-                          (values[constants.FIELDS.rate_yards] /
-                            values[constants.FIELDS.actual_yards]) *
-                          values[constants.FIELDS.yards_per_piece_actual] || 0
-                      }
-                      type="number"
-                      disabled
-                    />
-                    <Field
-                      name={constants.FIELDS.calculated_expected}
-                      component={FormTextField}
-                      fullWidth
-                      label="Total yards (expected)"
-                      size="small"
-                      type="number"
-                      disabled
-                      value={
-                        values[constants.FIELDS.quantity] *
-                          values[constants.FIELDS.yards_per_piece_expected] || 0
-                      }
-                    />
+              </Grid>
+              <Grid container justifyContent="space-between">
+                <FieldArray
+                  name={constants.FIELDS.detail}
+                  render={(arrayHelpers) =>
+                    values.detail &&
+                    values.detail.length > 0 && (
+                      <Grid container direction="column" rowGap={2}>
+                        {values.detail.map((row, rowIndex) => (
+                          <Grid container gap={1}>
+                            {constants.TEXT_FIELDS.map((field, index) => (
+                              <Grid item xs={2}>
+                                <FastField
+                                  component={FormTextField}
+                                  name={`detail.${rowIndex}.${field.name}`}
+                                  label={field.label}
+                                  isError={
+                                    !!errors.detail?.[rowIndex]?.[field.name] &&
+                                    touched.detail?.[rowIndex]?.[field.name]
+                                  }
+                                  errorText={
+                                    errors.detail?.[rowIndex]?.[field.name]
+                                  }
+                                  size="small"
+                                  type="number"
+                                />
+                              </Grid>
+                            ))}
+                            <Grid item xs={2}>
+                              <Field
+                                component={FormTextField}
+                                name={`detail.${rowIndex}.calculated_yards_per_piece`}
+                                label="Total (actual)"
+                                size="small"
+                                disabled
+                                value={
+                                  (values.formula_numerator /
+                                    values.formula_denominator) *
+                                    values.detail?.[rowIndex]
+                                      .yards_per_piece_actual *
+                                    values.detail?.[rowIndex].quantity || 0
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={2}>
+                              <Field
+                                component={FormTextField}
+                                name={`detail.${rowIndex}.calculated_expected`}
+                                label="Total (expected)"
+                                size="small"
+                                disabled
+                                value={
+                                  values.detail?.[rowIndex]
+                                    .yards_per_piece_expected *
+                                    values.detail?.[rowIndex].quantity || 0
+                                }
+                              />
+                            </Grid>
+                            <Grid item xs={1}>
+                              <AddRemove
+                                disabled={values.detail.length === 1}
+                                onAdd={() =>
+                                  arrayHelpers.push(
+                                    constants.INITIAL_VALUES.detail[0]
+                                  )
+                                }
+                                onDelete={() => arrayHelpers.remove(rowIndex)}
+                              />
+                            </Grid>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    )
+                  }
+                />
+              </Grid>
+              <Grid container>
+                {constants.TOTALS.map((field, index) => (
+                  <Grid item key={index} xs={4}>
+                    <Typography>
+                      {values.detail.reduce(
+                        (prev, curr) => prev + curr[field],
+                        0
+                      )}
+                    </Typography>
                   </Grid>
-                </Grid>
+                ))}
               </Grid>
             </Grid>
           </Form>

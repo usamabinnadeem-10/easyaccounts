@@ -9,12 +9,9 @@ import { FieldArray } from "formik";
 import { Form } from "formik";
 
 import { Grid } from "@mui/material";
-import { IconButton } from "@mui/material";
 
+import AddRemove from "../../components/AddRemove";
 import DyingReturnMeta from "../../components/DyingReturnMeta";
-
-import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
-import DeleteIcon from "@mui/icons-material/Delete";
 
 import Heading from "../../components/Heading";
 
@@ -233,21 +230,13 @@ const DyingReturn = () => {
                           />
                         </Grid>
                         <Grid item xs={3} lg={2}>
-                          <Grid container justifyContent="flex-end">
-                            <IconButton
-                              disabled={values.detail.length === 1}
-                              onClick={() => arrayHelpers.remove(index)}
-                            >
-                              <DeleteIcon />
-                            </IconButton>
-                            <IconButton
-                              onClick={() =>
-                                arrayHelpers.push(INITIAL_VALUES.detail[0])
-                              }
-                            >
-                              <AddCircleRoundedIcon />
-                            </IconButton>
-                          </Grid>
+                          <AddRemove
+                            disabled={values.detail.length === 1}
+                            onDelete={() => arrayHelpers.remove(index)}
+                            onAdd={() =>
+                              arrayHelpers.push(INITIAL_VALUES.detail[0])
+                            }
+                          />
                         </Grid>
                       </Grid>
                     ))}

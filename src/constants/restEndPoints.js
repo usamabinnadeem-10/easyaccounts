@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = "http://127.0.0.1:8000/";
-export const BASE = "https://fa5e-139-135-32-7.ngrok.io";
+export const BASE = "http://127.0.0.1:8000/";
+// export const BASE = "https://fa5e-139-135-32-7.ngrok.io";
 
 const AUTH = "auth/";
 const TOKEN = "token/";
