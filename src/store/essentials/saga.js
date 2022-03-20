@@ -47,8 +47,8 @@ function* getAllEssentialsSaga() {
     response = yield call(api.getAreasApi);
     yield put(actions.getAllAreasSuccess(response.data));
 
-    // response = yield call(api.getCitiesApi);
-    // yield put(actions.getAllCitiesSuccess(response.data));
+    response = yield call(api.getCitiesApi);
+    yield put(actions.getAllCitiesSuccess(response.data));
 
     yield put(actions.getAllEssentialsSuccess());
   } catch (error) {

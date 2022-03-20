@@ -135,7 +135,7 @@ const SideBar = ({ fetched }) => {
             {activeBranch?.branch_name || ""}
           </BranchName>
           <SkeletonIconButton
-            loading={!fetched}
+            loading={false}
             onClick={handleLogout}
             title="Logout"
           >
