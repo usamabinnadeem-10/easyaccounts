@@ -5,11 +5,11 @@ import { useSelector } from "react-redux";
 import { Formik } from "formik";
 import { FastField } from "formik";
 import { FieldArray } from "formik";
-import { Field } from "formik";
 import { Form } from "formik";
 
 import { Grid } from "@mui/material";
 import { Typography } from "@mui/material";
+import { TextField } from "@mui/material";
 
 import AddRemove from "../../components/AddRemove";
 import Heading from "../../components/Heading";
@@ -26,6 +26,30 @@ import { Wrapper } from "./styled";
 const DyingIssue = () => {
   const essentials = useSelector((state) => state.essentials);
 
+  const getTotals = (values) => {
+    let detail = values.detail;
+    let thaan = detail.reduce((prev, curr) => prev + curr.quantity, 0);
+    let actual = detail.reduce((prev, curr) => {
+      let ratio = (curr.formula_numerator / curr.formula_denominator) || 0;
+      return prev + ((ratio * curr.yards_per_piece_actual * curr.quantity) || 0)
+    }, 0)
+    let expected = detail.reduce((prev, curr) => prev + curr.quantity * curr.yards_per_piece_expected, 0);
+    return [
+      {
+        label: 'Total thaan',
+        value: thaan,
+      },
+      {
+        label: 'Total Actual',
+        value: actual,
+      },
+      {
+        label: 'Total Expected',
+        value: expected,
+      },
+    ]
+  }
+
   return (
     <Wrapper>
       <Heading heading="Dying Issue" />
@@ -33,12 +57,12 @@ const DyingIssue = () => {
         initialValues={constants.INITIAL_VALUES}
         validationSchema={validationSchema}
       >
-        {({ values, errors, touched }) => (
+        {({ values, errors, touched, setFieldValue }) => (
           <Form>
             <Grid container direction="column" rowGap={6}>
               <Meta container rowGap={2} justifyContent="space-between">
                 <Grid item xs={5}>
-                  <Field
+                  <FastField
                     name={constants.FIELDS.dying_unit}
                     component={FormAutoCompleteField}
                     options={[
@@ -56,7 +80,7 @@ const DyingIssue = () => {
                   />
                 </Grid>
                 <Grid item xs={5}>
-                  <Field
+                  <FastField
                     name={constants.FIELDS.warehouse}
                     component={FormAutoCompleteField}
                     options={essentials.warehouses}
@@ -65,7 +89,7 @@ const DyingIssue = () => {
                   />
                 </Grid>
                 <Grid item xs={5}>
-                  <Field
+                  <FastField
                     name={constants.FIELDS.manual_book_number}
                     component={FormTextField}
                     fullWidth
@@ -74,7 +98,7 @@ const DyingIssue = () => {
                   />
                 </Grid>
                 <Grid item xs={5}>
-                  <Field
+                  <FastField
                     name={constants.FIELDS.date}
                     component={FormDateField}
                     label="Date"
@@ -84,7 +108,7 @@ const DyingIssue = () => {
               </Meta>
               <Grid container justifyContent="space-between">
                 <Grid item xs={4}>
-                  <Field
+                  <FastField
                     name={constants.FIELDS.raw_product}
                     component={FormAutoCompleteField}
                     options={[
@@ -101,30 +125,6 @@ const DyingIssue = () => {
                     size="small"
                   />
                 </Grid>
-                <Grid item xs={5}>
-                  <Grid container justifyContent="space-between">
-                    <Grid item xs={5}>
-                      <Field
-                        name={constants.FIELDS.formula_numerator}
-                        component={FormTextField}
-                        fullWidth
-                        label="Formula 1"
-                        size="small"
-                        type="number"
-                      />
-                    </Grid>
-                    <Grid item xs={5}>
-                      <Field
-                        name={constants.FIELDS.formula_denominator}
-                        component={FormTextField}
-                        fullWidth
-                        label="Formula 2"
-                        size="small"
-                        type="number"
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
               </Grid>
               <Grid container justifyContent="space-between">
                 <FieldArray
@@ -134,9 +134,9 @@ const DyingIssue = () => {
                     values.detail.length > 0 && (
                       <Grid container direction="column" rowGap={2}>
                         {values.detail.map((row, rowIndex) => (
-                          <Grid container gap={1}>
+                          <Grid container gap={1} justifyContent="space-between">
                             {constants.TEXT_FIELDS.map((field, index) => (
-                              <Grid item xs={2}>
+                              <Grid item xs={1}>
                                 <FastField
                                   component={FormTextField}
                                   name={`detail.${rowIndex}.${field.name}`}
@@ -150,29 +150,27 @@ const DyingIssue = () => {
                                   }
                                   size="small"
                                   type="number"
+                                  variant='standard'
                                 />
                               </Grid>
                             ))}
                             <Grid item xs={2}>
-                              <Field
-                                component={FormTextField}
-                                name={`detail.${rowIndex}.calculated_yards_per_piece`}
+                              <TextField
                                 label="Total (actual)"
                                 size="small"
                                 disabled
                                 value={
-                                  (values.formula_numerator /
-                                    values.formula_denominator) *
+                                  (values.detail?.[rowIndex].formula_numerator /
+                                    values.detail?.[rowIndex].formula_denominator) *
                                     values.detail?.[rowIndex]
                                       .yards_per_piece_actual *
                                     values.detail?.[rowIndex].quantity || 0
                                 }
+                                variant='standard'
                               />
                             </Grid>
                             <Grid item xs={2}>
-                              <Field
-                                component={FormTextField}
-                                name={`detail.${rowIndex}.calculated_expected`}
+                              <TextField
                                 label="Total (expected)"
                                 size="small"
                                 disabled
@@ -181,6 +179,7 @@ const DyingIssue = () => {
                                     .yards_per_piece_expected *
                                     values.detail?.[rowIndex].quantity || 0
                                 }
+                                variant='standard'
                               />
                             </Grid>
                             <Grid item xs={1}>
@@ -188,7 +187,12 @@ const DyingIssue = () => {
                                 disabled={values.detail.length === 1}
                                 onAdd={() =>
                                   arrayHelpers.push(
-                                    constants.INITIAL_VALUES.detail[0]
+                                    {
+                                      ...constants.INITIAL_VALUES.detail[0],
+                                      formula_numerator: values.detail[rowIndex].formula_numerator,
+                                      formula_denominator: values.detail[rowIndex].formula_denominator,
+                                    }
+                                    
                                   )
                                 }
                                 onDelete={() => arrayHelpers.remove(rowIndex)}
@@ -202,15 +206,12 @@ const DyingIssue = () => {
                 />
               </Grid>
               <Grid container>
-                {constants.TOTALS.map((field, index) => (
-                  <Grid item key={index} xs={4}>
-                    <Typography>
-                      {values.detail.reduce(
-                        (prev, curr) => prev + curr[field],
-                        0
-                      )}
+                {getTotals(values).map((value, index) => (
+                  <Grid item key={index} xs={index === 0 ? 6 : 3}>
+                    <Typography variant='caption'>
+                      {value.label} : {value.value}
                     </Typography>
-                  </Grid>
+                </Grid>
                 ))}
               </Grid>
             </Grid>

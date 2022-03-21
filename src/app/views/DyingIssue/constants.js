@@ -20,8 +20,6 @@ export const INITIAL_VALUES = {
   [FIELDS.manual_book_number]: "",
   [FIELDS.date]: "",
   [FIELDS.warehouse]: "",
-  [FIELDS.formula_numerator]: "",
-  [FIELDS.formula_denominator]: "",
   [FIELDS.detail]: [
     {
       [FIELDS.quantity]: "",
@@ -29,6 +27,8 @@ export const INITIAL_VALUES = {
       [FIELDS.yards_per_piece_expected]: "",
       [FIELDS.calculated_yards_per_piece]: "",
       [FIELDS.calculated_expected]: "",
+      [FIELDS.formula_numerator]: "",
+      [FIELDS.formula_denominator]: "",
     },
   ],
 };
@@ -39,12 +39,20 @@ export const TEXT_FIELDS = [
     label: "Thaan",
   },
   {
+    name: FIELDS.formula_numerator,
+    label: "F-1",
+  },
+  {
+    name: FIELDS.formula_denominator,
+    label: "F-2",
+  },
+  {
     name: FIELDS.yards_per_piece_actual,
-    label: "Gazaana (actual)",
+    label: "Actual",
   },
   {
     name: FIELDS.yards_per_piece_expected,
-    label: "Gazaana (expected)",
+    label: "Expected",
   },
 ];
 

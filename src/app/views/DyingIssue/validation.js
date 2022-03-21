@@ -14,14 +14,6 @@ export const validationSchema = Yup.object().shape({
   [FIELDS.date]: Yup.date().typeError("Invalid date").required(REQUIRED),
   [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).required(REQUIRED),
 
-  [FIELDS.formula_numerator]: Yup.number()
-    .typeError(REQUIRED)
-    .min(0, NUMBER_ERROR)
-    .required(REQUIRED),
-  [FIELDS.formula_denominator]: Yup.number()
-    .typeError(REQUIRED)
-    .min(0, NUMBER_ERROR)
-    .required(REQUIRED),
   [FIELDS.detail]: Yup.array().of(
     Yup.object().shape({
       [FIELDS.quantity]: Yup.number()
@@ -41,6 +33,14 @@ export const validationSchema = Yup.object().shape({
         .min(0, NUMBER_ERROR)
         .required(REQUIRED),
       [FIELDS.calculated_expected]: Yup.number()
+        .typeError(REQUIRED)
+        .min(0, NUMBER_ERROR)
+        .required(REQUIRED),
+      [FIELDS.formula_numerator]: Yup.number()
+        .typeError(REQUIRED)
+        .min(0, NUMBER_ERROR)
+        .required(REQUIRED),
+      [FIELDS.formula_denominator]: Yup.number()
         .typeError(REQUIRED)
         .min(0, NUMBER_ERROR)
         .required(REQUIRED),

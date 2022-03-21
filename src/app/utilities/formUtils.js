@@ -16,6 +16,11 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       "-webkit-appearance": "none",
     },
   },
+  "& .MuiInput-input": {
+    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
+      "-webkit-appearance": "none",
+    },
+  },
 }));
 
 export const FormTextField = ({
