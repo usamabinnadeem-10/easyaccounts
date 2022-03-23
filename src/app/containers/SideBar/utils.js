@@ -26,6 +26,11 @@ import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CheckroomIcon from "@mui/icons-material/Checkroom";
 
+import RawOnIcon from '@mui/icons-material/RawOn';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
+
 import {
   VIEW,
   LEDGER,
@@ -53,6 +58,10 @@ import {
   DYING_ISSUE,
   DYING_RETURN,
   OPENING_STOCK,
+  RAW,
+  RAW_PURCHASE,
+  RAW_SALE,
+  RAW_SEARCH,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -109,6 +118,14 @@ export const getIcon = (panel) => {
       return <CheckroomIcon />;
     case OPENING_STOCK:
       return <DnsIcon />;
+    case RAW:
+      return <RawOnIcon />
+    case RAW_PURCHASE:
+      return <ShoppingCartIcon />
+    case RAW_SALE:
+      return <PointOfSaleIcon />
+    case RAW_SEARCH:
+      return <FilterAltIcon />
     default:
       break;
   }

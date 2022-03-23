@@ -12,6 +12,7 @@ import {
   ACCOUNT_HISTORY,
   ISSUE_DYING,
   RETURN_DYING,
+  RAW_PURCHASE_ROUTE,
 } from "../../../constants/routesConstants";
 
 import { FIELDS } from "../../../constants/fieldTypes";
@@ -50,6 +51,11 @@ export const OPENING_STOCK = "Add Opening Stock";
 export const DYING = "Dying/Washing";
 export const DYING_ISSUE = "Issue";
 export const DYING_RETURN = "Return";
+
+export const RAW = "Kora";
+export const RAW_PURCHASE = "Buying";
+export const RAW_SALE = "Sale";
+export const RAW_SEARCH = "Filter";
 
 export const DRAWER_WIDTH = 240;
 
@@ -157,6 +163,23 @@ export const SIDEBAR = [
         name: DYING_RETURN,
         route: RETURN_DYING,
       },
+    ],
+  },
+  {
+    panelName: RAW,
+    panelData: [
+      {
+        name: RAW_PURCHASE,
+        route: RAW_PURCHASE_ROUTE,
+      },
+      // {
+      //   name: RAW_SALE,
+      //   route: RETURN_DYING,
+      // },
+      // {
+      //   name: RAW_SEARCH,
+      //   route: RETURN_DYING,
+      // },
     ],
   },
 ];

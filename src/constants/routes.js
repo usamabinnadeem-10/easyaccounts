@@ -39,6 +39,7 @@ const ExternalCheques = lazy(() => import("../app/views/ExternalCheques"));
 const AccountHistory = lazy(() => import("../app/views/AccountHistory"));
 const DyingIssue = lazy(() => import("../app/views/DyingIssue"));
 const DyingReturn = lazy(() => import("../app/views/DyingReturn"));
+const RawPurchase = lazy(() => import("../app/views/Raw/RawPurchase"));
 
 export const authenticatedRoutes = [
   {
@@ -108,5 +109,9 @@ export const authenticatedRoutes = [
   {
     component: DyingReturn,
     path: url.RETURN_DYING,
+  },
+  {
+    component: RawPurchase,
+    path: url.RAW_PURCHASE_ROUTE,
   },
 ];

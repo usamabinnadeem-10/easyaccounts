@@ -19,3 +19,5 @@ export const EXTERNAL_CHEQUE = `${HOME}/external-cheques`;
 export const ACCOUNT_HISTORY = `${HOME}/account-history`;
 export const ISSUE_DYING = `${HOME}/dying-issue`;
 export const RETURN_DYING = `${HOME}/dying-return`;
+export const RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase`;
+export const RAW_SALE_ROUTE = `${HOME}/raw-sale`;

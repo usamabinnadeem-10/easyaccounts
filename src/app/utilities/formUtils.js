@@ -4,6 +4,8 @@ import { Autocomplete } from "@mui/material";
 import { TextField } from "@mui/material";
 import { styled } from "@mui/styles";
 
+import CustomSwitch from "../components/CustomSwitch";
+
 import DateAdapter from "@mui/lab/AdapterMoment";
 import LocalizationProvider from "@mui/lab/LocalizationProvider";
 import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
@@ -51,6 +53,7 @@ export const FormAutoCompleteField = ({
   onChange,
   isError,
   errorText,
+  variant,
   ...props
 }) => {
   return (
@@ -84,6 +87,7 @@ export const FormAutoCompleteField = ({
           }
           fullWidth
           label={label}
+          variant={variant || "outlined"}
           {...params}
         />
       )}
@@ -94,6 +98,8 @@ export const FormAutoCompleteField = ({
 export const FormDateField = ({
   field: { name, value, onChange, onBlur },
   form: { touched, errors, setFieldValue, setFieldTouched },
+  isError,
+  errorText,
   ...props
 }) => {
   return (
@@ -110,16 +116,38 @@ export const FormDateField = ({
         inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
           <TextField
+            {...params}
             onBlur={onBlur}
             fullWidth
             size={props.size}
-            error={touched[name] && !!errors[name]}
-            helperText={touched[name] && errors[name]}
+            error={(touched[name] && !!errors[name]) || isError}
+            helperText={
+              (touched[name] && errors[name]) || (isError ? errorText : null)
+            }
             name={name}
-            {...params}
           />
         )}
       />
     </LocalizationProvider>
+  );
+};
+
+export const FormSwitchField = ({
+  field: { name, value },
+  form: { setFieldValue },
+  label,
+  onCheckedLabel,
+  ...props
+}) => {
+  const handleChange = (e) => {
+    setFieldValue(name, e.target.checked);
+  };
+  return (
+    <CustomSwitch
+      checked={value}
+      onChange={handleChange}
+      label={label}
+      onCheckedLabel={onCheckedLabel}
+    />
   );
 };

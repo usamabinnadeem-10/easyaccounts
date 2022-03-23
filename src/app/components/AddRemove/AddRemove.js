@@ -6,13 +6,17 @@ import { Grid } from "@mui/material";
 import AddCircleRoundedIcon from "@mui/icons-material/AddCircleRounded";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-const AddRemove = ({ disabled, onDelete, onAdd }) => {
+const AddRemove = ({ disabled, onDelete, onAdd, addColor, deleteColor }) => {
   return (
     <Grid container justifyContent="flex-end">
-      <IconButton disabled={disabled} onClick={onDelete}>
+      <IconButton
+        color={deleteColor || "error"}
+        disabled={disabled}
+        onClick={onDelete}
+      >
         <DeleteIcon />
       </IconButton>
-      <IconButton onClick={onAdd}>
+      <IconButton color={addColor || "success"} onClick={onAdd}>
         <AddCircleRoundedIcon />
       </IconButton>
     </Grid>
