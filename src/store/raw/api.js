@@ -14,6 +14,6 @@ export const createRawProduct = (data) => {
   return instance.post(RAW_APIS.CREATE.PRODUCT, data);
 };
 
-export const listRawProductApi = (data) => {
-  return instance.get(`${RAW_APIS.LIST.PRODUCT}?person=${data.person}`);
+export const listRawProductApi = () => {
+  return instance.get(RAW_APIS.LIST.PRODUCT);
 };

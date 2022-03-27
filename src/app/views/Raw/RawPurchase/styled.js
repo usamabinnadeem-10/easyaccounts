@@ -1,6 +1,7 @@
-import { Grid } from "@mui/material";
-import { styled } from "@mui/styles";
-import { Typography } from "@mui/material";
+import { Grid } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { styled } from '@mui/styles';
+import { Typography } from '@mui/material';
 
 export const MetaWrapper = styled(Grid)(({ theme }) => ({
   paddingBottom: theme.spacing(2),
@@ -10,7 +11,7 @@ export const MetaWrapper = styled(Grid)(({ theme }) => ({
 
 export const LotWrapper = styled(Grid)(({ theme }) => ({
   border: `1px solid rgba(105, 105, 105, 0.1)`,
-  borderRadius: "4px",
+  borderRadius: '4px',
   padding: theme.spacing(2),
   marginBottom: theme.spacing(2),
 }));
@@ -26,3 +27,5 @@ export const TotalText = styled(Typography)(({ theme }) => ({
 export const LotTotalWrapper = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(4),
 }));
+
+export const StyledButton = styled(LoadingButton)(({ theme }) => ({}));

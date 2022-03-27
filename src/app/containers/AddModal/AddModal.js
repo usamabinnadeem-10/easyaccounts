@@ -1,26 +1,26 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 
-import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
+import CustomDatePicker from '../../components/CustomDatePicker/CustomDatePicker';
 
-import MuiPhoneNumber from "material-ui-phone-number";
+import MuiPhoneNumber from 'material-ui-phone-number';
 
-import Autocomplete from "@mui/material/Autocomplete";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
-import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import { LoadingButton } from "@mui/lab";
+import Autocomplete from '@mui/material/Autocomplete';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
+import Modal from '@mui/material/Modal';
+import Paper from '@mui/material/Paper';
+import TextField from '@mui/material/TextField';
+import { LoadingButton } from '@mui/lab';
 
-import { useStyles } from "./styles";
-import { FIELDS } from "../../../constants/fieldTypes";
-import { resetAdded } from "../../../store/essentials/actions";
+import { useStyles } from './styles';
+import { FIELDS } from '../../../constants/fieldTypes';
+// import { resetAdded } from "../../../store/essentials/actions";
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const AddModal = ({
   open,
@@ -37,11 +37,11 @@ const AddModal = ({
   const [state, setState] = useState({});
   const [error, setError] = useState(false);
 
-  useEffect(() => {
-    return () => {
-      dispatch(resetAdded());
-    };
-  }, []);
+  // useEffect(() => {
+  //   return () => {
+  //     dispatch(resetAdded());
+  //   };
+  // }, []);
 
   useEffect(() => {
     setError(false);
@@ -65,7 +65,7 @@ const AddModal = ({
   const submit = () => {
     let data = { ...state };
     for (let key in state) {
-      if (typeof state[key] === "object" && !!state[key]) {
+      if (typeof state[key] === 'object' && !!state[key]) {
         data[key] = data[key].value;
       }
     }
@@ -93,19 +93,18 @@ const AddModal = ({
   };
 
   return (
-    <Modal paper="true" open={open} onClose={handleClose}>
+    <Modal paper='true' open={open} onClose={handleClose}>
       <Paper className={classes.paper}>
         <Typography
-          textAlign="center"
-          variant="h6"
+          textAlign='center'
+          variant='h6'
           sx={{
             mb: 2,
             fontWeight: 900,
-          }}
-        >
+          }}>
           {form.heading}
         </Typography>
-        <Grid container flexDirection="column" alignContent="center">
+        <Grid container flexDirection='column' alignContent='center'>
           {form.formData.map((field, index) => {
             return field.type === FIELDS.SELECT ? (
               <div key={index} className={classes.select}>
@@ -114,11 +113,11 @@ const AddModal = ({
                   autoComplete
                   autoHighlight
                   fullWidth
-                  size="small"
+                  size='small'
                   getOptionLabel={(option) => option.label}
                   options={field.options}
                   onChange={(e, value, reason) => {
-                    if (reason === "clear" || !value) {
+                    if (reason === 'clear' || !value) {
                       handleChange(null, field.name);
                     } else {
                       handleChange(value, field.name);
@@ -127,7 +126,7 @@ const AddModal = ({
                   renderInput={(params) => (
                     <TextField
                       {...params}
-                      variant="outlined"
+                      variant='outlined'
                       label={field.label}
                       error={error && field.required}
                     />
@@ -147,27 +146,27 @@ const AddModal = ({
             ) : field.type === FIELDS.PHONE_NUMBER ? (
               <MuiPhoneNumber
                 key={index}
-                defaultCountry={"pk"}
-                onlyCountries={["pk"]}
+                defaultCountry={'pk'}
+                onlyCountries={['pk']}
                 onChange={(value) => handleChange(value, field.name)}
                 sx={{ mb: 2.5, width: 0.9 }}
-                variant="outlined"
-                size="small"
+                variant='outlined'
+                size='small'
                 countryCodeEditable={false}
-                label="Phone Number"
+                label='Phone Number'
                 autoFormat={false}
               />
             ) : (
               <TextField
                 error={error && field.required && !state[field.name]}
                 multiline={field.type !== FIELDS.NUMBER}
-                value={state[field.name] || ""}
+                value={state[field.name] || ''}
                 onChange={(e) => handleChange(e.target.value, field.name)}
-                variant="outlined"
+                variant='outlined'
                 key={index}
                 label={field.label}
                 fullWidth
-                size="small"
+                size='small'
                 required={field.required}
                 sx={{ mb: 2.5, width: 0.9 }}
                 type={field.type}
@@ -181,9 +180,8 @@ const AddModal = ({
           <LoadingButton
             loading={isLoading}
             onClick={submit}
-            variant="contained"
-            sx={{ mt: 2, fontWeight: 700 }}
-          >
+            variant='contained'
+            sx={{ mt: 2, fontWeight: 700 }}>
             Submit
           </LoadingButton>
         </Grid>

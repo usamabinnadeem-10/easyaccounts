@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 // -----------------------------Formula Actions----------------------------- //
 
@@ -47,20 +47,20 @@ export const addNewFormulaFail = (error) => {
 
 export const getAllProduct = () => {
   return {
-    type: actionTypes.GET_ALL_PRODUCT,
+    type: actionTypes.GET_ALL_RAW_PRODUCT,
   };
 };
 
 export const getAllProductSuccess = (data) => {
   return {
-    type: actionTypes.GET_ALL_PRODUCT_SUCCESS,
+    type: actionTypes.GET_ALL_RAW_PRODUCT_SUCCESS,
     payload: data,
   };
 };
 
 export const getAllProductFail = (error) => {
   return {
-    type: actionTypes.GET_ALL_PRODUCT_FAIL,
+    type: actionTypes.GET_ALL_RAW_PRODUCT_FAIL,
     payload: error,
   };
 };

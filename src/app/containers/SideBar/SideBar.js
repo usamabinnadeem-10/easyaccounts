@@ -1,38 +1,38 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import Drawer from "@mui/material/Drawer";
-import List from "@mui/material/List";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Collapse from "@mui/material/Collapse";
+import Drawer from '@mui/material/Drawer';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemIcon from '@mui/material/ListItemIcon';
+import ListItemText from '@mui/material/ListItemText';
+import Collapse from '@mui/material/Collapse';
 
-import ExpandLess from "@mui/icons-material/ExpandLess";
-import ExpandMore from "@mui/icons-material/ExpandMore";
-import LogoutIcon from "@mui/icons-material/Logout";
+import ExpandLess from '@mui/icons-material/ExpandLess';
+import ExpandMore from '@mui/icons-material/ExpandMore';
+import LogoutIcon from '@mui/icons-material/Logout';
 
-import AddModal from "../AddModal/AddModal";
-import SkeletonIconButton from "../../components/SkeletonIconButton";
+import AddModal from '../AddModal/AddModal';
+import SkeletonIconButton from '../../components/SkeletonIconButton';
 
-import { chooseModal } from "./constants";
-import { SIDEBAR } from "./constants";
-import { DRAWER_WIDTH } from "./constants";
-import { paperWhite } from "../../../constants/colors";
+import { chooseModal } from './constants';
+import { SIDEBAR } from './constants';
+import { DRAWER_WIDTH } from './constants';
+import { paperWhite } from '../../../constants/colors';
 
-import { getIcon } from "./utils";
-import { BranchInfo } from "./styled";
-import { BranchName } from "./styled";
+import { getIcon } from './utils';
+import { BranchInfo } from './styled';
+import { BranchName } from './styled';
 
-import { logout } from "../../../store/auth";
+import { logout } from '../../../store/auth';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
   let history = useHistory();
@@ -60,7 +60,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
     }
     if (essentials.added || raw.added || dying.added) {
       setIsLoading(false);
-      showSuccessSnackbar("Added successfully");
+      showSuccessSnackbar('Added successfully');
       setIsAddModalOpen(false);
     }
     if (
@@ -96,15 +96,14 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
         />
       )}
       <Drawer
-        variant="permanent"
+        variant='permanent'
         sx={{
-          "& .MuiDrawer-paper": {
+          '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
             bgcolor: paperWhite,
             py: 2,
           },
-        }}
-      >
+        }}>
         <List disablePadding dense>
           {SIDEBAR.map((panel, index) => {
             return (
@@ -120,17 +119,15 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
                 </ListItemButton>
                 <Collapse
                   in={open.expand && open.panel === index}
-                  timeout="auto"
-                  unmountOnExit
-                >
+                  timeout='auto'
+                  unmountOnExit>
                   <List
                     dense
-                    component="div"
+                    component='div'
                     disablePadding
                     sx={{
                       mb: 1,
-                    }}
-                  >
+                    }}>
                     {panel.panelData.map((panelData, index) => {
                       return (
                         <ListItemButton
@@ -142,8 +139,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
                           }
                           key={index}
                           sx={{ pl: 4 }}
-                          disableRipple
-                        >
+                          disableRipple>
                           <ListItemIcon>{getIcon(panelData.name)}</ListItemIcon>
                           <ListItemText primary={panelData.name} />
                         </ListItemButton>
@@ -156,14 +152,13 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
           })}
         </List>
         <BranchInfo>
-          <BranchName variant="body1">
-            {activeBranch?.branch_name || ""}
+          <BranchName variant='body1'>
+            {activeBranch?.branch_name || ''}
           </BranchName>
           <SkeletonIconButton
             loading={false}
             onClick={handleLogout}
-            title="Logout"
-          >
+            title='Logout'>
             <LogoutIcon />
           </SkeletonIconButton>
         </BranchInfo>

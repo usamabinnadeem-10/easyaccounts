@@ -1,44 +1,46 @@
-import React from "react";
-import { useMemo } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useMemo } from 'react';
+import { useEffect } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Formik } from "formik";
-import { Form } from "formik";
-import { FastField } from "formik";
-import { FieldArray } from "formik";
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import { Field } from 'formik';
+import { FastField } from 'formik';
+import { FieldArray } from 'formik';
 
-import { Grid } from "@mui/material";
-import { TextField } from "@mui/material";
+import { Grid } from '@mui/material';
+import { TextField } from '@mui/material';
 
-import AddRemove from "../../../components/AddRemove";
-import CustomLoader from "../../../components/CustomLoader";
-import ViewWrapper from "../../../components/ViewWrapper";
+import AddRemove from '../../../components/AddRemove';
+import CustomLoader from '../../../components/CustomLoader';
+import ViewWrapper from '../../../components/ViewWrapper';
 
-import { FormAutoCompleteField } from "../../../utilities/formUtils";
-import { FormDateField } from "../../../utilities/formUtils";
-import { FormTextField } from "../../../utilities/formUtils";
-import { FormSwitchField } from "../../../utilities/formUtils";
+import { FormAutoCompleteField } from '../../../utilities/formUtils';
+import { FormDateField } from '../../../utilities/formUtils';
+import { FormTextField } from '../../../utilities/formUtils';
+import { FormSwitchField } from '../../../utilities/formUtils';
 
-import * as constants from "./constants";
-import * as utils from "./utils";
-import { schema } from "./validation";
+import * as constants from './constants';
+import * as utils from './utils';
+import { schema } from './validation';
 
-import { DetailWrapper } from "./styled";
-import { LotTotalWrapper } from "./styled";
-import { LotHeader } from "./styled";
-import { LotWrapper } from "./styled";
-import { MetaWrapper } from "./styled";
-import { TotalText } from "./styled";
+import { DetailWrapper } from './styled';
+import { StyledButton } from './styled';
+import { LotTotalWrapper } from './styled';
+import { LotHeader } from './styled';
+import { LotWrapper } from './styled';
+import { MetaWrapper } from './styled';
+import { TotalText } from './styled';
 
-import { getAllDying } from "../../../../store/dying";
-import { getAllFormulas } from "../../../../store/raw";
+import { getAllDying } from '../../../../store/dying';
+import { getAllFormulas, getAllProduct } from '../../../../store/raw';
 
 const Total = ({ text, index, variant }) => {
   return (
-    <TotalText variant={variant || "caption"} key={index}>
+    <TotalText variant={variant || 'caption'} key={index}>
       {text.label} : {text.value}
     </TotalText>
   );
@@ -50,13 +52,16 @@ const RawPurchase = () => {
   const raw = useSelector((state) => state.raw);
   const dying = useSelector((state) => state.dying);
 
-  // fetch formulas in beginning if not fetched already
+  // fetch formulas, dying and products in beginning if not fetched already
   useEffect(() => {
     if (!raw.formulasInfo.fetched) {
       dispatch(getAllFormulas());
     }
     if (!dying.fetched) {
       dispatch(getAllDying());
+    }
+    if (!raw.productsInfo.fetched) {
+      dispatch(getAllProduct());
     }
   }, []);
 
@@ -78,98 +83,25 @@ const RawPurchase = () => {
     options: field.options,
     name: field.field,
     type: field.type,
-    size: "small",
+    size: 'small',
     label: field.label,
     fullWidth: true,
     isError: !!errors[field.field] && touched[field.field],
     errorText: errors[field.field],
-    onCheckedLabel: field.onCheckedLabel,
+    onCheckedLabel: field.onCheckedLabel ?? null,
   });
-
-  const calculateValues = (obj) => {
-    let qty = obj[constants.FIELDS.quantity] || 0;
-    let formula = obj[constants.FIELDS.formula];
-    let ratio = formula?.numerator / formula?.denominator;
-    let expected = qty * obj[constants.FIELDS.yards_per_piece_expected] || 0;
-    let actual =
-      qty * ratio * obj[constants.FIELDS.yards_per_piece_actual] || 0;
-    let total = obj[constants.FIELDS.rate] * actual;
-    return {
-      qty,
-      expected,
-      actual,
-      total,
-    };
-  };
-
-  const getCalculatedValues = (values, lotIndex, lotDetailIndex) => {
-    let obj = values.lots[lotIndex].lot_detail[lotDetailIndex];
-    let calculated = calculateValues(obj);
-    return [
-      {
-        label: "Actual",
-        value: calculated.actual,
-      },
-      {
-        label: "Expected",
-        value: calculated.expected,
-      },
-      {
-        label: "Total",
-        value: calculated.total,
-      },
-    ];
-  };
-
-  const getTotals = (values, global = false) => {
-    let thaan = 0;
-    let expected = 0;
-    let actual = 0;
-    if (global) {
-      values.lots.forEach((lot) => {
-        lot.lot_detail.forEach((lotDetail) => {
-          let calculated = calculateValues(lotDetail);
-          expected += calculated.expected;
-          actual += calculated.actual;
-          thaan += calculated.qty;
-        });
-      });
-    } else {
-      values.forEach((lotDetail) => {
-        let calculated = calculateValues(lotDetail);
-        expected += calculated.expected;
-        actual += calculated.actual;
-        thaan += calculated.qty;
-      });
-    }
-
-    return [
-      {
-        label: "Thaan",
-        value: thaan,
-      },
-      {
-        label: "Actual",
-        value: actual,
-      },
-      {
-        label: "Expected",
-        value: expected,
-      },
-    ];
-  };
 
   return (
     <>
-      {raw.formulasInfo.fetched && dying.fetched ? (
-        <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
+      {raw.formulasInfo.fetched && dying.fetched && raw.productsInfo.fetched ? (
+        <ViewWrapper marginBottom={4} heading='Kora Purchase' width={80}>
           <Formik
             initialValues={constants.INITIAL_VALUES}
             validationSchema={schema}
-          >
-            {({ values, errors, touched }) => (
+            onSubmit={(values) => console.log(values)}>
+            {({ values, errors, touched, handleSubmit }) => (
               <Form>
-                <MetaWrapper gap={2} container justifyContent="space-between">
+                <MetaWrapper gap={2} container justifyContent='space-between'>
                   {metaFields.map((field, index) => (
                     <Grid key={index} item xs={5}>
                       <FastField {...getFieldProps(field, errors, touched)} />
@@ -183,44 +115,70 @@ const RawPurchase = () => {
                     values.lots.map((lot, lotIndex) => (
                       <LotWrapper
                         container
-                        direction="column"
+                        direction='column'
                         gap={3}
-                        key={lotIndex}
-                      >
-                        <LotHeader container justifyContent="space-between">
+                        key={`lot-${lotIndex}`}>
+                        <LotHeader container justifyContent='space-between'>
                           <Grid item xs={10}>
-                            <Grid container justifyContext="space-between">
+                            <Grid container>
                               {utils
                                 .getLotHeadField(
-                                  essentials,
+                                  values.person,
                                   lotIndex,
                                   values.lots[lotIndex].issue_dying,
-                                  dying.dyingUnits
+                                  dying.dyingUnits,
+                                  raw.productsInfo.products
                                 )
                                 .map(
                                   (field, lotFieldIndex) =>
                                     field.render && (
-                                      <Grid item xs={3}>
-                                        <FastField
-                                          {...getFieldProps(
-                                            field,
-                                            errors,
-                                            touched
-                                          )}
-                                          isError={
-                                            !!errors.lots?.[lotIndex]?.[
-                                              field.name
-                                            ] &&
-                                            touched.lots?.[lotIndex]?.[
-                                              field.name
-                                            ]
-                                          }
-                                          errorText={
-                                            errors.lots?.[lotIndex]?.[
-                                              field.name
-                                            ]
-                                          }
-                                        />
+                                      <Grid
+                                        key={`lotHeader-${lotFieldIndex}`}
+                                        item
+                                        xs={3}>
+                                        {field.isFast ? (
+                                          <FastField
+                                            {...getFieldProps(
+                                              field,
+                                              errors,
+                                              touched
+                                            )}
+                                            isError={
+                                              !!errors.lots?.[lotIndex]?.[
+                                                field.name
+                                              ] &&
+                                              touched.lots?.[lotIndex]?.[
+                                                field.name
+                                              ]
+                                            }
+                                            errorText={
+                                              errors.lots?.[lotIndex]?.[
+                                                field.name
+                                              ]
+                                            }
+                                          />
+                                        ) : (
+                                          <Field
+                                            {...getFieldProps(
+                                              field,
+                                              errors,
+                                              touched
+                                            )}
+                                            isError={
+                                              !!errors.lots?.[lotIndex]?.[
+                                                field.name
+                                              ] &&
+                                              touched.lots?.[lotIndex]?.[
+                                                field.name
+                                              ]
+                                            }
+                                            errorText={
+                                              errors.lots?.[lotIndex]?.[
+                                                field.name
+                                              ]
+                                            }
+                                          />
+                                        )}
                                       </Grid>
                                     )
                                 )}
@@ -236,11 +194,11 @@ const RawPurchase = () => {
                                 )
                               }
                               onDelete={() => arrayHelpersLot.remove(lotIndex)}
-                              addColor="secondary"
+                              addColor='secondary'
                             />
                           </Grid>
                         </LotHeader>
-                        <DetailWrapper container direction="column" gap={1}>
+                        <DetailWrapper container direction='column' gap={1}>
                           <FieldArray
                             name={`${constants.FIELDS.lots}.${lotIndex}.${constants.FIELDS.lot_detail}`}
                             render={(arrayHelpersLotDetail) =>
@@ -248,10 +206,10 @@ const RawPurchase = () => {
                               values.lots[lotIndex].lot_detail.map(
                                 (lotDetail, index) => (
                                   <Grid
+                                    key={`lotDetail-${lotIndex}-${index}-wrapper`}
                                     container
                                     columnGap={1}
-                                    justifyContent="space-between"
-                                  >
+                                    justifyContent='space-between'>
                                     {utils
                                       .getLotDetailFields(
                                         essentials,
@@ -263,12 +221,11 @@ const RawPurchase = () => {
                                         return !values.lots[lotIndex]
                                           ?.issue_dying ||
                                           lotDetailField.name !==
-                                            "warehouse" ? (
+                                            'warehouse' ? (
                                           <Grid
-                                            key={lotDetailIndex}
+                                            key={`lotDetail-${lotIndex}-${lotDetailIndex}-item`}
                                             item
-                                            xs={lotDetailField.xs || 1}
-                                          >
+                                            xs={lotDetailField.xs || 1}>
                                             <FastField
                                               {...getFieldProps(
                                                 lotDetailField,
@@ -291,27 +248,29 @@ const RawPurchase = () => {
                                                   lotDetailField.name
                                                 ]
                                               }
-                                              variant="standard"
+                                              variant='standard'
                                             />
                                           </Grid>
                                         ) : null;
                                       })}
-                                    {getCalculatedValues(
-                                      values,
-                                      lotIndex,
-                                      index
-                                    ).map((calculated, calIndex) => (
-                                      <Grid item xs={1}>
-                                        <TextField
-                                          disabled
-                                          key={calIndex}
-                                          label={calculated.label}
-                                          size="small"
-                                          variant="standard"
-                                          value={calculated.value}
-                                        />
-                                      </Grid>
-                                    ))}
+                                    {utils
+                                      .getCalculatedValues(
+                                        values,
+                                        lotIndex,
+                                        index
+                                      )
+                                      .map((calculated, calIndex) => (
+                                        <Grid key={calIndex} item xs={1}>
+                                          <TextField
+                                            disabled
+                                            key={calIndex}
+                                            label={calculated.label}
+                                            size='small'
+                                            variant='standard'
+                                            value={calculated.value}
+                                          />
+                                        </Grid>
+                                      ))}
                                     <Grid item xs={1}>
                                       <AddRemove
                                         disabled={
@@ -338,11 +297,14 @@ const RawPurchase = () => {
                             }
                           />
                           <LotTotalWrapper container>
-                            {getTotals(values.lots[lotIndex].lot_detail).map(
-                              (text, textIndex) => (
-                                <Total text={text} index={textIndex} />
-                              )
-                            )}
+                            {utils
+                              .getTotals(values.lots[lotIndex].lot_detail)
+                              .map((text, textIndex) => (
+                                <Total
+                                  text={text}
+                                  index={`${textIndex}-inner`}
+                                />
+                              ))}
                           </LotTotalWrapper>
                         </DetailWrapper>
                       </LotWrapper>
@@ -350,9 +312,19 @@ const RawPurchase = () => {
                   }
                 />
                 <Grid container>
-                  {getTotals(values, true).map((text, textIndex) => (
-                    <Total text={text} index={textIndex} variant="body2" />
+                  {utils.getTotals(values, true).map((text, textIndex) => (
+                    <Total
+                      key={`${textIndex}-bottom`}
+                      text={text}
+                      index={textIndex}
+                      variant='body2'
+                    />
                   ))}
+                </Grid>
+                <Grid container justifyContent='flex-end'>
+                  <StyledButton onClick={handleSubmit} variant='contained'>
+                    Post
+                  </StyledButton>
                 </Grid>
               </Form>
             )}

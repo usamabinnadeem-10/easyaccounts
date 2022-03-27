@@ -1,9 +1,9 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { FIELDS } from "./constants";
+import { FIELDS } from './constants';
 
-const REQUIRED = "Required";
-const NUMBER_ERROR = "Please enter a value greater than 0";
+const REQUIRED = 'Required';
+const NUMBER_ERROR = 'Please enter a value greater than 0';
 
 const numberSchema = Yup.number()
   .typeError(REQUIRED)
@@ -14,8 +14,8 @@ const objectSchema = Yup.object().typeError(REQUIRED).required(REQUIRED);
 
 export const schema = Yup.object().shape({
   [FIELDS.person]: objectSchema,
-  [FIELDS.manual_book_number]: numberSchema,
-  [FIELDS.date]: Yup.date().typeError("Invalid date").required(REQUIRED),
+  [FIELDS.manual_invoice_serial]: numberSchema,
+  [FIELDS.date]: Yup.date().typeError('Invalid date').required(REQUIRED),
   [FIELDS.lots]: Yup.array().of(
     Yup.object().shape({
       [FIELDS.raw_product]: objectSchema,

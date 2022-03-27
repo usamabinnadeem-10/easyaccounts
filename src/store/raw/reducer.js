@@ -1,16 +1,17 @@
-import * as actionTypes from "./actionTypes";
-
-import * as utils from "./utils";
+import * as actionTypes from './actionTypes';
 
 const initialState = {
   formulasInfo: {
     fetched: false,
     formulas: [],
   },
-  products: {},
+  productsInfo: {
+    fetched: false,
+    products: [],
+  },
   isAdding: false,
   added: false,
-  error: "",
+  error: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -31,7 +32,7 @@ const reducer = (state = initialState, action) => {
         },
         isAdding: false,
         added: true,
-        error: "",
+        error: '',
       };
     case actionTypes.ADD_NEW_FORMULA_FAIL:
       return {
@@ -49,22 +50,14 @@ const reducer = (state = initialState, action) => {
         },
       };
     // ------------- Product --------------- //
-    case actionTypes.GET_ALL_PRODUCT:
+    case actionTypes.GET_ALL_RAW_PRODUCT_SUCCESS:
       return {
         ...state,
-        products: {
-          ...state.products,
-          [action.payload.person]: [],
+        productsInfo: {
+          fetched: true,
+          products: action.payload,
         },
-      };
-    case actionTypes.GET_ALL_PRODUCT_SUCCESS:
-      return {
-        ...state,
-        products: utils.addListOfProductsToStore(
-          state.products,
-          action.payload
-        ),
-        error: "",
+        error: '',
       };
     case actionTypes.ADD_NEW_PRODUCT:
       return {
@@ -75,10 +68,13 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
       return {
         ...state,
-        products: utils.addProductToStore(state.products, action.payload),
+        productsInfo: {
+          ...state.productsInfo,
+          products: [...state.productsInfo.products, action.payload],
+        },
         isAdding: false,
         added: true,
-        error: "",
+        error: '',
       };
     case actionTypes.ADD_NEW_PRODUCT_FAIL:
       return {

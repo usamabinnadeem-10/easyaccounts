@@ -1,19 +1,20 @@
-import { all } from "redux-saga/effects";
-import { call } from "redux-saga/effects";
-import { put } from "redux-saga/effects";
-import { takeLatest } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-import * as actionTypes from "./actionTypes";
-import * as actions from "./actions";
-import * as api from "./api";
+import * as actionTypes from './actionTypes';
+import * as actions from './actions';
+import * as api from './api';
+import * as utils from './utils';
 
-import { findErrorMessage } from "../../app/utilities/objectUtils";
+import { findErrorMessage } from '../../app/utilities/objectUtils';
 
 function* rawSagas() {
   yield all([
     takeLatest(actionTypes.GET_ALL_FORMULAS, getAllFormulaSaga),
     takeLatest(actionTypes.ADD_NEW_FORMULA, addNewFormulaSaga),
-    takeLatest(actionTypes.GET_ALL_PRODUCT, getAllProductSaga),
+    takeLatest(actionTypes.GET_ALL_RAW_PRODUCT, getAllProductSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
   ]);
 }
@@ -38,8 +39,10 @@ function* addNewFormulaSaga(action) {
 
 function* getAllProductSaga(action) {
   try {
-    let response = yield call(api.listRawProductApi, action.payload);
-    yield put(actions.getAllProductSuccess(response.data));
+    let response = yield call(api.listRawProductApi);
+    yield put(
+      actions.getAllProductSuccess(utils.formatRawProducts(response.data))
+    );
   } catch (error) {
     yield put(actions.getAllProductFail(findErrorMessage(error.response.data)));
   }
@@ -48,7 +51,9 @@ function* getAllProductSaga(action) {
 function* addNewProductSaga(action) {
   try {
     let response = yield call(api.createRawProduct, action.payload);
-    yield put(actions.addNewProductSuccess(response.data));
+    yield put(
+      actions.addNewProductSuccess(utils.formatRawProducts(response.data))
+    );
   } catch (error) {
     yield put(actions.addNewProductFail(findErrorMessage(error.response.data)));
   }
