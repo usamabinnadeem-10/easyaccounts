@@ -21,15 +21,17 @@ import MoneyIcon from "@mui/icons-material/Money";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import DnsIcon from "@mui/icons-material/Dns";
+import CalculateIcon from "@mui/icons-material/Calculate";
+import ShowerIcon from "@mui/icons-material/Shower";
 
 import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import CheckroomIcon from "@mui/icons-material/Checkroom";
 
-import RawOnIcon from '@mui/icons-material/RawOn';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
-import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
-import FilterAltIcon from '@mui/icons-material/FilterAlt';
+import RawOnIcon from "@mui/icons-material/RawOn";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
+import FilterAltIcon from "@mui/icons-material/FilterAlt";
 
 import {
   VIEW,
@@ -62,6 +64,9 @@ import {
   RAW_PURCHASE,
   RAW_SALE,
   RAW_SEARCH,
+  FORMULA,
+  RAW_PRODUCT,
+  DYING_UNIT,
 } from "./constants";
 
 export const getIcon = (panel) => {
@@ -119,13 +124,19 @@ export const getIcon = (panel) => {
     case OPENING_STOCK:
       return <DnsIcon />;
     case RAW:
-      return <RawOnIcon />
+      return <RawOnIcon />;
     case RAW_PURCHASE:
-      return <ShoppingCartIcon />
+      return <ShoppingCartIcon />;
     case RAW_SALE:
-      return <PointOfSaleIcon />
+      return <PointOfSaleIcon />;
     case RAW_SEARCH:
-      return <FilterAltIcon />
+      return <FilterAltIcon />;
+    case FORMULA:
+      return <CalculateIcon />;
+    case RAW_PRODUCT:
+      return <RawOnIcon />;
+    case DYING_UNIT:
+      return <ShowerIcon />;
     default:
       break;
   }

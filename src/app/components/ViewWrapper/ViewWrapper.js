@@ -4,9 +4,9 @@ import Heading from "../../components/Heading";
 
 import { Wrapper } from "./styled";
 
-const ViewWrapper = ({ children, heading, padding, marginBottom }) => {
+const ViewWrapper = ({ children, heading, padding, marginBottom, width }) => {
   return (
-    <Wrapper padding={padding} marginbottom={marginBottom}>
+    <Wrapper width={width} padding={padding} marginbottom={marginBottom}>
       <Heading heading={heading} />
       {children}
     </Wrapper>

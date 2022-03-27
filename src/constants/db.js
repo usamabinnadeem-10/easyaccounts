@@ -44,6 +44,8 @@ export const DB = {
   AREA: "area",
   OPENING_STOCK: "opening_stock",
   OPENING_STOCK_RATE: "opening_stock_rate",
+  NUMERATOR: "numerator",
+  DENOMINATOR: "denominator",
 };
 
 export const DB_TRANSLATION = {

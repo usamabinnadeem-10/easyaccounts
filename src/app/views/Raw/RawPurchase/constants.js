@@ -12,6 +12,7 @@ export const FIELDS = {
   lot_detail: "lot_detail",
   issue_dying: "issue_dying",
   dying_unit: "dying_unit",
+  rate: "rate",
 };
 
 export const FIELD_TYPES = {
@@ -28,6 +29,7 @@ export const LOT_DETAIL_INITIAL = {
   [FIELDS.yards_per_piece_expected]: "",
   [FIELDS.formula]: "",
   [FIELDS.warehouse]: "",
+  [FIELDS.rate]: "",
 };
 
 export const INITIAL_VALUES = {

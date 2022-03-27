@@ -1,0 +1,1 @@
+export { addNewDying } from "./actions";

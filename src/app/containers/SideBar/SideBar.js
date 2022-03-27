@@ -1,5 +1,6 @@
 import React from "react";
 import { useState } from "react";
+import { useEffect } from "react";
 
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
@@ -31,23 +32,46 @@ import { BranchName } from "./styled";
 
 import { logout } from "../../../store/auth";
 
-const SideBar = ({ fetched }) => {
+import { withSnackbar } from "../../hoc/withSnackbar";
+
+const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
   let history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
+  const dying = useSelector((state) => state.dying);
+  const raw = useSelector((state) => state.raw);
   const activeBranch = useSelector((state) => state.auth.activeBranch);
 
   const [open, setOpen] = useState({
     panel: 0,
     expand: false,
   });
+  const [isLoading, setIsLoading] = useState(false);
+  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
+  const [form, setForm] = useState([]);
 
   const handleLogout = () => {
     dispatch(logout());
   };
 
-  const [isAddModalOpen, setIsAddModalOpen] = useState(false);
-  const [form, setForm] = useState([]);
+  useEffect(() => {
+    if (essentials.adding || raw.adding || dying.adding) {
+      setIsLoading(true);
+    }
+    if (essentials.added || raw.added || dying.added) {
+      setIsLoading(false);
+      showSuccessSnackbar("Added successfully");
+      setIsAddModalOpen(false);
+    }
+    if (
+      (essentials.error && !essentials.added) ||
+      (raw.error && !raw.added) ||
+      (dying.error && !dying.added)
+    ) {
+      setIsLoading(false);
+      showErrorSnackbar(essentials.error || raw.error || dying.error);
+    }
+  }, [essentials, dying, raw]);
 
   const handleOpen = (panel) => {
     setOpen({
@@ -65,6 +89,7 @@ const SideBar = ({ fetched }) => {
     <>
       {isAddModalOpen && (
         <AddModal
+          isLoading={isLoading}
           open={isAddModalOpen}
           handleClose={() => setIsAddModalOpen(false)}
           form={form}
@@ -147,4 +172,4 @@ const SideBar = ({ fetched }) => {
   );
 };
 
-export default SideBar;
+export default withSnackbar(SideBar);

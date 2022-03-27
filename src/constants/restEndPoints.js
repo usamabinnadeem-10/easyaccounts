@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = "http://127.0.0.1:8000/";
-export const BASE = "https://fa5e-139-135-32-7.ngrok.io";
+export const BASE = "http://127.0.0.1:8000/";
+// export const BASE = "https://fa5e-139-135-32-7.ngrok.io";
 
 const AUTH = "auth/";
 const TOKEN = "token/";
@@ -109,4 +109,30 @@ export const CHEQUE_URLS = {
 
 export const CSC_URLS = {
   CITIES_BY_COUNTRY: `countries/PK/cities`,
+};
+
+const DYING = "dying/";
+const DYING_UNIT = "dying-unit/";
+export const DYING_APIS = {
+  CREATE: {
+    DYING_UNIT: `${DYING}${DYING_UNIT}${CREATE}`,
+  },
+  LIST: {
+    DYING_UNIT: `${DYING}${DYING_UNIT}${LIST}`,
+  },
+};
+
+const RAW = "raw/";
+const FORMULA = "formula/";
+const PRODUCT = "product/";
+export const RAW_APIS = {
+  CREATE: {
+    FORMULA: `${RAW}${FORMULA}${CREATE}`,
+    PRODUCT: `${RAW}${PRODUCT}${CREATE}`,
+    TRANSACTION: `${RAW}${TRANSACTION}${CREATE}`,
+  },
+  LIST: {
+    FORMULA: `${RAW}${FORMULA}${LIST}`,
+    PRODUCT: `${RAW}${PRODUCT}${LIST}`,
+  },
 };

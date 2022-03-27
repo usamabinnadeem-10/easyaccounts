@@ -2,7 +2,6 @@ import React from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 
-import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 
 import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
@@ -30,15 +29,12 @@ const AddModal = ({
   isEdit = false,
   defaultFormState,
   showErrorSnackbar,
-  showSuccessSnackbar,
+  isLoading,
 }) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const essentials = useSelector((state) => state.essentials);
-
   const [state, setState] = useState({});
-  const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
   useEffect(() => {
@@ -58,21 +54,6 @@ const AddModal = ({
       setState({});
     }
   }, [form, isEdit, defaultFormState]);
-
-  useEffect(() => {
-    if (essentials.adding) {
-      setLoading(true);
-    }
-    if (essentials.added) {
-      setLoading(false);
-      showSuccessSnackbar("Added successfully");
-      handleClose();
-    }
-    if (essentials.error) {
-      setLoading(false);
-      showErrorSnackbar(essentials.error);
-    }
-  }, [essentials.added, essentials.adding, essentials.error]);
 
   const handleChange = (value, label) => {
     setState({
@@ -159,7 +140,7 @@ const AddModal = ({
                 <CustomDatePicker
                   placeholder={field.label}
                   getDate={(date) => handleChange(date, field.name)}
-                  value={state.date}
+                  value={state[field.name] || null}
                   fullWidth
                 />
               </div>
@@ -198,7 +179,7 @@ const AddModal = ({
           })}
 
           <LoadingButton
-            loading={loading}
+            loading={isLoading}
             onClick={submit}
             variant="contained"
             sx={{ mt: 2, fontWeight: 700 }}

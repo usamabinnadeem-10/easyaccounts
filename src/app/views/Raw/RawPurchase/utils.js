@@ -68,7 +68,14 @@ export const getLotDetailFields = (essentials, lotIndex, lotDetailIndex) => {
         },
       ],
       label: "Formula",
-      xs: 2,
+      xs: 1,
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.rate}`,
+      name: FIELDS.rate,
+      type: FIELD_TYPES.NUMBER,
+      label: "Rate",
+      xs: 1,
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.warehouse}`,

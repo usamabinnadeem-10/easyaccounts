@@ -74,10 +74,12 @@ const RawPurchase = () => {
     let expected = qty * obj[constants.FIELDS.yards_per_piece_expected] || 0;
     let actual =
       qty * ratio * obj[constants.FIELDS.yards_per_piece_actual] || 0;
+    let total = obj[constants.FIELDS.rate] * actual;
     return {
       qty,
       expected,
       actual,
+      total,
     };
   };
 
@@ -92,6 +94,10 @@ const RawPurchase = () => {
       {
         label: "Expected",
         value: calculated.expected,
+      },
+      {
+        label: "Total",
+        value: calculated.total,
       },
     ];
   };
@@ -135,7 +141,7 @@ const RawPurchase = () => {
   };
 
   return (
-    <ViewWrapper marginBottom={4} heading="Kora Purchase">
+    <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
       <Formik
         initialValues={constants.INITIAL_VALUES}
         validationSchema={schema}
@@ -161,29 +167,35 @@ const RawPurchase = () => {
                     key={lotIndex}
                   >
                     <LotHeader container justifyContent="space-between">
-                      {utils
-                        .getLotHeadField(
-                          essentials,
-                          lotIndex,
-                          values.lots[lotIndex].issue_dying
-                        )
-                        .map(
-                          (field, lotFieldIndex) =>
-                            field.render && (
-                              <Grid item xs={3}>
-                                <FastField
-                                  {...getFieldProps(field, errors, touched)}
-                                  isError={
-                                    !!errors.lots?.[lotIndex]?.[field.name] &&
-                                    touched.lots?.[lotIndex]?.[field.name]
-                                  }
-                                  errorText={
-                                    errors.lots?.[lotIndex]?.[field.name]
-                                  }
-                                />
-                              </Grid>
+                      <Grid item xs={10}>
+                        <Grid container justifyContext="space-between">
+                          {utils
+                            .getLotHeadField(
+                              essentials,
+                              lotIndex,
+                              values.lots[lotIndex].issue_dying
                             )
-                        )}
+                            .map(
+                              (field, lotFieldIndex) =>
+                                field.render && (
+                                  <Grid item xs={3}>
+                                    <FastField
+                                      {...getFieldProps(field, errors, touched)}
+                                      isError={
+                                        !!errors.lots?.[lotIndex]?.[
+                                          field.name
+                                        ] &&
+                                        touched.lots?.[lotIndex]?.[field.name]
+                                      }
+                                      errorText={
+                                        errors.lots?.[lotIndex]?.[field.name]
+                                      }
+                                    />
+                                  </Grid>
+                                )
+                            )}
+                        </Grid>
+                      </Grid>
 
                       <Grid item xs={1}>
                         <AddRemove
@@ -216,37 +228,42 @@ const RawPurchase = () => {
                                     lotIndex,
                                     index
                                   )
-                                  .map((lotDetailField, lotDetailIndex) => (
-                                    <Grid
-                                      key={lotDetailIndex}
-                                      item
-                                      xs={lotDetailField.xs || 1}
-                                    >
-                                      <FastField
-                                        {...getFieldProps(
-                                          lotDetailField,
-                                          errors,
-                                          touched
-                                        )}
-                                        isError={
-                                          !!errors.lots?.[lotIndex]
-                                            ?.lot_detail?.[index]?.[
-                                            lotDetailField.name
-                                          ] &&
-                                          touched.lots?.[lotIndex]
-                                            ?.lot_detail?.[index]?.[
-                                            lotDetailField.name
-                                          ]
-                                        }
-                                        errorText={
-                                          errors.lots?.[lotIndex]?.lot_detail?.[
-                                            index
-                                          ]?.[lotDetailField.name]
-                                        }
-                                        variant="standard"
-                                      />
-                                    </Grid>
-                                  ))}
+                                  .map((lotDetailField, lotDetailIndex) => {
+                                    return !values.lots[lotIndex]
+                                      ?.issue_dying ||
+                                      lotDetailField.name !== "warehouse" ? (
+                                      <Grid
+                                        key={lotDetailIndex}
+                                        item
+                                        xs={lotDetailField.xs || 1}
+                                      >
+                                        <FastField
+                                          {...getFieldProps(
+                                            lotDetailField,
+                                            errors,
+                                            touched
+                                          )}
+                                          isError={
+                                            !!errors.lots?.[lotIndex]
+                                              ?.lot_detail?.[index]?.[
+                                              lotDetailField.name
+                                            ] &&
+                                            touched.lots?.[lotIndex]
+                                              ?.lot_detail?.[index]?.[
+                                              lotDetailField.name
+                                            ]
+                                          }
+                                          errorText={
+                                            errors.lots?.[lotIndex]
+                                              ?.lot_detail?.[index]?.[
+                                              lotDetailField.name
+                                            ]
+                                          }
+                                          variant="standard"
+                                        />
+                                      </Grid>
+                                    ) : null;
+                                  })}
                                 {getCalculatedValues(
                                   values,
                                   lotIndex,

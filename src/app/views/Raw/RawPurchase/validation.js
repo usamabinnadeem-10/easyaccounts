@@ -28,6 +28,7 @@ export const schema = Yup.object().shape({
           [FIELDS.yards_per_piece_expected]: numberSchema,
           [FIELDS.formula]: objectSchema,
           [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).nullable(),
+          [FIELDS.rate]: numberSchema,
         })
       ),
     })

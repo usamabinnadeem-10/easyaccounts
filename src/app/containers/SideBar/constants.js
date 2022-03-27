@@ -20,6 +20,8 @@ import { FIELDS } from "../../../constants/fieldTypes";
 import { DB } from "../../../constants/db";
 
 import * as actions from "../../../store/essentials/actions";
+import { addNewFormula, addNewProduct } from "../../../store/raw";
+import { addNewDying } from "../../../store/dying";
 
 export const VIEW = "View";
 export const LEDGER = "Ledgers";
@@ -47,6 +49,9 @@ export const ACCOUNT = "Account Head";
 export const EXPENSE_ACCOUNT = "Expense Head";
 export const AREA = "Area";
 export const OPENING_STOCK = "Add Opening Stock";
+export const FORMULA = "Formula";
+export const RAW_PRODUCT = "Kora product";
+export const DYING_UNIT = "Dying unit";
 
 export const DYING = "Dying/Washing";
 export const DYING_ISSUE = "Issue";
@@ -149,6 +154,18 @@ export const SIDEBAR = [
       {
         name: OPENING_STOCK,
         modal: OPENING_STOCK,
+      },
+      {
+        name: FORMULA,
+        modal: FORMULA,
+      },
+      {
+        name: RAW_PRODUCT,
+        modal: RAW_PRODUCT,
+      },
+      {
+        name: DYING_UNIT,
+        modal: DYING_UNIT,
       },
     ],
   },
@@ -337,6 +354,46 @@ export const getOpeningStockForm = (essentials) => {
   };
 };
 
+const RAW_PRODUCT_TYPES = [
+  {
+    label: "Standard",
+    value: "Standard",
+  },
+  {
+    label: "Baara",
+    value: "Baara",
+  },
+];
+
+export const getRawProductForm = (essentials) => {
+  return {
+    heading: "Add Kora Product",
+    action: addNewProduct,
+    formData: [
+      {
+        label: "Product Name",
+        type: FIELDS.STRING,
+        name: DB.NAME,
+        required: true,
+      },
+      {
+        label: "Supplier",
+        type: FIELDS.SELECT,
+        name: DB.PERSON,
+        options: essentials.suppliers,
+        required: true,
+      },
+      {
+        label: "Type",
+        type: FIELDS.SELECT,
+        name: DB.TYPE,
+        options: RAW_PRODUCT_TYPES,
+        required: true,
+      },
+    ],
+  };
+};
+
 export const MODAL_DEFAULTS = {
   [PRODUCT]: {
     heading: "Add Product",
@@ -397,6 +454,36 @@ export const MODAL_DEFAULTS = {
       },
     ],
   },
+  [FORMULA]: {
+    heading: "Add Formula",
+    action: addNewFormula,
+    formData: [
+      {
+        label: "Multiply by",
+        type: FIELDS.NUMBER,
+        name: DB.NUMERATOR,
+        required: true,
+      },
+      {
+        label: "Divide by",
+        type: FIELDS.NUMBER,
+        name: DB.DENOMINATOR,
+        required: true,
+      },
+    ],
+  },
+  [DYING_UNIT]: {
+    heading: "Add Dying Unit",
+    action: addNewDying,
+    formData: [
+      {
+        label: "Dying Unit Name",
+        type: FIELDS.STRING,
+        name: DB.NAME,
+        required: true,
+      },
+    ],
+  },
 };
 
 export const chooseModal = (name, essentials) => {
@@ -407,6 +494,8 @@ export const chooseModal = (name, essentials) => {
       return getAreaForm(essentials);
     case OPENING_STOCK:
       return getOpeningStockForm(essentials);
+    case RAW_PRODUCT:
+      return getRawProductForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }
