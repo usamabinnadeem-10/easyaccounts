@@ -1,6 +1,8 @@
 import React from "react";
 import { useMemo } from "react";
+import { useEffect } from "react";
 
+import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
 
 import { Formik } from "formik";
@@ -12,6 +14,7 @@ import { Grid } from "@mui/material";
 import { TextField } from "@mui/material";
 
 import AddRemove from "../../../components/AddRemove";
+import CustomLoader from "../../../components/CustomLoader";
 import ViewWrapper from "../../../components/ViewWrapper";
 
 import { FormAutoCompleteField } from "../../../utilities/formUtils";
@@ -30,6 +33,9 @@ import { LotWrapper } from "./styled";
 import { MetaWrapper } from "./styled";
 import { TotalText } from "./styled";
 
+import { getAllDying } from "../../../../store/dying";
+import { getAllFormulas } from "../../../../store/raw";
+
 const Total = ({ text, index, variant }) => {
   return (
     <TotalText variant={variant || "caption"} key={index}>
@@ -39,7 +45,20 @@ const Total = ({ text, index, variant }) => {
 };
 
 const RawPurchase = () => {
+  const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
+  const raw = useSelector((state) => state.raw);
+  const dying = useSelector((state) => state.dying);
+
+  // fetch formulas in beginning if not fetched already
+  useEffect(() => {
+    if (!raw.formulasInfo.fetched) {
+      dispatch(getAllFormulas());
+    }
+    if (!dying.fetched) {
+      dispatch(getAllDying());
+    }
+  }, []);
 
   const metaFields = useMemo(
     () => utils.getMetaFields(essentials),
@@ -141,191 +160,208 @@ const RawPurchase = () => {
   };
 
   return (
-    <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
-      <Formik
-        initialValues={constants.INITIAL_VALUES}
-        validationSchema={schema}
-      >
-        {({ values, errors, touched }) => (
-          <Form>
-            <MetaWrapper gap={2} container justifyContent="space-between">
-              {metaFields.map((field, index) => (
-                <Grid key={index} item xs={5}>
-                  <FastField {...getFieldProps(field, errors, touched)} />
-                </Grid>
-              ))}
-            </MetaWrapper>
-            <FieldArray
-              name={constants.FIELDS.lots}
-              render={(arrayHelpersLot) =>
-                values.lots &&
-                values.lots.map((lot, lotIndex) => (
-                  <LotWrapper
-                    container
-                    direction="column"
-                    gap={3}
-                    key={lotIndex}
-                  >
-                    <LotHeader container justifyContent="space-between">
-                      <Grid item xs={10}>
-                        <Grid container justifyContext="space-between">
-                          {utils
-                            .getLotHeadField(
-                              essentials,
-                              lotIndex,
-                              values.lots[lotIndex].issue_dying
-                            )
-                            .map(
-                              (field, lotFieldIndex) =>
-                                field.render && (
-                                  <Grid item xs={3}>
-                                    <FastField
-                                      {...getFieldProps(field, errors, touched)}
-                                      isError={
-                                        !!errors.lots?.[lotIndex]?.[
-                                          field.name
-                                        ] &&
-                                        touched.lots?.[lotIndex]?.[field.name]
-                                      }
-                                      errorText={
-                                        errors.lots?.[lotIndex]?.[field.name]
-                                      }
-                                    />
-                                  </Grid>
+    <>
+      {raw.formulasInfo.fetched && dying.fetched ? (
+        <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
+          <Formik
+            initialValues={constants.INITIAL_VALUES}
+            validationSchema={schema}
+          >
+            {({ values, errors, touched }) => (
+              <Form>
+                <MetaWrapper gap={2} container justifyContent="space-between">
+                  {metaFields.map((field, index) => (
+                    <Grid key={index} item xs={5}>
+                      <FastField {...getFieldProps(field, errors, touched)} />
+                    </Grid>
+                  ))}
+                </MetaWrapper>
+                <FieldArray
+                  name={constants.FIELDS.lots}
+                  render={(arrayHelpersLot) =>
+                    values.lots &&
+                    values.lots.map((lot, lotIndex) => (
+                      <LotWrapper
+                        container
+                        direction="column"
+                        gap={3}
+                        key={lotIndex}
+                      >
+                        <LotHeader container justifyContent="space-between">
+                          <Grid item xs={10}>
+                            <Grid container justifyContext="space-between">
+                              {utils
+                                .getLotHeadField(
+                                  essentials,
+                                  lotIndex,
+                                  values.lots[lotIndex].issue_dying,
+                                  dying.dyingUnits
                                 )
-                            )}
-                        </Grid>
-                      </Grid>
-
-                      <Grid item xs={1}>
-                        <AddRemove
-                          disabled={values.lots.length === 1}
-                          onAdd={() =>
-                            arrayHelpersLot.push(
-                              constants.INITIAL_VALUES.lots[0]
-                            )
-                          }
-                          onDelete={() => arrayHelpersLot.remove(lotIndex)}
-                          addColor="secondary"
-                        />
-                      </Grid>
-                    </LotHeader>
-                    <DetailWrapper container direction="column" gap={1}>
-                      <FieldArray
-                        name={`${constants.FIELDS.lots}.${lotIndex}.${constants.FIELDS.lot_detail}`}
-                        render={(arrayHelpersLotDetail) =>
-                          values.lots[lotIndex]?.lot_detail &&
-                          values.lots[lotIndex].lot_detail.map(
-                            (lotDetail, index) => (
-                              <Grid
-                                container
-                                columnGap={1}
-                                justifyContent="space-between"
-                              >
-                                {utils
-                                  .getLotDetailFields(
-                                    essentials,
-                                    lotIndex,
-                                    index
-                                  )
-                                  .map((lotDetailField, lotDetailIndex) => {
-                                    return !values.lots[lotIndex]
-                                      ?.issue_dying ||
-                                      lotDetailField.name !== "warehouse" ? (
-                                      <Grid
-                                        key={lotDetailIndex}
-                                        item
-                                        xs={lotDetailField.xs || 1}
-                                      >
+                                .map(
+                                  (field, lotFieldIndex) =>
+                                    field.render && (
+                                      <Grid item xs={3}>
                                         <FastField
                                           {...getFieldProps(
-                                            lotDetailField,
+                                            field,
                                             errors,
                                             touched
                                           )}
                                           isError={
-                                            !!errors.lots?.[lotIndex]
-                                              ?.lot_detail?.[index]?.[
-                                              lotDetailField.name
+                                            !!errors.lots?.[lotIndex]?.[
+                                              field.name
                                             ] &&
-                                            touched.lots?.[lotIndex]
-                                              ?.lot_detail?.[index]?.[
-                                              lotDetailField.name
+                                            touched.lots?.[lotIndex]?.[
+                                              field.name
                                             ]
                                           }
                                           errorText={
-                                            errors.lots?.[lotIndex]
-                                              ?.lot_detail?.[index]?.[
-                                              lotDetailField.name
+                                            errors.lots?.[lotIndex]?.[
+                                              field.name
                                             ]
                                           }
-                                          variant="standard"
                                         />
                                       </Grid>
-                                    ) : null;
-                                  })}
-                                {getCalculatedValues(
-                                  values,
-                                  lotIndex,
-                                  index
-                                ).map((calculated, calIndex) => (
-                                  <Grid item xs={1}>
-                                    <TextField
-                                      disabled
-                                      key={calIndex}
-                                      label={calculated.label}
-                                      size="small"
-                                      variant="standard"
-                                      value={calculated.value}
-                                    />
+                                    )
+                                )}
+                            </Grid>
+                          </Grid>
+
+                          <Grid item xs={1}>
+                            <AddRemove
+                              disabled={values.lots.length === 1}
+                              onAdd={() =>
+                                arrayHelpersLot.push(
+                                  constants.INITIAL_VALUES.lots[0]
+                                )
+                              }
+                              onDelete={() => arrayHelpersLot.remove(lotIndex)}
+                              addColor="secondary"
+                            />
+                          </Grid>
+                        </LotHeader>
+                        <DetailWrapper container direction="column" gap={1}>
+                          <FieldArray
+                            name={`${constants.FIELDS.lots}.${lotIndex}.${constants.FIELDS.lot_detail}`}
+                            render={(arrayHelpersLotDetail) =>
+                              values.lots[lotIndex]?.lot_detail &&
+                              values.lots[lotIndex].lot_detail.map(
+                                (lotDetail, index) => (
+                                  <Grid
+                                    container
+                                    columnGap={1}
+                                    justifyContent="space-between"
+                                  >
+                                    {utils
+                                      .getLotDetailFields(
+                                        essentials,
+                                        lotIndex,
+                                        index,
+                                        raw.formulasInfo.formulas
+                                      )
+                                      .map((lotDetailField, lotDetailIndex) => {
+                                        return !values.lots[lotIndex]
+                                          ?.issue_dying ||
+                                          lotDetailField.name !==
+                                            "warehouse" ? (
+                                          <Grid
+                                            key={lotDetailIndex}
+                                            item
+                                            xs={lotDetailField.xs || 1}
+                                          >
+                                            <FastField
+                                              {...getFieldProps(
+                                                lotDetailField,
+                                                errors,
+                                                touched
+                                              )}
+                                              isError={
+                                                !!errors.lots?.[lotIndex]
+                                                  ?.lot_detail?.[index]?.[
+                                                  lotDetailField.name
+                                                ] &&
+                                                touched.lots?.[lotIndex]
+                                                  ?.lot_detail?.[index]?.[
+                                                  lotDetailField.name
+                                                ]
+                                              }
+                                              errorText={
+                                                errors.lots?.[lotIndex]
+                                                  ?.lot_detail?.[index]?.[
+                                                  lotDetailField.name
+                                                ]
+                                              }
+                                              variant="standard"
+                                            />
+                                          </Grid>
+                                        ) : null;
+                                      })}
+                                    {getCalculatedValues(
+                                      values,
+                                      lotIndex,
+                                      index
+                                    ).map((calculated, calIndex) => (
+                                      <Grid item xs={1}>
+                                        <TextField
+                                          disabled
+                                          key={calIndex}
+                                          label={calculated.label}
+                                          size="small"
+                                          variant="standard"
+                                          value={calculated.value}
+                                        />
+                                      </Grid>
+                                    ))}
+                                    <Grid item xs={1}>
+                                      <AddRemove
+                                        disabled={
+                                          values.lots[lotIndex].lot_detail
+                                            .length === 1
+                                        }
+                                        onAdd={() =>
+                                          arrayHelpersLotDetail.push({
+                                            ...constants.LOT_DETAIL_INITIAL,
+                                            formula:
+                                              values.lots[lotIndex].lot_detail[
+                                                index
+                                              ].formula,
+                                          })
+                                        }
+                                        onDelete={() =>
+                                          arrayHelpersLotDetail.remove(index)
+                                        }
+                                      />
+                                    </Grid>
                                   </Grid>
-                                ))}
-                                <Grid item xs={1}>
-                                  <AddRemove
-                                    disabled={
-                                      values.lots[lotIndex].lot_detail
-                                        .length === 1
-                                    }
-                                    onAdd={() =>
-                                      arrayHelpersLotDetail.push({
-                                        ...constants.LOT_DETAIL_INITIAL,
-                                        formula:
-                                          values.lots[lotIndex].lot_detail[
-                                            index
-                                          ].formula,
-                                      })
-                                    }
-                                    onDelete={() =>
-                                      arrayHelpersLotDetail.remove(index)
-                                    }
-                                  />
-                                </Grid>
-                              </Grid>
-                            )
-                          )
-                        }
-                      />
-                      <LotTotalWrapper container>
-                        {getTotals(values.lots[lotIndex].lot_detail).map(
-                          (text, textIndex) => (
-                            <Total text={text} index={textIndex} />
-                          )
-                        )}
-                      </LotTotalWrapper>
-                    </DetailWrapper>
-                  </LotWrapper>
-                ))
-              }
-            />
-            <Grid container>
-              {getTotals(values, true).map((text, textIndex) => (
-                <Total text={text} index={textIndex} variant="body2" />
-              ))}
-            </Grid>
-          </Form>
-        )}
-      </Formik>
-    </ViewWrapper>
+                                )
+                              )
+                            }
+                          />
+                          <LotTotalWrapper container>
+                            {getTotals(values.lots[lotIndex].lot_detail).map(
+                              (text, textIndex) => (
+                                <Total text={text} index={textIndex} />
+                              )
+                            )}
+                          </LotTotalWrapper>
+                        </DetailWrapper>
+                      </LotWrapper>
+                    ))
+                  }
+                />
+                <Grid container>
+                  {getTotals(values, true).map((text, textIndex) => (
+                    <Total text={text} index={textIndex} variant="body2" />
+                  ))}
+                </Grid>
+              </Form>
+            )}
+          </Formik>
+        </ViewWrapper>
+      ) : (
+        <CustomLoader pageLoader loading={true} />
+      )}
+    </>
   );
 };
 

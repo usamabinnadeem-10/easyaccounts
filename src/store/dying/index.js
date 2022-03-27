@@ -1,1 +1,1 @@
-export { addNewDying } from "./actions";
+export { addNewDying, getAllDying } from "./actions";

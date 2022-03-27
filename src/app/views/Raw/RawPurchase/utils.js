@@ -21,7 +21,19 @@ export const getMetaFields = (essentials) => {
   ];
 };
 
-export const getLotDetailFields = (essentials, lotIndex, lotDetailIndex) => {
+export const formatFormulas = (formulas) => {
+  return formulas.map((formula) => ({
+    ...formula,
+    label: `${formula.numerator}/${formula.denominator}`,
+  }));
+};
+
+export const getLotDetailFields = (
+  essentials,
+  lotIndex,
+  lotDetailIndex,
+  formulas
+) => {
   return [
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.quantity}`,
@@ -45,30 +57,9 @@ export const getLotDetailFields = (essentials, lotIndex, lotDetailIndex) => {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.formula}`,
       name: FIELDS.formula,
       type: FIELD_TYPES.SELECT,
-      options: [
-        {
-          value: "12345",
-          label: "20/21",
-          numerator: 20,
-          denominator: 21,
-        },
-        {
-          value: "123456",
-          label: "19/20",
-
-          numerator: 19,
-          denominator: 20,
-        },
-        {
-          value: "123451",
-          label: "19/21",
-
-          numerator: 19,
-          denominator: 21,
-        },
-      ],
+      options: formatFormulas(formulas),
       label: "Formula",
-      xs: 1,
+      xs: 2,
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.rate}`,
@@ -88,7 +79,14 @@ export const getLotDetailFields = (essentials, lotIndex, lotDetailIndex) => {
   ];
 };
 
-export const getLotHeadField = (essentials, lotIndex, issue) => {
+export const formatDyingOptions = (dyingOptions) => {
+  return dyingOptions.map((dying) => ({
+    id: dying.id,
+    label: dying.name,
+  }));
+};
+
+export const getLotHeadField = (essentials, lotIndex, issue, dyingOptions) => {
   return [
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.raw_product}`,
@@ -112,12 +110,7 @@ export const getLotHeadField = (essentials, lotIndex, issue) => {
       type: FIELD_TYPES.SELECT,
       render: issue,
       label: "Dying Unit",
-      options: [
-        {
-          label: "Manzoor Ayub",
-          value: "321451",
-        },
-      ],
+      options: formatDyingOptions(dyingOptions),
     },
   ];
 };

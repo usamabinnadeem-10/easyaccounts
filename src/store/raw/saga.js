@@ -21,7 +21,7 @@ function* rawSagas() {
 function* getAllFormulaSaga(action) {
   try {
     let response = yield call(api.listFormulaApi);
-    yield put(actions.addNewFormulaSuccess(response.data));
+    yield put(actions.getAllFormulasSuccess(response.data));
   } catch (error) {
     yield put(actions.addNewFormulaFail(findErrorMessage(error.response.data)));
   }
