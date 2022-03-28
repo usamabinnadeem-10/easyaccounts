@@ -28,4 +28,6 @@ export const LotTotalWrapper = styled(Grid)(({ theme }) => ({
   marginTop: theme.spacing(4),
 }));
 
-export const StyledButton = styled(LoadingButton)(({ theme }) => ({}));
+export const StyledButton = styled(LoadingButton)(({ theme }) => ({
+  marginTop: `${theme.spacing(4)} !important`,
+}));

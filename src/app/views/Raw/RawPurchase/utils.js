@@ -42,14 +42,14 @@ export const getLotDetailFields = (
       label: 'Thaan',
     },
     {
-      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.yards_per_piece_actual}`,
-      name: FIELDS.yards_per_piece_actual,
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.actual_gazaana}`,
+      name: FIELDS.actual_gazaana,
       type: FIELD_TYPES.NUMBER,
       label: 'Actual',
     },
     {
-      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.yards_per_piece_expected}`,
-      name: FIELDS.yards_per_piece_expected,
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.expected_gazaana}`,
+      name: FIELDS.expected_gazaana,
       type: FIELD_TYPES.NUMBER,
       label: 'Expected',
     },
@@ -110,8 +110,8 @@ export const getLotHeadField = (
       isFast: false,
     },
     {
-      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.issue_dying}`,
-      name: FIELDS.issue_dying,
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.issued}`,
+      name: FIELDS.issued,
       type: FIELD_TYPES.SWITCH,
       label: 'Issue for dying',
       onCheckedLabel: 'Issued',
@@ -134,8 +134,8 @@ const calculateValues = (obj) => {
   let qty = obj[FIELDS.quantity] || 0;
   let formula = obj[FIELDS.formula];
   let ratio = formula?.numerator / formula?.denominator;
-  let expected = qty * obj[FIELDS.yards_per_piece_expected] || 0;
-  let actual = qty * ratio * obj[FIELDS.yards_per_piece_actual] || 0;
+  let expected = qty * obj[FIELDS.expected_gazaana] || 0;
+  let actual = qty * ratio * obj[FIELDS.actual_gazaana] || 0;
   let total = obj[FIELDS.rate] * actual;
   return {
     qty,
@@ -200,4 +200,41 @@ export const getTotals = (values, global = false) => {
       value: expected,
     },
   ];
+};
+
+export const isFormValid = (values) => {
+  let valid = {
+    isValid: true,
+    error: '',
+  };
+  values.lots.forEach((lot) => {
+    if (lot.issued && !lot.dying_unit?.id) {
+      valid.isValid = false;
+      valid.error = 'Please choose a dying for issued lot';
+    }
+    lot.lot_detail.forEach((detail) => {
+      if (!lot.issued && !detail.warehouse?.value) {
+        valid.isValid = false;
+        valid.error = 'Please choose a warehouse for non-issed lot';
+      }
+    });
+  });
+  return valid;
+};
+
+export const formatBeforeSubmit = (values) => {
+  return {
+    ...values,
+    person: values.person.value,
+    lots: values.lots.map((lot) => ({
+      ...lot,
+      raw_product: lot.raw_product.id,
+      dying_unit: lot.dying_unit?.id || null,
+      lot_detail: lot.lot_detail.map((detail) => ({
+        ...detail,
+        formula: detail.formula.id,
+        warehouse: detail.warehouse?.value,
+      })),
+    })),
+  };
 };

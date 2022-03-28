@@ -19,13 +19,13 @@ export const schema = Yup.object().shape({
   [FIELDS.lots]: Yup.array().of(
     Yup.object().shape({
       [FIELDS.raw_product]: objectSchema,
-      [FIELDS.issue_dying]: Yup.boolean().required(REQUIRED),
+      [FIELDS.issued]: Yup.boolean().required(REQUIRED),
       [FIELDS.dying_unit]: Yup.object().typeError(REQUIRED).nullable(),
       [FIELDS.lot_detail]: Yup.array().of(
         Yup.object().shape({
           [FIELDS.quantity]: numberSchema,
-          [FIELDS.yards_per_piece_actual]: numberSchema,
-          [FIELDS.yards_per_piece_expected]: numberSchema,
+          [FIELDS.actual_gazaana]: numberSchema,
+          [FIELDS.expected_gazaana]: numberSchema,
           [FIELDS.formula]: objectSchema,
           [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).nullable(),
           [FIELDS.rate]: numberSchema,

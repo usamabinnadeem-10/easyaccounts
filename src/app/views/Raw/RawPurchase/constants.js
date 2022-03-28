@@ -5,12 +5,12 @@ export const FIELDS = {
   date: 'date',
   warehouse: 'warehouse',
   quantity: 'quantity',
-  yards_per_piece_actual: 'yards_per_piece_actual',
-  yards_per_piece_expected: 'yards_per_piece_expected',
+  actual_gazaana: 'actual_gazaana',
+  expected_gazaana: 'expected_gazaana',
   formula: 'formula',
   lots: 'lots',
   lot_detail: 'lot_detail',
-  issue_dying: 'issue_dying',
+  issued: 'issued',
   dying_unit: 'dying_unit',
   rate: 'rate',
 };
@@ -25,8 +25,8 @@ export const FIELD_TYPES = {
 
 export const LOT_DETAIL_INITIAL = {
   [FIELDS.quantity]: '',
-  [FIELDS.yards_per_piece_actual]: '',
-  [FIELDS.yards_per_piece_expected]: '',
+  [FIELDS.actual_gazaana]: '',
+  [FIELDS.expected_gazaana]: '',
   [FIELDS.formula]: '',
   [FIELDS.warehouse]: '',
   [FIELDS.rate]: '',
@@ -39,7 +39,7 @@ export const INITIAL_VALUES = {
   [FIELDS.lots]: [
     {
       [FIELDS.raw_product]: '',
-      [FIELDS.issue_dying]: false,
+      [FIELDS.issued]: false,
       [FIELDS.dying_unit]: '',
       [FIELDS.lot_detail]: [LOT_DETAIL_INITIAL],
     },

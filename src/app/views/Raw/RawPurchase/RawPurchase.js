@@ -1,6 +1,7 @@
 import React from 'react';
 import { useMemo } from 'react';
 import { useEffect } from 'react';
+import { useState } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -23,6 +24,7 @@ import { FormDateField } from '../../../utilities/formUtils';
 import { FormTextField } from '../../../utilities/formUtils';
 import { FormSwitchField } from '../../../utilities/formUtils';
 
+import * as api from './api';
 import * as constants from './constants';
 import * as utils from './utils';
 import { schema } from './validation';
@@ -38,6 +40,8 @@ import { TotalText } from './styled';
 import { getAllDying } from '../../../../store/dying';
 import { getAllFormulas, getAllProduct } from '../../../../store/raw';
 
+import { withSnackbar } from '../../../hoc/withSnackbar';
+
 const Total = ({ text, index, variant }) => {
   return (
     <TotalText variant={variant || 'caption'} key={index}>
@@ -46,11 +50,13 @@ const Total = ({ text, index, variant }) => {
   );
 };
 
-const RawPurchase = () => {
+const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const raw = useSelector((state) => state.raw);
   const dying = useSelector((state) => state.dying);
+
+  const [isLoading, setIsLoading] = useState(false);
 
   // fetch formulas, dying and products in beginning if not fetched already
   useEffect(() => {
@@ -91,6 +97,27 @@ const RawPurchase = () => {
     onCheckedLabel: field.onCheckedLabel ?? null,
   });
 
+  const handleSubmit = (values, actions) => {
+    let { isValid, error } = utils.isFormValid(values);
+    console.log(isValid, error);
+    if (isValid) {
+      let data = utils.formatBeforeSubmit(values);
+      setIsLoading(true);
+      api
+        .createTransactionApi(data)
+        .then((response) => {
+          setIsLoading(false);
+          actions.resetForm();
+          showSuccessSnackbar('Transaction created');
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    } else {
+      showErrorSnackbar(error);
+    }
+  };
+
   return (
     <>
       {raw.formulasInfo.fetched && dying.fetched && raw.productsInfo.fetched ? (
@@ -98,7 +125,7 @@ const RawPurchase = () => {
           <Formik
             initialValues={constants.INITIAL_VALUES}
             validationSchema={schema}
-            onSubmit={(values) => console.log(values)}>
+            onSubmit={(values, actions) => handleSubmit(values, actions)}>
             {({ values, errors, touched, handleSubmit }) => (
               <Form>
                 <MetaWrapper gap={2} container justifyContent='space-between'>
@@ -125,7 +152,7 @@ const RawPurchase = () => {
                                 .getLotHeadField(
                                   values.person,
                                   lotIndex,
-                                  values.lots[lotIndex].issue_dying,
+                                  values.lots[lotIndex].issued,
                                   dying.dyingUnits,
                                   raw.productsInfo.products
                                 )
@@ -218,8 +245,7 @@ const RawPurchase = () => {
                                         raw.formulasInfo.formulas
                                       )
                                       .map((lotDetailField, lotDetailIndex) => {
-                                        return !values.lots[lotIndex]
-                                          ?.issue_dying ||
+                                        return !values.lots[lotIndex]?.issued ||
                                           lotDetailField.name !==
                                             'warehouse' ? (
                                           <Grid
@@ -321,11 +347,13 @@ const RawPurchase = () => {
                     />
                   ))}
                 </Grid>
-                <Grid container justifyContent='flex-end'>
-                  <StyledButton onClick={handleSubmit} variant='contained'>
-                    Post
-                  </StyledButton>
-                </Grid>
+                <StyledButton
+                  fullWidth
+                  onClick={handleSubmit}
+                  variant='contained'
+                  loading={isLoading}>
+                  Post
+                </StyledButton>
               </Form>
             )}
           </Formik>
@@ -337,4 +365,4 @@ const RawPurchase = () => {
   );
 };
 
-export default RawPurchase;
+export default withSnackbar(RawPurchase);
