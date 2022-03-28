@@ -1,4 +1,4 @@
-import { isObject } from "../../utils/objectUtils";
+import { isObject } from '../../utils/objectUtils';
 
 export const findErrorMessage = (error) => {
   if (error) {
@@ -8,10 +8,23 @@ export const findErrorMessage = (error) => {
       }
     } else if (Array.isArray(error)) {
       return error[0];
-    } else if (typeof error === "string") {
+    } else if (typeof error === 'string') {
       return error;
     }
   } else {
-    return "Oops, something went wrong";
+    return 'Oops, something went wrong';
   }
+};
+
+export const isArrayOfObjectsUnique = (array, keys) => {
+  let uniques = {};
+  for (let i = 0; i < array.length; i++) {
+    let key = keys.map((key) => JSON.stringify(array[i][key])).join(' | ');
+    if (!uniques[key]) {
+      uniques[key] = true;
+    } else {
+      return false;
+    }
+  }
+  return true;
 };

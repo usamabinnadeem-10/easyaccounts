@@ -36,6 +36,7 @@ import { LotHeader } from './styled';
 import { LotWrapper } from './styled';
 import { MetaWrapper } from './styled';
 import { TotalText } from './styled';
+import { UniqueError } from './styled';
 
 import { getAllDying } from '../../../../store/dying';
 import { getAllFormulas, getAllProduct } from '../../../../store/raw';
@@ -141,6 +142,10 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                     values.lots &&
                     values.lots.map((lot, lotIndex) => (
                       <LotWrapper
+                        error={
+                          typeof errors.lots?.[lotIndex]?.lot_detail ===
+                          'string'
+                        }
                         container
                         direction='column'
                         gap={3}
@@ -322,6 +327,13 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                               )
                             }
                           />
+                          {typeof errors.lots?.[lotIndex]?.lot_detail ===
+                            'string' && (
+                            <UniqueError color='error'>
+                              Lot detail must be unique
+                            </UniqueError>
+                          )}
+
                           <LotTotalWrapper container>
                             {utils
                               .getTotals(values.lots[lotIndex].lot_detail)
