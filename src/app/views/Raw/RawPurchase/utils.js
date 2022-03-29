@@ -168,6 +168,7 @@ export const getTotals = (values, global = false) => {
   let thaan = 0;
   let expected = 0;
   let actual = 0;
+  let total = 0;
   if (global) {
     values.lots.forEach((lot) => {
       lot.lot_detail.forEach((lotDetail) => {
@@ -175,6 +176,7 @@ export const getTotals = (values, global = false) => {
         expected += calculated.expected;
         actual += calculated.actual;
         thaan += calculated.qty;
+        total += calculated.total;
       });
     });
   } else {
@@ -183,6 +185,7 @@ export const getTotals = (values, global = false) => {
       expected += calculated.expected;
       actual += calculated.actual;
       thaan += calculated.qty;
+      total += calculated.total;
     });
   }
 
@@ -193,11 +196,15 @@ export const getTotals = (values, global = false) => {
     },
     {
       label: 'Actual',
-      value: actual,
+      value: actual.toFixed(2),
     },
     {
       label: 'Expected',
-      value: expected,
+      value: expected.toFixed(2),
+    },
+    {
+      label: 'Total',
+      value: total.toFixed(2),
     },
   ];
 };

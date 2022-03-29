@@ -17,14 +17,8 @@ export const findErrorMessage = (error) => {
 };
 
 export const isArrayOfObjectsUnique = (array, keys) => {
-  let uniques = {};
-  for (let i = 0; i < array.length; i++) {
-    let key = keys.map((key) => JSON.stringify(array[i][key])).join(' | ');
-    if (!uniques[key]) {
-      uniques[key] = true;
-    } else {
-      return false;
-    }
-  }
-  return true;
+  let uniques = new Set(
+    array.map((obj) => keys.map((key) => JSON.stringify(obj[key])).join(' | '))
+  );
+  return array.length === uniques.size;
 };

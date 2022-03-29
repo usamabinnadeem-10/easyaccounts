@@ -298,7 +298,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                             label={calculated.label}
                                             size='small'
                                             variant='standard'
-                                            value={calculated.value}
+                                            value={calculated.value.toFixed(2)}
                                           />
                                         </Grid>
                                       ))}
@@ -329,7 +329,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                           />
                           {typeof errors.lots?.[lotIndex]?.lot_detail ===
                             'string' && (
-                            <UniqueError color='error'>
+                            <UniqueError color='error' variant='caption'>
                               Lot detail must be unique
                             </UniqueError>
                           )}

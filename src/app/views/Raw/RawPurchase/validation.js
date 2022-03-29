@@ -39,7 +39,10 @@ export const schema = Yup.object().shape({
             [FIELDS.rate]: numberSchema,
           })
         )
-        .unique(['actual_gazaana', 'expected_gazaana'], 'Detail is not unique'),
+        .unique(
+          ['actual_gazaana', 'expected_gazaana', 'formula'],
+          'Detail is not unique'
+        ),
     })
   ),
 });
