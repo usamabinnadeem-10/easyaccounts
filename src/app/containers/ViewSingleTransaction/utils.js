@@ -1,17 +1,17 @@
-import { DB, DB_TRANSLATION } from "../../../constants/db";
+import { DB, DB_TRANSLATION } from '../../../constants/db';
 
-import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
+import { getReadableDate, formatCurrency } from '../../utilities/stringUtils';
 
 export const getMeta = (transaction, essentials, gatePassView = false) => {
   let person = essentials?.persons?.[transaction[DB.PERSON]];
   let data = [
     {
       value: transaction[DB.SERIAL],
-      label: "Invoice #",
+      label: 'Invoice #',
     },
     {
       value: `${transaction[DB.SERIAL_TYPE]}-${transaction[DB.BOOK_SERIAL]}`,
-      label: "Book #",
+      label: 'Book #',
     },
     {
       value: person?.label,
@@ -19,7 +19,7 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
     },
     {
       value: transaction[DB.DATE],
-      label: "Date:",
+      label: 'Date:',
     },
   ];
 
@@ -27,28 +27,28 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
     data = [
       ...data,
       {
-        value: transaction[DB.TYPE]?.replace("_", " "),
-        label: "Nature:",
+        value: transaction[DB.TYPE]?.replace('_', ' '),
+        label: 'Nature:',
       },
       {
-        value: transaction[DB.DETAIL] || "---",
-        label: "Detail:",
+        value: transaction[DB.DETAIL] || '---',
+        label: 'Detail:',
       },
     ];
   }
 
   let account =
-    essentials?.accounts?.[transaction[DB.ACCOUNT_TYPE]]?.label || "---";
+    essentials?.accounts?.[transaction[DB.ACCOUNT_TYPE]]?.label || '---';
   if (transaction[DB.PAID_AMOUNT] && !gatePassView) {
     data = [
       ...data,
       {
         value: account,
-        label: "Paid on:",
+        label: 'Paid on:',
       },
       {
         value: formatCurrency(transaction[DB.PAID_AMOUNT]),
-        label: "Amount Paid:",
+        label: 'Amount Paid:',
       },
     ];
   }
@@ -82,7 +82,7 @@ const formatTransactionDetails = (
     });
   });
   newDetails.push({
-    product: "TOTAL",
+    product: 'TOTAL',
     quantity: grandTotalQuantity,
     total_gazaana: grandTotalGazaana,
   });
@@ -94,18 +94,18 @@ export const formatTransaction = (transaction, warehouses, products) => {
     (prev, curr) => prev + curr.amount,
     0
   );
-  let grandTotalGazaana = transaction.transaction_detail.reduce(
+  let grandTotalGazaana = transaction.transaction_detail?.reduce(
     (prevValue, currentValue) =>
       prevValue + currentValue.quantity * currentValue.yards_per_piece,
     0
   );
-  let grandTotalQuantity = transaction.transaction_detail.reduce(
+  let grandTotalQuantity = transaction.transaction_detail?.reduce(
     (prevValue, currentValue) => prevValue + currentValue.quantity,
     0
   );
   return {
     ...transaction,
-    total: formatCurrency(totalAmount, "currency"),
+    total: formatCurrency(totalAmount, 'currency'),
     date: getReadableDate(transaction.date),
     quantity: grandTotalQuantity,
     gazaana: formatCurrency(grandTotalGazaana),
@@ -118,10 +118,10 @@ export const formatTransaction = (transaction, warehouses, products) => {
     ),
     [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
     [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
-    [DB.DISCOUNT]: formatCurrency(transaction[DB.DISCOUNT], "currency"),
+    [DB.DISCOUNT]: formatCurrency(transaction[DB.DISCOUNT], 'currency'),
     totalAfterDiscount: formatCurrency(
       totalAmount - transaction.discount,
-      "currency"
+      'currency'
     ),
   };
 };
