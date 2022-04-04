@@ -1,9 +1,9 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-export const BASE = "http://127.0.0.1:8000/";
-// export const BASE = "https://fa5e-139-135-32-7.ngrok.io";
+// export const BASE = "http://127.0.0.1:8000/";
+export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
 
-const AUTH = "auth/";
-const TOKEN = "token/";
+const AUTH = 'auth/';
+const TOKEN = 'token/';
 export const AUTH_URLS = {
   TOKEN: `${AUTH}${TOKEN}`,
   REFRESH_TOKEN: `${AUTH}${TOKEN}refresh/`,
@@ -12,12 +12,12 @@ export const AUTH_URLS = {
   LOGOUT: `${AUTH}logout/`,
 };
 
-const ESSENTIALS = "essentials/";
-const CUSTOMER = "C";
-const SUPPLIER = "S";
-const LIST = "list/";
-const CREATE = "create/";
-const PERSON_TYPE = "person_type";
+const ESSENTIALS = 'essentials/';
+const CUSTOMER = 'C';
+const SUPPLIER = 'S';
+const LIST = 'list/';
+const CREATE = 'create/';
+const PERSON_TYPE = 'person_type';
 export const ESSENTIAL_URLS = {
   LIST: {
     ACCOUNT_TYPE: `${ESSENTIALS}account-type/${LIST}`,
@@ -40,9 +40,9 @@ export const ESSENTIAL_URLS = {
   ACCOUNT_HISTORY: `${ESSENTIALS}account-history/`,
 };
 
-const EXPENSE = "expense/";
-const ACCOUNT = "account/";
-const DETAIL = "detail/";
+const EXPENSE = 'expense/';
+const ACCOUNT = 'account/';
+const DETAIL = 'detail/';
 export const EXPENSE_URLS = {
   LIST_EXPENSES_ACCOUNTS: `${EXPENSE}${ACCOUNT}${LIST}`,
   CREATE_EXPENSE_ACCOUNT: `${EXPENSE}${ACCOUNT}${CREATE}`,
@@ -53,7 +53,7 @@ export const EXPENSE_URLS = {
   EDIT_EXPENSE: `${EXPENSE}:uuid/`,
 };
 
-const TRANSACTION = "transaction/";
+const TRANSACTION = 'transaction/';
 export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
@@ -65,7 +65,7 @@ export const TRANSACTION_URLS = {
   FILTER: `${TRANSACTION}search/`,
 };
 
-const LEDGER = "ledger/";
+const LEDGER = 'ledger/';
 export const LEDGER_URLS = {
   CREATE_LEDGER: `${LEDGER}`,
   DELETE_LEDGER: `${LEDGER}:uuid/`,
@@ -73,14 +73,14 @@ export const LEDGER_URLS = {
   ALL_BALANCES: `${LEDGER}balances/all/`,
 };
 
-const CHEQUE = "cheque/";
-const PERSONAL = "personal/";
-const EXTERNAL = "external/";
-const PASS = "pass/";
-const CANCEL = "cancel/";
-const RETURN = "return/";
-const TRANSFER = "transfer/";
-const DELETE = "delete/";
+const CHEQUE = 'cheque/';
+const PERSONAL = 'personal/';
+const EXTERNAL = 'external/';
+const PASS = 'pass/';
+const CANCEL = 'cancel/';
+const RETURN = 'return/';
+const TRANSFER = 'transfer/';
+const DELETE = 'delete/';
 export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
@@ -111,8 +111,8 @@ export const CSC_URLS = {
   CITIES_BY_COUNTRY: `countries/PK/cities`,
 };
 
-const DYING = "dying/";
-const DYING_UNIT = "dying-unit/";
+const DYING = 'dying/';
+const DYING_UNIT = 'dying-unit/';
 export const DYING_APIS = {
   CREATE: {
     DYING_UNIT: `${DYING}${DYING_UNIT}${CREATE}`,
@@ -122,9 +122,9 @@ export const DYING_APIS = {
   },
 };
 
-const RAW = "raw/";
-const FORMULA = "formula/";
-const PRODUCT = "product/";
+const RAW = 'raw/';
+const FORMULA = 'formula/';
+const PRODUCT = 'product/';
 export const RAW_APIS = {
   CREATE: {
     FORMULA: `${RAW}${FORMULA}${CREATE}`,
