@@ -1,9 +1,10 @@
 import {
   formatCurrency,
   convertCurrencyToNumber,
-} from "../../utilities/stringUtils";
+} from '../../utilities/stringUtils';
 
-import { FIELDS } from "../../containers/CustomFilters/constants";
+import { FIELDS } from '../../containers/CustomFilters/constants';
+import { PRODUCT_CATEGORIES } from '../../../constants/productCategories';
 
 export const formatStockData = (data, props) => {
   let newStockData = data.map((stockData) => {
@@ -18,7 +19,7 @@ export const formatStockData = (data, props) => {
     };
   });
   newStockData.push({
-    product: "TOTAL",
+    product: 'TOTAL',
     stock_quantity: formatCurrency(
       newStockData.reduce(
         (acc, stockData) =>
@@ -40,41 +41,47 @@ export const formatStockData = (data, props) => {
 export const getFilters = (essentials) => {
   return [
     {
-      qp: "product",
+      qp: 'product',
       options: essentials.products,
       type: FIELDS.SELECT,
-      placeholder: "Product",
+      placeholder: 'Product',
     },
     {
-      qp: "warehouse",
+      qp: 'product__category',
+      options: PRODUCT_CATEGORIES,
+      type: FIELDS.SELECT,
+      placeholder: 'Category',
+    },
+    {
+      qp: 'warehouse',
       options: essentials.warehouses,
       type: FIELDS.SELECT,
-      placeholder: "Warehouse",
+      placeholder: 'Warehouse',
     },
     {
-      qp: "stock_quantity__gte",
+      qp: 'stock_quantity__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Stock Qty (more than)",
+      placeholder: 'Stock Qty (more than)',
     },
     {
-      qp: "stock_quantity__lte",
+      qp: 'stock_quantity__lte',
       type: FIELDS.NUMBER,
-      placeholder: "Stock Qty (less than)",
+      placeholder: 'Stock Qty (less than)',
     },
     {
-      qp: "yards_per_piece__gte",
+      qp: 'yards_per_piece__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Gazaana (more than)",
+      placeholder: 'Gazaana (more than)',
     },
     {
-      qp: "yards_per_piece__lte",
+      qp: 'yards_per_piece__lte',
       type: FIELDS.NUMBER,
-      placeholder: "Gazaana (less than)",
+      placeholder: 'Gazaana (less than)',
     },
     {
-      qp: "yards_per_piece",
+      qp: 'yards_per_piece',
       type: FIELDS.NUMBER,
-      placeholder: "Gazaana (equal to)",
+      placeholder: 'Gazaana (equal to)',
     },
   ];
 };

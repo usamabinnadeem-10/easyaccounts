@@ -1,6 +1,6 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
-import { renameKeys } from "../../utils/objectUtils";
+import { renameKeys } from '../../utils/objectUtils';
 
 const initialState = {
   warehouses: [],
@@ -14,7 +14,7 @@ const initialState = {
   fetched: false,
   added: false,
   adding: false,
-  error: "",
+  error: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -38,9 +38,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_ACCOUNT_TYPES_SUCCESS:
       const types = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -49,9 +49,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_CUSTOMERS_SUCCESS:
       const customers = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -60,9 +60,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_SUPPLIERS_SUCCESS:
       const suppliers = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -71,9 +71,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_PRODUCT_HEAD_SUCCESS:
       const heads = renameKeys(
-        "id",
-        "value",
-        renameKeys("head_name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('head_name', 'label', action.payload)
       );
       return {
         ...state,
@@ -82,9 +82,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:
       const products = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -93,9 +93,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_WAREHOUSE_SUCCESS:
       const warehouses = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -104,9 +104,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_EXPENSE_ACCOUNTS_SUCCESS:
       const expenses = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -115,9 +115,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_AREAS_SUCCESS:
       const areas = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -126,9 +126,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.GET_ALL_CITIES_SUCCESS:
       const cities = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", action.payload)
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
       );
       return {
         ...state,
@@ -145,9 +145,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_EXPENSE_ACCOUNT_SUCCESS:
       const newExpense = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       return {
         ...state,
@@ -164,9 +164,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_WAREHOUSE_SUCCESS:
       const newWarehouse = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       return {
         ...state,
@@ -183,9 +183,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_PRODUCT_HEAD_SUCCESS:
       const newProductHead = renameKeys(
-        "id",
-        "value",
-        renameKeys("head_name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('head_name', 'label', [action.payload])
       );
       return {
         ...state,
@@ -202,11 +202,11 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_PERSON_SUCCESS:
       let type = action.payload.person_type;
-      let person = type === "C" ? "customers" : "suppliers";
+      let person = type === 'C' ? 'customers' : 'suppliers';
       const newPerson = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       return {
         ...state,
@@ -223,9 +223,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_ACCOUNT_TYPE_SUCCESS:
       const newAccountType = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       return {
         ...state,
@@ -242,9 +242,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
       let newProductsRenamed = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       let newProducts = [...state.products, ...newProductsRenamed];
       return {
@@ -256,9 +256,9 @@ const reducer = (state = initialState, action) => {
 
     case actionTypes.ADD_NEW_AREA_SUCCESS:
       let newAreasRenamed = renameKeys(
-        "id",
-        "value",
-        renameKeys("name", "label", [action.payload])
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
       );
       let newAreas = [...state.areas, ...newAreasRenamed];
       return {
@@ -295,7 +295,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: false,
         adding: false,
-        error: "",
+        error: '',
       };
 
     case actionTypes.ADD_EXPENSE_DETAIL:
@@ -309,7 +309,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         added: true,
         adding: false,
-        error: "",
+        error: '',
       };
     case actionTypes.SET_ERROR:
       return {

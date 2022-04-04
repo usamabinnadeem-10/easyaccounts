@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import Checkbox from "@mui/material/Checkbox";
-import TableRow from "@mui/material/TableRow";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TextField from "@mui/material/TextField";
+import Checkbox from '@mui/material/Checkbox';
+import TableRow from '@mui/material/TableRow';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TextField from '@mui/material/TextField';
 
-import CreatableSelect from "react-select/creatable";
+import CreatableSelect from 'react-select/creatable';
 
-import { customStyles } from "./styles";
+import { customStyles } from './styles';
 
 function TransactionTableBody(props) {
   const {
@@ -51,9 +51,8 @@ function TransactionTableBody(props) {
                   return (
                     <TableCell
                       key={columnIndex}
-                      scope="row"
-                      sx={{ py: 0, px: 1 }}
-                    >
+                      scope='row'
+                      sx={{ py: 0, px: 1 }}>
                       <Checkbox
                         checked={row.selected}
                         onClick={(e) =>
@@ -96,12 +95,11 @@ function TransactionTableBody(props) {
                     <TableCell
                       sx={{ py: 1, px: 1 }}
                       key={columnIndex}
-                      align="right"
-                    >
+                      align='right'>
                       <TextField
                         placeholder={column.name}
                         label={
-                          column.name === "Quantity" &&
+                          column.name === 'Quantity' &&
                           `Qty: ${row.stock_quantity || 0} thaan`
                         }
                         onChange={(e) =>
@@ -111,10 +109,10 @@ function TransactionTableBody(props) {
                             column.name.toLowerCase()
                           )
                         }
-                        type="number"
-                        variant="outlined"
-                        size="small"
-                        value={row[column.name.toLowerCase()] || ""}
+                        type='number'
+                        variant='outlined'
+                        size='small'
+                        value={row[column.name.toLowerCase()] || ''}
                         inputProps={{
                           min: 0,
                         }}

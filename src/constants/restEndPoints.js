@@ -1,5 +1,5 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = "http://127.0.0.1:8000/";
+// export const BASE = 'http://127.0.0.1:8000/';
 export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
 
 const AUTH = 'auth/';

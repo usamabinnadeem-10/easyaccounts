@@ -13,54 +13,56 @@ import {
   ISSUE_DYING,
   RETURN_DYING,
   RAW_PURCHASE_ROUTE,
-} from "../../../constants/routesConstants";
+} from '../../../constants/routesConstants';
 
-import { FIELDS } from "../../../constants/fieldTypes";
+import { FIELDS } from '../../../constants/fieldTypes';
 
-import { DB } from "../../../constants/db";
+import { DB } from '../../../constants/db';
 
-import * as actions from "../../../store/essentials/actions";
-import { addNewFormula, addNewProduct } from "../../../store/raw";
-import { addNewDying } from "../../../store/dying";
+import { PRODUCT_CATEGORIES } from '../../../constants/productCategories';
 
-export const VIEW = "View";
-export const LEDGER = "Ledgers";
-export const CHEQUES = "Cheques";
-export const TRANSACTION = "Transactions";
-export const DAYBOOK = "Daybook";
-export const EXPENSE = "Expenses";
-export const ACCOUNTS_HISTORY = "Account History";
+import * as actions from '../../../store/essentials/actions';
+import { addNewFormula, addNewProduct } from '../../../store/raw';
+import { addNewDying } from '../../../store/dying';
 
-export const REPORTS = "Reports";
-export const BALANCES = "Balances";
-export const STOCK = "Stock";
-export const VIEW_DETAILED_STOCK = "Detailed Stock";
-export const PRODUCT_PERFORMANCE_HISTORY = "Product Performance";
+export const VIEW = 'View';
+export const LEDGER = 'Ledgers';
+export const CHEQUES = 'Cheques';
+export const TRANSACTION = 'Transactions';
+export const DAYBOOK = 'Daybook';
+export const EXPENSE = 'Expenses';
+export const ACCOUNTS_HISTORY = 'Account History';
 
-export const CHEQUE_MANAGEMENT = "Cheque Management";
-export const PERSONAL_CHEQUES = "Personal Cheques";
-export const EXTERNAL_CHEQUES = "Party Cheques";
+export const REPORTS = 'Reports';
+export const BALANCES = 'Balances';
+export const STOCK = 'Stock';
+export const VIEW_DETAILED_STOCK = 'Detailed Stock';
+export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 
-export const CREATE_NEW = "Create New";
-export const PERSON = "Customer/Supplier";
-export const PRODUCT = "Product";
-export const WAREHOUSE = "Warehouse";
-export const ACCOUNT = "Account Head";
-export const EXPENSE_ACCOUNT = "Expense Head";
-export const AREA = "Area";
-export const OPENING_STOCK = "Add Opening Stock";
-export const FORMULA = "Formula";
-export const RAW_PRODUCT = "Kora product";
-export const DYING_UNIT = "Dying unit";
+export const CHEQUE_MANAGEMENT = 'Cheque Management';
+export const PERSONAL_CHEQUES = 'Personal Cheques';
+export const EXTERNAL_CHEQUES = 'Party Cheques';
 
-export const DYING = "Dying/Washing";
-export const DYING_ISSUE = "Issue";
-export const DYING_RETURN = "Return";
+export const CREATE_NEW = 'Create New';
+export const PERSON = 'Customer/Supplier';
+export const PRODUCT = 'Product';
+export const WAREHOUSE = 'Warehouse';
+export const ACCOUNT = 'Account Head';
+export const EXPENSE_ACCOUNT = 'Expense Head';
+export const AREA = 'Area';
+export const OPENING_STOCK = 'Add Opening Stock';
+export const FORMULA = 'Formula';
+export const RAW_PRODUCT = 'Kora product';
+export const DYING_UNIT = 'Dying unit';
 
-export const RAW = "Kora";
-export const RAW_PURCHASE = "Buying";
-export const RAW_SALE = "Sale";
-export const RAW_SEARCH = "Filter";
+export const DYING = 'Dying/Washing';
+export const DYING_ISSUE = 'Issue';
+export const DYING_RETURN = 'Return';
+
+export const RAW = 'Kora';
+export const RAW_PURCHASE = 'Buying';
+export const RAW_SALE = 'Sale';
+export const RAW_SEARCH = 'Filter';
 
 export const DRAWER_WIDTH = 240;
 
@@ -203,87 +205,87 @@ export const SIDEBAR = [
 
 const PERSON_OPTIONS = [
   {
-    label: "Customer",
-    value: "C",
+    label: 'Customer',
+    value: 'C',
   },
   {
-    label: "Supplier",
-    value: "S",
+    label: 'Supplier',
+    value: 'S',
   },
 ];
 
 const NATURE_OPTIONS = [
   {
-    label: "Debit",
-    value: "D",
+    label: 'Debit',
+    value: 'D',
   },
   {
-    label: "Credit",
-    value: "C",
+    label: 'Credit',
+    value: 'C',
   },
 ];
 
 export const getPersonForm = (essentials) => {
   return {
-    heading: "Add Customer / Supplier",
+    heading: 'Add Customer / Supplier',
     action: actions.addNewPerson,
     formData: [
       {
-        label: "Name",
+        label: 'Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
       },
       {
-        label: "Type",
+        label: 'Type',
         type: FIELDS.SELECT,
         name: DB.PERSON_TYPE,
         options: PERSON_OPTIONS,
         required: true,
       },
       {
-        label: "Opening Balance Nature",
+        label: 'Opening Balance Nature',
         type: FIELDS.SELECT,
         name: DB.NATURE,
         options: NATURE_OPTIONS,
         required: true,
       },
       {
-        label: "Opening Balance",
+        label: 'Opening Balance',
         type: FIELDS.NUMBER,
         name: DB.OPENING_BALANCE,
         required: true,
       },
       {
-        label: "Opening Balance Date",
+        label: 'Opening Balance Date',
         type: FIELDS.DATE,
         name: DB.OPENING_BALANCE_DATE,
         required: true,
       },
       {
-        label: "Phone Number",
+        label: 'Phone Number',
         type: FIELDS.PHONE_NUMBER,
         name: DB.PHONE_NUMBER,
       },
       {
-        label: "Area",
+        label: 'Area',
         type: FIELDS.SELECT,
         options: essentials.areas,
         name: DB.AREA,
       },
       {
-        label: "City",
+        label: 'City',
         type: FIELDS.SELECT,
         name: DB.CITY,
         options: essentials.cities,
       },
       {
-        label: "Business Name",
+        label: 'Business Name',
         type: FIELDS.STRING,
         name: DB.BUSINESS_NAME,
       },
       {
-        label: "Address",
+        label: 'Address',
         type: FIELDS.STRING,
         name: DB.ADDRESS,
       },
@@ -293,17 +295,17 @@ export const getPersonForm = (essentials) => {
 
 export const getAreaForm = (essentials) => {
   return {
-    heading: "Add Area",
+    heading: 'Add Area',
     action: actions.addNewArea,
     formData: [
       {
-        label: "Area Name",
+        label: 'Area Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
       },
       {
-        label: "Area City",
+        label: 'Area City',
         type: FIELDS.SELECT,
         name: DB.CITY,
         options: essentials.cities,
@@ -315,37 +317,37 @@ export const getAreaForm = (essentials) => {
 
 export const getOpeningStockForm = (essentials) => {
   return {
-    heading: "Add Opening Stock",
+    heading: 'Add Opening Stock',
     action: actions.addOpeningStock,
     formData: [
       {
-        label: "Product",
+        label: 'Product',
         type: FIELDS.SELECT,
         name: DB.PRODUCT,
         options: essentials.products,
         required: true,
       },
       {
-        label: "Warehouse",
+        label: 'Warehouse',
         type: FIELDS.SELECT,
         name: DB.WAREHOUSE,
         options: essentials.warehouses,
         required: true,
       },
       {
-        label: "Gazaana",
+        label: 'Gazaana',
         type: FIELDS.NUMBER,
         name: DB.GAZAANA,
         required: true,
       },
       {
-        label: "Opening Quantity",
+        label: 'Opening Quantity',
         type: FIELDS.NUMBER,
         name: DB.OPENING_STOCK,
         required: true,
       },
       {
-        label: "Opening Rate",
+        label: 'Opening Rate',
         type: FIELDS.NUMBER,
         name: DB.OPENING_STOCK_RATE,
         required: true,
@@ -356,35 +358,35 @@ export const getOpeningStockForm = (essentials) => {
 
 const RAW_PRODUCT_TYPES = [
   {
-    label: "Standard",
-    value: "Standard",
+    label: 'Standard',
+    value: 'Standard',
   },
   {
-    label: "Baara",
-    value: "Baara",
+    label: 'Baara',
+    value: 'Baara',
   },
 ];
 
 export const getRawProductForm = (essentials) => {
   return {
-    heading: "Add Kora Product",
+    heading: 'Add Kora Product',
     action: addNewProduct,
     formData: [
       {
-        label: "Product Name",
+        label: 'Product Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
       },
       {
-        label: "Supplier",
+        label: 'Supplier',
         type: FIELDS.SELECT,
         name: DB.PERSON,
         options: essentials.suppliers,
         required: true,
       },
       {
-        label: "Type",
+        label: 'Type',
         type: FIELDS.SELECT,
         name: DB.TYPE,
         options: RAW_PRODUCT_TYPES,
@@ -396,46 +398,53 @@ export const getRawProductForm = (essentials) => {
 
 export const MODAL_DEFAULTS = {
   [PRODUCT]: {
-    heading: "Add Product",
+    heading: 'Add Product',
     action: actions.addNewProduct,
     formData: [
       {
-        label: "Product Name",
+        label: 'Product Name',
         type: FIELDS.STRING,
         name: DB.NAME,
+        required: true,
+      },
+      {
+        label: 'Product Category',
+        type: FIELDS.SELECT,
+        name: DB.CATEGORY,
+        options: PRODUCT_CATEGORIES,
         required: true,
       },
     ],
   },
   [WAREHOUSE]: {
-    heading: "Add Warehouse",
+    heading: 'Add Warehouse',
     action: actions.addNewWarehouse,
     formData: [
       {
-        label: "Warehouse Name",
+        label: 'Warehouse Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
       },
       {
-        label: "Warehouse Location",
+        label: 'Warehouse Location',
         type: FIELDS.STRING,
         name: DB.ADDRESS,
       },
     ],
   },
   [ACCOUNT]: {
-    heading: "Add Account",
+    heading: 'Add Account',
     action: actions.addNewAccountType,
     formData: [
       {
-        label: "Account Name",
+        label: 'Account Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
       },
       {
-        label: "Opening Balance",
+        label: 'Opening Balance',
         type: FIELDS.NUMBER,
         name: DB.OPENING_BALANCE,
         required: true,
@@ -443,11 +452,11 @@ export const MODAL_DEFAULTS = {
     ],
   },
   [EXPENSE_ACCOUNT]: {
-    heading: "Add Expense Account",
+    heading: 'Add Expense Account',
     action: actions.addNewExpenseAccount,
     formData: [
       {
-        label: "Account Name",
+        label: 'Account Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
@@ -455,17 +464,17 @@ export const MODAL_DEFAULTS = {
     ],
   },
   [FORMULA]: {
-    heading: "Add Formula",
+    heading: 'Add Formula',
     action: addNewFormula,
     formData: [
       {
-        label: "Multiply by",
+        label: 'Multiply by',
         type: FIELDS.NUMBER,
         name: DB.NUMERATOR,
         required: true,
       },
       {
-        label: "Divide by",
+        label: 'Divide by',
         type: FIELDS.NUMBER,
         name: DB.DENOMINATOR,
         required: true,
@@ -473,11 +482,11 @@ export const MODAL_DEFAULTS = {
     ],
   },
   [DYING_UNIT]: {
-    heading: "Add Dying Unit",
+    heading: 'Add Dying Unit',
     action: addNewDying,
     formData: [
       {
-        label: "Dying Unit Name",
+        label: 'Dying Unit Name',
         type: FIELDS.STRING,
         name: DB.NAME,
         required: true,
