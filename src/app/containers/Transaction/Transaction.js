@@ -1,47 +1,47 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import TransactionFooter from "../../components/TransactionFooter/TransactionFooter";
-import TransactionHeader from "../../components/TransactionHeader/TransactionHeader";
-import TransactionTableBody from "../../components/TransactionTableBody/TransactionTableBody";
-import TransactionTableHeader from "../../components/TransactionTableHeader/TransactionTableHeader";
+import TransactionFooter from '../../components/TransactionFooter/TransactionFooter';
+import TransactionHeader from '../../components/TransactionHeader/TransactionHeader';
+import TransactionTableBody from '../../components/TransactionTableBody/TransactionTableBody';
+import TransactionTableHeader from '../../components/TransactionTableHeader/TransactionTableHeader';
 
-import Table from "@mui/material/Table";
-import TableContainer from "@mui/material/TableContainer";
-import Paper from "@mui/material/Paper";
+import Table from '@mui/material/Table';
+import TableContainer from '@mui/material/TableContainer';
+import Paper from '@mui/material/Paper';
 
-import * as constants from "./constants";
+import * as constants from './constants';
 import {
   getAllStock,
   setShouldFetch,
-} from "../../../store/transactions/actions";
-import { setShouldFetchDaybook } from "../../../store/accounts/actions";
+} from '../../../store/transactions/actions';
+import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 import {
   TRANSACTION_URLS,
   LEDGER_URLS,
-} from "../../../constants/restEndPoints";
-import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
+} from '../../../constants/restEndPoints';
+import { VIEW_SINGLE_TRANSACTION } from '../../../constants/routesConstants';
 
-import instance from "../../../utils/axiosApi";
+import instance from '../../../utils/axiosApi';
 
 import {
   getGazaanaOptions,
   getWarehouseOptions,
   formatTransaction,
   getStockQuantity,
-} from "./utils";
+} from './utils';
 
-import { useStyles } from "./styles";
-import { getURL, makeQueryParamURL } from "../../utilities/stringUtils";
-import { findErrorMessage } from "../../utilities/objectUtils";
+import { useStyles } from './styles';
+import { getURL, makeQueryParamURL } from '../../utilities/stringUtils';
+import { findErrorMessage } from '../../utilities/objectUtils';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const Transaction = (props) => {
   const {
@@ -70,9 +70,10 @@ const Transaction = (props) => {
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
   const [total, setTotal] = useState(0);
-  const [discount, setDiscount] = useState("");
-  const [paidAmount, setPaidAmount] = useState("");
-  const [detail, setDetail] = useState("");
+  const [discount, setDiscount] = useState('');
+  const [paidAmount, setPaidAmount] = useState('');
+  const [detail, setDetail] = useState('');
+  const [totalQuantity, setTotalQuantity] = useState(0);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState(
     constants.ERROR_DEFAULTS.ROW_INCOMPLETE
@@ -85,25 +86,25 @@ const Transaction = (props) => {
 
   const TRANSACTION_FOOTER = [
     {
-      placeholder: "Discount",
+      placeholder: 'Discount',
       action: setDiscount,
       value: discount,
       visible: true,
-      type: "number",
+      type: 'number',
     },
     {
-      placeholder: "Paid Amount",
+      placeholder: 'Paid Amount',
       action: setPaidAmount,
       value: paidAmount,
       visible: showAccountTypes,
-      type: "number",
+      type: 'number',
     },
     {
-      placeholder: "Detail",
+      placeholder: 'Detail',
       action: setDetail,
       value: detail,
       visible: true,
-      type: "text",
+      type: 'text',
     },
   ];
 
@@ -119,7 +120,7 @@ const Transaction = (props) => {
           .validate
       );
     }
-    if (currentType === "paid" || currentType === "credit") {
+    if (currentType === 'paid' || currentType === 'credit') {
       setCustomSelectOptions(constants.CUSTOM_COLUMN_OPTIONS);
     } else {
       setCustomSelectOptions([constants.CUSTOM_COLUMN_OPTIONS[0]]);
@@ -131,7 +132,7 @@ const Transaction = (props) => {
     let personId = selectedOptions?.currentPerson?.value;
     if (personId) {
       let URL = makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, [
-        { key: "person_id", value: personId },
+        { key: 'person_id', value: personId },
       ]);
       instance
         .get(URL)
@@ -158,10 +159,13 @@ const Transaction = (props) => {
   // set grand total of transaction
   useEffect(() => {
     let total = 0.0;
+    let totalQty = 0.0;
     tableData.forEach((row) => {
       total += row.total;
+      totalQty += row.quantity || 0;
     });
     setTotal(total - discount);
+    setTotalQuantity(totalQty);
   }, [tableData, discount]);
 
   // fill transaction for editing
@@ -304,27 +308,27 @@ const Transaction = (props) => {
         row[constants.DEFAULTS.GAZAANA]?.value || 0;
 
     if (row[constants.DEFAULTS.PRODUCT]) {
-      row["gazaanaOptions"] = getGazaanaOptions(
+      row['gazaanaOptions'] = getGazaanaOptions(
         transactionStore.allStock,
         row[constants.DEFAULTS.PRODUCT].value
       );
     } else {
-      row["gazaanaOptions"] = [];
-      row["gazaana"] = null;
-      row["warehouseOptions"] = [];
-      row["warehouse"] = null;
+      row['gazaanaOptions'] = [];
+      row['gazaana'] = null;
+      row['warehouseOptions'] = [];
+      row['warehouse'] = null;
     }
 
     if (row[constants.DEFAULTS.PRODUCT] && row[constants.DEFAULTS.GAZAANA]) {
-      row["warehouseOptions"] = getWarehouseOptions(
+      row['warehouseOptions'] = getWarehouseOptions(
         transactionStore.allStock,
         row[constants.DEFAULTS.PRODUCT].value,
         row[constants.DEFAULTS.GAZAANA].value,
         props.warehouses
       );
     } else {
-      row["warehouseOptions"] = [];
-      row["warehouse"] = null;
+      row['warehouseOptions'] = [];
+      row['warehouse'] = null;
     }
 
     if (
@@ -332,14 +336,14 @@ const Transaction = (props) => {
       row[constants.DEFAULTS.WAREHOUSE] &&
       row[constants.DEFAULTS.GAZAANA]
     ) {
-      row["stock_quantity"] = getStockQuantity(
+      row['stock_quantity'] = getStockQuantity(
         transactionStore.allStock,
         row[constants.DEFAULTS.PRODUCT].value,
         row[constants.DEFAULTS.WAREHOUSE].value,
         row[constants.DEFAULTS.GAZAANA]?.value
       );
     } else {
-      row["stock_quantity"] = null;
+      row['stock_quantity'] = null;
     }
 
     setTableData(newState);
@@ -369,7 +373,7 @@ const Transaction = (props) => {
     },
     {
       isError:
-        selectedOptions.currentTransactionType === "paid" &&
+        selectedOptions.currentTransactionType === 'paid' &&
         !selectedOptions.currentAccountType,
       description: constants.ERROR_DEFAULTS.NO_ACCOUNT,
     },
@@ -382,7 +386,7 @@ const Transaction = (props) => {
       description: constants.ERROR_DEFAULTS.ROW_INCOMPLETE,
     },
     {
-      isError: selectedOptions.currentTransactionType === "paid" && !paidAmount,
+      isError: selectedOptions.currentTransactionType === 'paid' && !paidAmount,
       description: constants.ERROR_DEFAULTS.NO_PAID_AMOUNT,
     },
     {
@@ -401,7 +405,7 @@ const Transaction = (props) => {
 
   const redirect = (transaction) => {
     history.push({
-      pathname: getURL(VIEW_SINGLE_TRANSACTION, "uuid", transaction.id),
+      pathname: getURL(VIEW_SINGLE_TRANSACTION, 'uuid', transaction.id),
       state: transaction,
     });
   };
@@ -410,7 +414,7 @@ const Transaction = (props) => {
   const makeTransaction = (draft = false) => {
     for (let i = 0; i < FINALIZE_ERRORS.length; i++) {
       let check = FINALIZE_ERRORS[i].isError;
-      let isError = typeof check === "function" ? !check() : check;
+      let isError = typeof check === 'function' ? !check() : check;
       if (isError) {
         showErrorSnackbar(FINALIZE_ERRORS[i].description);
         return;
@@ -449,19 +453,19 @@ const Transaction = (props) => {
         };
       }),
     };
-    if (selectedOptions.currentTransactionType === "paid") {
-      transactionData["paid"] = true;
-      transactionData["paid_amount"] = paidAmount;
-      transactionData["account_type"] =
+    if (selectedOptions.currentTransactionType === 'paid') {
+      transactionData['paid'] = true;
+      transactionData['paid_amount'] = paidAmount;
+      transactionData['account_type'] =
         selectedOptions.currentAccountType?.value;
     }
     if (selectedOptions.currentDate) {
-      transactionData["date"] = selectedOptions.currentDate;
+      transactionData['date'] = selectedOptions.currentDate;
     }
     if (transaction) {
       instance
         .put(
-          getURL(TRANSACTION_URLS.GET_TRANSACTION, "uuid", transaction.id),
+          getURL(TRANSACTION_URLS.GET_TRANSACTION, 'uuid', transaction.id),
           transactionData
         )
         .then((res) => {
@@ -510,7 +514,7 @@ const Transaction = (props) => {
             transactionTypes={transactionTypes}
           />
 
-          <TableContainer component={Paper} sx={{ my: 3, overflow: "visible" }}>
+          <TableContainer component={Paper} sx={{ my: 3, overflow: 'visible' }}>
             <Table>
               <TransactionTableHeader
                 tableMeta={tableMeta}
@@ -538,6 +542,7 @@ const Transaction = (props) => {
             loading={loading}
             makeTransaction={makeTransaction}
             transaction={transaction}
+            totalQuantity={totalQuantity}
           />
         </div>
       )}

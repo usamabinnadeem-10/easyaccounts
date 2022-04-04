@@ -1,19 +1,19 @@
-import React from "react";
+import React from 'react';
 
-import CustomLoader from "../CustomLoader/CustomLoader";
+import CustomLoader from '../CustomLoader/CustomLoader';
 
-import { Button } from "@mui/material";
-import Fab from "@mui/material/Fab";
-import Grid from "@mui/material/Grid";
-import TextField from "@mui/material/TextField";
-import Typography from "@mui/material/Typography";
+import { Button } from '@mui/material';
+import Fab from '@mui/material/Fab';
+import Grid from '@mui/material/Grid';
+import TextField from '@mui/material/TextField';
+import Typography from '@mui/material/Typography';
 
-import Add from "@mui/icons-material/Add";
-import EmailIcon from "@mui/icons-material/Email";
-import SaveIcon from "@mui/icons-material/Save";
-import EditIcon from "@mui/icons-material/Edit";
+import Add from '@mui/icons-material/Add';
+import EmailIcon from '@mui/icons-material/Email';
+import SaveIcon from '@mui/icons-material/Save';
+import EditIcon from '@mui/icons-material/Edit';
 
-import { formatCurrency } from "../../utilities/stringUtils";
+import { formatCurrency } from '../../utilities/stringUtils';
 
 function TransactionFooter(props) {
   const {
@@ -21,20 +21,21 @@ function TransactionFooter(props) {
     transactionFooter,
     tableData,
     total,
+    totalQuantity,
     loading,
     makeTransaction,
     transaction,
   } = props;
   return (
     <>
-      <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
-        <Fab onClick={() => addRow()} color="secondary" size="small">
+      <Grid container justifyContent='flex-end' sx={{ pb: 2 }}>
+        <Fab onClick={() => addRow()} color='secondary' size='small'>
           <Add />
         </Fab>
       </Grid>
 
-      <Grid container justifyContent="flex-end" sx={{ pb: 2 }}>
-        <Grid sx={{ width: "max-content" }} container direction="column">
+      <Grid container justifyContent='flex-end' sx={{ pb: 2 }}>
+        <Grid sx={{ width: 'max-content' }} container direction='column'>
           {transactionFooter.map((field, index) => {
             if (field.visible) {
               return (
@@ -43,14 +44,14 @@ function TransactionFooter(props) {
                   label={field.placeholder}
                   type={field.type}
                   multiline
-                  variant="outlined"
-                  size="small"
+                  variant='outlined'
+                  size='small'
                   placeholder={field.placeholder}
                   value={field.value}
                   onChange={(e) =>
                     field.action(
-                      field.type === "number"
-                        ? parseFloat(e.target.value) || ""
+                      field.type === 'number'
+                        ? parseFloat(e.target.value) || ''
                         : e.target.value
                     )
                   }
@@ -66,11 +67,20 @@ function TransactionFooter(props) {
         </Grid>
       </Grid>
 
-      <Grid container justifyContent="space-between">
-        <Typography variant="subtitle">Items : {tableData.length}</Typography>
-        <Typography variant="h6" color={total < 0 && "error"}>
-          PKR : {formatCurrency(total) || 0} /=
-        </Typography>
+      <Grid container justifyContent='space-between'>
+        <Grid item xs={6}>
+          <Typography variant='subtitle'>Items : {tableData.length}</Typography>
+        </Grid>
+        <Grid item xs={6}>
+          <Grid container direction='column' align='right'>
+            <Typography variant='h6' color={total < 0 && 'error'}>
+              PKR : {formatCurrency(total) || 0} /=
+            </Typography>
+            <Typography variant='h6'>
+              Thaan : {formatCurrency(totalQuantity) || 0}
+            </Typography>
+          </Grid>
+        </Grid>
       </Grid>
       {loading ? (
         <CustomLoader loading={loading} height={20} />
@@ -78,11 +88,10 @@ function TransactionFooter(props) {
         <Grid sx={{ my: 2 }}>
           <Button
             endIcon={transaction ? <EditIcon /> : <EmailIcon />}
-            variant="contained"
+            variant='contained'
             sx={{ fontWeight: 900, mr: 2 }}
-            onClick={() => makeTransaction()}
-          >
-            {transaction ? "Edit" : "Finalize"}
+            onClick={() => makeTransaction()}>
+            {transaction ? 'Edit' : 'Finalize'}
           </Button>
 
           {/* <Button
