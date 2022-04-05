@@ -1,38 +1,38 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
-import { useMemo } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
+import { useMemo } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from 'react-to-print';
 
-import Select from "react-select";
+import Select from 'react-select';
 
-import CustomFilters from "../../containers/CustomFilters/CustomFilters";
-import CustomTable from "../../components/CustomTable/CustomTable";
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import Empty from "../../components/Empty/Empty";
-import Heading from "../../components/Heading";
+import CustomFilters from '../../containers/CustomFilters/CustomFilters';
+import CustomTable from '../../components/CustomTable/CustomTable';
+import CustomLoader from '../../components/CustomLoader/CustomLoader';
+import Empty from '../../components/Empty/Empty';
+import Heading from '../../components/Heading';
 
-import { Button } from "@mui/material";
-import { Modal } from "@mui/material";
-import { Typography } from "@mui/material";
-import { TextField } from "@mui/material";
+import { Button } from '@mui/material';
+import { Modal } from '@mui/material';
+import { Typography } from '@mui/material';
+import { TextField } from '@mui/material';
 
-import { StyledPaper } from "./styled";
-import { useStyles, selectStyles } from "./styles";
-import { getColumns } from "./constants";
-import { formatStockData, getFilters } from "./utils";
-import { ESSENTIAL_URLS } from "../../../constants/restEndPoints";
+import { StyledPaper } from './styled';
+import { useStyles, selectStyles } from './styles';
+import { getColumns } from './constants';
+import { formatStockData, getFilters } from './utils';
+import { ESSENTIAL_URLS } from '../../../constants/restEndPoints';
 
-import { getAllStock } from "../../../store/transactions/actions";
-import instance from "../../../utils/axiosApi";
-import { TRANSACTION_URLS } from "../../../constants/restEndPoints";
+import { getAllStock } from '../../../store/transactions/actions';
+import instance from '../../../utils/axiosApi';
+import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const ViewAllStock = (props) => {
   const classes = useStyles();
@@ -43,10 +43,13 @@ const ViewAllStock = (props) => {
   const allStock = useSelector((state) => state.transactions.allStock);
   const warehouses = useSelector((state) => state.essentials.warehouses);
   const products = useSelector((state) => state.essentials.products);
+  const productCategories = useSelector(
+    (state) => state.essentials.productCategories
+  );
 
   let filters = useMemo(
-    () => getFilters({ warehouses, products }),
-    [warehouses, products]
+    () => getFilters({ warehouses, products, productCategories }),
+    [warehouses, products, productCategories]
   );
 
   const [stockData, setStockData] = useState([]);
@@ -95,12 +98,12 @@ const ViewAllStock = (props) => {
         setIsModalOpen(false);
         setCurrentStock(null);
         setTransferQuantity(null);
-        props.showSuccessSnackbar("Stock transferred");
+        props.showSuccessSnackbar('Stock transferred');
         dispatch(getAllStock());
       })
       .catch((error) => {
         props.showErrorSnackbar(
-          error?.response?.data?.detail || "Oops, something went wrong"
+          error?.response?.data?.detail || 'Oops, something went wrong'
         );
       });
   };
@@ -117,38 +120,37 @@ const ViewAllStock = (props) => {
     <>
       {isModalOpen && (
         <Modal
-          paper="true"
+          paper='true'
           open={isModalOpen}
-          onClose={() => setIsModalOpen(false)}
-        >
+          onClose={() => setIsModalOpen(false)}>
           <StyledPaper>
-            <Typography sx={{ mb: 2 }} variant="h5">
+            <Typography sx={{ mb: 2 }} variant='h5'>
               Transfer Stock
             </Typography>
-            <Typography variant="body1">
+            <Typography variant='body1'>
               Product: {props.products[currentStock.product].label}
             </Typography>
-            <Typography variant="body1">
+            <Typography variant='body1'>
               From Warehouse: {props.warehouses[currentStock.warehouse].label}
             </Typography>
-            <Typography variant="body1">
+            <Typography variant='body1'>
               Gazaana: {currentStock.yards_per_piece}
             </Typography>
-            <Typography sx={{ mb: 2 }} variant="body1">
+            <Typography sx={{ mb: 2 }} variant='body1'>
               Stock: {currentStock.stock_quantity}
             </Typography>
             <Select
               styles={selectStyles()}
               value={toWarehouse}
               options={warehouses}
-              placeholder="Transfer to Warehouse"
+              placeholder='Transfer to Warehouse'
               onChange={(value) => setToWarehouse(value)}
             />
             <TextField
-              label="Transfer Quantity"
-              type="number"
+              label='Transfer Quantity'
+              type='number'
               sx={{ my: 2 }}
-              size="small"
+              size='small'
               value={transferQuantity}
               helperText={`Quantity can not be greater than ${currentStock.stock_quantity}`}
               error={transferQuantity > currentStock.stock_quantity}
@@ -160,7 +162,7 @@ const ViewAllStock = (props) => {
               }}
               onChange={(e) => setTransferQuantity(parseInt(e.target.value))}
             />
-            <Button variant="contained" onClick={makeTransfer} fullWidth>
+            <Button variant='contained' onClick={makeTransfer} fullWidth>
               TRANSFER
             </Button>
           </StyledPaper>
@@ -175,14 +177,13 @@ const ViewAllStock = (props) => {
         {stockData.length > 0 && (
           <Button
             onClick={handlePrint}
-            sx={{ my: 3, displayPrint: "none" }}
-            variant="contained"
-            color="secondary"
-          >
+            sx={{ my: 3, displayPrint: 'none' }}
+            variant='contained'
+            color='secondary'>
             PRINT
           </Button>
         )}
-        <Heading heading={"All Stock"} />
+        <Heading heading={'All Stock'} />
         {stockData.length > 0 ? (
           <CustomTable columns={COLUMNS} data={stockData} />
         ) : (

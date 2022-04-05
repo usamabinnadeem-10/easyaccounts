@@ -81,6 +81,17 @@ const reducer = (state = initialState, action) => {
         products: products,
       };
 
+    case actionTypes.GET_ALL_CATEGORIES_SUCCESS:
+      const categories = renameKeys(
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
+      );
+      return {
+        ...state,
+        productCategories: categories,
+      };
+
     case actionTypes.GET_ALL_WAREHOUSE_SUCCESS:
       const warehouses = renameKeys(
         'id',
