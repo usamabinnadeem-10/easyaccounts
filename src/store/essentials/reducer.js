@@ -8,6 +8,7 @@ const initialState = {
   customers: [],
   suppliers: [],
   products: [],
+  productCategories: [],
   expenseAccounts: [],
   areas: [],
   cities: [],
@@ -67,17 +68,6 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         suppliers: suppliers,
-      };
-
-    case actionTypes.GET_ALL_PRODUCT_HEAD_SUCCESS:
-      const heads = renameKeys(
-        'id',
-        'value',
-        renameKeys('head_name', 'label', action.payload)
-      );
-      return {
-        ...state,
-        productHeads: heads,
       };
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:
@@ -175,25 +165,6 @@ const reducer = (state = initialState, action) => {
         adding: false,
       };
 
-    case actionTypes.ADD_NEW_PRODUCT_HEAD:
-      return {
-        ...state,
-        adding: true,
-      };
-
-    case actionTypes.ADD_NEW_PRODUCT_HEAD_SUCCESS:
-      const newProductHead = renameKeys(
-        'id',
-        'value',
-        renameKeys('head_name', 'label', [action.payload])
-      );
-      return {
-        ...state,
-        productHeads: [...state.productHeads, ...newProductHead],
-        added: true,
-        adding: false,
-      };
-
     case actionTypes.ADD_NEW_PERSON:
       return {
         ...state,
@@ -238,6 +209,33 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         adding: true,
+      };
+
+    case actionTypes.ADD_NEW_CATEGORY:
+      return {
+        ...state,
+        adding: true,
+      };
+
+    case actionTypes.ADD_NEW_CATEGORY_SUCCESS:
+      let newCategoriesRenamed = renameKeys(
+        'id',
+        'value',
+        renameKeys('name', 'label', [action.payload])
+      );
+      let newCategories = [...state.productCategories, ...newCategoriesRenamed];
+      return {
+        ...state,
+        productCategories: newCategories,
+        added: true,
+        adding: false,
+      };
+
+    case actionTypes.ADD_NEW_CATEGORY_FAIL:
+      return {
+        ...state,
+        adding: false,
+        error: action.payload,
       };
 
     case actionTypes.ADD_NEW_PRODUCT_SUCCESS:

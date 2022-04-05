@@ -1,37 +1,38 @@
-import Accounts from "@mui/icons-material/ManageAccounts";
-import Ledger from "@mui/icons-material/MenuBook";
-import Cheques from "@mui/icons-material/StickyNote2";
-import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
-import Manage from "@mui/icons-material/Settings";
-import Customers from "@mui/icons-material/GroupAdd";
-import Products from "@mui/icons-material/Inventory";
-import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import ArticleIcon from "@mui/icons-material/Article";
-import QueryStatsIcon from "@mui/icons-material/QueryStats";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
-import CreditScoreIcon from "@mui/icons-material/CreditScore";
-import ManageSearchIcon from "@mui/icons-material/ManageSearch";
+import Accounts from '@mui/icons-material/ManageAccounts';
+import Ledger from '@mui/icons-material/MenuBook';
+import Cheques from '@mui/icons-material/StickyNote2';
+import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
+import Manage from '@mui/icons-material/Settings';
+import Customers from '@mui/icons-material/GroupAdd';
+import Products from '@mui/icons-material/Inventory';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import ArticleIcon from '@mui/icons-material/Article';
+import QueryStatsIcon from '@mui/icons-material/QueryStats';
+import CreditCardIcon from '@mui/icons-material/CreditCard';
+import CreditScoreIcon from '@mui/icons-material/CreditScore';
+import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
-import AccountCircle from "@mui/icons-material/AccountCircle";
-import Inventory2 from "@mui/icons-material/Inventory2";
-import Home from "@mui/icons-material/Home";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import MoneyIcon from "@mui/icons-material/Money";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import LocationOnIcon from "@mui/icons-material/LocationOn";
-import DnsIcon from "@mui/icons-material/Dns";
-import CalculateIcon from "@mui/icons-material/Calculate";
-import ShowerIcon from "@mui/icons-material/Shower";
+import AccountCircle from '@mui/icons-material/AccountCircle';
+import Inventory2 from '@mui/icons-material/Inventory2';
+import CategoryIcon from '@mui/icons-material/Category';
+import Home from '@mui/icons-material/Home';
+import AccountBalanceIcon from '@mui/icons-material/AccountBalance';
+import MoneyIcon from '@mui/icons-material/Money';
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import LocationOnIcon from '@mui/icons-material/LocationOn';
+import DnsIcon from '@mui/icons-material/Dns';
+import CalculateIcon from '@mui/icons-material/Calculate';
+import ShowerIcon from '@mui/icons-material/Shower';
 
-import LocalLaundryServiceIcon from "@mui/icons-material/LocalLaundryService";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CheckroomIcon from "@mui/icons-material/Checkroom";
+import LocalLaundryServiceIcon from '@mui/icons-material/LocalLaundryService';
+import LocalShippingIcon from '@mui/icons-material/LocalShipping';
+import CheckroomIcon from '@mui/icons-material/Checkroom';
 
-import RawOnIcon from "@mui/icons-material/RawOn";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import PointOfSaleIcon from "@mui/icons-material/PointOfSale";
-import FilterAltIcon from "@mui/icons-material/FilterAlt";
+import RawOnIcon from '@mui/icons-material/RawOn';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
+import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
 import {
   VIEW,
@@ -67,7 +68,8 @@ import {
   FORMULA,
   RAW_PRODUCT,
   DYING_UNIT,
-} from "./constants";
+  PRODUCT_CATEGORY,
+} from './constants';
 
 export const getIcon = (panel) => {
   switch (panel) {
@@ -137,6 +139,8 @@ export const getIcon = (panel) => {
       return <RawOnIcon />;
     case DYING_UNIT:
       return <ShowerIcon />;
+    case PRODUCT_CATEGORY:
+      return <CategoryIcon />;
     default:
       break;
   }

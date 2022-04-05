@@ -1,13 +1,13 @@
-import instance from "../../utils/axiosApi";
+import instance from '../../utils/axiosApi';
 
-import { cscInstance } from "../../utils/axiosApi";
+import { cscInstance } from '../../utils/axiosApi';
 
 import {
   ESSENTIAL_URLS,
   EXPENSE_URLS,
   TRANSACTION_URLS,
   CSC_URLS,
-} from "../../constants/restEndPoints";
+} from '../../constants/restEndPoints';
 
 // APIs to get essentials
 
@@ -37,6 +37,10 @@ export const getExpenseAccountsApi = () => {
 
 export const getAreasApi = () => {
   return instance.get(ESSENTIAL_URLS.LIST.AREAS);
+};
+
+export const getCategoriesApi = () => {
+  return instance.get(ESSENTIAL_URLS.LIST.CATEGORIES);
 };
 
 export const getCitiesApi = () => {
@@ -75,6 +79,10 @@ export const cancelInvoiceApi = (data) => {
 
 export const addAreaApi = (data) => {
   return instance.post(ESSENTIAL_URLS.CREATE.AREA, data);
+};
+
+export const addCategoryApi = (data) => {
+  return instance.post(ESSENTIAL_URLS.CREATE.CATEGORY, data);
 };
 
 export const addOpeningStockApi = (data) => {

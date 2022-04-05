@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export const setEssentialsFetchedFalse = () => {
   return {
@@ -59,19 +59,6 @@ export const getAllSuppliers = () => {
 export const getAllSuppliersSuccess = (data) => {
   return {
     type: actionTypes.GET_ALL_SUPPLIERS_SUCCESS,
-    payload: data,
-  };
-};
-
-export const getAllProductHead = () => {
-  return {
-    type: actionTypes.GET_ALL_PRODUCT_HEAD,
-  };
-};
-
-export const getAllProductHeadSuccess = (data) => {
-  return {
-    type: actionTypes.GET_ALL_PRODUCT_HEAD_SUCCESS,
     payload: data,
   };
 };
@@ -141,18 +128,24 @@ export const getAllCitiesSuccess = (data) => {
   };
 };
 
+export const getAllCategories = () => {
+  return {
+    type: actionTypes.GET_ALL_CATEGORIES,
+  };
+};
+
+export const getAllCategoriesSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_CATEGORIES_SUCCESS,
+    payload: data,
+  };
+};
+
 // ADD NEW ACTIONS
 
 export const addNewPerson = (data) => {
   return {
     type: actionTypes.ADD_NEW_PERSON,
-    payload: data,
-  };
-};
-
-export const addNewProductHead = (data) => {
-  return {
-    type: actionTypes.ADD_NEW_PRODUCT_HEAD,
     payload: data,
   };
 };
@@ -192,6 +185,13 @@ export const addNewArea = (data) => {
   };
 };
 
+export const addNewCategory = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_CATEGORY,
+    payload: data,
+  };
+};
+
 export const addOpeningStock = (data) => {
   return {
     type: actionTypes.ADD_OPENING_STOCK,
@@ -204,13 +204,6 @@ export const addOpeningStock = (data) => {
 export const addNewPersonSuccess = (data) => {
   return {
     type: actionTypes.ADD_NEW_PERSON_SUCCESS,
-    payload: data,
-  };
-};
-
-export const addNewProductHeadSuccess = (data) => {
-  return {
-    type: actionTypes.ADD_NEW_PRODUCT_HEAD_SUCCESS,
     payload: data,
   };
 };
@@ -246,6 +239,13 @@ export const addNewExpenseAccountSuccess = (data) => {
 export const addNewAreaSuccess = (data) => {
   return {
     type: actionTypes.ADD_NEW_AREA_SUCCESS,
+    payload: data,
+  };
+};
+
+export const addNewCategorySuccess = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_CATEGORY_SUCCESS,
     payload: data,
   };
 };

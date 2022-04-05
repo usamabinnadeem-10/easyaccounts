@@ -19,11 +19,10 @@ import { FIELDS } from '../../../constants/fieldTypes';
 
 import { DB } from '../../../constants/db';
 
-import { PRODUCT_CATEGORIES } from '../../../constants/productCategories';
-
 import * as actions from '../../../store/essentials/actions';
 import { addNewFormula, addNewProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
+import { addNewCategory } from '../../../store/essentials';
 
 export const VIEW = 'View';
 export const LEDGER = 'Ledgers';
@@ -46,6 +45,7 @@ export const EXTERNAL_CHEQUES = 'Party Cheques';
 export const CREATE_NEW = 'Create New';
 export const PERSON = 'Customer/Supplier';
 export const PRODUCT = 'Product';
+export const PRODUCT_CATEGORY = 'Product Category';
 export const WAREHOUSE = 'Warehouse';
 export const ACCOUNT = 'Account Head';
 export const EXPENSE_ACCOUNT = 'Expense Head';
@@ -136,6 +136,10 @@ export const SIDEBAR = [
       {
         name: PRODUCT,
         modal: PRODUCT,
+      },
+      {
+        name: PRODUCT_CATEGORY,
+        modal: PRODUCT_CATEGORY,
       },
       {
         name: WAREHOUSE,
@@ -396,8 +400,8 @@ export const getRawProductForm = (essentials) => {
   };
 };
 
-export const MODAL_DEFAULTS = {
-  [PRODUCT]: {
+export const getProductForm = (essentials) => {
+  return {
     heading: 'Add Product',
     action: actions.addNewProduct,
     formData: [
@@ -411,11 +415,14 @@ export const MODAL_DEFAULTS = {
         label: 'Product Category',
         type: FIELDS.SELECT,
         name: DB.CATEGORY,
-        options: PRODUCT_CATEGORIES,
+        options: essentials.productCategories,
         required: true,
       },
     ],
-  },
+  };
+};
+
+export const MODAL_DEFAULTS = {
   [WAREHOUSE]: {
     heading: 'Add Warehouse',
     action: actions.addNewWarehouse,
@@ -493,6 +500,18 @@ export const MODAL_DEFAULTS = {
       },
     ],
   },
+  [PRODUCT_CATEGORY]: {
+    heading: 'Add Product Category',
+    action: addNewCategory,
+    formData: [
+      {
+        label: 'Category Name',
+        type: FIELDS.STRING,
+        name: DB.NAME,
+        required: true,
+      },
+    ],
+  },
 };
 
 export const chooseModal = (name, essentials) => {
@@ -505,6 +524,8 @@ export const chooseModal = (name, essentials) => {
       return getOpeningStockForm(essentials);
     case RAW_PRODUCT:
       return getRawProductForm(essentials);
+    case PRODUCT:
+      return getProductForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

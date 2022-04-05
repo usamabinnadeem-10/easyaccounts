@@ -1,13 +1,13 @@
-import { all } from "redux-saga/effects";
-import { call } from "redux-saga/effects";
-import { put } from "redux-saga/effects";
-import { takeLatest } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-import * as actionTypes from "./actionTypes";
-import * as actions from "./actions";
-import * as api from "./api";
+import * as actionTypes from './actionTypes';
+import * as actions from './actions';
+import * as api from './api';
 
-import { findErrorMessage } from "../../app/utilities/objectUtils";
+import { findErrorMessage } from '../../app/utilities/objectUtils';
 
 function* essentialSagas() {
   yield all([
@@ -17,6 +17,7 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_WAREHOUSE, addNewWarehouseSaga),
     takeLatest(actionTypes.ADD_NEW_EXPENSE_ACCOUNT, addNewExpenseAccountSaga),
     takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
+    takeLatest(actionTypes.ADD_NEW_CATEGORY, addNewCategorySaga),
     takeLatest(actionTypes.ADD_NEW_AREA, addNewAreaSaga),
     takeLatest(actionTypes.ADD_OPENING_STOCK, addOpeningStockSaga),
     takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
@@ -46,6 +47,9 @@ function* getAllEssentialsSaga() {
 
     response = yield call(api.getAreasApi);
     yield put(actions.getAllAreasSuccess(response.data));
+
+    response = yield call(api.getCategoriesApi);
+    yield put(actions.getAllCategoriesSuccess(response.data));
 
     response = yield call(api.getCitiesApi);
     yield put(actions.getAllCitiesSuccess(response.data));
@@ -85,6 +89,11 @@ function* addNewExpenseAccountSaga(action) {
 function* addNewProductSaga(action) {
   let response = yield call(api.addProductApi, action.payload);
   yield put(actions.addNewProductSuccess(response.data));
+}
+
+function* addNewCategorySaga(action) {
+  let response = yield call(api.addCategoryApi, action.payload);
+  yield put(actions.addNewCategorySuccess(response.data));
 }
 
 function* addExpenseDetailSaga(action) {

@@ -4,7 +4,6 @@ import {
 } from '../../utilities/stringUtils';
 
 import { FIELDS } from '../../containers/CustomFilters/constants';
-import { PRODUCT_CATEGORIES } from '../../../constants/productCategories';
 
 export const formatStockData = (data, props) => {
   let newStockData = data.map((stockData) => {
@@ -48,7 +47,7 @@ export const getFilters = (essentials) => {
     },
     {
       qp: 'product__category',
-      options: PRODUCT_CATEGORIES,
+      options: essentials.productCategories,
       type: FIELDS.SELECT,
       placeholder: 'Category',
     },
