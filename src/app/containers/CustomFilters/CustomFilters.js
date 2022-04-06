@@ -1,26 +1,26 @@
-import React from "react";
+import React from 'react';
 
-import { Autocomplete } from "@mui/material";
-import { Chip } from "@mui/material";
-import { TextField } from "@mui/material";
-import { MenuItem } from "@mui/material";
+import { Autocomplete } from '@mui/material';
+import { Chip } from '@mui/material';
+import { TextField } from '@mui/material';
+import { MenuItem } from '@mui/material';
 
-import DateAdapter from "@mui/lab/AdapterMoment";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import DateAdapter from '@mui/lab/AdapterMoment';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { StyledButton } from "./styled";
-import { StyledGrid } from "./styled";
-import { StyledMenu } from "./styled";
+import { StyledButton } from './styled';
+import { StyledGrid } from './styled';
+import { StyledMenu } from './styled';
 
-import * as constants from "./constants";
-import instance from "../../../utils/axiosApi";
-import { makeQueryParamURL } from "../../utilities/stringUtils";
-import { findErrorMessage } from "../../utilities/objectUtils";
+import * as constants from './constants';
+import instance from '../../../utils/axiosApi';
+import { makeQueryParamURL } from '../../utilities/stringUtils';
+import { findErrorMessage } from '../../utilities/objectUtils';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -39,7 +39,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
   };
 
   const handleSetActiveFilters = (qp, val, placeholder) => {
-    let value = typeof val === "string" ? val : val?.label;
+    let value = typeof val === 'string' ? val : val?.label;
     if (value) {
       let index = activeFilters.findIndex((filter) => filter.qp === qp);
       if (index === -1) {
@@ -66,7 +66,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
     let qp = filter.qp;
     newFilterState[qp] = value;
     handleSetActiveFilters(qp, value, filter.placeholder);
-    if (reason === "clear" || value === "") {
+    if (reason === 'clear' || value === '') {
       delete newFilterState[qp];
     }
     setFilterState(newFilterState);
@@ -82,7 +82,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
         filters.map((filter) => ({
           key: filter,
           value:
-            typeof filterState[filter] === "string"
+            typeof filterState[filter] === 'string'
               ? filterState[filter]
               : filterState[filter].value,
         }))
@@ -103,41 +103,40 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
   return (
     <StyledGrid
       mb={3}
-      sx={{ backgroundColor: "#eee", p: 2, borderRadius: 1 }}
+      sx={{ backgroundColor: '#eee', p: 2, borderRadius: 1 }}
       container
-      justifyContent="space-between"
-    >
+      justifyContent='space-between'>
       <StyledGrid item xs={8}>
         {activeFilters.length > 0 ? (
           activeFilters.map((filter, index) => (
             <Chip
-              onDelete={() => handleSetFilter("", filter, "clear")}
+              onDelete={() => handleSetFilter('', filter, 'clear')}
               key={index}
               label={`${filter.placeholder} : ${filter.value}`}
               sx={{ mr: 1, mb: 1 }}
-              variant="outlined"
+              variant='outlined'
             />
           ))
         ) : (
-          <Chip label="No Filters Applied" color="info" variant="contained" />
+          <Chip label='No Filters Applied' color='info' variant='contained' />
         )}
       </StyledGrid>
       <StyledGrid item xs={4}>
-        <StyledGrid container justifyContent="flex-end">
+        <StyledGrid container justifyContent='flex-end'>
           <StyledButton
             onClick={handleClick}
-            variant="contained"
-            color="warning"
-            mr={8}
-          >
+            variant='contained'
+            color='warning'
+            mr={8}>
             FILTERS
           </StyledButton>
           <StyledMenu
-            variant="menu"
+            variant='menu'
             anchorEl={anchorEl}
             open={open}
             onClose={handleClose}
-          >
+            disableAutoFocusItem={true}
+            autoFocus={false}>
             {filters.map((filter, index) => (
               <MenuItem disableRipple key={index}>
                 {filter.type === constants.FIELDS.SELECT ? (
@@ -146,7 +145,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                     autoComplete
                     autoHighlight
                     fullWidth
-                    size="small"
+                    size='small'
                     getOptionLabel={(option) => option.label}
                     options={filter.options}
                     onChange={(e, value, reason) =>
@@ -155,7 +154,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                     renderInput={(params) => (
                       <TextField
                         {...params}
-                        variant="outlined"
+                        variant='outlined'
                         label={filter.placeholder}
                       />
                     )}
@@ -166,16 +165,16 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                     <DesktopDatePicker
                       label={filter.placeholder}
                       value={filterState[filter.qp]}
-                      minDate={moment(Date.now()).subtract(10, "years")}
-                      maxDate={moment(Date.now()).add(10, "years")}
+                      minDate={moment(Date.now()).subtract(10, 'years')}
+                      maxDate={moment(Date.now()).add(10, 'years')}
                       onChange={(value) =>
                         handleSetFilter(
-                          moment(value).format("yyyy-MM-DD"),
+                          moment(value).format('yyyy-MM-DD'),
                           filter
                         )
                       }
                       renderInput={(params) => (
-                        <TextField size="small" {...params} />
+                        <TextField size='small' {...params} />
                       )}
                     />
                   </LocalizationProvider>
@@ -184,7 +183,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                     onChange={(e) => handleSetFilter(e.target.value, filter)}
                     label={filter.placeholder}
                     type={filter.type}
-                    size="small"
+                    size='small'
                     fullWidth
                     // value={filterState[filter.qp]}
                     InputLabelProps={{ shrink: true }}
@@ -200,9 +199,8 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
           </StyledMenu>
           <StyledButton
             loading={isLoading}
-            variant="contained"
-            onClick={() => search()}
-          >
+            variant='contained'
+            onClick={() => search()}>
             Search
           </StyledButton>
         </StyledGrid>

@@ -1,16 +1,16 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { useLocation } from "react-router";
+import { useLocation } from 'react-router';
 
-import Transaction from "../../containers/Transaction/Transaction";
+import Transaction from '../../containers/Transaction/Transaction';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
-import * as constants from "./constants";
+import * as constants from './constants';
 
 function SupplierTransaction(props) {
   const classes = useStyles();
@@ -26,8 +26,8 @@ function SupplierTransaction(props) {
     requiresAction: false,
   });
 
-  const [transactions, setTransactions] = useState([]);
-  const [transaction, setTransaction] = useState(null);
+  const [transactions, setTransactions] = useState([]); // rows
+  const [transaction, setTransaction] = useState(null); // complete transaction
 
   useEffect(() => {
     if (location.state) {
@@ -61,7 +61,7 @@ function SupplierTransaction(props) {
         defaultRow={constants.DEFAULT_ROW}
         transactionTypes={constants.TRANSACTION_TYPES}
         metaConstants={constants.META_CONSTANTS}
-        personIdentifier="Supplier"
+        personIdentifier='Supplier'
         natures={constants.NATURES}
         options={{
           people: state.suppliers,

@@ -1,45 +1,41 @@
-import { lazy } from "react";
+import { lazy } from 'react';
 
-import * as url from "./routesConstants";
+import * as url from './routesConstants';
 
-const CustomerTransaction = lazy(() =>
-  import("../app/views/CustomerTransaction/CustomerTransaction")
-);
-const SupplierTransaction = lazy(() =>
-  import("../app/views/SupplierTransaction/SupplierTransaction")
-);
-const Ledgers = lazy(() => import("../app/views/Ledgers/Ledgers"));
+import CustomerTransaction from '../app/views/CustomerTransaction/CustomerTransaction';
+import SupplierTransaction from '../app/views/SupplierTransaction/SupplierTransaction';
+const Ledgers = lazy(() => import('../app/views/Ledgers/Ledgers'));
 const LedgerTransaction = lazy(() =>
-  import("../app/views/LedgerTransaction/LedgerTransaction")
+  import('../app/views/LedgerTransaction/LedgerTransaction')
 );
 const ViewTransactions = lazy(() =>
-  import("../app/views/ViewTransactions/ViewTransactions")
+  import('../app/views/ViewTransactions/ViewTransactions')
 );
 const ViewSingleTransaction = lazy(() =>
-  import("../app/containers/ViewSingleTransaction/ViewSingleTransaction")
+  import('../app/containers/ViewSingleTransaction/ViewSingleTransaction')
 );
-const Daybook = lazy(() => import("../app/views/Daybook/Daybook"));
+const Daybook = lazy(() => import('../app/views/Daybook/Daybook'));
 const ViewExpenses = lazy(() =>
-  import("../app/views/ViewExpenses/ViewExpenses")
+  import('../app/views/ViewExpenses/ViewExpenses')
 );
 const ViewAllBalances = lazy(() =>
-  import("../app/views/ViewAllBalances/ViewAllBalances")
+  import('../app/views/ViewAllBalances/ViewAllBalances')
 );
 const ViewAllStock = lazy(() =>
-  import("../app/views/ViewAllStock/ViewAllStock")
+  import('../app/views/ViewAllStock/ViewAllStock')
 );
 const ViewDetailedStock = lazy(() =>
-  import("../app/views/ViewDetailedStock/ViewDetailedStock")
+  import('../app/views/ViewDetailedStock/ViewDetailedStock')
 );
 const ProductPerformance = lazy(() =>
-  import("../app/views/ProductPerformance/ProductPerformance")
+  import('../app/views/ProductPerformance/ProductPerformance')
 );
-const PersonalCheques = lazy(() => import("../app/views/PersonalCheques"));
-const ExternalCheques = lazy(() => import("../app/views/ExternalCheques"));
-const AccountHistory = lazy(() => import("../app/views/AccountHistory"));
-const DyingIssue = lazy(() => import("../app/views/DyingIssue"));
-const DyingReturn = lazy(() => import("../app/views/DyingReturn"));
-const RawPurchase = lazy(() => import("../app/views/Raw/RawPurchase"));
+const PersonalCheques = lazy(() => import('../app/views/PersonalCheques'));
+const ExternalCheques = lazy(() => import('../app/views/ExternalCheques'));
+const AccountHistory = lazy(() => import('../app/views/AccountHistory'));
+const DyingIssue = lazy(() => import('../app/views/DyingIssue'));
+const DyingReturn = lazy(() => import('../app/views/DyingReturn'));
+const RawPurchase = lazy(() => import('../app/views/Raw/RawPurchase'));
 
 export const authenticatedRoutes = [
   {

@@ -1,6 +1,6 @@
-import { getReadableDate } from "../../utilities/stringUtils";
+import { getReadableDate } from '../../utilities/stringUtils';
 
-import { FIELDS } from "../../containers/CustomFilters/constants";
+import { FIELDS } from '../../containers/CustomFilters/constants';
 
 export const formatTransactionData = (data) => {
   let transactions = [];
@@ -22,7 +22,7 @@ export const formatTransactionData = (data) => {
   });
   transactions.length > 0 &&
     transactions.push({
-      serial: "TOTAL",
+      serial: 'TOTAL',
       manual_invoice_serial: `${transactions.length}`,
       total: grandTotal,
       discount: totalDiscount,
@@ -53,30 +53,30 @@ export const formatTransactionDetails = (details, products, warehouses) => {
 
 const TRANSACTION_TYPES = [
   {
-    label: "Credit",
-    value: "credit",
+    label: 'Credit',
+    value: 'credit',
   },
   {
-    label: "Paid",
-    value: "paid",
+    label: 'Paid',
+    value: 'paid',
   },
   {
-    label: "Maal Wapsi",
-    value: "maal_wapsi",
+    label: 'Maal Wapsi',
+    value: 'maal_wapsi',
   },
   {
-    label: "Purchase",
-    value: "purchase",
+    label: 'Purchase',
+    value: 'purchase',
   },
 ];
 
 const TRANSACTION_STATUS_OPTIONS = [
   {
-    label: "Complete",
+    label: 'Complete',
     value: false,
   },
   {
-    label: "Incomplete",
+    label: 'Incomplete',
     value: true,
   },
 ];
@@ -84,68 +84,69 @@ const TRANSACTION_STATUS_OPTIONS = [
 export const getFilters = (essentials) => {
   return [
     {
-      qp: "person",
+      qp: 'person',
       options: [...essentials.suppliers, ...essentials.customers],
       type: FIELDS.SELECT,
-      placeholder: "Person",
+      placeholder: 'Person',
     },
     {
-      qp: "account_type",
+      qp: 'account_type',
       options: essentials.accountTypes,
       type: FIELDS.SELECT,
-      placeholder: "Account",
+      placeholder: 'Account',
     },
     {
-      qp: "type",
+      qp: 'transaction_detail__product',
+      type: FIELDS.SELECT,
+      options: essentials.products,
+      placeholder: 'Product',
+    },
+    {
+      qp: 'type',
       options: TRANSACTION_TYPES,
       type: FIELDS.SELECT,
-      placeholder: "Transaction Type",
+      placeholder: 'Transaction Type',
     },
     {
-      qp: "date__gte",
+      qp: 'date__gte',
       type: FIELDS.DATE,
-      placeholder: "Start Date",
+      placeholder: 'Start Date',
     },
     {
-      qp: "date__lte",
+      qp: 'date__lte',
       type: FIELDS.DATE,
-      placeholder: "End Date",
+      placeholder: 'End Date',
     },
     {
-      qp: "requires_action",
+      qp: 'requires_action',
       options: TRANSACTION_STATUS_OPTIONS,
       type: FIELDS.SELECT,
-      placeholder: "Complete / Incomplete",
+      placeholder: 'Complete / Incomplete',
     },
     {
-      qp: "serial__gte",
+      qp: 'serial__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Serial (more than)",
+      placeholder: 'Serial (more than)',
     },
     {
-      qp: "serial__lte",
+      qp: 'serial__lte',
       type: FIELDS.NUMBER,
-      placeholder: "Serial (less than)",
+      placeholder: 'Serial (less than)',
     },
     {
-      qp: "transaction_detail__amount__lte",
+      qp: 'discount__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Amount (less than)",
+      placeholder: 'Discount (more than)',
     },
     {
-      qp: "transaction_detail__amount__gte",
+      qp: 'discount__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Amount (more than)",
+      placeholder: 'Discount (less than)',
     },
-    {
-      qp: "discount__gte",
-      type: FIELDS.TEXT,
-      placeholder: "Discount (more than)",
-    },
-    {
-      qp: "discount__gte",
-      type: FIELDS.TEXT,
-      placeholder: "Discount (less than)",
-    },
+    // {
+    //   qp: 'detail',
+    //   type: FIELDS.TEXT,
+    //   placeholder: 'Detail',
+    // },
   ];
 };

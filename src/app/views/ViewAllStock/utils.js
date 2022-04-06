@@ -37,6 +37,13 @@ export const formatStockData = (data, props) => {
   return newStockData;
 };
 
+const OUTCUT = [
+  {
+    label: 'Only Outcut',
+    value: 'True',
+  },
+];
+
 export const getFilters = (essentials) => {
   return [
     {
@@ -56,6 +63,12 @@ export const getFilters = (essentials) => {
       options: essentials.warehouses,
       type: FIELDS.SELECT,
       placeholder: 'Warehouse',
+    },
+    {
+      qp: 'outcut',
+      options: OUTCUT,
+      type: FIELDS.SELECT,
+      placeholder: 'Outcut',
     },
     {
       qp: 'stock_quantity__gte',

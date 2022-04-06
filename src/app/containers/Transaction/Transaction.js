@@ -177,6 +177,8 @@ const Transaction = (props) => {
         formatTransaction(transactionStore.allStock, transactionDetails)
       );
     transaction && setPaidAmount(transaction.amount_paid);
+    transaction && setDetail(transaction.detail);
+    transaction && setDiscount(transaction.discount);
   }, [transactionDetails, transactionStore.allStock]);
 
   // add a new row to the transaction table
