@@ -1,12 +1,12 @@
-import Accounts from '@mui/icons-material/ManageAccounts';
-import Ledger from '@mui/icons-material/MenuBook';
+import VisibilityIcon from '@mui/icons-material/Visibility';
+
 import Cheques from '@mui/icons-material/StickyNote2';
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
 import Manage from '@mui/icons-material/Settings';
 import Customers from '@mui/icons-material/GroupAdd';
 import Products from '@mui/icons-material/Inventory';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+
 import ArticleIcon from '@mui/icons-material/Article';
 import QueryStatsIcon from '@mui/icons-material/QueryStats';
 import CreditCardIcon from '@mui/icons-material/CreditCard';
@@ -34,6 +34,15 @@ import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import PointOfSaleIcon from '@mui/icons-material/PointOfSale';
 import FilterAltIcon from '@mui/icons-material/FilterAlt';
 
+import Ledger from '@mui/icons-material/MenuBook';
+import Receipt from '@mui/icons-material/Receipt';
+
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import AttachMoney from '@mui/icons-material/AttachMoney';
+
+import AccessibilityIcon from '@mui/icons-material/Accessibility';
+import CancelIcon from '@mui/icons-material/Cancel';
+
 import {
   VIEW,
   LEDGER,
@@ -41,9 +50,9 @@ import {
   REPORTS,
   BALANCES,
   STOCK,
-  TRANSACTION,
+  TRANSACTIONS,
   DAYBOOK,
-  EXPENSE,
+  EXPENSES,
   VIEW_DETAILED_STOCK,
   PRODUCT_PERFORMANCE_HISTORY,
   CHEQUE_MANAGEMENT,
@@ -69,12 +78,16 @@ import {
   RAW_PRODUCT,
   DYING_UNIT,
   PRODUCT_CATEGORY,
+  EXPENSE_ENTRY,
+  LEDGER_ENTRY,
+  ACTIONS,
+  CANCEL_INVOICE,
 } from './constants';
 
 export const getIcon = (panel) => {
   switch (panel) {
     case VIEW:
-      return <Accounts />;
+      return <VisibilityIcon />;
     case LEDGER:
       return <Ledger />;
     case CHEQUES:
@@ -85,11 +98,11 @@ export const getIcon = (panel) => {
       return <Customers />;
     case STOCK:
       return <Products />;
-    case TRANSACTION:
+    case TRANSACTIONS:
       return <CompareArrowsIcon />;
     case DAYBOOK:
       return <LibraryBooksIcon />;
-    case EXPENSE:
+    case EXPENSES:
       return <LocalAtmIcon />;
     case VIEW_DETAILED_STOCK:
       return <ArticleIcon />;
@@ -141,6 +154,14 @@ export const getIcon = (panel) => {
       return <ShowerIcon />;
     case PRODUCT_CATEGORY:
       return <CategoryIcon />;
+    case EXPENSE_ENTRY:
+      return <AttachMoney />;
+    case LEDGER_ENTRY:
+      return <Receipt />;
+    case ACTIONS:
+      return <AccessibilityIcon />;
+    case CANCEL_INVOICE:
+      return <CancelIcon />;
     default:
       break;
   }

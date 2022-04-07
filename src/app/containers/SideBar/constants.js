@@ -1,19 +1,4 @@
-import {
-  LEDGERS,
-  TRANSACTIONS,
-  VIEW_DAYBOOK,
-  VIEW_EXPENSES,
-  ALL_BALANCES,
-  ALL_STOCK,
-  DETAILED_STOCK,
-  PRODUCT_PERFORMANCE,
-  PERSONAL_CHEQUE,
-  EXTERNAL_CHEQUE,
-  ACCOUNT_HISTORY,
-  ISSUE_DYING,
-  RETURN_DYING,
-  RAW_PURCHASE_ROUTE,
-} from '../../../constants/routesConstants';
+import * as routes from '../../../constants/routesConstants';
 
 import { FIELDS } from '../../../constants/fieldTypes';
 
@@ -23,25 +8,39 @@ import * as actions from '../../../store/essentials/actions';
 import { addNewFormula, addNewProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
+import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 
 export const VIEW = 'View';
-export const LEDGER = 'Ledgers';
-export const CHEQUES = 'Cheques';
-export const TRANSACTION = 'Transactions';
-export const DAYBOOK = 'Daybook';
-export const EXPENSE = 'Expenses';
-export const ACCOUNTS_HISTORY = 'Account History';
 
+// ----------------------REPORTS--------------------------- //
 export const REPORTS = 'Reports';
+export const DAYBOOK = 'Daybook';
 export const BALANCES = 'Balances';
 export const STOCK = 'Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
+export const ACCOUNTS_HISTORY = 'Account History';
 
+// ----------------------TRANSACTIONS--------------------------- //
+export const TRANSACTIONS = 'Transactions';
+export const SUPPLIER_TRANSACTION = 'Buying';
+export const CUSTOMER_TRANSACTION = 'Sale';
+
+// ----------------------LEDGERS--------------------------- //
+export const LEDGER = 'Ledgers';
+export const LEDGER_ENTRY = 'Ledger Entry';
+
+// ----------------------EXPENSES--------------------------- //
+export const EXPENSES = 'Expenses';
+export const EXPENSE_ENTRY = 'Expense Entry';
+
+// ----------------------CHEQUE MGT--------------------------- //
+export const CHEQUES = 'Cheques';
 export const CHEQUE_MANAGEMENT = 'Cheque Management';
 export const PERSONAL_CHEQUES = 'Personal Cheques';
 export const EXTERNAL_CHEQUES = 'Party Cheques';
 
+// ----------------------CREATE NEW--------------------------- //
 export const CREATE_NEW = 'Create New';
 export const PERSON = 'Customer/Supplier';
 export const PRODUCT = 'Product';
@@ -55,61 +54,93 @@ export const FORMULA = 'Formula';
 export const RAW_PRODUCT = 'Kora product';
 export const DYING_UNIT = 'Dying unit';
 
+// ----------------------DYING--------------------------- //
 export const DYING = 'Dying/Washing';
 export const DYING_ISSUE = 'Issue';
 export const DYING_RETURN = 'Return';
 
+// ----------------------RAW--------------------------- //
 export const RAW = 'Kora';
 export const RAW_PURCHASE = 'Buying';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
 
+// ----------------------ACTIONS--------------------------- //
+export const ACTIONS = 'Actions';
+export const CANCEL_INVOICE = 'Cancel Invoice';
+
 export const DRAWER_WIDTH = 240;
 
 export const SIDEBAR = [
   {
-    panelName: VIEW,
+    panelName: REPORTS,
     panelData: [
       {
-        name: LEDGER,
-        route: LEDGERS,
-      },
-      {
-        name: TRANSACTION,
-        route: TRANSACTIONS,
-      },
-      {
         name: DAYBOOK,
-        route: VIEW_DAYBOOK,
+        route: routes.VIEW_DAYBOOK,
       },
       {
-        name: EXPENSE,
-        route: VIEW_EXPENSES,
+        name: BALANCES,
+        route: routes.ALL_BALANCES,
+      },
+      {
+        name: STOCK,
+        route: routes.ALL_STOCK,
+      },
+      {
+        name: VIEW_DETAILED_STOCK,
+        route: routes.DETAILED_STOCK,
+      },
+      {
+        name: PRODUCT_PERFORMANCE_HISTORY,
+        route: routes.PRODUCT_PERFORMANCE,
       },
       {
         name: ACCOUNTS_HISTORY,
-        route: ACCOUNT_HISTORY,
+        route: routes.ACCOUNT_HISTORY,
       },
     ],
   },
   {
-    panelName: REPORTS,
+    panelName: TRANSACTIONS,
     panelData: [
       {
-        name: BALANCES,
-        route: ALL_BALANCES,
+        name: VIEW,
+        route: routes.TRANSACTIONS,
       },
       {
-        name: STOCK,
-        route: ALL_STOCK,
+        name: CUSTOMER_TRANSACTION,
+        route: routes.CUSTOMER_TRANSACTION,
       },
       {
-        name: VIEW_DETAILED_STOCK,
-        route: DETAILED_STOCK,
+        name: SUPPLIER_TRANSACTION,
+        route: routes.SUPPLIER_TRANSACTION,
+      },
+    ],
+  },
+  {
+    panelName: LEDGER,
+    panelData: [
+      {
+        name: VIEW,
+        route: routes.LEDGERS,
       },
       {
-        name: PRODUCT_PERFORMANCE_HISTORY,
-        route: PRODUCT_PERFORMANCE,
+        name: LEDGER_ENTRY,
+        route: routes.LEDGER_TRANSACTION,
+      },
+    ],
+  },
+  {
+    panelName: EXPENSES,
+    panelData: [
+      {
+        name: VIEW,
+        route: routes.VIEW_EXPENSES,
+      },
+      {
+        name: EXPENSE_ENTRY,
+        modal: EXPENSE_ENTRY,
       },
     ],
   },
@@ -118,11 +149,11 @@ export const SIDEBAR = [
     panelData: [
       {
         name: PERSONAL_CHEQUES,
-        route: PERSONAL_CHEQUE,
+        route: routes.PERSONAL_CHEQUE,
       },
       {
         name: EXTERNAL_CHEQUES,
-        route: EXTERNAL_CHEQUE,
+        route: routes.EXTERNAL_CHEQUE,
       },
     ],
   },
@@ -180,11 +211,20 @@ export const SIDEBAR = [
     panelData: [
       {
         name: DYING_ISSUE,
-        route: ISSUE_DYING,
+        route: routes.ISSUE_DYING,
       },
       {
         name: DYING_RETURN,
-        route: RETURN_DYING,
+        route: routes.RETURN_DYING,
+      },
+    ],
+  },
+  {
+    panelName: ACTIONS,
+    panelData: [
+      {
+        name: CANCEL_INVOICE,
+        modal: CANCEL_INVOICE,
       },
     ],
   },
@@ -193,15 +233,15 @@ export const SIDEBAR = [
     panelData: [
       {
         name: RAW_PURCHASE,
-        route: RAW_PURCHASE_ROUTE,
+        route: routes.RAW_PURCHASE_ROUTE,
       },
       // {
       //   name: RAW_SALE,
-      //   route: RETURN_DYING,
+      //   route: routes.RETURN_DYING,
       // },
       // {
       //   name: RAW_SEARCH,
-      //   route: RETURN_DYING,
+      //   route: routes.RETURN_DYING,
       // },
     ],
   },
@@ -226,6 +266,25 @@ const NATURE_OPTIONS = [
   {
     label: 'Credit',
     value: 'C',
+  },
+];
+
+const INVOICE_OPTIONS = [
+  {
+    label: 'Customer Invoice',
+    value: 'INV',
+  },
+  {
+    label: 'Maal Wapsi Customer',
+    value: 'MWC',
+  },
+  {
+    label: 'Supplier Purchase',
+    value: 'SUP',
+  },
+  {
+    label: 'Maal Wapsi Supplier',
+    value: 'MWS',
   },
 ];
 
@@ -418,6 +477,59 @@ export const getProductForm = (essentials) => {
         options: essentials.productCategories,
         required: true,
       },
+      {
+        label: 'Minimum Rate',
+        type: FIELDS.NUMBER,
+        name: DB.MIN_RATE,
+        required: true,
+      },
+    ],
+  };
+};
+
+export const getExpenseForm = (essentials) => {
+  return {
+    heading: 'Add Expense',
+    action: actions.addExpenseDetail,
+    dispatchActions: [
+      {
+        actionName: setShouldFetchDaybook,
+        data: true,
+      },
+    ],
+    formData: [
+      {
+        label: 'Date',
+        type: FIELDS.DATE,
+        name: DB.DATE,
+      },
+      {
+        label: 'Expense Account',
+        type: FIELDS.SELECT,
+        name: DB.EXPENSE,
+        options: essentials.expenseAccounts,
+        required: true,
+      },
+      {
+        label: 'Account Type',
+        type: FIELDS.SELECT,
+        name: DB.ACCOUNT_TYPE,
+        options: essentials.accountTypes,
+        required: true,
+      },
+      {
+        label: 'Amount',
+        type: FIELDS.NUMBER,
+        name: DB.AMOUNT,
+        min: 1,
+        required: true,
+      },
+      {
+        label: 'Expense Detail',
+        type: FIELDS.STRING,
+        name: DB.DETAIL,
+        required: true,
+      },
     ],
   };
 };
@@ -512,6 +624,31 @@ export const MODAL_DEFAULTS = {
       },
     ],
   },
+  [CANCEL_INVOICE]: {
+    heading: 'Cancel Invoice',
+    action: actions.cancelInvoice,
+    formData: [
+      {
+        label: 'Serial Type',
+        type: FIELDS.SELECT,
+        name: DB.SERIAL_TYPE,
+        options: INVOICE_OPTIONS,
+        required: true,
+      },
+      {
+        label: 'Serial Number',
+        type: FIELDS.NUMBER,
+        name: DB.BOOK_SERIAL,
+        required: true,
+      },
+      {
+        label: 'Why are you deleting?',
+        type: FIELDS.STRING,
+        name: DB.COMMENT,
+        required: true,
+      },
+    ],
+  },
 };
 
 export const chooseModal = (name, essentials) => {
@@ -526,6 +663,8 @@ export const chooseModal = (name, essentials) => {
       return getRawProductForm(essentials);
     case PRODUCT:
       return getProductForm(essentials);
+    case EXPENSE_ENTRY:
+      return getExpenseForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

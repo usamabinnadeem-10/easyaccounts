@@ -1,31 +1,31 @@
-import React from "react";
-import { Suspense } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { Suspense } from 'react';
+import { useEffect } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Switch } from "react-router-dom";
-import { useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Switch } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import FAB from "../../containers/FAB/FAB";
-import SideBar from "../../containers/SideBar/SideBar";
+import CustomLoader from '../../components/CustomLoader/CustomLoader';
+// import FAB from "../../containers/FAB/FAB";
+import SideBar from '../../containers/SideBar/SideBar';
 
-import useEssentials from "../../hooks/useEssentials";
+import useEssentials from '../../hooks/useEssentials';
 
-import { HOME } from "../../../constants/routesConstants";
-import { LOGIN } from "../../../constants/routesConstants";
-import { authenticatedRoutes } from "../../../constants/routes";
-import { PrivateRoute } from "./PrivateRoute";
+import { HOME } from '../../../constants/routesConstants';
+import { LOGIN } from '../../../constants/routesConstants';
+import { authenticatedRoutes } from '../../../constants/routes';
+import { PrivateRoute } from './PrivateRoute';
 
-import { getAllEssentials } from "../../../store/essentials";
-import { resetState } from "../../../store/essentials";
+import { getAllEssentials } from '../../../store/essentials';
+import { resetState } from '../../../store/essentials';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const Home = (props) => {
   let location = useLocation();
@@ -49,7 +49,7 @@ const Home = (props) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (location.pathname === "/") {
+    if (location.pathname === '/') {
       history.push(HOME);
     }
   }, [location.pathname, history]);
@@ -71,11 +71,10 @@ const Home = (props) => {
               return (
                 <PrivateRoute
                   isAuthenticated={isAuthenticated}
-                  loginRedirect={"/login"}
+                  loginRedirect={'/login'}
                   key={index}
                   path={route.path}
-                  exact
-                >
+                  exact>
                   <Component {...essentials} />
                 </PrivateRoute>
               );
@@ -85,7 +84,7 @@ const Home = (props) => {
           <CustomLoader loading={!fetched} pageLoader />
         )}
       </div>
-      <FAB fetched={fetched} />
+      {/* <FAB fetched={fetched} /> */}
     </>
   );
 };

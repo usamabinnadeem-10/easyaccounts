@@ -155,6 +155,7 @@ const reducer = (state = initialState, action) => {
         expenseAccounts: [...state.expenseAccounts, ...newExpense],
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_WAREHOUSE:
@@ -174,6 +175,7 @@ const reducer = (state = initialState, action) => {
         warehouses: [...state.warehouses, ...newWarehouse],
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_PERSON:
@@ -195,6 +197,7 @@ const reducer = (state = initialState, action) => {
         [person]: [...state[person], ...newPerson],
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_ACCOUNT_TYPE:
@@ -214,6 +217,7 @@ const reducer = (state = initialState, action) => {
         accountTypes: [...state.accountTypes, ...newAccountType],
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_PRODUCT:
@@ -240,6 +244,7 @@ const reducer = (state = initialState, action) => {
         productCategories: newCategories,
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_CATEGORY_FAIL:
@@ -261,6 +266,7 @@ const reducer = (state = initialState, action) => {
         products: newProducts,
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_NEW_AREA_SUCCESS:
@@ -275,6 +281,7 @@ const reducer = (state = initialState, action) => {
         areas: newAreas,
         added: true,
         adding: false,
+        error: '',
       };
 
     case actionTypes.ADD_OPENING_STOCK:
@@ -288,6 +295,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         adding: false,
         added: true,
+        error: '',
       };
 
     case actionTypes.ADD_OPENING_STOCK_FAIL:

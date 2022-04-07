@@ -479,7 +479,8 @@ const Transaction = (props) => {
         .catch((error) => {
           setLoading(false);
           showErrorSnackbar(
-            error?.response?.data?.detail || constants.ERROR_DEFAULTS.OOPS
+            findErrorMessage(error?.response?.data) ||
+              constants.ERROR_DEFAULTS.OOPS
           );
         });
     } else {

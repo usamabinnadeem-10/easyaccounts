@@ -1,6 +1,6 @@
-export const LOGIN = "/login";
-export const BRANCHES = "/branches";
-export const HOME = "/home";
+export const LOGIN = '/login';
+export const BRANCHES = '/branches';
+export const HOME = '/home';
 
 export const CUSTOMER_TRANSACTION = `${HOME}/customer-transaction`;
 export const SUPPLIER_TRANSACTION = `${HOME}/supplier-transaction`;
