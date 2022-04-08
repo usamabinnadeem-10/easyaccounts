@@ -1,4 +1,4 @@
-import { getReadableDate, formatCurrency } from "../../utilities/stringUtils";
+import { getReadableDate, formatCurrency } from '../../utilities/stringUtils';
 
 export const formatDetailedStock = (
   data,
@@ -12,7 +12,7 @@ export const formatDetailedStock = (
   let totalDB = 0.0;
   data.data.forEach((value) => {
     let currentNature = value.transaction__nature;
-    if (currentNature === "C") {
+    if (currentNature === 'C') {
       balance += value.quantity;
       totalCR += value.quantity;
     } else {
@@ -25,8 +25,8 @@ export const formatDetailedStock = (
       serial: value.transaction__serial,
       bookSerial: `${value.transaction__manual_serial_type}-${value.transaction__manual_invoice_serial}`,
       date: getReadableDate(value.transaction__date),
-      credit: currentNature === "C" ? value.quantity : null,
-      debit: currentNature === "D" ? value.quantity : null,
+      credit: currentNature === 'C' ? value.quantity : null,
+      debit: currentNature === 'D' ? value.quantity : null,
       person: persons?.[value.transaction__person].label,
       warehouse: warehouses?.[value.warehouse].label,
       gazaana: value.yards_per_piece,
@@ -42,9 +42,9 @@ export const formatDetailedStock = (
         id: `${transfer.id}`,
         date: getReadableDate(transfer.date),
         gazaana: transfer.yards_per_piece,
-        serial: "TR",
-        bookSerial: "TR",
-        transactionType: "transfer",
+        serial: 'TR',
+        bookSerial: 'TR',
+        transactionType: 'transfer',
       };
       if (currentWarehouse.value === transfer.to_warehouse_id) {
         balance += transfer.quantity;
@@ -76,15 +76,15 @@ export const formatDetailedStock = (
       let data = {
         date: getReadableDate(transfer.date),
         gazaana: transfer.yards_per_piece,
-        serial: "TR",
-        bookSerial: "TR",
-        transactionType: "transfer",
+        serial: 'TR',
+        bookSerial: 'TR',
+        transactionType: 'transfer',
       };
       stock.push({
         ...data,
         id: `${transfer.id}0`,
         debit: transfer.quantity,
-        warehouse: warehouses?.[transfer.from_warehouse_id].label,
+        warehouse: warehouses?.[transfer.from_warehouse].label,
         stock: balance,
         gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
       });
@@ -93,7 +93,7 @@ export const formatDetailedStock = (
         ...data,
         id: `${transfer.id}1`,
         credit: transfer.quantity,
-        warehouse: warehouses?.[transfer.to_warehouse_id].label,
+        warehouse: warehouses?.[transfer.to_warehouse].label,
         stock: balance,
         gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
       });
@@ -101,13 +101,14 @@ export const formatDetailedStock = (
   }
   stock.length > 0 &&
     stock.push({
-      date: "TOTAL",
+      date: 'TOTAL',
       credit: totalCR,
       debit: totalDB,
       stock: formatCurrency(balance),
       gazaanaBalance: stock[stock.length - 1].gazaanaBalance,
-      rowVariant: "h6",
-      rowFontWeight: "900",
+      rowVariant: 'h6',
+      rowFontWeight: '900',
     });
+  console.log(stock);
   return stock;
 };

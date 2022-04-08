@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export const getToken = (data) => {
   return {
@@ -23,6 +23,13 @@ export const getTokenFail = (data) => {
 export const setActiveBranch = (data) => {
   return {
     type: actionTypes.SET_ACTIVE_BRANCH,
+    payload: data,
+  };
+};
+
+export const setUserRole = (data) => {
+  return {
+    type: actionTypes.SET_USER_ROLE,
     payload: data,
   };
 };

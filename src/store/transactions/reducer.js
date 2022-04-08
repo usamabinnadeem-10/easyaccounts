@@ -1,9 +1,9 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 const initialState = {
   transactions: [],
   fetched: false,
-  allStock: {},
+  allStock: [],
   shouldFetchStock: true,
 };
 

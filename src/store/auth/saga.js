@@ -1,17 +1,17 @@
-import { all } from "redux-saga/effects";
-import { call } from "redux-saga/effects";
-import { put } from "redux-saga/effects";
-import { takeLatest } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-import * as actionTypes from "./actionTypes";
-import * as actions from "./actions";
-import * as api from "./api";
-import * as utils from "./utils";
+import * as actionTypes from './actionTypes';
+import * as actions from './actions';
+import * as api from './api';
+import * as utils from './utils';
 
-import { setEssentialsFetchedFalse } from "../essentials";
-import { setHeaders } from "../../utils/axiosApi";
-import { findErrorMessage } from "../../app/utilities/objectUtils";
-import { isExpired } from "react-jwt";
+import { setEssentialsFetchedFalse } from '../essentials';
+import { setHeaders } from '../../utils/axiosApi';
+import { findErrorMessage } from '../../app/utilities/objectUtils';
+import { isExpired } from 'react-jwt';
 
 function* accountsSagas() {
   yield all([takeLatest(actionTypes.GET_TOKEN, getTokenSaga)]);
@@ -24,8 +24,8 @@ function* accountsSagas() {
 function* getTokenSaga(action) {
   try {
     let response = yield call(api.getTokenApi, action.payload);
-    yield call([localStorage, "setItem"], "access", response.data.access);
-    yield call([localStorage, "setItem"], "refresh", response.data.refresh);
+    yield call([localStorage, 'setItem'], 'access', response.data.access);
+    yield call([localStorage, 'setItem'], 'refresh', response.data.refresh);
     setHeaders();
     yield put(actions.getTokenSuccess());
     yield put(actions.getBranches());
@@ -40,7 +40,7 @@ function* getBranchesSaga(action) {
     yield put(actions.getBranchesSuccess(response.data));
   } catch (error) {
     yield put(
-      actions.getBranchesFail("You are not a part of any branch right now")
+      actions.getBranchesFail('You are not a part of any branch right now')
     );
     utils.clearLocalStorage();
   }
@@ -59,7 +59,7 @@ function* loginSaga(action) {
 
 function* autoLoginSaga(action) {
   try {
-    let token = localStorage.getItem("refresh");
+    let token = localStorage.getItem('refresh');
     let activeBranch = utils.getActiveBranch();
     let refreshTokenExpired = isExpired(token);
     if (!refreshTokenExpired && token) {
@@ -67,6 +67,7 @@ function* autoLoginSaga(action) {
       yield put(actions.getTokenSuccess());
       if (activeBranch.branch_id) {
         yield put(actions.setActiveBranch(activeBranch));
+        yield put(actions.setUserRole(activeBranch.role));
       } else {
         yield put(actions.getBranches());
       }

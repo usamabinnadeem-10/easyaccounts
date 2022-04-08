@@ -67,6 +67,7 @@ export const RAW_SEARCH = 'Filter';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
+export const TRANSFER_STOCK = 'Transfer Stock';
 export const CANCEL_INVOICE = 'Cancel Invoice';
 
 export const DRAWER_WIDTH = 240;
@@ -220,15 +221,6 @@ export const SIDEBAR = [
     ],
   },
   {
-    panelName: ACTIONS,
-    panelData: [
-      {
-        name: CANCEL_INVOICE,
-        modal: CANCEL_INVOICE,
-      },
-    ],
-  },
-  {
     panelName: RAW,
     panelData: [
       {
@@ -243,6 +235,19 @@ export const SIDEBAR = [
       //   name: RAW_SEARCH,
       //   route: routes.RETURN_DYING,
       // },
+    ],
+  },
+  {
+    panelName: ACTIONS,
+    panelData: [
+      {
+        name: TRANSFER_STOCK,
+        route: routes.STOCK_TRANSFER,
+      },
+      {
+        name: CANCEL_INVOICE,
+        modal: CANCEL_INVOICE,
+      },
     ],
   },
 ];

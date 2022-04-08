@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 const initialState = {
   isAuthenticated: false,
@@ -7,6 +7,7 @@ const initialState = {
   loginFailed: false,
   error: null,
   activeBranch: null,
+  userRole: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -33,6 +34,11 @@ const reducer = (state = initialState, action) => {
         isAuthenticated: true,
         activeBranch: action.payload,
       };
+    case actionTypes.SET_USER_ROLE:
+      return {
+        ...state,
+        userRole: action.payload,
+      };
     case actionTypes.GET_BRANCHES_SUCCESS:
       return {
         ...state,
@@ -53,6 +59,7 @@ const reducer = (state = initialState, action) => {
         isAuthenticated: true,
         hasToken: true,
         activeBranch: action.payload,
+        userRole: action.payload.role,
         error: null,
       };
 

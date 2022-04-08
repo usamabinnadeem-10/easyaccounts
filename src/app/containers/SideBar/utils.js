@@ -39,6 +39,7 @@ import Receipt from '@mui/icons-material/Receipt';
 
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import AttachMoney from '@mui/icons-material/AttachMoney';
+import TransferWithinAStationIcon from '@mui/icons-material/TransferWithinAStation';
 
 import AccessibilityIcon from '@mui/icons-material/Accessibility';
 import CancelIcon from '@mui/icons-material/Cancel';
@@ -82,6 +83,7 @@ import {
   LEDGER_ENTRY,
   ACTIONS,
   CANCEL_INVOICE,
+  TRANSFER_STOCK,
 } from './constants';
 
 export const getIcon = (panel) => {
@@ -162,6 +164,8 @@ export const getIcon = (panel) => {
       return <AccessibilityIcon />;
     case CANCEL_INVOICE:
       return <CancelIcon />;
+    case TRANSFER_STOCK:
+      return <TransferWithinAStationIcon />;
     default:
       break;
   }
