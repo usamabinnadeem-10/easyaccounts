@@ -2,5 +2,5 @@ export {
   getAllFormulas,
   addNewFormula,
   getAllProduct,
-  addNewProduct,
-} from "./actions";
+  addNewRawProduct,
+} from './actions';

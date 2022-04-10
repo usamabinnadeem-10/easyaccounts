@@ -76,6 +76,7 @@ const StockTransfer = ({
       .then((response) => {
         showSuccessSnackbar('Transferred successfully');
         setIsLoading(false);
+        dispatch(getAllStock());
       })
       .catch((error) => {
         showErrorSnackbar(findErrorMessage(error.response.data));

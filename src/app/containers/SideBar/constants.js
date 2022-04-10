@@ -5,7 +5,7 @@ import { FIELDS } from '../../../constants/fieldTypes';
 import { DB } from '../../../constants/db';
 
 import * as actions from '../../../store/essentials/actions';
-import { addNewFormula, addNewProduct } from '../../../store/raw';
+import { addNewFormula, addNewRawProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
@@ -69,6 +69,9 @@ export const RAW_SEARCH = 'Filter';
 export const ACTIONS = 'Actions';
 export const TRANSFER_STOCK = 'Transfer Stock';
 export const CANCEL_INVOICE = 'Cancel Invoice';
+
+// ----------------------TRANSFERS--------------------------- //
+export const TRANSFERS = 'Transfers';
 
 export const DRAWER_WIDTH = 240;
 
@@ -438,7 +441,7 @@ const RAW_PRODUCT_TYPES = [
 export const getRawProductForm = (essentials) => {
   return {
     heading: 'Add Kora Product',
-    action: addNewProduct,
+    action: addNewRawProduct,
     formData: [
       {
         label: 'Product Name',

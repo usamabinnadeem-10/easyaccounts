@@ -65,6 +65,7 @@ export const TRANSACTION_URLS = {
   VIEW_DETAILED_STOCK: `${TRANSACTION}detailed-stock/`,
   PRODUCT_PERFORMANCE: `${TRANSACTION}product-performance-history/`,
   FILTER: `${TRANSACTION}search/`,
+  LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
 };
 
 const LEDGER = 'ledger/';

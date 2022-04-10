@@ -65,23 +65,23 @@ export const getAllProductFail = (error) => {
   };
 };
 
-export const addNewProduct = (data) => {
+export const addNewRawProduct = (data) => {
   return {
-    type: actionTypes.ADD_NEW_PRODUCT,
+    type: actionTypes.ADD_NEW_RAW_PRODUCT,
     payload: data,
   };
 };
 
 export const addNewProductSuccess = (data) => {
   return {
-    type: actionTypes.ADD_NEW_PRODUCT_SUCCESS,
+    type: actionTypes.ADD_NEW_RAW_PRODUCT_SUCCESS,
     payload: data,
   };
 };
 
 export const addNewProductFail = (data) => {
   return {
-    type: actionTypes.ADD_NEW_PRODUCT_FAIL,
+    type: actionTypes.ADD_NEW_RAW_PRODUCT_FAIL,
     payload: data,
   };
 };

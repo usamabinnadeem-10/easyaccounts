@@ -59,13 +59,13 @@ const reducer = (state = initialState, action) => {
         },
         error: '',
       };
-    case actionTypes.ADD_NEW_PRODUCT:
+    case actionTypes.ADD_NEW_RAW_PRODUCT:
       return {
         ...state,
         isAdding: true,
         added: false,
       };
-    case actionTypes.ADD_NEW_PRODUCT_SUCCESS:
+    case actionTypes.ADD_NEW_RAW_PRODUCT_SUCCESS:
       return {
         ...state,
         productsInfo: {
@@ -76,7 +76,7 @@ const reducer = (state = initialState, action) => {
         added: true,
         error: '',
       };
-    case actionTypes.ADD_NEW_PRODUCT_FAIL:
+    case actionTypes.ADD_NEW_RAW_PRODUCT_FAIL:
       return {
         ...state,
         isAdding: false,

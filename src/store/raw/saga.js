@@ -15,7 +15,7 @@ function* rawSagas() {
     takeLatest(actionTypes.GET_ALL_FORMULAS, getAllFormulaSaga),
     takeLatest(actionTypes.ADD_NEW_FORMULA, addNewFormulaSaga),
     takeLatest(actionTypes.GET_ALL_RAW_PRODUCT, getAllProductSaga),
-    takeLatest(actionTypes.ADD_NEW_PRODUCT, addNewProductSaga),
+    takeLatest(actionTypes.ADD_NEW_RAW_PRODUCT, addNewProductSaga),
   ]);
 }
 
