@@ -42,6 +42,7 @@ function ViewTransactions({
 }) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
+  const role = useSelector((state) => state.auth.userRole);
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -176,7 +177,7 @@ function ViewTransactions({
           <CustomFilters
             api={TRANSACTION_URLS.FILTER}
             onSearch={(data) => handleFormattingTransactions(data)}
-            filters={getFilters(state)}
+            filters={getFilters(state, role)}
           />
         </div>
       )}

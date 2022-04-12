@@ -87,8 +87,12 @@ function* addNewExpenseAccountSaga(action) {
 }
 
 function* addNewProductSaga(action) {
-  let response = yield call(api.addProductApi, action.payload);
-  yield put(actions.addNewProductSuccess(response.data));
+  try {
+    let response = yield call(api.addProductApi, action.payload);
+    yield put(actions.addNewProductSuccess(response.data));
+  } catch (error) {
+    yield put(actions.addNewProductFail(findErrorMessage(error.response.data)));
+  }
 }
 
 function* addNewCategorySaga(action) {

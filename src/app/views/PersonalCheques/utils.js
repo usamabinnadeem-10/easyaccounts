@@ -1,68 +1,68 @@
-import { FIELDS } from "../../containers/CustomFilters/constants";
+import { FIELDS } from '../../containers/CustomFilters/constants';
 
-import { BANKS } from "../../../constants/banks";
-import { STATUS } from "../../../constants/chequeStatus";
+import { BANKS } from '../../../constants/banks';
+import { STATUS } from '../../../constants/chequeStatus';
 
 export const getFilters = (essentials) => {
   return [
     {
-      qp: "person",
+      qp: 'person',
       options: [...essentials.suppliers, ...essentials.customers],
       type: FIELDS.SELECT,
-      placeholder: "Person",
+      placeholder: 'Person',
     },
     {
-      qp: "status",
+      qp: 'status',
       options: STATUS.PERSONAL,
       type: FIELDS.SELECT,
-      placeholder: "Status",
+      placeholder: 'Status',
     },
     {
-      qp: "serial__gte",
+      qp: 'serial__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Serial (more than)",
+      placeholder: 'Serial (more than)',
     },
     {
-      qp: "serial__lte",
+      qp: 'serial__lte',
       type: FIELDS.NUMBER,
-      placeholder: "Serial (less than)",
+      placeholder: 'Serial (less than)',
     },
     {
-      qp: "amount__gte",
+      qp: 'amount__gte',
       type: FIELDS.NUMBER,
-      placeholder: "Amount (more than)",
+      placeholder: 'Amount (more than)',
     },
     {
-      qp: "amount__lte",
+      qp: 'amount__lte',
       type: FIELDS.NUMBER,
-      placeholder: "Amount (less than)",
+      placeholder: 'Amount (less than)',
     },
     {
-      qp: "cheque_number__contains",
+      qp: 'cheque_number__contains',
       type: FIELDS.TEXT,
-      placeholder: "Cheque Number",
+      placeholder: 'Cheque Number',
     },
     {
-      qp: "date__gte",
+      qp: 'date__gte',
       type: FIELDS.DATE,
-      placeholder: "Start Date",
+      placeholder: 'Start Date',
     },
     {
-      qp: "date__lte",
+      qp: 'date__lte',
       type: FIELDS.DATE,
-      placeholder: "End Date",
+      placeholder: 'End Date',
     },
     {
-      qp: "bank",
+      qp: 'bank',
       options: BANKS,
       type: FIELDS.SELECT,
-      placeholder: "Status",
+      placeholder: 'Status',
     },
     {
-      qp: "account_type",
+      qp: 'account_type',
       options: essentials.accountTypes,
       type: FIELDS.SELECT,
-      placeholder: "Account",
+      placeholder: 'Account',
     },
   ];
 };

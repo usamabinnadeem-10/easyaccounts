@@ -19,6 +19,7 @@ import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
 
 import AddModal from '../AddModal/AddModal';
+import PermissionGate from '../../components/PermissionGate';
 import SkeletonIconButton from '../../components/SkeletonIconButton';
 
 import { chooseModal } from './constants';
@@ -107,47 +108,55 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
         <List disablePadding dense>
           {SIDEBAR.map((panel, index) => {
             return (
-              <div key={index}>
-                <ListItemButton onClick={() => handleOpen(index)} disableRipple>
-                  <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon>
-                  <ListItemText primary={panel.panelName} />
-                  {open.panel === index && open.expand ? (
-                    <ExpandLess />
-                  ) : (
-                    <ExpandMore />
-                  )}
-                </ListItemButton>
-                <Collapse
-                  in={open.expand && open.panel === index}
-                  timeout='auto'
-                  unmountOnExit>
-                  <List
-                    dense
-                    component='div'
-                    disablePadding
-                    sx={{
-                      mb: 1,
-                    }}>
-                    {panel.panelData.map((panelData, index) => {
-                      return (
-                        <ListItemButton
-                          disabled={!fetched}
-                          onClick={
-                            panelData.route
-                              ? () => history.push(panelData.route)
-                              : () => handleOpenAddModal(panelData.modal)
-                          }
-                          key={index}
-                          sx={{ pl: 4 }}
-                          disableRipple>
-                          <ListItemIcon>{getIcon(panelData.name)}</ListItemIcon>
-                          <ListItemText primary={panelData.name} />
-                        </ListItemButton>
-                      );
-                    })}
-                  </List>
-                </Collapse>
-              </div>
+              <PermissionGate permit={panel.roles}>
+                <div key={index}>
+                  <ListItemButton
+                    onClick={() => handleOpen(index)}
+                    disableRipple>
+                    <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon>
+                    <ListItemText primary={panel.panelName} />
+                    {open.panel === index && open.expand ? (
+                      <ExpandLess />
+                    ) : (
+                      <ExpandMore />
+                    )}
+                  </ListItemButton>
+                  <Collapse
+                    in={open.expand && open.panel === index}
+                    timeout='auto'
+                    unmountOnExit>
+                    <List
+                      dense
+                      component='div'
+                      disablePadding
+                      sx={{
+                        mb: 1,
+                      }}>
+                      {panel.panelData.map((panelData, index) => {
+                        return (
+                          <PermissionGate permit={panelData.roles}>
+                            <ListItemButton
+                              disabled={!fetched}
+                              onClick={
+                                panelData.route
+                                  ? () => history.push(panelData.route)
+                                  : () => handleOpenAddModal(panelData.modal)
+                              }
+                              key={index}
+                              sx={{ pl: 4 }}
+                              disableRipple>
+                              <ListItemIcon>
+                                {getIcon(panelData.name)}
+                              </ListItemIcon>
+                              <ListItemText primary={panelData.name} />
+                            </ListItemButton>
+                          </PermissionGate>
+                        );
+                      })}
+                    </List>
+                  </Collapse>
+                </div>
+              </PermissionGate>
             );
           })}
         </List>

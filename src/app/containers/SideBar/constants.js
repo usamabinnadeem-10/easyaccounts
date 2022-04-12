@@ -3,6 +3,7 @@ import * as routes from '../../../constants/routesConstants';
 import { FIELDS } from '../../../constants/fieldTypes';
 
 import { DB } from '../../../constants/db';
+import { ROLES } from '../../../constants/roles';
 
 import * as actions from '../../../store/essentials/actions';
 import { addNewFormula, addNewRawProduct } from '../../../store/raw';
@@ -76,8 +77,10 @@ export const TRANSFERS = 'Transfers';
 export const DRAWER_WIDTH = 240;
 
 export const SIDEBAR = [
+  // ----------------REPORTS---------------//
   {
     panelName: REPORTS,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: DAYBOOK,
@@ -105,6 +108,7 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------TRANSACTIONS---------------//
   {
     panelName: TRANSACTIONS,
     panelData: [
@@ -119,9 +123,11 @@ export const SIDEBAR = [
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
       },
     ],
   },
+  // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
     panelData: [
@@ -135,8 +141,10 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------EXPENSES---------------//
   {
     panelName: EXPENSES,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.SALEMAN],
     panelData: [
       {
         name: VIEW,
@@ -148,8 +156,10 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------CHEQUE MANAGEMENT---------------//
   {
     panelName: CHEQUE_MANAGEMENT,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: PERSONAL_CHEQUES,
@@ -161,8 +171,10 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------CREATE NEW---------------//
   {
     panelName: CREATE_NEW,
+    roles: [ROLES.ADMIN],
     panelData: [
       {
         name: PERSON,
@@ -210,6 +222,7 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------DYING---------------//
   {
     panelName: DYING,
     panelData: [
@@ -223,6 +236,7 @@ export const SIDEBAR = [
       },
     ],
   },
+  // ----------------RAW---------------//
   {
     panelName: RAW,
     panelData: [
@@ -240,8 +254,10 @@ export const SIDEBAR = [
       // },
     ],
   },
+  // ----------------ACTIONS---------------//
   {
     panelName: ACTIONS,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: TRANSFER_STOCK,

@@ -1,25 +1,25 @@
-import React from "react";
+import React from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { Formik } from "formik";
-import { Field } from "formik";
-import { Form } from "formik";
+import { Formik } from 'formik';
+import { Field } from 'formik';
+import { Form } from 'formik';
 
-import { FormAutoCompleteField } from "../../utilities/formUtils";
-import { FormTextField } from "../../utilities/formUtils";
-import { FormDateField } from "../../utilities/formUtils";
+import { FormAutoCompleteField } from '../../utilities/formUtils';
+import { FormTextField } from '../../utilities/formUtils';
+import { FormDateField } from '../../utilities/formUtils';
 
-import { StyledButton } from "./styled";
-import { Wrapper } from "./styled";
+import { StyledButton } from './styled';
+import { Wrapper } from './styled';
 
-import { INITIAL_VALUES } from "./constants";
-import { FIELDS } from "./constants";
+import { INITIAL_VALUES } from './constants';
+import { FIELDS } from './constants';
 
-import { personalSchema, externalSchema } from "./validation";
-import { formatValues } from "./utils";
+import { personalSchema, externalSchema } from './validation';
+import { formatValues } from './utils';
 
-import { BANKS } from "../../../constants/banks";
+import { BANKS } from '../../../constants/banks';
 
 const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
   const customers = useSelector((state) => state.essentials.customers);
@@ -35,63 +35,61 @@ const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
       enableReinitialize
       onSubmit={async (values, actions) => handleSubmit(values, actions)}
       initialValues={INITIAL_VALUES}
-      validationSchema={isPersonal ? personalSchema : externalSchema}
-    >
+      validationSchema={isPersonal ? personalSchema : externalSchema}>
       <Form>
-        <Wrapper container direction="column" rowGap={2}>
+        <Wrapper container direction='column' rowGap={2}>
           <Field
             component={FormAutoCompleteField}
             options={[...suppliers, ...customers]}
             name={FIELDS.person}
-            label="Select Party"
+            label='Select Party'
           />
           <Field
             component={FormTextField}
-            size="small"
+            size='small'
             name={FIELDS.cheque_number}
-            label="Cheque Number"
+            label='Cheque Number'
             fullWidth
           />
           <Field
             component={FormAutoCompleteField}
             options={BANKS}
             name={FIELDS.bank}
-            label="Bank"
+            label='Bank'
           />
           {isPersonal && (
             <Field
               component={FormAutoCompleteField}
               options={accounts}
               name={FIELDS.account_type}
-              label="Bank Account"
+              label='Bank Account'
             />
           )}
 
           <Field
             component={FormTextField}
-            size="small"
+            size='small'
             name={FIELDS.amount}
-            label="Cheque Amount"
+            label='Cheque Amount'
             fullWidth
           />
           <Field
             component={FormDateField}
             name={FIELDS.due_date}
-            label="Due Date"
-            size="small"
+            label='Due Date'
+            size='small'
           />
           <Field
             component={FormDateField}
             name={FIELDS.date}
-            label="Cheque Entry Date"
-            size="small"
+            label='Cheque Entry Date'
+            size='small'
           />
           <StyledButton
             loading={isLoading}
-            type="submit"
+            type='submit'
             fullWidth
-            variant="contained"
-          >
+            variant='contained'>
             Submit
           </StyledButton>
         </Wrapper>

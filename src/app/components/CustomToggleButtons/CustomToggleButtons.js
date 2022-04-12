@@ -1,32 +1,32 @@
-import React from "react";
+import React from 'react';
 
-import ToggleButton from "@mui/material/ToggleButton";
-import ToggleButtonGroup from "@mui/material/ToggleButtonGroup";
-import { styled } from "@mui/material/styles";
+import ToggleButton from '@mui/material/ToggleButton';
+import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
+import { styled } from '@mui/material/styles';
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
-  "& .MuiToggleButtonGroup-grouped": {
+  '& .MuiToggleButtonGroup-grouped': {
     margin: theme.spacing(0.5),
-    width: "100%",
+    width: '100%',
     border: 0,
-    "&.Mui-disabled": {
+    '&.Mui-disabled': {
       border: 0,
     },
-    "&:not(:first-of-type)": {
+    '&:not(:first-of-type)': {
       borderRadius: theme.shape.borderRadius,
       margin: 0,
       fontWeight: 900,
-      marginRight: "0.3rem",
-      minWidth: "4rem",
-      width: "fit-content",
+      marginRight: '0.3rem',
+      minWidth: '4rem',
+      width: 'fit-content',
     },
-    "&:first-of-type": {
+    '&:first-of-type': {
       borderRadius: theme.shape.borderRadius,
       margin: 0,
-      marginRight: "0.3rem",
+      marginRight: '0.3rem',
       fontWeight: 900,
-      minWidth: "4rem",
-      width: "fit-content",
+      minWidth: '4rem',
+      width: 'fit-content',
     },
   },
 }));
@@ -47,17 +47,15 @@ function CustomToggleButtons({ buttons, getSelectedValue, selectedValue }) {
     <StyledToggleButtonGroup
       exclusive
       onChange={handleChange}
-      value={selectedValue}
-    >
+      value={selectedValue}>
       {buttons.map((button, index) => {
         return (
           <ToggleButton
             color={button.color}
             key={index}
             selected={button.value === selectedValue}
-            size="small"
-            value={button.value}
-          >
+            size='small'
+            value={button.value}>
             {button.name}
           </ToggleButton>
         );

@@ -2,6 +2,8 @@ import { getReadableDate } from '../../utilities/stringUtils';
 
 import { FIELDS } from '../../containers/CustomFilters/constants';
 
+import { ROLES } from '../../../constants/roles';
+
 export const formatTransactionData = (data) => {
   let transactions = [];
   let grandTotal = 0;
@@ -81,11 +83,13 @@ const TRANSACTION_STATUS_OPTIONS = [
   },
 ];
 
-export const getFilters = (essentials) => {
+export const getFilters = (essentials, role) => {
   return [
     {
       qp: 'person',
-      options: [...essentials.suppliers, ...essentials.customers],
+      options: [ROLES.ADMIN, ROLES.ACCOUNTANT].includes(role)
+        ? [...essentials.suppliers, ...essentials.customers]
+        : essentials.customers,
       type: FIELDS.SELECT,
       placeholder: 'Person',
     },

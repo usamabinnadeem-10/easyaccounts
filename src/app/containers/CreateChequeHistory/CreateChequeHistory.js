@@ -1,33 +1,33 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { Formik } from "formik";
-import { Form } from "formik";
-import { Field } from "formik";
+import { Formik } from 'formik';
+import { Form } from 'formik';
+import { Field } from 'formik';
 
-import Modal from "@mui/material/Modal";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
+import Modal from '@mui/material/Modal';
+import Grid from '@mui/material/Grid';
+import Typography from '@mui/material/Typography';
 
-import { FormAutoCompleteField } from "../../utilities/formUtils";
-import { FormTextField } from "../../utilities/formUtils";
-import { FormDateField } from "../../utilities/formUtils";
+import { FormAutoCompleteField } from '../../utilities/formUtils';
+import { FormTextField } from '../../utilities/formUtils';
+import { FormDateField } from '../../utilities/formUtils';
 
-import * as api from "./api";
-import * as schema from "./validation";
-import { getInitialValues } from "./constants";
-import { FIELDS } from "./constants";
+import * as api from './api';
+import * as schema from './validation';
+import { getInitialValues } from './constants';
+import { FIELDS } from './constants';
 
-import { StyledPaper } from "./styled";
-import { StyledButton } from "./styled";
+import { StyledPaper } from './styled';
+import { StyledButton } from './styled';
 
-import { BANKS } from "../../../constants/banks";
-import { withSnackbar } from "../../hoc/withSnackbar";
-import { findErrorMessage } from "../../utilities/objectUtils";
+import { BANKS } from '../../../constants/banks';
+import { withSnackbar } from '../../hoc/withSnackbar';
+import { findErrorMessage } from '../../utilities/objectUtils';
 
-import { formatValues } from "../ChequeForm/utils";
+import { formatValues } from '../ChequeForm/utils';
 
 const CreateChequeHistory = ({
   chequeId,
@@ -47,7 +47,7 @@ const CreateChequeHistory = ({
       .createChequeHistory(formatValues(values), isChequeEntry)
       .then((response) => {
         setLoading(false);
-        props.showSuccessSnackbar("Added successfully");
+        props.showSuccessSnackbar('Added successfully');
         onClose();
         actions.resetForm();
       })
@@ -58,28 +58,27 @@ const CreateChequeHistory = ({
   };
 
   return (
-    <Modal paper="true" open={open} onClose={onClose}>
+    <Modal paper='true' open={open} onClose={onClose}>
       <StyledPaper>
         <Formik
           initialValues={getInitialValues(chequeId, isChequeEntry)}
           validationSchema={isChequeEntry ? schema.CHEQUE : schema.OTHER}
-          onSubmit={async (values, actions) => handleSubmit(values, actions)}
-        >
+          onSubmit={async (values, actions) => handleSubmit(values, actions)}>
           <Form>
-            <Grid container direction="column" gap={2} alignItems="center">
-              <Typography variant="h6">
-                <Typography variant="h6" component="span" color="primary">
-                  Cheque # {chequeSerial}{" "}
+            <Grid container direction='column' gap={2} alignItems='center'>
+              <Typography variant='h6'>
+                <Typography variant='h6' component='span' color='primary'>
+                  Cheque # {chequeSerial}{' '}
                 </Typography>
                 {isChequeEntry
-                  ? "Add Cheque (History)"
-                  : "Add Payment (History)"}
+                  ? 'Add Cheque (History)'
+                  : 'Add Payment (History)'}
               </Typography>
               <Field
                 component={FormTextField}
-                size="small"
+                size='small'
                 name={FIELDS.AMOUNT}
-                label={isChequeEntry ? "Cheque Amount" : "Amount"}
+                label={isChequeEntry ? 'Cheque Amount' : 'Amount'}
                 fullWidth
               />
               {isChequeEntry && (
@@ -88,20 +87,20 @@ const CreateChequeHistory = ({
                     component={FormAutoCompleteField}
                     options={BANKS}
                     name={FIELDS.BANK}
-                    label="Select Bank"
+                    label='Select Bank'
                   />
                   <Field
                     component={FormTextField}
-                    size="small"
+                    size='small'
                     name={FIELDS.CHEQUE_NUMBER}
-                    label="Cheque Number"
+                    label='Cheque Number'
                     fullWidth
                   />
                   <Field
                     component={FormDateField}
                     name={FIELDS.DUE_DATE}
-                    label="Due Date"
-                    size="small"
+                    label='Due Date'
+                    size='small'
                     fullWidth
                   />
                 </>
@@ -111,23 +110,22 @@ const CreateChequeHistory = ({
                   component={FormAutoCompleteField}
                   options={accounts}
                   name={FIELDS.ACCOUNT_TYPE}
-                  label="Account Type"
+                  label='Account Type'
                 />
               )}
 
               <Field
                 component={FormDateField}
                 name={FIELDS.DATE}
-                label="Entry Date"
-                size="small"
+                label='Entry Date'
+                size='small'
                 fullWidth
               />
               <StyledButton
-                type="submit"
+                type='submit'
                 fullWidth
-                variant="contained"
-                loading={loading}
-              >
+                variant='contained'
+                loading={loading}>
                 Submit
               </StyledButton>
             </Grid>

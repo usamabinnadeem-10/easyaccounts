@@ -1,5 +1,4 @@
 import React from 'react';
-import { Suspense } from 'react';
 import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
@@ -27,7 +26,7 @@ import { useStyles } from './styles';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
-const Home = (props) => {
+const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
   let classes = useStyles();
@@ -56,7 +55,7 @@ const Home = (props) => {
 
   useEffect(() => {
     if (error) {
-      props.showErrorSnackbar(error);
+      showErrorSnackbar(error);
     }
   }, [error]);
 

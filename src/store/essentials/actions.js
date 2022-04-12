@@ -311,3 +311,11 @@ export const resetState = (data) => {
     type: actionTypes.RESET_STATE,
   };
 };
+
+// ----------------------FAIL ACTIONS----------------------- //
+export const addNewProductFail = (data) => {
+  return {
+    type: actionTypes.ADD_NEW_PRODUCT_FAIL,
+    payload: data,
+  };
+};

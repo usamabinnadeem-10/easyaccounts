@@ -10,7 +10,7 @@ import Typography from '@mui/material/Typography';
 
 import Add from '@mui/icons-material/Add';
 import EmailIcon from '@mui/icons-material/Email';
-import SaveIcon from '@mui/icons-material/Save';
+// import SaveIcon from '@mui/icons-material/Save';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { formatCurrency } from '../../utilities/stringUtils';
@@ -82,10 +82,11 @@ function TransactionFooter(props) {
           </Grid>
         </Grid>
       </Grid>
-      {loading ? (
-        <CustomLoader loading={loading} height={20} />
-      ) : (
-        <Grid sx={{ my: 2 }}>
+
+      <Grid container sx={{ my: 2 }}>
+        {loading ? (
+          <CustomLoader loading={loading} />
+        ) : (
           <Button
             endIcon={transaction ? <EditIcon /> : <EmailIcon />}
             variant='contained'
@@ -93,8 +94,9 @@ function TransactionFooter(props) {
             onClick={() => makeTransaction()}>
             {transaction ? 'Edit' : 'Finalize'}
           </Button>
+        )}
 
-          {/* <Button
+        {/* <Button
             endIcon={<SaveIcon />}
             variant="contained"
             sx={{ fontWeight: 900 }}
@@ -103,8 +105,7 @@ function TransactionFooter(props) {
           >
             Save as draft
           </Button> */}
-        </Grid>
-      )}
+      </Grid>
     </>
   );
 }

@@ -1,28 +1,28 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import moment from "moment";
+import moment from 'moment';
 
-import { Button } from "@mui/material";
-import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Chip } from "@mui/material";
+import { Button } from '@mui/material';
+import { Grid } from '@mui/material';
+import { Typography } from '@mui/material';
+import { Chip } from '@mui/material';
 
-import ChequeHistory from "../ChequeHistory";
-import ChequeActionMenu from "../ChequeActionMenu";
+import ChequeHistory from '../ChequeHistory';
+import ChequeActionMenu from '../ChequeActionMenu';
 
-import { StyledBox } from "./styled";
-import { StyledGrid } from "./styled";
-import { AmountBox } from "./styled";
+import { StyledBox } from './styled';
+import { StyledGrid } from './styled';
+import { AmountBox } from './styled';
 
-import { STATUS_COLORS } from "./constants";
-import { STATUS_VARIANTS } from "./constants";
+import { STATUS_COLORS } from './constants';
+import { STATUS_VARIANTS } from './constants';
 
-import { BANKS } from "../../../constants/banks";
+import { BANKS } from '../../../constants/banks';
 import {
   formatCurrency,
   capitalizeFirstLetter,
-} from "../../utilities/stringUtils";
+} from '../../utilities/stringUtils';
 
 const Cheque = ({
   chequeData,
@@ -33,18 +33,18 @@ const Cheque = ({
 }) => {
   const details = [
     {
-      field: "Serial",
+      field: 'Serial',
       data: chequeData.serial,
     },
     {
-      field: isPersonal ? "Paid to" : "From",
+      field: isPersonal ? 'Paid to' : 'From',
       data: persons?.[chequeData.person]?.label,
     },
   ];
 
   isPersonal &&
     details.push({
-      field: "Bank Account",
+      field: 'Bank Account',
       data: accounts?.[chequeData.account_type]?.label,
     });
 
@@ -76,10 +76,9 @@ const Cheque = ({
       <StyledBox>
         <StyledGrid
           container
-          justifyContent="space-between"
-          alignItems="center"
-          gap={2}
-        >
+          justifyContent='space-between'
+          alignItems='center'
+          gap={2}>
           <Grid item xs={9}>
             <Typography>{findBank(chequeData.bank)}</Typography>
           </Grid>
@@ -92,46 +91,46 @@ const Cheque = ({
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body1">
-              Receive date: {moment(chequeData.date).format("DD-MM-YYYY")}
+            <Typography variant='body1'>
+              Receive date: {moment(chequeData.date).format('DD-MM-YYYY')}
             </Typography>
           </Grid>
           <Grid item xs={4}>
-            <Typography variant="body1">
-              Due date: {moment(chequeData.due_date).format("DD-MM-YYYY")}
+            <Typography variant='body1'>
+              Due date: {moment(chequeData.due_date).format('DD-MM-YYYY')}
             </Typography>
           </Grid>
         </StyledGrid>
-        <StyledGrid container alignItems="center" bgcolor="#F0F0F0">
+        <StyledGrid container alignItems='center' bgcolor='#F0F0F0'>
           <Grid item xs={6}>
-            <Grid container direction="column">
+            <Grid container direction='column'>
               {details.map((detail, index) => (
-                <Typography key={index} variant="body1">
+                <Typography key={index} variant='body1'>
                   {detail.field}: {detail.data}
                 </Typography>
               ))}
             </Grid>
           </Grid>
           <Grid item xs={6}>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent='flex-end'>
               <AmountBox>
-                <Typography variant="body1">
+                <Typography variant='body1'>
                   {formatCurrency(chequeData.amount)}/=
                 </Typography>
               </AmountBox>
             </Grid>
           </Grid>
         </StyledGrid>
-        <StyledGrid container justify="space-between">
+        <StyledGrid container justify='space-between'>
           <Grid item xs={8}>
-            <Typography variant="h6">{chequeData.cheque_number}</Typography>
+            <Typography variant='h6'>{chequeData.cheque_number}</Typography>
           </Grid>
           <Grid item xs={4}>
-            <Grid container justifyContent="flex-end">
+            <Grid container justifyContent='flex-end'>
               <Chip
                 label={capitalizeFirstLetter(chequeData.status).replace(
-                  "_",
-                  " "
+                  '_',
+                  ' '
                 )}
                 color={STATUS_COLORS[chequeData.status]}
                 variant={STATUS_VARIANTS[chequeData.status] || null}
@@ -141,7 +140,7 @@ const Cheque = ({
         </StyledGrid>
         {!isPersonal && viewHistoryButton && (
           <StyledGrid container>
-            <Button variant="contained" onClick={handleClick}>
+            <Button variant='contained' onClick={handleClick}>
               View History
             </Button>
           </StyledGrid>

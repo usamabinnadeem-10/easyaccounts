@@ -349,6 +349,16 @@ const reducer = (state = initialState, action) => {
       };
     case actionTypes.RESET_STATE:
       return initialState;
+
+    // ------------------------FAILURE------------------------- //
+    case actionTypes.ADD_NEW_PRODUCT_FAIL:
+      return {
+        ...state,
+        adding: false,
+        added: false,
+        error: action.payload,
+      };
+
     default:
       return state;
   }
