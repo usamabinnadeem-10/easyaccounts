@@ -1,8 +1,36 @@
-export const formatStock = (stock, products, warehouses) => {
-  return stock.map((data) => ({
-    id: data.id,
-    label: `${products[data.product].label} / ${data.yards_per_piece} / ${
-      warehouses[data.warehouse].label
-    }`,
-  }));
+import { FIELDS } from './constants';
+
+export const getRowFields = (essentials) => {
+  return [
+    {
+      name: FIELDS.PRODUCT,
+      options: essentials.products,
+      label: 'Product',
+      xs: 3,
+    },
+    {
+      name: FIELDS.GAZAANA,
+      component: 'text',
+      label: 'Gazaana',
+      xs: 1,
+    },
+    {
+      name: FIELDS.WAREHOUSE,
+      options: essentials.warehouses,
+      label: 'From warehouse',
+      xs: 2,
+    },
+    {
+      name: FIELDS.TO_WAREHOUSE,
+      options: essentials.warehouses,
+      label: 'To warehouse',
+      xs: 2,
+    },
+    {
+      name: FIELDS.QUANTITY,
+      component: 'text',
+      label: 'Thaan',
+      xs: 1,
+    },
+  ];
 };

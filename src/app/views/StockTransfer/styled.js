@@ -12,7 +12,7 @@ export const MetaWrapper = styled(Grid)(({ theme }) => ({
 
 export const RowWrapper = styled(Grid)(({ theme }) => ({
   borderBottom: `1px solid rgba(105, 105, 105, 0.1)`,
-  padding: theme.spacing(2, '0rem'),
+  padding: theme.spacing(1, '0rem'),
 }));
 
 export const StyledButton = styled(LoadingButton)(({ theme }) => ({
