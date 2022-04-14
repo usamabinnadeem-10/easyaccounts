@@ -22,3 +22,4 @@ export const RETURN_DYING = `${HOME}/dying-return`;
 export const RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase`;
 export const RAW_SALE_ROUTE = `${HOME}/raw-sale`;
 export const STOCK_TRANSFER = `${HOME}/transfer-stock`;
+export const VIEW_TRANSFERS = `${HOME}/view-transfers`;

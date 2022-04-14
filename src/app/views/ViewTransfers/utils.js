@@ -1,5 +1,8 @@
 import { FIELDS } from '../../containers/CustomFilters/constants';
 
+import { IconButton } from '@mui/material';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 export const getFilters = (essentials) => {
   return [
     {
@@ -54,6 +57,39 @@ export const getFilters = (essentials) => {
       qp: 'transfer_detail__yards_per_piece__lte',
       type: FIELDS.NUMBER,
       placeholder: 'Gazaana (less than)',
+    },
+  ];
+};
+
+export const getColumns = (handleClick, handleDelete) => {
+  return [
+    {
+      accessor: 'date',
+      Header: 'Date',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
+      accessor: 'serial',
+      Header: 'Serial #',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
+      accessor: 'delete',
+      Header: 'Delete',
+      Cell: (row) => (
+        <IconButton
+          onClick={row.row.id ? () => handleDelete(row.row.id) : null}>
+          <DeleteIcon />
+        </IconButton>
+      ),
     },
   ];
 };

@@ -37,6 +37,7 @@ const DyingIssue = lazy(() => import('../app/views/DyingIssue'));
 const DyingReturn = lazy(() => import('../app/views/DyingReturn'));
 const RawPurchase = lazy(() => import('../app/views/Raw/RawPurchase'));
 const StockTransfer = lazy(() => import('../app/views/StockTransfer'));
+const ViewTransfers = lazy(() => import('../app/views/ViewTransfers'));
 
 export const authenticatedRoutes = [
   {
@@ -114,5 +115,9 @@ export const authenticatedRoutes = [
   {
     component: StockTransfer,
     path: url.STOCK_TRANSFER,
+  },
+  {
+    component: ViewTransfers,
+    path: url.VIEW_TRANSFERS,
   },
 ];

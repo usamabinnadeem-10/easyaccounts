@@ -13,6 +13,8 @@ import CreditCardIcon from '@mui/icons-material/CreditCard';
 import CreditScoreIcon from '@mui/icons-material/CreditScore';
 import ManageSearchIcon from '@mui/icons-material/ManageSearch';
 
+import DriveFileMoveIcon from '@mui/icons-material/DriveFileMove';
+
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import Inventory2 from '@mui/icons-material/Inventory2';
 import CategoryIcon from '@mui/icons-material/Category';
@@ -84,6 +86,7 @@ import {
   ACTIONS,
   CANCEL_INVOICE,
   TRANSFER_STOCK,
+  TRANSFERS,
 } from './constants';
 
 export const getIcon = (panel) => {
@@ -166,6 +169,8 @@ export const getIcon = (panel) => {
       return <CancelIcon />;
     case TRANSFER_STOCK:
       return <TransferWithinAStationIcon />;
+    case TRANSFERS:
+      return <DriveFileMoveIcon />;
     default:
       break;
   }

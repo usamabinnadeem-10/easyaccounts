@@ -1,10 +1,7 @@
-import React from "react";
+import React from 'react';
 
-import ViewSingleTransaction from "../../containers/ViewSingleTransaction/ViewSingleTransaction";
-
-import { Drawer } from "@mui/material";
-
-import { useStyles } from "./styles";
+import ViewSingleTransaction from '../../containers/ViewSingleTransaction';
+import CustomDrawer from '../../components/CustomDrawer';
 
 function TransactionDrawer({
   hideDrawer,
@@ -17,16 +14,8 @@ function TransactionDrawer({
   persons,
   accounts,
 }) {
-  const classes = useStyles();
   return (
-    <Drawer
-      onClose={hideDrawer}
-      anchor="left"
-      open={open}
-      classes={{
-        paper: classes.drawer,
-      }}
-    >
+    <CustomDrawer onClose={hideDrawer} open={open}>
       {open && (
         <ViewSingleTransaction
           dontFetch={dontFetch}
@@ -38,7 +27,7 @@ function TransactionDrawer({
           accounts={accounts}
         />
       )}
-    </Drawer>
+    </CustomDrawer>
   );
 }
 

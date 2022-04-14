@@ -56,16 +56,18 @@ export const EXPENSE_URLS = {
 };
 
 const TRANSACTION = 'transaction/';
+const TRANSFER_STOCK = 'transfer-stock/';
 export const TRANSACTION_URLS = {
   CREATE_TRANSACTION: `${TRANSACTION}`,
   DELETE_TRANSACTION: `${TRANSACTION}:uuid/`,
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
-  TRANSFER_STOCK: `${TRANSACTION}transfer-stock/`,
+  TRANSFER_STOCK: `${TRANSACTION}${TRANSFER_STOCK}`,
   CANCEL_INVOICE: `${TRANSACTION}cancel-invoice/`,
   VIEW_DETAILED_STOCK: `${TRANSACTION}detailed-stock/`,
   PRODUCT_PERFORMANCE: `${TRANSACTION}product-performance-history/`,
   FILTER: `${TRANSACTION}search/`,
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
+  DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
 };
 
 const LEDGER = 'ledger/';

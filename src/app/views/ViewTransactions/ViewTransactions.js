@@ -8,9 +8,9 @@ import { useDispatch } from 'react-redux';
 import { useHistory } from 'react-router';
 
 import CustomFilters from '../../containers/CustomFilters';
-import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
-import TransactionDetail from '../../components/TransactionDetail/TransactionDetail';
-import TransactionDrawer from '../../components/TransactionDrawer/TransactionDrawer';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import TransactionDetail from '../../components/TransactionDetail';
+import TransactionDrawer from '../../components/TransactionDrawer';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
 
