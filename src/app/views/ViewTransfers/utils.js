@@ -82,14 +82,46 @@ export const getColumns = (handleClick, handleDelete) => {
       ),
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
+      accessor: 'total',
+      Header: 'Thaan transferred #',
       Cell: (row) => (
-        <IconButton
-          onClick={row.row.id ? () => handleDelete(row.row.id) : null}>
-          <DeleteIcon />
-        </IconButton>
+        <div
+          onClick={
+            row.row.id && !row.row.original.dummy
+              ? () => handleClick(row.row.id)
+              : null
+          }>
+          {row.value}
+        </div>
       ),
     },
+    {
+      accessor: 'delete',
+      Header: 'Delete',
+      Cell: (row) => {
+        if (!row.row.original.dummy) {
+          return (
+            <IconButton
+              onClick={row.row.id ? () => handleDelete(row.row.id) : null}>
+              <DeleteIcon />
+            </IconButton>
+          );
+        }
+        return <></>;
+      },
+    },
   ];
+};
+
+export const formatTransferData = (data) => {
+  let _data = data.map((val) => ({
+    ...val,
+    total: val.transfer_detail.reduce((prev, curr) => prev + curr.quantity, 0),
+  }));
+  _data.push({
+    id: 1,
+    dummy: true,
+    total: _data.reduce((prev, curr) => prev + curr.total, 0),
+  });
+  return _data;
 };

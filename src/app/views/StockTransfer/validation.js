@@ -29,7 +29,7 @@ export const schema = Yup.object().shape({
       })
     )
     .unique(
-      ['product', 'yards_per_piece', 'from_warehouse'],
+      ['product', 'yards_per_piece', 'from_warehouse', 'to_warehouse'],
       'Please choose unique items to transfer'
     ),
 });

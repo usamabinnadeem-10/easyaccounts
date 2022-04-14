@@ -12,7 +12,7 @@ import CustomTable from '../../components/CustomTable';
 import Heading from '../../components/Heading';
 import TransferDrawer from './TransferDrawer';
 
-import { getColumns, getFilters } from './utils';
+import { getColumns, getFilters, formatTransferData } from './utils';
 import { deleteTransferApi } from './api';
 import { DIALOGUE_INIT } from './constants';
 
@@ -37,7 +37,7 @@ const ViewTransfers = ({
   const filters = useMemo(() => getFilters(essentials), [essentials]);
 
   const handleSearch = (data) => {
-    setTransferData(data);
+    setTransferData(formatTransferData(data));
   };
 
   const handleDelete = async (id) => {
