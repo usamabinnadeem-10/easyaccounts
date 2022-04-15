@@ -18,18 +18,19 @@ Yup.addMethod(Yup.array, 'unique', function (keys, message) {
 
 export const schema = Yup.object().shape({
   [FIELDS.DATE]: Yup.date().typeError('Enter a valid date'),
+  [FIELDS.FROM_WAREHOUSE]: objectSchema,
+  [FIELDS.MANUAL_SERIAL]: numberSchema,
   [FIELDS.TRANSFER_DETAIL]: Yup.array()
     .of(
       Yup.object().shape({
         [FIELDS.PRODUCT]: objectSchema,
         [FIELDS.GAZAANA]: numberSchema,
-        [FIELDS.WAREHOUSE]: objectSchema,
         [FIELDS.TO_WAREHOUSE]: objectSchema,
         [FIELDS.QUANTITY]: numberSchema,
       })
     )
     .unique(
-      ['product', 'yards_per_piece', 'from_warehouse', 'to_warehouse'],
+      ['product', 'yards_per_piece', 'to_warehouse'],
       'Please choose unique items to transfer'
     ),
 });

@@ -37,7 +37,7 @@ const ViewTransfers = ({
   const filters = useMemo(() => getFilters(essentials), [essentials]);
 
   const handleSearch = (data) => {
-    setTransferData(formatTransferData(data));
+    setTransferData(formatTransferData(data, warehouses));
   };
 
   const handleDelete = async (id) => {

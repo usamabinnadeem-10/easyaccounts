@@ -13,10 +13,6 @@ export const COLUMNS = [
     Header: 'Gazaana',
   },
   {
-    accessor: 'from_warehouse',
-    Header: 'From',
-  },
-  {
     accessor: 'to_warehouse',
     Header: 'To',
   },

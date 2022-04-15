@@ -4,7 +4,6 @@ export const formatTransferDetail = (data, warehouses, products) => {
     quantity: row.quantity,
     yards_per_piece: row.yards_per_piece,
     product: products[row.product].label,
-    from_warehouse: warehouses[row.from_warehouse].label,
     to_warehouse: warehouses[row.to_warehouse].label,
   }));
   final.push({

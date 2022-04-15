@@ -15,12 +15,6 @@ export const getRowFields = (essentials) => {
       xs: 1,
     },
     {
-      name: FIELDS.WAREHOUSE,
-      options: essentials.warehouses,
-      label: 'From warehouse',
-      xs: 2,
-    },
-    {
       name: FIELDS.TO_WAREHOUSE,
       options: essentials.warehouses,
       label: 'To warehouse',

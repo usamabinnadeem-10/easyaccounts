@@ -47,11 +47,12 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     }
     data = {
       ...data,
+      from_warehouse: values.from_warehouse.value,
+      manual_invoice_serial: values.manual_invoice_serial,
       transfer_detail: values.transfer_detail.map((detail) => ({
         product: detail.product.value,
         yards_per_piece: detail.yards_per_piece,
         to_warehouse: detail.to_warehouse.value,
-        from_warehouse: detail.from_warehouse.value,
         quantity: detail.quantity,
       })),
     };
@@ -77,8 +78,8 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         onSubmit={(values, actions) => submit(values, actions)}>
         {({ values, errors, touched, handleSubmit }) => (
           <Form>
-            <MetaWrapper container>
-              <Grid item xs={5}>
+            <MetaWrapper container justifyContent='space-between'>
+              <Grid item xs={3}>
                 <FastField
                   size='small'
                   component={FormDateField}
@@ -86,6 +87,25 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                   label='Date'
                   isError={touched['date'] && !!errors['date']}
                   errorText={touched['date'] ? errors['date'] : ''}
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <FastField
+                  size='small'
+                  component={FormAutoCompleteField}
+                  options={essentials.warehouses}
+                  name='from_warehouse'
+                  label='From Warehouse'
+                  fullWidth
+                />
+              </Grid>
+              <Grid item xs={4}>
+                <FastField
+                  size='small'
+                  component={FormTextField}
+                  name='manual_invoice_serial'
+                  label='Receipt #'
+                  fullWidth
                 />
               </Grid>
             </MetaWrapper>

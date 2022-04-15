@@ -3,6 +3,8 @@ import { FIELDS } from '../../containers/CustomFilters/constants';
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 
+import { getReadableDate } from '../../utilities/stringUtils';
+
 export const getFilters = (essentials) => {
   return [
     {
@@ -12,7 +14,43 @@ export const getFilters = (essentials) => {
       placeholder: 'Product',
     },
     {
-      qp: 'transaction_detail__from_warehouse',
+      qp: 'from_warehouse',
+      type: FIELDS.SELECT,
+      options: essentials.warehouses,
+      placeholder: 'From Warehouse',
+    },
+    {
+      qp: 'serial',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (equal to)',
+    },
+    {
+      qp: 'serial__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (more than)',
+    },
+    {
+      qp: 'serial__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (less than)',
+    },
+    {
+      qp: 'manual_invoice_serial',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (equal to)',
+    },
+    {
+      qp: 'manual_invoice_serial__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (more than)',
+    },
+    {
+      qp: 'manual_invoice_serial__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (less than)',
+    },
+    {
+      qp: 'from_warehouse',
       type: FIELDS.SELECT,
       options: essentials.warehouses,
       placeholder: 'From Warehouse',
@@ -82,6 +120,24 @@ export const getColumns = (handleClick, handleDelete) => {
       ),
     },
     {
+      accessor: 'manual_invoice_serial',
+      Header: 'Book #',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
+      accessor: 'from_warehouse',
+      Header: 'From',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
       accessor: 'total',
       Header: 'Thaan transferred #',
       Cell: (row) => (
@@ -113,9 +169,11 @@ export const getColumns = (handleClick, handleDelete) => {
   ];
 };
 
-export const formatTransferData = (data) => {
+export const formatTransferData = (data, warehouses) => {
   let _data = data.map((val) => ({
     ...val,
+    date: getReadableDate(val.date),
+    from_warehouse: warehouses[val.from_warehouse].label,
     total: val.transfer_detail.reduce((prev, curr) => prev + curr.quantity, 0),
   }));
   _data.push({
