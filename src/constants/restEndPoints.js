@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = 'http://127.0.0.1:8000/';
-export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
+export const BASE = 'http://127.0.0.1:8000/';
+// export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -68,6 +68,7 @@ export const TRANSACTION_URLS = {
   FILTER: `${TRANSACTION}search/`,
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
   DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
+  CANCEL_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}cancel/`,
 };
 
 const LEDGER = 'ledger/';

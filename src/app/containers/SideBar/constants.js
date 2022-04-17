@@ -5,11 +5,13 @@ import { FIELDS } from '../../../constants/fieldTypes';
 import { DB } from '../../../constants/db';
 import { ROLES } from '../../../constants/roles';
 
+import * as options from '../../../constants/choices';
 import * as actions from '../../../store/essentials/actions';
 import { addNewFormula, addNewRawProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
+import { cancelStockTransfer } from '../../../store/transactions';
 
 export const VIEW = 'View';
 
@@ -34,6 +36,10 @@ export const LEDGER_ENTRY = 'Ledger Entry';
 // ----------------------EXPENSES--------------------------- //
 export const EXPENSES = 'Expenses';
 export const EXPENSE_ENTRY = 'Expense Entry';
+
+// ----------------------TRANSFERS--------------------------- //
+export const TRANSFERS = 'Transfers';
+export const TRANSFER_STOCK = 'Transfer Stock';
 
 // ----------------------CHEQUE MGT--------------------------- //
 export const CHEQUES = 'Cheques';
@@ -69,10 +75,7 @@ export const RAW_SEARCH = 'Filter';
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
 export const CANCEL_INVOICE = 'Cancel Invoice';
-
-// ----------------------TRANSFERS--------------------------- //
-export const TRANSFERS = 'Transfers';
-export const TRANSFER_STOCK = 'Transfer Stock';
+export const CANCEL_STOCK_TRANSFER = 'Cancel Stock Transfer';
 
 export const DRAWER_WIDTH = 240;
 
@@ -278,48 +281,11 @@ export const SIDEBAR = [
         name: CANCEL_INVOICE,
         modal: CANCEL_INVOICE,
       },
+      {
+        name: CANCEL_STOCK_TRANSFER,
+        modal: CANCEL_STOCK_TRANSFER,
+      },
     ],
-  },
-];
-
-const PERSON_OPTIONS = [
-  {
-    label: 'Customer',
-    value: 'C',
-  },
-  {
-    label: 'Supplier',
-    value: 'S',
-  },
-];
-
-const NATURE_OPTIONS = [
-  {
-    label: 'Debit',
-    value: 'D',
-  },
-  {
-    label: 'Credit',
-    value: 'C',
-  },
-];
-
-const INVOICE_OPTIONS = [
-  {
-    label: 'Customer Invoice',
-    value: 'INV',
-  },
-  {
-    label: 'Maal Wapsi Customer',
-    value: 'MWC',
-  },
-  {
-    label: 'Supplier Purchase',
-    value: 'SUP',
-  },
-  {
-    label: 'Maal Wapsi Supplier',
-    value: 'MWS',
   },
 ];
 
@@ -338,14 +304,14 @@ export const getPersonForm = (essentials) => {
         label: 'Type',
         type: FIELDS.SELECT,
         name: DB.PERSON_TYPE,
-        options: PERSON_OPTIONS,
+        options: options.PERSON_OPTIONS,
         required: true,
       },
       {
         label: 'Opening Balance Nature',
         type: FIELDS.SELECT,
         name: DB.NATURE,
-        options: NATURE_OPTIONS,
+        options: options.NATURE_OPTIONS,
         required: true,
       },
       {
@@ -454,17 +420,6 @@ export const getOpeningStockForm = (essentials) => {
   };
 };
 
-const RAW_PRODUCT_TYPES = [
-  {
-    label: 'Standard',
-    value: 'Standard',
-  },
-  {
-    label: 'Baara',
-    value: 'Baara',
-  },
-];
-
 export const getRawProductForm = (essentials) => {
   return {
     heading: 'Add Kora Product',
@@ -487,7 +442,7 @@ export const getRawProductForm = (essentials) => {
         label: 'Type',
         type: FIELDS.SELECT,
         name: DB.TYPE,
-        options: RAW_PRODUCT_TYPES,
+        options: options.RAW_PRODUCT_TYPES,
         required: true,
       },
     ],
@@ -564,6 +519,26 @@ export const getExpenseForm = (essentials) => {
         type: FIELDS.STRING,
         name: DB.DETAIL,
         required: true,
+      },
+    ],
+  };
+};
+
+export const getCancelStockTransferForm = (essentials) => {
+  return {
+    heading: 'Cancel Stock Transfer Serial',
+    action: cancelStockTransfer,
+    formData: [
+      {
+        label: 'Warehouse',
+        type: FIELDS.SELECT,
+        options: essentials.warehouses,
+        name: DB.WAREHOUSE,
+      },
+      {
+        label: 'Book #',
+        type: FIELDS.NUMBER,
+        name: DB.BOOK_SERIAL,
       },
     ],
   };
@@ -667,7 +642,7 @@ export const MODAL_DEFAULTS = {
         label: 'Serial Type',
         type: FIELDS.SELECT,
         name: DB.SERIAL_TYPE,
-        options: INVOICE_OPTIONS,
+        options: options.INVOICE_OPTIONS,
         required: true,
       },
       {
@@ -700,6 +675,8 @@ export const chooseModal = (name, essentials) => {
       return getProductForm(essentials);
     case EXPENSE_ENTRY:
       return getExpenseForm(essentials);
+    case CANCEL_STOCK_TRANSFER:
+      return getCancelStockTransferForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

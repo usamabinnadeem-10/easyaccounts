@@ -7,7 +7,7 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
   let data = [
     {
       value: transaction[DB.SERIAL],
-      label: 'Invoice #',
+      label: 'Serial #',
     },
     {
       value: `${transaction[DB.SERIAL_TYPE]}-${transaction[DB.BOOK_SERIAL]}`,

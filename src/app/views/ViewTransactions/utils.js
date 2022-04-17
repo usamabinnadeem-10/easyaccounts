@@ -4,6 +4,8 @@ import { FIELDS } from '../../containers/CustomFilters/constants';
 
 import { ROLES } from '../../../constants/roles';
 
+import { INVOICE_OPTIONS } from '../../../constants/choices';
+
 export const formatTransactionData = (data) => {
   let transactions = [];
   let grandTotal = 0;
@@ -106,10 +108,46 @@ export const getFilters = (essentials, role) => {
       placeholder: 'Product',
     },
     {
+      qp: 'manual_serial_type',
+      options: INVOICE_OPTIONS,
+      type: FIELDS.SELECT,
+      placeholder: 'Invoice Type',
+    },
+    {
       qp: 'type',
       options: TRANSACTION_TYPES,
       type: FIELDS.SELECT,
       placeholder: 'Transaction Type',
+    },
+    {
+      qp: 'serial',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (equal to)',
+    },
+    {
+      qp: 'serial__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (more than)',
+    },
+    {
+      qp: 'serial__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Serial (less than)',
+    },
+    {
+      qp: 'manual_invoice_serial',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (equal to)',
+    },
+    {
+      qp: 'manual_invoice_serial__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (more than)',
+    },
+    {
+      qp: 'manual_invoice_serial__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (less than)',
     },
     {
       qp: 'date__gte',
@@ -127,26 +165,17 @@ export const getFilters = (essentials, role) => {
       type: FIELDS.SELECT,
       placeholder: 'Complete / Incomplete',
     },
-    {
-      qp: 'serial__gte',
-      type: FIELDS.NUMBER,
-      placeholder: 'Serial (more than)',
-    },
-    {
-      qp: 'serial__lte',
-      type: FIELDS.NUMBER,
-      placeholder: 'Serial (less than)',
-    },
-    {
-      qp: 'discount__gte',
-      type: FIELDS.NUMBER,
-      placeholder: 'Discount (more than)',
-    },
-    {
-      qp: 'discount__gte',
-      type: FIELDS.NUMBER,
-      placeholder: 'Discount (less than)',
-    },
+
+    // {
+    //   qp: 'discount__gte',
+    //   type: FIELDS.NUMBER,
+    //   placeholder: 'Discount (more than)',
+    // },
+    // {
+    //   qp: 'discount__gte',
+    //   type: FIELDS.NUMBER,
+    //   placeholder: 'Discount (less than)',
+    // },
     // {
     //   qp: 'detail',
     //   type: FIELDS.TEXT,

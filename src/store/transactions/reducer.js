@@ -5,6 +5,9 @@ const initialState = {
   fetched: false,
   allStock: [],
   shouldFetchStock: true,
+  adding: false,
+  added: false,
+  error: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -41,6 +44,25 @@ const reducer = (state = initialState, action) => {
         ...state,
         shouldFetchStock: action.payload,
         fetched: false,
+      };
+    case actionTypes.CANCEL_STOCK_TRANSFER:
+      return {
+        ...state,
+        adding: true,
+      };
+    case actionTypes.CANCEL_STOCK_TRANSFER_SUCCESS:
+      return {
+        ...state,
+        adding: false,
+        added: true,
+        error: '',
+      };
+    case actionTypes.CANCEL_STOCK_TRANSFER_FAIL:
+      return {
+        ...state,
+        adding: false,
+        added: false,
+        error: action.payload,
       };
     default:
       return state;

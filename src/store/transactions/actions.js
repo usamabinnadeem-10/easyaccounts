@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 export const getSingleTransaction = (data) => {
   return {
@@ -36,6 +36,26 @@ export const getAllStockSuccess = (data) => {
 export const setShouldFetch = (data) => {
   return {
     type: actionTypes.SET_SHOULD_FETCH,
+    payload: data,
+  };
+};
+
+export const cancelStockTransfer = (data) => {
+  return {
+    type: actionTypes.CANCEL_STOCK_TRANSFER,
+    payload: data,
+  };
+};
+
+export const cancelStockTransferSuccess = () => {
+  return {
+    type: actionTypes.CANCEL_STOCK_TRANSFER_SUCCESS,
+  };
+};
+
+export const cancelStockTransferFail = (data) => {
+  return {
+    type: actionTypes.CANCEL_STOCK_TRANSFER_FAIL,
     payload: data,
   };
 };

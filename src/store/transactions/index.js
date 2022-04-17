@@ -5,4 +5,5 @@ export {
   getAllStock,
   getAllStockSuccess,
   setShouldFetch,
-} from "./actions";
+  cancelStockTransfer,
+} from './actions';

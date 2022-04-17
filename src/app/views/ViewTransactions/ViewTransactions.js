@@ -14,13 +14,14 @@ import TransactionDrawer from '../../components/TransactionDrawer';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
 
-import { ERRORS, SUCCESS, REDIRECTS } from './constants';
+import { ERRORS, SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 import { useStyles } from './styles';
 import { LoadMoreButton } from './styled';
 
 import instance from '../../../utils/axiosApi';
 import { getURL } from '../../utilities/stringUtils';
+import { findErrorMessage } from '../../utilities/objectUtils';
 import {
   formatTransactionData,
   formatTransactionDetails,
@@ -52,6 +53,7 @@ function ViewTransactions({
   const [transactionDataRaw, setTransactionDataRaw] = useState(
     daybookView ? defaultTransactions : []
   );
+
   const [dialogueState, setDialogueState] = useState({
     open: false,
     dialogueValue: null,
@@ -66,6 +68,7 @@ function ViewTransactions({
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
+    let tId = dialogueState.idToDelete;
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
       instance
         .delete(
@@ -78,10 +81,14 @@ function ViewTransactions({
         .then((response) => {
           showSuccessSnackbar('Deleted, please search again to refresh data');
           dispatch(setShouldFetchDaybook(true));
+          setDialogueState(DIALOGUE_INIT);
           showSuccessSnackbar(SUCCESS.DELETED);
+          setTransactionData(transactionData.filter((t) => t.id !== tId));
+          setTransactionDataRaw(transactionDataRaw.filter((t) => t.id !== tId));
         })
         .catch((error) => {
-          showErrorSnackbar(ERRORS.OOPS);
+          setDialogueState(DIALOGUE_INIT);
+          showErrorSnackbar(findErrorMessage(error.response.data));
         });
     }
   }, [dialogueState]);

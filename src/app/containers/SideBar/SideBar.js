@@ -41,6 +41,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
   const essentials = useSelector((state) => state.essentials);
   const dying = useSelector((state) => state.dying);
   const raw = useSelector((state) => state.raw);
+  const transactions = useSelector((state) => state.transactions);
   const activeBranch = useSelector((state) => state.auth.activeBranch);
 
   const [open, setOpen] = useState({
@@ -56,10 +57,15 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
   };
 
   useEffect(() => {
-    if (essentials.adding || raw.adding || dying.adding) {
+    if (
+      essentials.adding ||
+      raw.adding ||
+      dying.adding ||
+      transactions.adding
+    ) {
       setIsLoading(true);
     }
-    if (essentials.added || raw.added || dying.added) {
+    if (essentials.added || raw.added || dying.added || transactions.added) {
       setIsLoading(false);
       showSuccessSnackbar('Added successfully');
       setIsAddModalOpen(false);
@@ -67,12 +73,15 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
     if (
       (essentials.error && !essentials.added) ||
       (raw.error && !raw.added) ||
-      (dying.error && !dying.added)
+      (dying.error && !dying.added) ||
+      (transactions.error && !transactions.added)
     ) {
       setIsLoading(false);
-      showErrorSnackbar(essentials.error || raw.error || dying.error);
+      showErrorSnackbar(
+        essentials.error || raw.error || dying.error || transactions.error
+      );
     }
-  }, [essentials, dying, raw]);
+  }, [essentials, dying, raw, transactions]);
 
   const handleOpen = (panel) => {
     setOpen({

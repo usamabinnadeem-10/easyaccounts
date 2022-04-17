@@ -1,14 +1,14 @@
-import React from "react";
+import React from 'react';
 
-import CustomTable from "../CustomTable/CustomTable";
+import CustomTable from '../CustomTable/CustomTable';
 
-import { IconButton } from "@mui/material";
-import { Chip } from "@mui/material";
+import { IconButton } from '@mui/material';
+import { Chip } from '@mui/material';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-import { formatCurrency } from "../../utilities/stringUtils";
+import { formatCurrency } from '../../utilities/stringUtils';
 
 function TransactionDetail({
   rows,
@@ -18,16 +18,16 @@ function TransactionDetail({
   handleDelete,
 }) {
   const CHIP_COLORS = {
-    paid: "success",
-    credit: "error",
-    maal_wapsi: "secondary",
-    purchase: "info",
+    paid: 'success',
+    credit: 'error',
+    maal_wapsi: 'secondary',
+    purchase: 'info',
   };
 
   const COLUMNS = [
     {
-      accessor: "serial",
-      Header: "Invoice #",
+      accessor: 'serial',
+      Header: 'Serial #',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
@@ -35,8 +35,8 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "manual_invoice_serial",
-      Header: "Book #",
+      accessor: 'manual_invoice_serial',
+      Header: 'Book #',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
@@ -44,8 +44,8 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "date",
-      Header: "Date",
+      accessor: 'date',
+      Header: 'Date',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
@@ -53,8 +53,8 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "total",
-      Header: "Amount",
+      accessor: 'total',
+      Header: 'Amount',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {formatCurrency(row.value)}
@@ -62,8 +62,8 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "discount",
-      Header: "Discount",
+      accessor: 'discount',
+      Header: 'Discount',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {formatCurrency(row.value)}
@@ -71,19 +71,19 @@ function TransactionDetail({
       ),
     },
     {
-      accessor: "type",
-      Header: "Type",
+      accessor: 'type',
+      Header: 'Type',
       Cell: (row) => {
         if (row.row.id) {
           return (
             <Chip
-              size="small"
+              size='small'
               color={CHIP_COLORS[row.value]}
-              label={row.value?.replace("_", " ")}
+              label={row.value?.replace('_', ' ')}
               sx={{
                 fontWeight: 900,
                 borderRadius: 1.5,
-                textTransform: "capitalize",
+                textTransform: 'capitalize',
               }}
             />
           );
@@ -93,8 +93,8 @@ function TransactionDetail({
       },
     },
     {
-      accessor: "edit",
-      Header: "Edit",
+      accessor: 'edit',
+      Header: 'Edit',
       Cell: (row) => {
         if (row.row.id) {
           return (
@@ -108,8 +108,8 @@ function TransactionDetail({
       },
     },
     {
-      accessor: "delete",
-      Header: "Delete",
+      accessor: 'delete',
+      Header: 'Delete',
       Cell: (row) => {
         if (row.row.id) {
           return (
