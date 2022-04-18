@@ -29,12 +29,72 @@ const TransactionBody = ({
   transactionTypes,
   warehouses,
   transaction,
+  scannerValue,
+  setFieldValue,
+  setScannerValue,
 }) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const stock = useSelector((state) => state.transactions);
 
   const [validate, setValidate] = useState(true);
+
+  // check if the given row has any filled data
+  const isFormikRowDirty = (rowIndex) => {
+    let obj = values.transaction_detail[rowIndex];
+    for (let key in obj) {
+      if (obj[key]) {
+        return true;
+      }
+    }
+    return false;
+  };
+
+  const addScannedValueToForm = (value) => {
+    // find product
+    let product = essentials.products.filter((p) => p.label === value.name)[0];
+    let gazaana = {
+      label: value.gazaana,
+      value: value.gazaana,
+    };
+    // find matching value in formik values
+    let index = values.transaction_detail.findIndex(
+      (row) =>
+        row.product.value === product.value &&
+        row.yards_per_piece.value === value.gazaana
+    );
+    // if index is matched, then add to quantity
+    if (index >= 0) {
+      setFieldValue(
+        `transaction_detail.${index}.quantity`,
+        values.transaction_detail[index].quantity + 1
+      );
+    }
+    // if index is not matches, then add a new row
+    else {
+      let lastIndex = values.transaction_detail.length - 1;
+      let newRow = {
+        product: product,
+        yards_per_piece: gazaana,
+        quantity: 1,
+      };
+      if (transaction) {
+        newRow['new'] = true;
+      }
+      lastIndex =
+        !isFormikRowDirty(lastIndex) && lastIndex === 0 ? 0 : lastIndex + 1;
+      setFieldValue(`transaction_detail.${lastIndex}`, newRow);
+    }
+  };
+
+  // listen to scanner value and then add to Formik
+  // after adding, set scanner value to null
+  useEffect(() => {
+    if (scannerValue) {
+      addScannedValueToForm(scannerValue);
+      setScannerValue(null);
+    }
+  }, [scannerValue]);
 
   useEffect(() => {
     setValidate(
@@ -62,7 +122,7 @@ const TransactionBody = ({
     let { product } = getCurrentRowData(rowIndex);
     if (product?.value) {
       let options = stock.allStock.filter(
-        (s) => s.product === product.value && s.stock_quantity > 0
+        (s) => s.product === product?.value && s.stock_quantity > 0
       );
       return [
         ...new Map(
@@ -82,8 +142,8 @@ const TransactionBody = ({
     if (product?.value) {
       let options = stock.allStock.filter(
         (s) =>
-          s.product === product.value &&
-          s.yards_per_piece === gazaana.value &&
+          s.product === product?.value &&
+          s.yards_per_piece === gazaana?.value &&
           s.stock_quantity > 0
       );
       return [
@@ -132,9 +192,9 @@ const TransactionBody = ({
     let { product, gazaana, warehouse } = getCurrentRowData(rowIndex);
     let qty = stock.allStock.filter(
       (s) =>
-        s.product === product.value &&
-        s.yards_per_piece === gazaana.value &&
-        s.warehouse === warehouse.value
+        s.product === product?.value &&
+        s.yards_per_piece === gazaana?.value &&
+        s.warehouse === warehouse?.value
     );
     if (qty.length) {
       return qty[0].stock_quantity;

@@ -49,7 +49,8 @@ export const formatDataForPosting = (values, natures, prefixes) => {
     date: values.date || null,
     paid: values.type === 'paid',
     paid_amount: values.paid_amount || 0,
-    builty: values.builty,
+    builty: values.builty || null,
+    account_type: values.account_type?.value,
     transaction_detail: values.transaction_detail.map((data) => {
       return {
         id: data.id,

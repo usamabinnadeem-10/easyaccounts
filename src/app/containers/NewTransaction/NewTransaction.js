@@ -11,6 +11,7 @@ import { useHistory } from 'react-router';
 import { Formik } from 'formik';
 import { Form } from 'formik';
 
+import ScannerInput from '../../components/ScannerInput';
 import TransactionHeader from '../../components/TransactionHeader';
 import TransactionBody from '../../components/TransactionBody';
 import TransactionFooter from '../../components/TransactionFooter';
@@ -48,6 +49,7 @@ const Transaction = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
+  const [scannerValue, setScannerValue] = useState(null);
 
   const TRANSACTION_FOOTER = useMemo(
     () => getTransactionFooter(showAccountTypes),
@@ -79,42 +81,55 @@ const Transaction = ({
   };
 
   return (
-    <Formik
-      initialValues={getInitialValues(transactionTypes, transaction)}
-      validationSchema={schema}
-      enableReinitialize
-      onSubmit={(values, actions) => postTransaction(values, actions)}>
-      {({ values, errors, touched, setFieldValue, handleSubmit }) => (
-        <Form>
-          <TransactionHeader
-            values={values}
-            setFieldValue={setFieldValue}
-            personIdentifier={personIdentifier}
-            selectedOptions={selectedOptions}
-            options={options}
-            updateMetaData={updateMetaData}
-            metaConstants={metaConstants}
-            showAccountTypes={showAccountTypes}
-            transactionTypes={transactionTypes}
-          />
-          <TransactionBody
-            transactionTypes={transactionTypes}
-            values={values}
-            errors={errors}
-            touched={touched}
-            warehouses={warehouses}
-            transaction={transaction}
-          />
-          <TransactionFooter
-            values={values}
-            transactionFooter={TRANSACTION_FOOTER}
-            loading={loading}
-            makeTransaction={handleSubmit}
-            transaction={transaction}
-          />
-        </Form>
-      )}
-    </Formik>
+    <>
+      <Formik
+        initialValues={getInitialValues(transactionTypes, transaction)}
+        validationSchema={schema}
+        enableReinitialize
+        onSubmit={(values, actions) => postTransaction(values, actions)}>
+        {({
+          values,
+          errors,
+          touched,
+          setFieldValue,
+          setTouched,
+          handleSubmit,
+        }) => (
+          <Form>
+            <TransactionHeader
+              values={values}
+              setFieldValue={setFieldValue}
+              personIdentifier={personIdentifier}
+              selectedOptions={selectedOptions}
+              options={options}
+              updateMetaData={updateMetaData}
+              metaConstants={metaConstants}
+              showAccountTypes={showAccountTypes}
+              transactionTypes={transactionTypes}
+            />
+            <TransactionBody
+              transactionTypes={transactionTypes}
+              values={values}
+              errors={errors}
+              touched={touched}
+              warehouses={warehouses}
+              transaction={transaction}
+              setFieldValue={setFieldValue}
+              scannerValue={scannerValue}
+              setScannerValue={setScannerValue}
+            />
+            <TransactionFooter
+              values={values}
+              transactionFooter={TRANSACTION_FOOTER}
+              loading={loading}
+              makeTransaction={() => handleSubmit()}
+              transaction={transaction}
+            />
+          </Form>
+        )}
+      </Formik>
+      <ScannerInput getScannedValue={(val) => setScannerValue(val)} />
+    </>
   );
 };
 

@@ -1,20 +1,19 @@
 import React from 'react';
+import { useState } from 'react';
 
-import { Formik } from 'formik';
-import { Form } from 'formik';
-import { Field } from 'formik';
-
-import { FormTextField } from '../../utilities/formUtils';
+import { TextField } from '@mui/material';
 
 import { Snackbar } from '@mui/material';
 
 const ScannerInput = ({ getScannedValue, overrideValues }) => {
-  const handleScannerInput = (val, actions) => {
+  const [input, setInput] = useState('');
+
+  const handleScannerInput = (val) => {
     let decoded = null;
     try {
-      decoded = JSON.parse(val.code);
+      decoded = JSON.parse(val);
     } catch (error) {
-      actions.resetForm();
+      setInput('');
       return;
     }
     overrideValues &&
@@ -22,7 +21,7 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
         decoded[value.key] = value.value;
       });
     getScannedValue(decoded);
-    actions.resetForm();
+    setInput('');
   };
 
   return (
@@ -30,37 +29,34 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
       open={true}
       anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}>
       <div>
-        <Formik
-          initialValues={{
-            code: '',
+        <TextField
+          sx={{
+            '& .MuiFilledInput-root': {
+              borderRadius: '10px',
+              '-webkit-text-security': 'square',
+            },
+            '& .MuiFilledInput-root:before': {
+              border: 0,
+            },
+            '& .MuiFilledInput-root:after': {
+              border: 0,
+            },
+            '& .MuiFilledInput-root:hover': {
+              border: 0,
+            },
           }}
-          onSubmit={(values, actions) => {
-            handleScannerInput(values, actions);
-          }}>
-          <Form>
-            <Field
-              component={FormTextField}
-              sx={{
-                '& .MuiFilledInput-root': {
-                  borderRadius: '10px',
-                },
-                '& .MuiFilledInput-root:before': {
-                  border: 0,
-                },
-                '& .MuiFilledInput-root:after': {
-                  border: 0,
-                },
-                '& .MuiFilledInput-root:hover': {
-                  border: 0,
-                },
-              }}
-              autoFocus
-              variant='filled'
-              name='code'
-              label='Scanner'
-            />
-          </Form>
-        </Formik>
+          InputProps={{ disableUnderline: true }}
+          autoFocus
+          variant='filled'
+          label='Scanner'
+          value={input}
+          onChange={(event) => setInput(event.target.value)}
+          onKeyPress={(e) => {
+            if (e.key === 'Enter') {
+              handleScannerInput(e.target.value);
+            }
+          }}
+        />
       </div>
     </Snackbar>
   );
