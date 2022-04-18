@@ -1,15 +1,15 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { useLocation } from "react-router";
+import { useLocation } from 'react-router';
 
-import Transaction from "../../containers/Transaction/Transaction";
+import Transaction from '../../containers/NewTransaction';
 
-import { useStyles } from "./styles";
-import * as constants from "./constants";
+import { useStyles } from './styles';
+import * as constants from './constants';
 
 function CustomerTransaction(props) {
   const classes = useStyles();
@@ -62,8 +62,8 @@ function CustomerTransaction(props) {
         defaultRow={constants.DEFAULT_ROW}
         transactionTypes={constants.TRANSACTION_TYPES}
         metaConstants={constants.META_CONSTANTS}
-        personIdentifier="Customer"
-        showAccountTypes={metaData.transactionType === "paid"}
+        personIdentifier='Customer'
+        showAccountTypes={metaData.transactionType === 'paid'}
         natures={constants.NATURES}
         options={{
           people: state.customers,
@@ -81,6 +81,7 @@ function CustomerTransaction(props) {
         }}
         transactionDetails={location.state ? transactions : null}
         transaction={transaction}
+        warehouses={props.warehouses}
       />
     </div>
   );

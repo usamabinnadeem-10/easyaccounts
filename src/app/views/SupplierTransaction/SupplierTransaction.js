@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 import { useLocation } from 'react-router';
 
-import Transaction from '../../containers/Transaction/Transaction';
+import Transaction from '../../containers/NewTransaction';
 
 import { useStyles } from './styles';
 
@@ -77,6 +77,7 @@ function SupplierTransaction(props) {
         }}
         transactionDetails={location.state ? transactions : null}
         transaction={transaction}
+        warehouses={props.warehouses}
       />
     </div>
   );

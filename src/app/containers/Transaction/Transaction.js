@@ -7,10 +7,11 @@ import { useDispatch } from 'react-redux';
 
 import { useHistory } from 'react-router';
 
-import TransactionFooter from '../../components/TransactionFooter/TransactionFooter';
-import TransactionHeader from '../../components/TransactionHeader/TransactionHeader';
-import TransactionTableBody from '../../components/TransactionTableBody/TransactionTableBody';
-import TransactionTableHeader from '../../components/TransactionTableHeader/TransactionTableHeader';
+import ScannerInput from '../../components/ScannerInput';
+import TransactionFooter from '../../components/TransactionFooter';
+import TransactionHeader from '../../components/TransactionHeader';
+import TransactionTableBody from '../../components/TransactionTableBody';
+import TransactionTableHeader from '../../components/TransactionTableHeader';
 
 import Table from '@mui/material/Table';
 import TableContainer from '@mui/material/TableContainer';
@@ -66,6 +67,7 @@ const Transaction = (props) => {
   const dispatch = useDispatch();
 
   const transactionStore = useSelector((state) => state.transactions);
+  const essentials = useSelector((state) => state.essentials);
 
   const [selected, setSelected] = useState([]);
   const [tableData, setTableData] = useState([defaultRow]);
@@ -502,6 +504,38 @@ const Transaction = (props) => {
     }
   };
 
+  // const findTableIndexForScannerInput = (input) => {
+  //   let index = tableData.findIndex((row) => row.product.value === input.name && )
+  // }
+
+  // add scanned value to table
+  const handleScannerInput = (val) => {
+    let newTableData = [...tableData];
+    let lastRow = tableData[tableData.length - 1];
+    let product = essentials.products.filter(
+      (prod) => prod.value === val.name
+    )[0];
+    let gazaana = {
+      value: val.gazaana,
+      label: val.gazaana,
+    };
+    let newRow = {
+      ...constants.DEFAULT_ROW,
+      product: product,
+      quantity: lastRow?.quantity ?? 0,
+      warehouse: lastRow?.warehouse ?? null,
+      gazaana: gazaana,
+      rate: lastRow?.rate ?? 0,
+      total: lastRow?.total ?? 0,
+      total_gazaana: lastRow?.total_gazaana ?? 0,
+    };
+    if (transaction) {
+      newRow.new = true;
+    }
+    newTableData.push(newRow);
+    setTableData(newTableData);
+  };
+
   return (
     <>
       {transactionStore.fetched && (
@@ -547,6 +581,7 @@ const Transaction = (props) => {
             transaction={transaction}
             totalQuantity={totalQuantity}
           />
+          <ScannerInput getScannedValue={(val) => console.log(val)} />
         </div>
       )}
     </>

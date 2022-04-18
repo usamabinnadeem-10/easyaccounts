@@ -1,26 +1,27 @@
-import React from "react";
+import React from 'react';
 
-import { Autocomplete } from "@mui/material";
-import { TextField } from "@mui/material";
-import { styled } from "@mui/styles";
+import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import { TextField } from '@mui/material';
+import { styled } from '@mui/styles';
 
-import CustomSwitch from "../components/CustomSwitch";
+import CustomSwitch from '../components/CustomSwitch';
+import CustomToggleButtons from '../components/CustomToggleButtons';
 
-import DateAdapter from "@mui/lab/AdapterMoment";
-import LocalizationProvider from "@mui/lab/LocalizationProvider";
-import DesktopDatePicker from "@mui/lab/DesktopDatePicker";
+import DateAdapter from '@mui/lab/AdapterMoment';
+import LocalizationProvider from '@mui/lab/LocalizationProvider';
+import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
-import moment from "moment";
+import moment from 'moment';
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
-  "& .MuiOutlinedInput-input": {
-    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
-      "-webkit-appearance": "none",
+  '& .MuiOutlinedInput-input': {
+    '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+      '-webkit-appearance': 'none',
     },
   },
-  "& .MuiInput-input": {
-    "&::-webkit-outer-spin-button, &::-webkit-inner-spin-button": {
-      "-webkit-appearance": "none",
+  '& .MuiInput-input': {
+    '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
+      '-webkit-appearance': 'none',
     },
   },
 }));
@@ -54,40 +55,45 @@ export const FormAutoCompleteField = ({
   isError,
   errorText,
   variant,
+  freeSolo,
+  type,
   ...props
 }) => {
   return (
     <Autocomplete
       onChange={(event, value, reason) => {
         setFieldTouched(name);
-        if (reason === "clear" || !value) {
-          setFieldValue(name, "");
+        if (reason === 'clear' || !value) {
+          setFieldValue(name, '');
         } else {
           setFieldValue(name, value);
         }
       }}
-      // isOptionEqualToValue={(option, value) => {
-      //   if (value) {
-      //     return option.value === value.value;
-      //   }
-      //   return true;
-      // }}
+      onInputChange={(event, value, reason) => {
+        freeSolo &&
+          setFieldValue(name, {
+            value: parseFloat(value),
+            label: value,
+          });
+      }}
       value={value}
       options={options}
-      size="small"
+      size='small'
       clearOnEscape
       fullWidth
+      freeSolo={freeSolo}
       onBlur={() => setFieldTouched(name)}
       renderInput={(params) => (
-        <TextField
+        <StyledTextField
           onBlur={onBlur}
           error={(touched[name] && !!errors[name]) || isError}
           helperText={
             (touched[name] && errors[name]) || (isError ? errorText : null)
           }
+          type={type}
           fullWidth
           label={label}
-          variant={variant || "outlined"}
+          variant={variant || 'outlined'}
           {...params}
         />
       )}
@@ -106,14 +112,14 @@ export const FormDateField = ({
     <LocalizationProvider dateAdapter={DateAdapter}>
       <DesktopDatePicker
         value={value || null}
-        minDate={moment(Date.now()).subtract(10, "years")}
-        maxDate={moment(Date.now()).add(10, "years")}
+        minDate={moment(Date.now()).subtract(10, 'years')}
+        maxDate={moment(Date.now()).add(10, 'years')}
         onChange={(value) => {
           setFieldTouched(name);
-          setFieldValue(name, moment(value).format("yyyy-MM-DD"));
+          setFieldValue(name, moment(value).format('yyyy-MM-DD'));
         }}
         label={props.label}
-        inputFormat="DD/MM/yyyy"
+        inputFormat='DD/MM/yyyy'
         renderInput={(params) => (
           <TextField
             {...params}
@@ -148,6 +154,23 @@ export const FormSwitchField = ({
       onChange={handleChange}
       label={label}
       onCheckedLabel={onCheckedLabel}
+    />
+  );
+};
+
+export const FormToggleField = ({
+  field: { name, value },
+  form: { setFieldValue },
+  buttons,
+}) => {
+  const handleChange = (val) => {
+    setFieldValue(name, val);
+  };
+  return (
+    <CustomToggleButtons
+      selectedValue={value}
+      buttons={buttons}
+      getSelectedValue={handleChange}
     />
   );
 };
