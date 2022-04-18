@@ -36,14 +36,15 @@ function TransactionFooter({
       let q = parseFloat(value.quantity) || 0;
       let y = parseFloat(value.yards_per_piece?.value) || 0;
       let r = parseFloat(value.rate) || 0;
+      let d = parseFloat(values.discount) || 0;
       qty += q;
       gaz += q * y;
-      amount += q * y * r;
+      amount += q * y * r - d;
     });
     setTotalAmount(amount);
     setTotalQuantity(qty);
     setTotalGazaana(gaz);
-  }, [values.transaction_detail]);
+  }, [values]);
 
   return (
     <>
@@ -57,7 +58,8 @@ function TransactionFooter({
                   component={FormTextField}
                   key={index}
                   label={field.placeholder}
-                  type={field.type}
+                  // type={field.type}
+                  type='number'
                   multiline
                   variant='outlined'
                   size='small'
@@ -103,7 +105,7 @@ function TransactionFooter({
             endIcon={transaction ? <EditIcon /> : <EmailIcon />}
             variant='contained'
             sx={{ fontWeight: 900, mr: 2 }}
-            onClick={() => makeTransaction()}>
+            onClick={makeTransaction}>
             {transaction ? 'Edit' : 'Finalize'}
           </Button>
         )}

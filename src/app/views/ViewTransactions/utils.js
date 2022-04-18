@@ -13,7 +13,7 @@ export const formatTransactionData = (data) => {
   data.forEach((element) => {
     let total = 0.0;
     element.transaction_detail.forEach((detail) => {
-      total += detail.amount;
+      total += detail.rate * detail.quantity * detail.yards_per_piece;
     });
     totalDiscount += element.discount;
     grandTotal += total;
@@ -43,12 +43,12 @@ export const formatTransactionDetails = (details, products, warehouses) => {
       product: product,
       warehouse: warehouse,
       quantity: element.quantity,
-      gazaana: {
+      yards_per_piece: {
         value: element.yards_per_piece,
         label: element.yards_per_piece,
       },
       rate: element.rate,
-      total: element.amount,
+      total: element.rate * element.quantity * element.yards_per_piece,
       id: element.id,
     });
   });

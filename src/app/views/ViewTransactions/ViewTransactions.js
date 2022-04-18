@@ -123,6 +123,7 @@ function ViewTransactions({
     let transactionToEdit = transactionDataRaw.filter(
       (transaction) => transaction.id === id
     )[0];
+    console.log(transactionToEdit);
     let account = accounts?.[transactionToEdit.account_type];
     let person = persons[transactionToEdit.person];
     history.push({

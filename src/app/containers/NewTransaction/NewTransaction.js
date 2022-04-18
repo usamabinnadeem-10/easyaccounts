@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { useMemo } from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
 
@@ -16,7 +16,17 @@ import TransactionBody from '../../components/TransactionBody';
 import TransactionFooter from '../../components/TransactionFooter';
 
 import { schema } from './validation';
-import { getInitialValues } from './utils';
+import {
+  getInitialValues,
+  getTransactionFooter,
+  formatDataForPosting,
+} from './utils';
+import { postTransactionApi, editTransactionApi } from './api';
+import { withSnackbar } from '../../hoc/withSnackbar';
+import { getURL } from '../../utilities/stringUtils';
+import { VIEW_SINGLE_TRANSACTION } from '../../../constants/routesConstants';
+import { findErrorMessage } from '../../utilities/objectUtils';
+import { setShouldFetch } from '../../../store/transactions';
 
 const Transaction = ({
   prefixes,
@@ -35,32 +45,45 @@ const Transaction = ({
   showErrorSnackbar,
   warehouses,
 }) => {
-  const TRANSACTION_FOOTER = [
-    {
-      placeholder: 'Discount',
-      visible: true,
-      type: 'number',
-      name: 'discount',
-    },
-    {
-      placeholder: 'Paid Amount',
-      visible: showAccountTypes,
-      type: 'number',
-      name: 'paid_amount',
-    },
-    {
-      placeholder: 'Detail',
-      visible: true,
-      type: 'text',
-      name: 'detail',
-    },
-  ];
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
+
+  const TRANSACTION_FOOTER = useMemo(
+    () => getTransactionFooter(showAccountTypes),
+    [showAccountTypes]
+  );
+
+  const redirect = (transaction) => {
+    history.push({
+      pathname: getURL(VIEW_SINGLE_TRANSACTION, 'uuid', transaction.id),
+      state: transaction,
+    });
+  };
+
+  const postTransaction = (values, actions) => {
+    setLoading(true);
+    let data = formatDataForPosting(values, natures, prefixes);
+    let api = transaction ? editTransactionApi : postTransactionApi;
+    api(data, transaction?.id)
+      .then((response) => {
+        dispatch(setShouldFetch(true));
+        actions.resetForm();
+        setLoading(false);
+        redirect(response.data);
+      })
+      .catch((error) => {
+        showErrorSnackbar(findErrorMessage(error.response.data));
+        setLoading(false);
+      });
+  };
 
   return (
     <Formik
-      initialValues={getInitialValues(transactionTypes)}
+      initialValues={getInitialValues(transactionTypes, transaction)}
       validationSchema={schema}
-      enableReinitialize>
+      enableReinitialize
+      onSubmit={(values, actions) => postTransaction(values, actions)}>
       {({ values, errors, touched, setFieldValue, handleSubmit }) => (
         <Form>
           <TransactionHeader
@@ -80,12 +103,14 @@ const Transaction = ({
             errors={errors}
             touched={touched}
             warehouses={warehouses}
+            transaction={transaction}
           />
           <TransactionFooter
             values={values}
             transactionFooter={TRANSACTION_FOOTER}
-            loading={false}
-            makeTransaction={() => {}}
+            loading={loading}
+            makeTransaction={handleSubmit}
+            transaction={transaction}
           />
         </Form>
       )}
@@ -93,4 +118,4 @@ const Transaction = ({
   );
 };
 
-export default Transaction;
+export default withSnackbar(Transaction);

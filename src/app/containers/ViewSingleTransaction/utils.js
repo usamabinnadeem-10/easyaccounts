@@ -34,6 +34,10 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
         value: transaction[DB.DETAIL] || '---',
         label: 'Detail:',
       },
+      {
+        value: transaction[DB.BUILTY] || '---',
+        label: 'Builty:',
+      },
     ];
   }
 
@@ -75,7 +79,9 @@ const formatTransactionDetails = (
   details.forEach((detail) => {
     newDetails.push({
       ...detail,
-      amount: formatCurrency(detail.amount),
+      amount: formatCurrency(
+        detail.rate * detail.quantity * detail.yards_per_piece
+      ),
       [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]].label,
       [DB.PRODUCT]: products?.[detail[DB.PRODUCT]].label,
       total_gazaana: formatCurrency(detail.yards_per_piece * detail.quantity),
@@ -91,7 +97,7 @@ const formatTransactionDetails = (
 
 export const formatTransaction = (transaction, warehouses, products) => {
   let totalAmount = transaction?.transaction_detail?.reduce(
-    (prev, curr) => prev + curr.amount,
+    (prev, curr) => prev + curr.quantity * curr.rate * curr.yards_per_piece,
     0
   );
   let grandTotalGazaana = transaction.transaction_detail?.reduce(

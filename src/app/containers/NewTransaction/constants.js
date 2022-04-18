@@ -26,11 +26,11 @@ export const FIELDS = {
 
 export const INITIAL = {
   [FIELDS.PERSON]: '',
-  [FIELDS.DATE]: null,
+  [FIELDS.DATE]: '',
   [FIELDS.TRANS_TYPE]: '',
   [FIELDS.ACCOUNT]: '',
   [FIELDS.BOOK_NUM]: '',
-  [FIELDS.BOOK_TYPE]: '',
+  // [FIELDS.BOOK_TYPE]: '',
   [FIELDS.BUILTY]: '',
   [FIELDS.ACTION]: false,
   [FIELDS.DISCOUNT]: '',

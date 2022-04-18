@@ -28,6 +28,7 @@ const TransactionBody = ({
   touched,
   transactionTypes,
   warehouses,
+  transaction,
 }) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -141,9 +142,18 @@ const TransactionBody = ({
     return 0;
   };
 
+  // add new row helper
+  const getNewRow = (rowIndex) => {
+    let data = values.transaction_detail[rowIndex];
+    if (transaction) {
+      data = { ...data, id: null, new: true };
+    }
+    return data;
+  };
+
   return (
     <>
-      {!stock.fetched ? (
+      {stock.shouldFetchStock ? (
         <Grid container justifyContent='center'>
           <CustomLoader loading={true} />
         </Grid>
@@ -166,7 +176,7 @@ const TransactionBody = ({
                       />
                     </Grid>
                     <Grid item xs={2}>
-                      <FastField
+                      <Field
                         name={`transaction_detail.${rowIndex}.yards_per_piece`}
                         component={FormAutoCompleteField}
                         freeSolo={true}
@@ -231,9 +241,7 @@ const TransactionBody = ({
                 <Grid item xs={2}>
                   <AddRemove
                     disabled={values.transaction_detail.length === 1}
-                    onAdd={() =>
-                      arrayHelpers.push(values.transaction_detail[rowIndex])
-                    }
+                    onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
                     onDelete={() => arrayHelpers.remove(rowIndex)}
                   />
                 </Grid>

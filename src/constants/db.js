@@ -48,6 +48,7 @@ export const DB = {
   DENOMINATOR: 'denominator',
   CATEGORY: 'category',
   MIN_RATE: 'minimum_rate',
+  BUILTY: 'builty',
 };
 
 export const DB_TRANSLATION = {
