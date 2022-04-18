@@ -21,6 +21,7 @@ import {
 } from '../../utilities/formUtils';
 
 import { getAllStock } from '../../../store/transactions';
+import { isObjectDirty } from '../../utilities/objectUtils';
 
 const TransactionBody = ({
   values,
@@ -42,26 +43,15 @@ const TransactionBody = ({
   // check if the given row has any filled data
   const isFormikRowDirty = (rowIndex) => {
     let obj = values.transaction_detail[rowIndex];
-    for (let key in obj) {
-      if (obj[key]) {
-        return true;
-      }
-    }
-    return false;
+    return isObjectDirty(obj);
   };
 
   const addScannedValueToForm = (value) => {
-    // find product
-    let product = essentials.products.filter((p) => p.label === value.name)[0];
-    let gazaana = {
-      label: value.gazaana,
-      value: value.gazaana,
-    };
     // find matching value in formik values
     let index = values.transaction_detail.findIndex(
       (row) =>
-        row.product.value === product.value &&
-        row.yards_per_piece.value === value.gazaana
+        row.product.value === value.product.value &&
+        row.yards_per_piece.value === value.yards_per_piece.value
     );
     // if index is matched, then add to quantity
     if (index >= 0) {
@@ -74,8 +64,7 @@ const TransactionBody = ({
     else {
       let lastIndex = values.transaction_detail.length - 1;
       let newRow = {
-        product: product,
-        yards_per_piece: gazaana,
+        ...value,
         quantity: 1,
       };
       if (transaction) {

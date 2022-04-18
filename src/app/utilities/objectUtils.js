@@ -22,3 +22,12 @@ export const isArrayOfObjectsUnique = (array, keys) => {
   );
   return array.length === uniques.size;
 };
+
+export const isObjectDirty = (obj) => {
+  for (let key in obj) {
+    if (obj[key]) {
+      return true;
+    }
+  }
+  return false;
+};

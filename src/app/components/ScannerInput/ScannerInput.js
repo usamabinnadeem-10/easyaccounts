@@ -1,11 +1,15 @@
 import React from 'react';
 import { useState } from 'react';
 
+import { useSelector } from 'react-redux';
+
 import { TextField } from '@mui/material';
 
 import { Snackbar } from '@mui/material';
 
 const ScannerInput = ({ getScannedValue, overrideValues }) => {
+  const products = useSelector((state) => state.essentials.products);
+
   const [input, setInput] = useState('');
 
   const handleScannerInput = (val) => {
@@ -16,11 +20,21 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
       setInput('');
       return;
     }
+    let product = products.filter(
+      (product) => product.label === decoded.name
+    )[0];
     overrideValues &&
       overrideValues.forEach((value) => {
         decoded[value.key] = value.value;
       });
-    getScannedValue(decoded);
+
+    getScannedValue({
+      product: product,
+      yards_per_piece: {
+        label: decoded.gazaana,
+        value: decoded.gazaana,
+      },
+    });
     setInput('');
   };
 

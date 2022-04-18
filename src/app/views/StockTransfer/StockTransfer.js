@@ -12,6 +12,7 @@ import { FieldArray } from 'formik';
 import AddRemove from '../../components/AddRemove';
 import ViewWrapper from '../../components/ViewWrapper';
 import Heading from '../../components/Heading';
+import ScannerInput from '../../components/ScannerInput';
 
 import { FormAutoCompleteField } from '../../utilities/formUtils';
 import { FormDateField } from '../../utilities/formUtils';
@@ -30,7 +31,7 @@ import { getRowFields } from './utils';
 import { transferStockApi } from './api';
 
 import { getAllStock } from '.././../../store/transactions';
-import { findErrorMessage } from '../../utilities/objectUtils';
+import { findErrorMessage, isObjectDirty } from '../../utilities/objectUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -69,6 +70,33 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
       });
   };
 
+  const addScannerDataToForm = (data, values, setFieldValue) => {
+    let detail = values.transfer_detail;
+    let index = detail.findIndex(
+      (t) =>
+        t.product.value === data.product.value &&
+        t.yards_per_piece === data.yards_per_piece.value
+    );
+    if (index >= 0) {
+      setFieldValue(
+        `transfer_detail.${index}.quantity`,
+        detail[index].quantity + 1
+      );
+    } else {
+      let lastIndex = detail.length - 1;
+      let newRow = {
+        ...data,
+        yards_per_piece: data.yards_per_piece.value,
+        quantity: 1,
+      };
+      lastIndex =
+        !isObjectDirty(detail[lastIndex]) && lastIndex === 0
+          ? 0
+          : lastIndex + 1;
+      setFieldValue(`transfer_detail.${lastIndex}`, newRow);
+    }
+  };
+
   return (
     <ViewWrapper>
       <Heading heading='Transfer Stock' />
@@ -76,7 +104,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         initialValues={INITIAL_VALUES}
         validationSchema={schema}
         onSubmit={(values, actions) => submit(values, actions)}>
-        {({ values, errors, touched, handleSubmit }) => (
+        {({ values, errors, touched, handleSubmit, setFieldValue }) => (
           <Form>
             <MetaWrapper container justifyContent='space-between'>
               <Grid item xs={3}>
@@ -183,6 +211,11 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
               variant='contained'>
               Transfer
             </StyledButton>
+            <ScannerInput
+              getScannedValue={(val) =>
+                addScannerDataToForm(val, values, setFieldValue)
+              }
+            />
           </Form>
         )}
       </Formik>
