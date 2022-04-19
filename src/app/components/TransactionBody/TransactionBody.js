@@ -47,8 +47,9 @@ const TransactionBody = ({
   };
 
   const addScannedValueToForm = (value) => {
+    let detail = values.transaction_detail;
     // find matching value in formik values
-    let index = values.transaction_detail.findIndex(
+    let index = detail.findIndex(
       (row) =>
         row.product.value === value.product.value &&
         row.yards_per_piece.value === value.yards_per_piece.value
@@ -57,14 +58,16 @@ const TransactionBody = ({
     if (index >= 0) {
       setFieldValue(
         `transaction_detail.${index}.quantity`,
-        values.transaction_detail[index].quantity + 1
+        detail[index].quantity + 1
       );
     }
     // if index is not matches, then add a new row
     else {
-      let lastIndex = values.transaction_detail.length - 1;
+      let lastIndex = detail.length - 1;
       let newRow = {
         ...value,
+        warehouse: detail[lastIndex].warehouse,
+        rate: detail[lastIndex].rate,
         quantity: 1,
       };
       if (transaction) {

@@ -20,9 +20,12 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
       setInput('');
       return;
     }
-    let product = products.filter(
-      (product) => product.label === decoded.name
-    )[0];
+    let product = products.filter((product) => product.label === decoded.name);
+    if (!(product.length > 0)) {
+      setInput('');
+      return;
+    }
+    product = product[0];
     overrideValues &&
       overrideValues.forEach((value) => {
         decoded[value.key] = value.value;

@@ -86,6 +86,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
       let lastIndex = detail.length - 1;
       let newRow = {
         ...data,
+        to_warehouse: detail[lastIndex].to_warehouse,
         yards_per_piece: data.yards_per_piece.value,
         quantity: 1,
       };
