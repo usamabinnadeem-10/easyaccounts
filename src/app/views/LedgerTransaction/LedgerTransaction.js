@@ -28,7 +28,7 @@ import {
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 import { LEDGER_URLS } from '../../../constants/restEndPoints';
 import instance from '../../../utils/axiosApi';
-import { getURL } from '../../utilities/stringUtils';
+import { getURL, convertDate } from '../../utilities/stringUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -63,7 +63,7 @@ function LedgerTransaction(props) {
       setAmount(data.amount);
       setTransactionType(data.nature);
       setDetail(data.detail);
-      setDate(data.date);
+      setDate(convertDate('DD-MM-YYYY', 'YYYY-MM-DD', data.date));
     }
   }, []);
 
