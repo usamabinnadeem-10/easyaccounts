@@ -43,6 +43,7 @@ import { getAllFormulas, getAllProduct } from '../../../../store/raw';
 
 import { withSnackbar } from '../../../hoc/withSnackbar';
 
+// component for showing total
 const Total = ({ text, index, variant }) => {
   return (
     <TotalText variant={variant || 'caption'} key={index}>

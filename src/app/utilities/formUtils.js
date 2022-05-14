@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/styles';
 
@@ -37,6 +37,7 @@ export const FormTextField = ({
     <StyledTextField
       {...field}
       {...props}
+      size='small'
       error={(touched[field.name] && !!errors[field.name]) || isError}
       helperText={
         (touched[field.name] && errors[field.name]) ||
@@ -125,7 +126,7 @@ export const FormDateField = ({
             {...params}
             onBlur={onBlur}
             fullWidth
-            size={props.size}
+            size={props.size || 'small'}
             error={(touched[name] && !!errors[name]) || isError}
             helperText={
               (touched[name] && errors[name]) || (isError ? errorText : null)
@@ -173,4 +174,19 @@ export const FormToggleField = ({
       getSelectedValue={handleChange}
     />
   );
+};
+
+// utility function to get the errors for array fields
+// pass the actual array wherever it is located inside the form
+export const getErrors = (errors, touched, index, name) => {
+  if (errors?.[index]?.[name] && touched?.[index]?.[name]) {
+    return {
+      isError: true,
+      errorText: errors[index][name],
+    };
+  }
+  return {
+    isError: false,
+    errorText: '',
+  };
 };

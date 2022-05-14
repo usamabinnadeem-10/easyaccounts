@@ -1,42 +1,28 @@
-import * as Yup from 'yup';
+import Yup from '../../../utilities/yup';
+import { reqNumberSchema, reqObjectSchema } from '../../../utilities/yup';
 
-import { isArrayOfObjectsUnique } from '../../../utilities/objectUtils';
 import { FIELDS } from './constants';
 
 const REQUIRED = 'Required';
-const NUMBER_ERROR = 'Please enter a value greater than 0';
-
-const numberSchema = Yup.number()
-  .typeError(REQUIRED)
-  .min(0, NUMBER_ERROR)
-  .required(REQUIRED);
-
-const objectSchema = Yup.object().typeError(REQUIRED).required(REQUIRED);
-
-Yup.addMethod(Yup.array, 'unique', function (keys, message) {
-  return this.test('unique', message, function (array) {
-    return isArrayOfObjectsUnique(array, keys);
-  });
-});
 
 export const schema = Yup.object().shape({
-  [FIELDS.person]: objectSchema,
-  [FIELDS.manual_invoice_serial]: numberSchema,
+  [FIELDS.person]: reqObjectSchema,
+  [FIELDS.manual_invoice_serial]: reqNumberSchema,
   [FIELDS.date]: Yup.date().typeError('Invalid date').required(REQUIRED),
   [FIELDS.lots]: Yup.array().of(
     Yup.object().shape({
-      [FIELDS.raw_product]: objectSchema,
+      [FIELDS.raw_product]: reqObjectSchema,
       [FIELDS.issued]: Yup.boolean().required(REQUIRED),
       [FIELDS.dying_unit]: Yup.object().typeError(REQUIRED).nullable(),
       [FIELDS.lot_detail]: Yup.array()
         .of(
           Yup.object().shape({
-            [FIELDS.quantity]: numberSchema,
-            [FIELDS.actual_gazaana]: numberSchema,
-            [FIELDS.expected_gazaana]: numberSchema,
-            [FIELDS.formula]: objectSchema,
+            [FIELDS.quantity]: reqNumberSchema,
+            [FIELDS.actual_gazaana]: reqNumberSchema,
+            [FIELDS.expected_gazaana]: reqNumberSchema,
+            [FIELDS.formula]: reqObjectSchema,
             [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).nullable(),
-            [FIELDS.rate]: numberSchema,
+            [FIELDS.rate]: reqNumberSchema,
           })
         )
         .unique(

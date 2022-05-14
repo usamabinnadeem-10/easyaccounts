@@ -1,6 +1,6 @@
 import { INITIAL } from './constants';
 
-import moment from 'moment';
+import { getToday } from '../../utilities/stringUtils';
 
 export const getInitialValues = (toggleButtons, prefilledData) => {
   if (prefilledData) {
@@ -8,7 +8,7 @@ export const getInitialValues = (toggleButtons, prefilledData) => {
   }
   return {
     ...INITIAL,
-    date: moment(moment.now()).format('YYYY-MM-DD'),
+    date: getToday(),
     type: toggleButtons[0].value,
   };
 };

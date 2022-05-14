@@ -10,40 +10,47 @@ export const FIELDS = {
   actual_gazaana: 'actual_gazaana',
   expected_gazaana: 'expected_gazaana',
   formula: 'formula',
-  lots: 'lots',
+  data: 'data',
   lot_detail: 'lot_detail',
-  issued: 'issued',
-  dying_unit: 'dying_unit',
+  lot_number: 'lot_number',
+  detail: 'detail',
   rate: 'rate',
+  debit_type: 'debit_type',
 };
 
-export const FIELD_TYPES = {
-  STRING: 'text',
-  NUMBER: 'number',
-  SELECT: 'select',
-  DATE: 'date',
-  SWITCH: 'switch',
-};
-
-export const LOT_DETAIL_INITIAL = {
+export const DETAIL_INITIAL = {
   [FIELDS.quantity]: '',
   [FIELDS.actual_gazaana]: '',
   [FIELDS.expected_gazaana]: '',
   [FIELDS.formula]: '',
-  [FIELDS.warehouse]: '',
   [FIELDS.rate]: '',
+  [FIELDS.warehouse]: '',
+};
+
+export const LOT_INITIAL = {
+  [FIELDS.lot_number]: '',
+  [FIELDS.detail]: [DETAIL_INITIAL],
 };
 
 export const INITIAL_VALUES = {
   [FIELDS.person]: '',
   [FIELDS.manual_invoice_serial]: '',
+  [FIELDS.debit_type]: 'Sale',
   [FIELDS.date]: getToday(),
-  [FIELDS.lots]: [
-    {
-      [FIELDS.raw_product]: '',
-      [FIELDS.issued]: false,
-      [FIELDS.dying_unit]: '',
-      [FIELDS.lot_detail]: [LOT_DETAIL_INITIAL],
-    },
-  ],
+  [FIELDS.data]: [LOT_INITIAL],
 };
+
+export const RAW_DEBIT_TYPES = [
+  {
+    name: 'Sale',
+    value: 'Sale',
+    color: 'success',
+    validate: false,
+  },
+  {
+    name: 'Return',
+    value: 'Return',
+    color: 'error',
+    validate: true,
+  },
+];
