@@ -21,13 +21,6 @@ export const getMetaFields = (essentials) => {
   ];
 };
 
-export const formatFormulas = (formulas) => {
-  return formulas.map((formula) => ({
-    ...formula,
-    label: `${formula.numerator}/${formula.denominator}`,
-  }));
-};
-
 export const getLotDetailFields = (
   essentials,
   lotIndex,
@@ -57,7 +50,7 @@ export const getLotDetailFields = (
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.formula}`,
       name: FIELDS.formula,
       type: FIELD_TYPES.SELECT,
-      options: formatFormulas(formulas),
+      options: formulas,
       label: 'Formula',
       xs: 2,
     },

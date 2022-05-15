@@ -1,9 +1,18 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useMemo } from 'react';
 import { useState } from 'react';
 
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
+
+import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 
 import { FastField } from 'formik';
+import { Field } from 'formik';
+import { FieldArray } from 'formik';
 
 import AddRemove from '../../../components/AddRemove';
 
@@ -11,97 +20,185 @@ import { FormAutoCompleteField } from '../../../utilities/formUtils';
 import { FormTextField } from '../../../utilities/formUtils';
 import { getErrors } from '../../../utilities/formUtils';
 
-import { INITIAL } from './constants';
+import { getAllFormulas } from '../../../../store/raw';
 
-const DEFAULT_FIELDS = [
-  {
-    field: 'quantity',
-    type: 'number',
-    label: 'Quantity',
-  },
-  {
-    field: 'actual_gazaana',
-    type: 'number',
-    label: 'Actual',
-  },
-  {
-    field: 'expected_gazaana',
-    type: 'number',
-    label: 'Expected',
-  },
-  {
-    field: 'formula',
-    type: 'select',
-    label: 'Formula',
-  },
-  {
-    field: 'warehouse',
-    type: 'select',
-    label: 'Warehouse',
-  },
-];
+import { INITIAL, LOT_INITIAL } from './constants';
+import { getFields, formatLotNumbers } from './utils';
+import {
+  LotContainer,
+  LotHeaderContainer,
+  LotNumber,
+  LotDetailRow,
+} from './styled';
+import { listLotNumbers } from '../common/api';
+import { withSnackbar } from '../../../hoc/withSnackbar';
 
 const RawDetailForm = ({
   isTransfer = false,
-  namePrefix = '',
   errors,
   touched,
-  rowIndex,
-  arrayHelpers,
-  isDeleteDisabled,
+  values,
+  showErrorSnackbar,
 }) => {
-  const [fields, setFields] = useState([
-    ...DEFAULT_FIELDS,
-    isTransfer
-      ? {
-          field: 'to_warehouse',
-          type: 'select',
-          label: 'Transfer to',
-        }
-      : {
-          field: 'rate',
-          type: 'number',
-          label: 'Rate',
-        },
-  ]);
+  const dispatch = useDispatch();
+  const { formulas, fetched } = useSelector((state) => state.raw.formulasInfo);
+  const essentials = useSelector((state) => state.essentials);
+  const [lotNumbers, setLotNumbers] = useState([]);
+  const [nextPageLotNumbers, setNextPageLotNumbers] = useState(null);
+
+  const fetchLotNumbers = () => {
+    listLotNumbers()
+      .then((response) => {
+        setLotNumbers(formatLotNumbers(response.data.results));
+        setNextPageLotNumbers(response.data.next);
+      })
+      .catch((error) => {
+        showErrorSnackbar(
+          'Could not load lot numbers, please try to refresh the page'
+        );
+      });
+  };
+
+  useEffect(() => {
+    fetchLotNumbers();
+  }, []);
+
+  const fields = useMemo(() => {
+    if (fetched) {
+      let fields = getFields(essentials, formulas, isTransfer);
+      return fields;
+    }
+    return [];
+  }, [fetched]);
+
+  useEffect(() => {
+    if (!fetched) {
+      dispatch(getAllFormulas());
+    }
+  }, [fetched]);
 
   return (
-    <Grid container justifyContent='space-between'>
-      <Grid item xs={9}>
-        <Grid container>
-          {fields.map((field, fieldIndex) => (
-            <Grid key={fieldIndex} item xs={2}>
-              <FastField
-                component={
-                  field.type === 'select'
-                    ? FormAutoCompleteField
-                    : FormTextField
-                }
-                name={`${namePrefix}.${field.field}`}
-                fullWidth
-                label={field.label}
-                variant='standard'
-                {...getErrors(errors, touched, rowIndex, field.field)}
-                options={[]}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </Grid>
-
-      <Grid item xs={3}>
-        <AddRemove
-          disabled={isDeleteDisabled}
-          onDelete={() => arrayHelpers.remove(rowIndex)}
-          onAdd={() =>
-            arrayHelpers.push(
-              isTransfer ? INITIAL['transfer'] : INITIAL['other']
-            )
-          }
-        />
-      </Grid>
-    </Grid>
+    <FieldArray
+      name='data'
+      render={(arrayHelpers) =>
+        values.data.map((lot, lotIndex) => (
+          // lot container
+          <LotContainer key={lotIndex} container direction='column'>
+            <LotHeaderContainer
+              container
+              alignItems='center'
+              justifyContent='space-between'>
+              {/* Lot index and number */}
+              <Grid item xs={8}>
+                <Grid container>
+                  <Grid item xs={1}>
+                    <LotNumber
+                      iserror={typeof errors.data === 'string'}
+                      variant='h4'>
+                      {lotIndex + 1}
+                    </LotNumber>
+                  </Grid>
+                  <Grid item xs={nextPageLotNumbers ? 9 : 11}>
+                    <Field
+                      component={FormAutoCompleteField}
+                      options={lotNumbers}
+                      fullWidth
+                      name={`data.${lotIndex}.lot_number`}
+                      label='Lot number'
+                      {...getErrors(
+                        errors['data'],
+                        touched['data'],
+                        lotIndex,
+                        'lot_number',
+                        typeof errors.data === 'string',
+                        'Duplicate lot number'
+                      )}
+                    />
+                  </Grid>
+                  {nextPageLotNumbers && (
+                    <Grid item xs={2}>
+                      <Button onClick={fetchLotNumbers}>Load more</Button>
+                    </Grid>
+                  )}
+                </Grid>
+              </Grid>
+              {/* Add remove for the lot container */}
+              <Grid item xs={4}>
+                <AddRemove
+                  disabled={values.data.length === 1}
+                  onDelete={() => arrayHelpers.remove(lotIndex)}
+                  onAdd={() => arrayHelpers.push(LOT_INITIAL)}
+                />
+              </Grid>
+            </LotHeaderContainer>
+            {/* lot detail container */}
+            <FieldArray
+              name={`data.${lotIndex}.detail`}
+              render={(arrayHelpers) =>
+                values.data[lotIndex].detail.map(
+                  (lotDetail, lotDetailIndex) => (
+                    <Grid container justifyContent='space-between'>
+                      {/* Lot detail row */}
+                      <LotDetailRow
+                        iserror={
+                          typeof errors?.data?.[lotIndex]?.detail === 'string'
+                        }
+                        item
+                        xs={9}>
+                        <Grid container>
+                          {fields.map((field, fieldIndex) => (
+                            <Grid key={fieldIndex} item xs={2}>
+                              <FastField
+                                component={
+                                  field.type === 'select'
+                                    ? FormAutoCompleteField
+                                    : FormTextField
+                                }
+                                name={`data.${lotIndex}.detail.${lotDetailIndex}.${field.field}`}
+                                fullWidth
+                                label={field.label}
+                                variant='standard'
+                                {...getErrors(
+                                  errors?.data?.[lotIndex]?.detail,
+                                  touched?.data?.[lotIndex]?.detail,
+                                  lotDetailIndex,
+                                  field.field
+                                )}
+                                options={field.options || []}
+                              />
+                            </Grid>
+                          ))}
+                        </Grid>
+                      </LotDetailRow>
+                      {/* AddDelete for rows of detail */}
+                      <Grid item xs={3}>
+                        <AddRemove
+                          disabled={values.data[lotIndex].detail.length === 1}
+                          onDelete={() => arrayHelpers.remove(lotDetailIndex)}
+                          onAdd={() =>
+                            arrayHelpers.push(
+                              isTransfer
+                                ? INITIAL['transfer']
+                                : INITIAL['other']
+                            )
+                          }
+                        />
+                      </Grid>
+                    </Grid>
+                  )
+                )
+              }
+            />
+            {typeof errors?.data?.[lotIndex]?.detail === 'string' && (
+              <Typography color='error' variant='subtitle2'>
+                Duplicate rows in detail
+              </Typography>
+            )}
+          </LotContainer>
+        ))
+      }
+    />
   );
 };
 
-export default RawDetailForm;
+export default withSnackbar(RawDetailForm);

@@ -1,5 +1,8 @@
 import Yup from '../../../utilities/yup';
-import { reqNumberSchema, reqObjectSchema } from '../../../utilities/yup';
+import {
+  positiveReqNumberSchema,
+  reqObjectSchema,
+} from '../../../utilities/yup';
 
 import { FIELDS } from './constants';
 
@@ -7,7 +10,7 @@ const REQUIRED = 'Required';
 
 export const schema = Yup.object().shape({
   [FIELDS.person]: reqObjectSchema,
-  [FIELDS.manual_invoice_serial]: reqNumberSchema,
+  [FIELDS.manual_invoice_serial]: positiveReqNumberSchema,
   [FIELDS.date]: Yup.date().typeError('Invalid date').required(REQUIRED),
   [FIELDS.lots]: Yup.array().of(
     Yup.object().shape({
@@ -17,12 +20,12 @@ export const schema = Yup.object().shape({
       [FIELDS.lot_detail]: Yup.array()
         .of(
           Yup.object().shape({
-            [FIELDS.quantity]: reqNumberSchema,
-            [FIELDS.actual_gazaana]: reqNumberSchema,
-            [FIELDS.expected_gazaana]: reqNumberSchema,
+            [FIELDS.quantity]: positiveReqNumberSchema,
+            [FIELDS.actual_gazaana]: positiveReqNumberSchema,
+            [FIELDS.expected_gazaana]: positiveReqNumberSchema,
             [FIELDS.formula]: reqObjectSchema,
             [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).nullable(),
-            [FIELDS.rate]: reqNumberSchema,
+            [FIELDS.rate]: positiveReqNumberSchema,
           })
         )
         .unique(

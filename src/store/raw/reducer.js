@@ -1,5 +1,7 @@
 import * as actionTypes from './actionTypes';
 
+import { formatFormulas } from './utils';
+
 const initialState = {
   formulasInfo: {
     fetched: false,
@@ -45,7 +47,7 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         formulasInfo: {
-          formulas: action.payload,
+          formulas: formatFormulas(action.payload),
           fetched: true,
         },
       };

@@ -178,7 +178,20 @@ export const FormToggleField = ({
 
 // utility function to get the errors for array fields
 // pass the actual array wherever it is located inside the form
-export const getErrors = (errors, touched, index, name) => {
+export const getErrors = (
+  errors,
+  touched,
+  index,
+  name,
+  forceError = false,
+  forceErrorText = ''
+) => {
+  if (forceError) {
+    return {
+      isError: true,
+      errorText: forceErrorText,
+    };
+  }
   if (errors?.[index]?.[name] && touched?.[index]?.[name]) {
     return {
       isError: true,

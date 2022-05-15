@@ -1,21 +1,16 @@
 import React from 'react';
-import { useMemo } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
 import { Form } from 'formik';
-import { Field } from 'formik';
 import { FastField } from 'formik';
-import { FieldArray } from 'formik';
 
 import { Grid } from '@mui/material';
 import { TextField } from '@mui/material';
 
-import AddRemove from '../../../components/AddRemove';
 import CustomLoader from '../../../components/CustomLoader';
 import CustomToggleButtons from '../../../components/CustomToggleButtons';
 import ViewWrapper from '../../../components/ViewWrapper';
@@ -24,20 +19,15 @@ import RawDetailForm from '../RawDetailForm';
 import { FormAutoCompleteField } from '../../../utilities/formUtils';
 import { FormDateField } from '../../../utilities/formUtils';
 import { FormTextField } from '../../../utilities/formUtils';
-import { getErrors } from '../../../utilities/formUtils';
 
-import {
-  INITIAL_VALUES,
-  RAW_DEBIT_TYPES,
-  FIELDS,
-  LOT_INITIAL,
-  DETAIL_INITIAL,
-} from './constants';
+import { INITIAL_VALUES, RAW_DEBIT_TYPES, FIELDS } from './constants';
 import { schema } from './validation';
 import { MetaContainer } from './styled';
 
 const RawDebit = () => {
   const essentials = useSelector((state) => state.essentials);
+
+  useEffect(() => {}, []);
 
   return (
     <ViewWrapper marginBottom={4} heading='Kora Debit' width={80}>
@@ -52,7 +42,6 @@ const RawDebit = () => {
         }) => (
           <Form>
             <Grid container direction='column' gap={3}>
-              {/* Debit Meta column container */}
               <MetaContainer container direction='column' gap={2}>
                 <Grid container justifyContent='space-between'>
                   <Grid item xs={12} sm={5}>
@@ -94,61 +83,10 @@ const RawDebit = () => {
                   </Grid>
                 </Grid>
               </MetaContainer>
-              {/* All lots column container */}
-              <FieldArray
-                name='data'
-                render={(arrayHelpers) =>
-                  values.data.map((lot, lotIndex) => (
-                    // lot container
-                    <Grid key={lotIndex} container direction='column'>
-                      {/* lot header */}
-                      <Grid container justifyContent='space-between'>
-                        <Grid item xs={4}>
-                          <FastField
-                            component={FormTextField}
-                            type='number'
-                            fullWidth
-                            name={`data.${lotIndex}.lot_number`}
-                            label='Lot number'
-                            {...getErrors(
-                              errors['data'],
-                              touched['data'],
-                              lotIndex,
-                              'lot_number'
-                            )}
-                          />
-                        </Grid>
-                        <Grid item xs={3}>
-                          <AddRemove
-                            disabled={values.data.length === 1}
-                            onDelete={() => arrayHelpers.remove(lotIndex)}
-                            onAdd={() => arrayHelpers.push(LOT_INITIAL)}
-                          />
-                        </Grid>
-                      </Grid>
-                      {/* lot detail container */}
-                      <FieldArray
-                        name={`data.${lotIndex}.detail`}
-                        render={(arrayHelpers) =>
-                          values.data[lotIndex].detail.map(
-                            (lotDetail, lotDetailIndex) => (
-                              <RawDetailForm
-                                namePrefix={`data.${lotIndex}.detail.${lotDetailIndex}`}
-                                errors={errors?.data?.[lotIndex]?.detail}
-                                touched={touched?.data?.[lotIndex]?.detail}
-                                arrayHelpers={arrayHelpers}
-                                isDeleteDisabled={
-                                  values.data[lotIndex].detail.length === 1
-                                }
-                                rowIndex={lotDetailIndex}
-                              />
-                            )
-                          )
-                        }
-                      />
-                    </Grid>
-                  ))
-                }
+              <RawDetailForm
+                errors={errors}
+                touched={touched}
+                values={values}
               />
             </Grid>
           </Form>

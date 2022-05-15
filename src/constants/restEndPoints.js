@@ -140,5 +140,6 @@ export const RAW_APIS = {
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,
     PRODUCT: `${RAW}${PRODUCT}${LIST}`,
+    LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
   },
 };
