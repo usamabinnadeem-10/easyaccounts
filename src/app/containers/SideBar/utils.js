@@ -89,6 +89,7 @@ import {
   TRANSFER_STOCK,
   TRANSFERS,
   RAW_DEBIT,
+  RAW_TRANSFER,
 } from './constants';
 
 export const getIcon = (panel) => {
@@ -175,6 +176,8 @@ export const getIcon = (panel) => {
       return <DriveFileMoveIcon />;
     case RAW_DEBIT:
       return <ExposureIcon />;
+    case RAW_TRANSFER:
+      return <TransferWithinAStationIcon />;
     default:
       break;
   }

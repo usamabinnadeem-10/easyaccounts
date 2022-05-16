@@ -21,6 +21,6 @@ export const ISSUE_DYING = `${HOME}/dying-issue`;
 export const RETURN_DYING = `${HOME}/dying-return`;
 export const RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase`;
 export const RAW_DEBIT_ROUTE = `${HOME}/raw-debit`;
-export const RAW_SALE_ROUTE = `${HOME}/raw-sale`;
+export const RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer`;
 export const STOCK_TRANSFER = `${HOME}/transfer-stock`;
 export const VIEW_TRANSFERS = `${HOME}/view-transfers`;

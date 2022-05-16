@@ -28,8 +28,10 @@ import { FormSwitchField } from '../../../utilities/formUtils';
 import * as api from './api';
 import * as constants from './constants';
 import * as utils from './utils';
-import * as commonUtils from '../common/utils';
 import { schema } from './validation';
+
+import * as commonUtils from '../common/utils';
+import { LotNumber } from '../common/styled';
 
 import { DetailWrapper } from './styled';
 import { StyledButton } from './styled';
@@ -146,7 +148,17 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                         key={`lot-${lotIndex}`}>
                         <LotHeader container justifyContent='space-between'>
                           <Grid item xs={10}>
-                            <Grid container>
+                            <Grid container alignItems='center'>
+                              <Grid item xs={2}>
+                                <LotNumber
+                                  variant='h5'
+                                  iserror={
+                                    typeof errors.lots?.[lotIndex]
+                                      ?.lot_detail === 'string'
+                                  }>
+                                  Lot # {lotIndex + 1}
+                                </LotNumber>
+                              </Grid>
                               {utils
                                 .getLotHeadField(
                                   values.person,
@@ -234,7 +246,6 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                   <Grid
                                     key={`lotDetail-${lotIndex}-${index}-wrapper`}
                                     container
-                                    columnGap={1}
                                     justifyContent='space-between'>
                                     {utils
                                       .getLotDetailFields(

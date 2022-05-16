@@ -19,6 +19,7 @@ const DyingIssue = lazy(() => import('../app/views/DyingIssue'));
 const DyingReturn = lazy(() => import('../app/views/DyingReturn'));
 const RawPurchase = lazy(() => import('../app/views/Raw/RawPurchase'));
 const RawDebit = lazy(() => import('../app/views/Raw/RawDebit'));
+const RawTransfer = lazy(() => import('../app/views/Raw/RawTransfer'));
 const StockTransfer = lazy(() => import('../app/views/StockTransfer'));
 const ViewTransfers = lazy(() => import('../app/views/ViewTransfers'));
 const ProductPerformance = lazy(() =>
@@ -104,6 +105,10 @@ export const authenticatedRoutes = [
   {
     component: RawDebit,
     path: url.RAW_DEBIT_ROUTE,
+  },
+  {
+    component: RawTransfer,
+    path: url.RAW_TRANSFER_ROUTE,
   },
   {
     component: StockTransfer,

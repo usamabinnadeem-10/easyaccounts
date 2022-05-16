@@ -71,7 +71,8 @@ export const RAW = 'Kora';
 export const RAW_PURCHASE = 'Buying';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
-export const RAW_DEBIT = 'Raw Debit';
+export const RAW_DEBIT = 'Kora Sale/Return';
+export const RAW_TRANSFER = 'Kora Transfer';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
@@ -267,10 +268,10 @@ export const SIDEBAR = [
         name: RAW_DEBIT,
         route: routes.RAW_DEBIT_ROUTE,
       },
-      // {
-      //   name: RAW_SEARCH,
-      //   route: routes.RETURN_DYING,
-      // },
+      {
+        name: RAW_TRANSFER,
+        route: routes.RAW_TRANSFER_ROUTE,
+      },
     ],
   },
   // ----------------ACTIONS---------------//

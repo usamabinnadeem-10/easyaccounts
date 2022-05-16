@@ -29,7 +29,7 @@ export const schema = Yup.object().shape({
           })
         )
         .unique(
-          ['actual_gazaana', 'expected_gazaana', 'formula'],
+          ['actual_gazaana', 'expected_gazaana', 'formula', 'warehouse'],
           'Detail is not unique'
         ),
     })
