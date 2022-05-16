@@ -18,6 +18,7 @@ import { TextField } from '@mui/material';
 import AddRemove from '../../../components/AddRemove';
 import CustomLoader from '../../../components/CustomLoader';
 import ViewWrapper from '../../../components/ViewWrapper';
+import Total from '../common/Total';
 
 import { FormAutoCompleteField } from '../../../utilities/formUtils';
 import { FormDateField } from '../../../utilities/formUtils';
@@ -27,30 +28,22 @@ import { FormSwitchField } from '../../../utilities/formUtils';
 import * as api from './api';
 import * as constants from './constants';
 import * as utils from './utils';
+import * as commonUtils from '../common/utils';
 import { schema } from './validation';
 
 import { DetailWrapper } from './styled';
 import { StyledButton } from './styled';
-import { LotTotalWrapper } from './styled';
 import { LotHeader } from './styled';
 import { LotWrapper } from './styled';
 import { MetaWrapper } from './styled';
-import { TotalText } from './styled';
 import { UniqueError } from './styled';
+
+import { LotTotalWrapper } from '../common/styled';
 
 import { getAllDying } from '../../../../store/dying';
 import { getAllFormulas, getAllProduct } from '../../../../store/raw';
 
 import { withSnackbar } from '../../../hoc/withSnackbar';
-
-// component for showing total
-const Total = ({ text, index, variant }) => {
-  return (
-    <TotalText variant={variant || 'caption'} key={index}>
-      {text.label} : {text.value}
-    </TotalText>
-  );
-};
 
 const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   const dispatch = useDispatch();
@@ -285,7 +278,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                           </Grid>
                                         ) : null;
                                       })}
-                                    {utils
+                                    {commonUtils
                                       .getCalculatedValues(
                                         values,
                                         lotIndex,
@@ -336,7 +329,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                           )}
 
                           <LotTotalWrapper container>
-                            {utils
+                            {commonUtils
                               .getTotals(values.lots[lotIndex].lot_detail)
                               .map((text, textIndex) => (
                                 <Total
@@ -351,14 +344,16 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                   }
                 />
                 <Grid container>
-                  {utils.getTotals(values, true).map((text, textIndex) => (
-                    <Total
-                      key={`${textIndex}-bottom`}
-                      text={text}
-                      index={textIndex}
-                      variant='body2'
-                    />
-                  ))}
+                  {commonUtils
+                    .getTotals(values, true)
+                    .map((text, textIndex) => (
+                      <Total
+                        key={`${textIndex}-bottom`}
+                        text={text}
+                        index={textIndex}
+                        variant='body2'
+                      />
+                    ))}
                 </Grid>
                 <StyledButton
                   fullWidth

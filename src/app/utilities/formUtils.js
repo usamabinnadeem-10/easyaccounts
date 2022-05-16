@@ -13,6 +13,8 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 import moment from 'moment';
 
+import { isObject } from '../../utils/objectUtils';
+
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-input': {
     '&::-webkit-outer-spin-button, &::-webkit-inner-spin-button': {
@@ -58,6 +60,7 @@ export const FormAutoCompleteField = ({
   variant,
   freeSolo,
   type,
+  autoCompleteProps,
   ...props
 }) => {
   return (
@@ -203,3 +206,24 @@ export const getErrors = (
     errorText: '',
   };
 };
+
+// /**
+//  * helper function to format form's objects and retrieve the interested key recursively
+//  * @param {} root
+//  * @param {string} key
+//  */
+// export const formatFormForPosting = (root, key='value') => {
+//   // if the root is an object then iterate over keys and for each key, call func recursively
+//   if (isObject(root)) {
+//     for (const key in root) {
+//       formatFormForPosting(root[key]);
+//     }
+//   }
+//   // if root is an array then for each index, call the func recursively
+//   else if (Array.isArray(root)) {
+//     root.forEach((r) => formatFormForPosting(r))
+//   }
+//   else {
+//     if (root === key)
+//   }
+// }

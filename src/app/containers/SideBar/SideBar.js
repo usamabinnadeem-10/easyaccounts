@@ -117,8 +117,8 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
         <List disablePadding dense>
           {SIDEBAR.map((panel, index) => {
             return (
-              <PermissionGate permit={panel.roles}>
-                <div key={index}>
+              <PermissionGate key={index} permit={panel.roles}>
+                <div>
                   <ListItemButton
                     onClick={() => handleOpen(index)}
                     disableRipple>

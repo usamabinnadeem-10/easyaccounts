@@ -14,6 +14,7 @@ export const formatRawProducts = (products) => {
 export const formatFormulas = (formulas) => {
   return formulas.map((formula) => ({
     ...formula,
+    value: formula.id,
     label: `${formula.numerator}/${formula.denominator}`,
   }));
 };

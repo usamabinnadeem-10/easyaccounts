@@ -1,6 +1,4 @@
 import React from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -8,10 +6,10 @@ import { Formik } from 'formik';
 import { Form } from 'formik';
 import { FastField } from 'formik';
 
+import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import { TextField } from '@mui/material';
 
-import CustomLoader from '../../../components/CustomLoader';
 import CustomToggleButtons from '../../../components/CustomToggleButtons';
 import ViewWrapper from '../../../components/ViewWrapper';
 import RawDetailForm from '../RawDetailForm';
@@ -22,24 +20,19 @@ import { FormTextField } from '../../../utilities/formUtils';
 
 import { INITIAL_VALUES, RAW_DEBIT_TYPES, FIELDS } from './constants';
 import { schema } from './validation';
+import { formatForm } from './utils';
 import { MetaContainer } from './styled';
 
 const RawDebit = () => {
   const essentials = useSelector((state) => state.essentials);
 
-  useEffect(() => {}, []);
-
   return (
     <ViewWrapper marginBottom={4} heading='Kora Debit' width={80}>
-      <Formik initialValues={INITIAL_VALUES} validationSchema={schema}>
-        {({
-          values,
-          errors,
-          touched,
-          setFieldValue,
-          setTouched,
-          handleSubmit,
-        }) => (
+      <Formik
+        initialValues={INITIAL_VALUES}
+        validationSchema={schema}
+        onSubmit={(values, actions) => console.log(formatForm(values))}>
+        {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>
             <Grid container direction='column' gap={3}>
               <MetaContainer container direction='column' gap={2}>
@@ -72,6 +65,7 @@ const RawDebit = () => {
                       name={FIELDS.manual_invoice_serial}
                       label='Book #'
                       fullWidth
+                      type='number'
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
@@ -88,6 +82,9 @@ const RawDebit = () => {
                 touched={touched}
                 values={values}
               />
+              <Button variant='contained' onClick={handleSubmit}>
+                POST
+              </Button>
             </Grid>
           </Form>
         )}

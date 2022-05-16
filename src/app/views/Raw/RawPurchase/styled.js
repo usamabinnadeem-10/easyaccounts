@@ -22,14 +22,6 @@ export const LotHeader = styled(Grid)(({ theme }) => ({}));
 
 export const DetailWrapper = styled(Grid)(({ theme }) => ({}));
 
-export const TotalText = styled(Typography)(({ theme }) => ({
-  marginRight: `${theme.spacing(2)} !important`,
-}));
-
-export const LotTotalWrapper = styled(Grid)(({ theme }) => ({
-  marginTop: theme.spacing(4),
-}));
-
 export const StyledButton = styled(LoadingButton)(({ theme }) => ({
   marginTop: `${theme.spacing(4)} !important`,
 }));
