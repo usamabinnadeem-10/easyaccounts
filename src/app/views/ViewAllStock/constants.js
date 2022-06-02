@@ -13,7 +13,7 @@ export const getColumns = () => {
       Header: 'Gazaana',
     },
     {
-      accessor: 'stock_quantity',
+      accessor: 'quantity',
       Header: 'Stock',
     },
     {

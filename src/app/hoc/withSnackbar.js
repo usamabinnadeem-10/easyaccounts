@@ -1,17 +1,17 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import { Alert } from "@mui/material";
-import { Snackbar } from "@mui/material";
+import { Alert } from '@mui/material';
+import { Snackbar } from '@mui/material';
 
 export const withSnackbar = (Component) => {
   return (props) => {
     const [open, setOpen] = useState(false);
-    const [message, setMessage] = useState("...");
+    const [message, setMessage] = useState('...');
     const [duration, setDuration] = useState(2000);
-    const [severity, setSeverity] = useState("success");
+    const [severity, setSeverity] = useState('success');
 
-    const showSnackbar = (message, severity = "success", duration = 3000) => {
+    const showSnackbar = (message, severity = 'success', duration = 10000) => {
       setMessage(message);
       setSeverity(severity);
       setDuration(duration);
@@ -23,11 +23,11 @@ export const withSnackbar = (Component) => {
     };
 
     const showErrorSnackbar = (message) => {
-      showSnackbar(message, "error");
+      showSnackbar(message, 'error');
     };
 
     const handleClose = (event, reason) => {
-      if (reason === "clickaway") {
+      if (reason === 'clickaway') {
         return;
       }
       setOpen(false);
@@ -42,14 +42,13 @@ export const withSnackbar = (Component) => {
         />
         <Snackbar
           anchorOrigin={{
-            vertical: "bottom",
-            horizontal: "left",
+            vertical: 'bottom',
+            horizontal: 'left',
           }}
           autoHideDuration={duration}
           open={open}
-          onClose={handleClose}
-        >
-          <Alert variant="filled" onClose={handleClose} severity={severity}>
+          onClose={handleClose}>
+          <Alert variant='filled' onClose={handleClose} severity={severity}>
             {message}
           </Alert>
         </Snackbar>

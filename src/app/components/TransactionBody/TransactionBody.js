@@ -114,7 +114,7 @@ const TransactionBody = ({
     let { product } = getCurrentRowData(rowIndex);
     if (product?.value) {
       let options = stock.allStock.filter(
-        (s) => s.product === product?.value && s.stock_quantity > 0
+        (s) => s.product === product?.value && s.quantity > 0
       );
       return [
         ...new Map(
@@ -136,7 +136,7 @@ const TransactionBody = ({
         (s) =>
           s.product === product?.value &&
           s.yards_per_piece === gazaana?.value &&
-          s.stock_quantity > 0
+          s.quantity > 0
       );
       return [
         ...new Map(
@@ -189,7 +189,7 @@ const TransactionBody = ({
         s.warehouse === warehouse?.value
     );
     if (qty.length) {
-      return qty[0].stock_quantity;
+      return qty[0].quantity;
     }
     return 0;
   };

@@ -45,6 +45,8 @@ import { LotTotalWrapper } from '../common/styled';
 import { getAllDying } from '../../../../store/dying';
 import { getAllFormulas, getAllProduct } from '../../../../store/raw';
 
+import { findErrorMessage } from '../../../utilities/objectUtils';
+
 import { withSnackbar } from '../../../hoc/withSnackbar';
 
 const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
@@ -109,6 +111,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         })
         .catch((error) => {
           setIsLoading(false);
+          showErrorSnackbar(findErrorMessage(error.response.data));
         });
     } else {
       showErrorSnackbar(error);

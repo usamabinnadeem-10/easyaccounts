@@ -38,7 +38,6 @@ export const ESSENTIAL_URLS = {
     OPENING_STOCK: `${ESSENTIALS}create-opening-stock/`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
-  ALL_STOCK: `${ESSENTIALS}stock-quantity/`,
   ACCOUNT_HISTORY: `${ESSENTIALS}account-history/`,
 };
 
@@ -69,6 +68,7 @@ export const TRANSACTION_URLS = {
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
   DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
   CANCEL_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}cancel/`,
+  ALL_STOCK: `${TRANSACTION}all-stock/`,
 };
 
 const LEDGER = 'ledger/';

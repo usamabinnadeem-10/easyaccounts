@@ -1,45 +1,45 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from 'react-to-print';
 
-import { Button } from "@mui/material";
-import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Button } from '@mui/material';
+import { Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 
-import WhatsAppIcon from "@mui/icons-material/WhatsApp";
+import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
-import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import SearchAndSelect from "../../components/SearchAndSelect/SearchAndSelect";
-import LedgerDetail from "../../components/LedgerDetail/LedgerDetail";
-import TransactionDrawer from "../../components/TransactionDrawer/TransactionDrawer";
-import Empty from "../../components/Empty/Empty";
+import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import SearchAndSelect from '../../components/SearchAndSelect/SearchAndSelect';
+import LedgerDetail from '../../components/LedgerDetail/LedgerDetail';
+import TransactionDrawer from '../../components/TransactionDrawer/TransactionDrawer';
+import Empty from '../../components/Empty/Empty';
 
 import {
   PERSON_TYPES,
   STORE_PERSON,
-} from "../../components/SelectPerson/constants";
-import { useStyles } from "./styles";
-import { ERRORS } from "./constants";
-import { SUCCESS } from "./constants";
-import { formatLedgerData } from "./utils";
-import { getChequeTexts } from "./utils";
-import { LEDGER_URLS } from "../../../constants/restEndPoints";
+} from '../../components/SelectPerson/constants';
+import { useStyles } from './styles';
+import { ERRORS } from './constants';
+import { SUCCESS } from './constants';
+import { formatLedgerData } from './utils';
+import { getChequeTexts } from './utils';
+import { LEDGER_URLS } from '../../../constants/restEndPoints';
 
-import { DB_TRANSLATION } from "../../../constants/db";
-import instance from "../../../utils/axiosApi";
-import { makeQueryParamURL, formatCurrency } from "../../utilities/stringUtils";
-import { getURL } from "../../utilities/stringUtils";
-import { setShouldFetchDaybook } from "../../../store/accounts/actions";
+import { DB_TRANSLATION } from '../../../constants/db';
+import instance from '../../../utils/axiosApi';
+import { makeQueryParamURL, formatCurrency } from '../../utilities/stringUtils';
+import { getURL } from '../../utilities/stringUtils';
+import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 function Ledgers({
   daybookView,
@@ -90,7 +90,7 @@ function Ledgers({
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
       instance
         .delete(
-          getURL(LEDGER_URLS.DELETE_LEDGER, "uuid", dialogueState.idToDelete)
+          getURL(LEDGER_URLS.DELETE_LEDGER, 'uuid', dialogueState.idToDelete)
         )
         .then((res) => {
           search();
@@ -135,7 +135,7 @@ function Ledgers({
     setOpeningBalance(response.data.opening_balance);
     setClosingBalance(
       ledgerDataFormatted[ledgerDataFormatted.length - 2]?.formattedBalance ||
-        "---"
+        '---'
     );
     setChequeBalances(getChequeTexts(response.data));
     setIsEmpty(ledgerDataFormatted.length === 0);
@@ -152,15 +152,15 @@ function Ledgers({
     setLoading(true);
     const params = [
       {
-        key: "person",
+        key: 'person',
         value: currentPerson.value,
       },
       startDate && {
-        key: "start",
+        key: 'start',
         value: startDate,
       },
       endDate && {
-        key: "end",
+        key: 'end',
         value: endDate,
       },
     ];
@@ -186,7 +186,7 @@ function Ledgers({
 
   const handleEdit = (id) => {
     history.push({
-      pathname: "/home/ledger-transaction",
+      pathname: '/home/ledger-transaction',
       state: ledgerData.filter((ledger) => ledger.id === id)[0],
     });
   };
@@ -212,10 +212,12 @@ function Ledgers({
 
   const handleOpenWhatsapp = () => {
     if (currentPerson?.phone_number) {
+      // can use this link for sending text as well
+      // https://api.whatsapp.com/send?phone={phone}&text={text}
       let URL = `https://wa.me/${currentPerson.phone_number}`;
       window.open(URL);
     } else {
-      showErrorSnackbar("This person does not have a phone number");
+      showErrorSnackbar('This person does not have a phone number');
     }
   };
 
@@ -233,7 +235,7 @@ function Ledgers({
       {!daybookView && (
         <div className={classes.root}>
           <SearchAndSelect
-            header="View Ledger"
+            header='View Ledger'
             currentPerson={currentPerson}
             personType={personType}
             setCurrentPerson={setCurrentPerson}
@@ -250,69 +252,66 @@ function Ledgers({
       )}
       <div className={classes.ledgerWrapper} ref={componentRef}>
         {!daybookView && (
-          <Grid container alignItems="center" justifyContent="space-between">
+          <Grid container alignItems='center' justifyContent='space-between'>
             <div>
               {currentPerson && (
                 <Typography>
                   {`${DB_TRANSLATION[currentPerson.person_type]} : `}
-                  <Typography component="span" fontWeight={700}>
+                  <Typography component='span' fontWeight={700}>
                     {currentPerson.label}
                   </Typography>
                 </Typography>
               )}
 
-              <Typography variant="body2">
-                Opening Balance:{" "}
+              <Typography variant='body2'>
+                Opening Balance:{' '}
                 {`${
                   Math.abs(openingBalance)
                     ? formatCurrency(openingBalance)
-                    : "---"
-                }${openingBalance < 0 ? " DB" : " CR"}`}
+                    : '---'
+                }${openingBalance < 0 ? ' DB' : ' CR'}`}
               </Typography>
-              <Typography variant="body2">{`Closing Balance: ${closingBalance}`}</Typography>
+              <Typography variant='body2'>{`Closing Balance: ${closingBalance}`}</Typography>
               {ledgerData.length > 0 && (
                 <>
-                  <Typography variant="body2">{`${ledgerData[0].date} - ${
+                  <Typography variant='body2'>{`${ledgerData[0].date} - ${
                     ledgerData[ledgerData.length - 2].date
                   }`}</Typography>
                   {chequeBalances.map((balance, index) => (
-                    <Typography variant="body2" color="error">
+                    <Typography variant='body2' color='error'>
                       {balance.text}: {balance.value}
                     </Typography>
                   ))}
                 </>
               )}
               <Button
-                variant="contained"
+                variant='contained'
                 onClick={() => setHideDetails(!hideDetails)}
                 disabled={ledgerData.length === 0}
-                sx={{ mt: 2, displayPrint: "none" }}
-                size="small"
-              >
-                {hideDetails ? "SHOW DETAILS" : "HIDE DETAILS"}
+                sx={{ mt: 2, displayPrint: 'none' }}
+                size='small'>
+                {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
               </Button>
             </div>
             <Grid item>
               <Button
                 onClick={handlePrint}
-                variant="contained"
-                size="medium"
-                color="secondary"
+                variant='contained'
+                size='medium'
+                color='secondary'
                 disabled={ledgerData.length === 0}
-                sx={{ displayPrint: "none", mr: 2 }}
-              >
+                sx={{ displayPrint: 'none', mr: 2 }}>
                 PRINT
               </Button>
 
               <Button
                 onClick={handleOpenWhatsapp}
-                variant="contained"
-                size="medium"
-                color="success"
+                variant='contained'
+                size='medium'
+                color='success'
                 disabled={ledgerData.length === 0}
-                sx={{ displayPrint: "none" }}
-                startIcon={<WhatsAppIcon />}
-              >
+                sx={{ displayPrint: 'none' }}
+                startIcon={<WhatsAppIcon />}>
                 Whatsapp
               </Button>
             </Grid>
@@ -326,7 +325,7 @@ function Ledgers({
               daybookView={daybookView}
               rows={ledgerData}
               onRowClick={onRowClick}
-              hoverProperty={"transaction"}
+              hoverProperty={'transaction'}
               handleEdit={handleEdit}
               handleDelete={handleDelete}
             />

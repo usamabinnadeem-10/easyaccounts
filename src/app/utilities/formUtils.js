@@ -120,7 +120,10 @@ export const FormDateField = ({
         maxDate={moment(Date.now()).add(10, 'years')}
         onChange={(value) => {
           setFieldTouched(name);
-          setFieldValue(name, moment(value).format('yyyy-MM-DD'));
+          let time = moment().format('HH:mm:ss');
+          let date = moment(value).format('yyyy-MM-DD');
+          let final = moment(date + ' ' + time).format('yyyy-MM-DD HH:mm:ss');
+          setFieldValue(name, final);
         }}
         label={props.label}
         inputFormat='DD/MM/yyyy'

@@ -66,7 +66,7 @@ function CustomerTransaction(props) {
         showAccountTypes={metaData.transactionType === 'paid'}
         natures={constants.NATURES}
         options={{
-          people: state.customers,
+          people: [...state.customers, ...state.suppliers],
           accountTypes: state.accountTypes,
           warehouse: state.warehouses,
           product: state.products,

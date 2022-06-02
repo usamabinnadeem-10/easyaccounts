@@ -1,17 +1,17 @@
-import React from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import CustomTable from "../CustomTable/CustomTable";
+import CustomTable from '../CustomTable/CustomTable';
 
-import { IconButton } from "@mui/material";
+import { IconButton } from '@mui/material';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
-import { convertCurrencyToNumber } from "../../utilities/stringUtils";
+import { convertCurrencyToNumber } from '../../utilities/stringUtils';
 
 function LedgerDetail({
   rows,
@@ -24,8 +24,8 @@ function LedgerDetail({
 }) {
   let COLUMNS = [
     {
-      accessor: "date",
-      Header: "Date",
+      accessor: 'date',
+      Header: 'Date',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
@@ -33,26 +33,26 @@ function LedgerDetail({
       ),
     },
     {
-      accessor: "transaction_serial",
-      Header: "Invoice #",
+      accessor: 'transaction_serial',
+      Header: 'Invoice #',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || "--"}
+          {row.value || '--'}
         </div>
       ),
     },
     {
-      accessor: "manual_invoice_serial",
-      Header: "Book #",
+      accessor: 'manual_invoice_serial',
+      Header: 'Book #',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || "--"}
+          {row.value || '--'}
         </div>
       ),
     },
     {
-      accessor: "detail",
-      Header: "Detail",
+      accessor: 'detail',
+      Header: 'Detail',
       Cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
@@ -60,27 +60,25 @@ function LedgerDetail({
       ),
     },
     {
-      accessor: "debit",
-      Header: "Debit (بنام)",
-      color: "#C91D22",
+      accessor: 'debit',
+      Header: 'Debit (بنام)',
+      color: '#C91D22',
       Cell: (row) => (
         <div
           className={classes.debit}
-          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
-        >
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
     },
     {
-      accessor: "credit",
-      Header: "Credit (جمع)",
-      color: "#00A465",
+      accessor: 'credit',
+      Header: 'Credit (جمع)',
+      color: '#00A465',
       Cell: (row) => (
         <div
           className={classes.credit}
-          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
-        >
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
@@ -91,10 +89,10 @@ function LedgerDetail({
     COLUMNS = [
       ...COLUMNS,
       {
-        accessor: "balance",
-        Header: "Balance",
+        accessor: 'balance',
+        Header: 'Balance',
         Cell: (row) => {
-          if (typeof row.row.id === "string") {
+          if (typeof row.row.id === 'string') {
             return (
               <div
                 className={`${
@@ -102,8 +100,7 @@ function LedgerDetail({
                     ? classes.debit
                     : classes.credit
                 }`}
-                onClick={row.row.id ? () => onRowClick(row.row.id) : null}
-              >
+                onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
                 {convertCurrencyToNumber(row.value) < 0
                   ? `${row.value.toString().substring(1)} DB`
                   : `${row.value} CR`}
@@ -121,8 +118,8 @@ function LedgerDetail({
     COLUMNS = [
       ...COLUMNS,
       {
-        accessor: "person_name",
-        Header: "Person",
+        accessor: 'person_name',
+        Header: 'Person',
         Cell: (row) => (
           <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
             {row.value}
@@ -135,16 +132,18 @@ function LedgerDetail({
   COLUMNS = [
     ...COLUMNS,
     {
-      accessor: "edit",
-      Header: "Edit",
+      accessor: 'edit',
+      Header: 'Edit',
       hideInPrint: true,
       Cell: (row) => {
         let values = row.row.original;
         if (
-          typeof row.row.id === "string" &&
+          typeof row.row.id === 'string' &&
           !values.transaction &&
           !values.external_cheque &&
-          !values.personal_cheque
+          !values.personal_cheque &&
+          !values.raw_debit &&
+          !values.raw_transaction
         ) {
           return (
             <IconButton onClick={() => handleEdit(row.row.id)}>
@@ -157,16 +156,18 @@ function LedgerDetail({
       },
     },
     {
-      accessor: "delete",
-      Header: "Delete",
+      accessor: 'delete',
+      Header: 'Delete',
       hideInPrint: true,
       Cell: (row) => {
         let values = row.row.original;
         if (
-          typeof row.row.id === "string" &&
+          typeof row.row.id === 'string' &&
           !values.transaction &&
           !values.external_cheque &&
-          !values.personal_cheque
+          !values.personal_cheque &&
+          !values.raw_debit &&
+          !values.raw_transaction
         ) {
           return (
             <IconButton onClick={() => handleDelete(row.row.id)}>
@@ -188,9 +189,9 @@ function LedgerDetail({
       setColumns(
         COLUMNS.filter(
           (column) =>
-            column.accessor !== "detail" &&
-            column.accessor !== "transaction_serial" &&
-            column.accessor !== "manual_invoice_serial"
+            column.accessor !== 'detail' &&
+            column.accessor !== 'transaction_serial' &&
+            column.accessor !== 'manual_invoice_serial'
         )
       );
     } else {

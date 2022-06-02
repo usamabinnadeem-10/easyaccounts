@@ -40,7 +40,7 @@ export const convertDate = (from, to, date) => {
 };
 
 export const getToday = () => {
-  return moment(Date.now()).format('YYYY-MM-DD');
+  return moment(Date.now()).format('YYYY-MM-DD HH:mm:ss');
 };
 
 export const convertCurrencyToNumber = (currency) => {
