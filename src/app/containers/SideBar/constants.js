@@ -339,17 +339,17 @@ export const getPersonForm = (essentials) => {
         options: essentials.areas,
         name: DB.AREA,
       },
-      {
-        label: 'City',
-        type: FIELDS.SELECT,
-        name: DB.CITY,
-        options: essentials.cities,
-      },
-      {
-        label: 'Business Name',
-        type: FIELDS.STRING,
-        name: DB.BUSINESS_NAME,
-      },
+      // {
+      //   label: 'City',
+      //   type: FIELDS.SELECT,
+      //   name: DB.CITY,
+      //   options: essentials.cities,
+      // },
+      // {
+      //   label: 'Business Name',
+      //   type: FIELDS.STRING,
+      //   name: DB.BUSINESS_NAME,
+      // },
       {
         label: 'Address',
         type: FIELDS.STRING,
@@ -370,13 +370,13 @@ export const getAreaForm = (essentials) => {
         name: DB.NAME,
         required: true,
       },
-      {
-        label: 'Area City',
-        type: FIELDS.SELECT,
-        name: DB.CITY,
-        options: essentials.cities,
-        required: true,
-      },
+      // {
+      //   label: 'Area City',
+      //   type: FIELDS.SELECT,
+      //   name: DB.CITY,
+      //   options: essentials.cities,
+      //   required: true,
+      // },
     ],
   };
 };
@@ -557,11 +557,11 @@ export const MODAL_DEFAULTS = {
         name: DB.NAME,
         required: true,
       },
-      {
-        label: 'Warehouse Location',
-        type: FIELDS.STRING,
-        name: DB.ADDRESS,
-      },
+      // {
+      //   label: 'Warehouse Location',
+      //   type: FIELDS.STRING,
+      //   name: DB.ADDRESS,
+      // },
     ],
   },
   [ACCOUNT]: {

@@ -1,10 +1,10 @@
-import React from "react";
+import React from 'react';
 
-import CustomDatePicker from "../CustomDatePicker/CustomDatePicker";
+import CustomDatePicker from '../CustomDatePicker/CustomDatePicker';
 
-import { Box } from "@mui/system";
+import { Box } from '@mui/system';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
 function StartEndDate({
   startDate,
@@ -17,17 +17,19 @@ function StartEndDate({
   return (
     <div className={classes.dateContainer}>
       <CustomDatePicker
-        placeholder={renderOnlySingleDate ? "Date" : "Start Date"}
+        placeholder={renderOnlySingleDate ? 'Date' : 'Start Date'}
         getDate={(date) => getStartDate(date)}
         value={startDate}
+        isStartDate
       />
       {!renderOnlySingleDate && (
         <>
-          <Box component="span" ml={2} />
+          <Box component='span' ml={2} />
           <CustomDatePicker
-            placeholder="End Date"
+            placeholder='End Date'
             getDate={(date) => getEndDate(date)}
             value={endDate}
+            isEndDate
           />
         </>
       )}
