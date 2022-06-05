@@ -85,6 +85,7 @@ const Transaction = ({
       <Formik
         initialValues={getInitialValues(transactionTypes, transaction)}
         validationSchema={schema}
+        enableReinitialize={!!transaction}
         onSubmit={(values, actions) => postTransaction(values, actions)}>
         {({
           values,

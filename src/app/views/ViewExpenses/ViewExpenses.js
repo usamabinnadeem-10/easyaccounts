@@ -1,41 +1,41 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from 'react-to-print';
 
-import ConfirmationModal from "../../components/ConfirmationModal/ConfirmationModal";
-import StartEndDate from "../../components/StartEndDate/StartEndDate";
-import ExpenseDetail from "../../components/ExpenseDetail/ExpenseDetail";
-import AddModal from "../../containers/AddModal/AddModal";
-import Empty from "../../components/Empty/Empty";
-import Heading from "../../components/Heading";
+import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
+import StartEndDate from '../../components/StartEndDate/StartEndDate';
+import ExpenseDetail from '../../components/ExpenseDetail/ExpenseDetail';
+import AddModal from '../../containers/AddModal/AddModal';
+import Empty from '../../components/Empty/Empty';
+import Heading from '../../components/Heading';
 
-import { Button } from "@mui/material";
-import { LoadingButton } from "@mui/lab";
-import { Grid } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
+import { Grid } from '@mui/material';
+import { Typography } from '@mui/material';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
-import { getExpenseForm } from "../../containers/FAB/constants";
+import { getExpenseForm } from '../../containers/FAB/constants';
 
-import instance from "../../../utils/axiosApi";
+import instance from '../../../utils/axiosApi';
 import {
   makeQueryParamURL,
   getURL,
   convertDate,
-} from "../../utilities/stringUtils";
-import { EXPENSE_URLS } from "../../../constants/restEndPoints";
-import { ERRORS, SUCCESS } from "./constants";
-import { formatExpensesData, getTotalExpenses } from "./utils";
+} from '../../utilities/stringUtils';
+import { EXPENSE_URLS } from '../../../constants/restEndPoints';
+import { ERRORS, SUCCESS } from './constants';
+import { formatExpensesData, getTotalExpenses } from './utils';
 
-import { convertCurrencyToNumber } from "../../utilities/stringUtils";
+import { convertCurrencyToNumber } from '../../utilities/stringUtils';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const ViewExpenses = ({
   daybookView,
@@ -52,7 +52,9 @@ const ViewExpenses = ({
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [expensesData, setExpensesData] = useState(
-    daybookView ? formatExpensesData(defaultExpenses) : []
+    daybookView
+      ? formatExpensesData(defaultExpenses, accounts, expenseAccounts)
+      : []
   );
   const [loading, setLoading] = useState(false);
 
@@ -75,7 +77,7 @@ const ViewExpenses = ({
       );
       instance
         .delete(
-          getURL(EXPENSE_URLS.DELETE_EXPENSE, "uuid", dialogueState.idToDelete)
+          getURL(EXPENSE_URLS.DELETE_EXPENSE, 'uuid', dialogueState.idToDelete)
         )
         .then((res) => {
           setExpensesData(newExpensesData);
@@ -106,11 +108,11 @@ const ViewExpenses = ({
     setLoading(true);
     const params = [
       startDate && {
-        key: "date__gte",
+        key: 'date__gte',
         value: startDate,
       },
       endDate && {
-        key: "date__lte",
+        key: 'date__lte',
         value: endDate,
       },
     ];
@@ -119,7 +121,11 @@ const ViewExpenses = ({
     instance
       .get(URL)
       .then((res) => {
-        let formattedExpenses = formatExpensesData(res.data);
+        let formattedExpenses = formatExpensesData(
+          res.data,
+          accounts,
+          expenseAccounts
+        );
         setExpensesData(formattedExpenses);
         setIsEmpty(formattedExpenses.length === 0);
         setTotalExpenses(getTotalExpenses(res.data));
@@ -135,13 +141,19 @@ const ViewExpenses = ({
 
   const edit = (data) => {
     instance
-      .put(getURL(EXPENSE_URLS.EDIT_EXPENSE, "uuid", data.id), data)
+      .put(getURL(EXPENSE_URLS.EDIT_EXPENSE, 'uuid', data.id), data)
       .then((res) => {
         let expenseIndexToEdit = expensesData.findIndex(
           (expense) => expense.id === res.data.id
         );
         let newExpenseData = [...expensesData];
-        newExpenseData[expenseIndexToEdit] = res.data;
+        newExpenseData[expenseIndexToEdit] = {
+          ...res.data,
+          expense: expenseAccounts[res.data.expense].label,
+          account_type: accounts[res.data.account_type].label,
+          expense_obj: expenseAccounts[res.data.expense],
+          account_type_obj: accounts[res.data.account_type],
+        };
         setExpensesData(newExpenseData);
         showSuccessSnackbar(SUCCESS.EDITED);
         setIsEditing(false);
@@ -157,12 +169,14 @@ const ViewExpenses = ({
     let expenseToEdit = expensesData.filter((expense) => expense.id === id)[0];
     setOldExpenseState({
       ...expenseToEdit,
-      date: convertDate("DD-MM-YYYY", "YYYY-MM-DD", expenseToEdit.date),
+      date: convertDate(
+        'DD-MM-YYYY HH:mm:ss',
+        'YYYY-MM-DD HH:mm:ss',
+        expenseToEdit.date
+      ),
       amount: convertCurrencyToNumber(expenseToEdit.amount),
-      account_type: expenseToEdit.account_type
-        ? accounts[expenseToEdit.account_type]
-        : null,
-      expense: expenseAccounts[expenseToEdit.expense],
+      account_type: expenseToEdit.account_type_obj,
+      expense: expenseToEdit.expense_obj,
     });
     let form = getExpenseForm(
       essentials.expenseAccounts,
@@ -204,7 +218,7 @@ const ViewExpenses = ({
       )}
       {!daybookView && (
         <div className={classes.root}>
-          <Heading heading={"View Expenses"} />
+          <Heading heading={'View Expenses'} />
 
           <div className={classes.dateContainer}>
             <StartEndDate
@@ -215,10 +229,9 @@ const ViewExpenses = ({
             />
             <LoadingButton
               onClick={() => search()}
-              variant="contained"
+              variant='contained'
               sx={{ fontWeight: 700 }}
-              loading={loading}
-            >
+              loading={loading}>
               Search
             </LoadingButton>
           </div>
@@ -229,20 +242,18 @@ const ViewExpenses = ({
           <Grid
             sx={{ mb: 2 }}
             container
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="body1" fontWeight={500}>
+            alignItems='center'
+            justifyContent='space-between'>
+            <Typography variant='body1' fontWeight={500}>
               {`Expenses (${expensesData[0].date}) - (${
                 expensesData[expensesData.length - 2].date
               })`}
             </Typography>
             <Button
-              sx={{ displayPrint: "none" }}
+              sx={{ displayPrint: 'none' }}
               onClick={handlePrint}
-              variant="contained"
-              color="secondary"
-            >
+              variant='contained'
+              color='secondary'>
               PRINT
             </Button>
           </Grid>

@@ -27,7 +27,7 @@ export const schema = Yup.object().shape({
       then: reqObjectSchema,
     }),
   [FIELDS.BOOK_NUM]: reqNumberSchema,
-  [FIELDS.BUILTY]: Yup.string(),
+  [FIELDS.BUILTY]: Yup.string().nullable(),
   [FIELDS.ACTION]: Yup.boolean().required(REQUIRED),
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,
   [FIELDS.PAID_AMOUNT]: numberSchemaNotRequired,

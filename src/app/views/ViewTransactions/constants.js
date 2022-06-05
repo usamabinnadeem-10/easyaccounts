@@ -8,8 +8,10 @@ export const SUCCESS = {
 };
 
 export const REDIRECTS = {
-  C: '/home/customer-transaction',
-  S: '/home/supplier-transaction',
+  INV: '/home/customer-transaction',
+  MWC: '/home/customer-transaction',
+  SUP: '/home/supplier-transaction',
+  MWS: '/home/supplier-transaction',
 };
 
 export const DIALOGUE_INIT = {

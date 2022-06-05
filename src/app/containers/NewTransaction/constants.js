@@ -16,7 +16,6 @@ export const FIELDS = {
   // ----------------TRANS DETAIL ---------------- //
   TRANS_DETAIL: 'transaction_detail',
   ID: 'id',
-  NEW: 'new',
   PRODUCT: 'product',
   GAZAANA: 'yards_per_piece',
   QTY: 'quantity',

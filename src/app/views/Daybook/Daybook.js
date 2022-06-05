@@ -1,25 +1,25 @@
-import React from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import ChequeList from "../../components/ChequeList";
-import CustomDatePicker from "../../components/CustomDatePicker/CustomDatePicker";
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import Ledgers from "../Ledgers/Ledgers";
-import ViewTransactions from "../ViewTransactions/ViewTransactions";
-import ViewExpenses from "../ViewExpenses/ViewExpenses";
-import AccountTypeCard from "../../components/AccountTypeCard/AccountTypeCard";
-import ChequeHistoryTable from "../../components/ChequeHistoryTable";
+import ChequeList from '../../components/ChequeList';
+import CustomDatePicker from '../../components/CustomDatePicker/CustomDatePicker';
+import CustomLoader from '../../components/CustomLoader/CustomLoader';
+import Ledgers from '../Ledgers/Ledgers';
+import ViewTransactions from '../ViewTransactions/ViewTransactions';
+import ViewExpenses from '../ViewExpenses/ViewExpenses';
+import AccountTypeCard from '../../components/AccountTypeCard/AccountTypeCard';
+import ChequeHistoryTable from '../../components/ChequeHistoryTable';
 
-import { Button } from "@mui/material";
-import { Typography } from "@mui/material";
+import { Button } from '@mui/material';
+import { Typography } from '@mui/material';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
-import moment from "moment";
-import { getDaybook } from "../../../store/accounts/actions";
+import moment from 'moment';
+import { getDaybook } from '../../../store/accounts/actions';
 
 const Daybook = (props) => {
   const classes = useStyles();
@@ -38,9 +38,9 @@ const Daybook = (props) => {
   useEffect(() => {
     if (date) {
       dispatch(getDaybook(date));
-      setDisplayDate(moment(date, "YYYY-MM-DD").format("Do MMMM YYYY"));
+      setDisplayDate(moment(date, 'YYYY-MM-DD').format('Do MMMM YYYY'));
     } else {
-      setDisplayDate(moment().format("Do MMMM YYYY"));
+      setDisplayDate(moment().format('Do MMMM YYYY'));
     }
   }, [date]);
 
@@ -51,28 +51,28 @@ const Daybook = (props) => {
       ) : (
         <div className={classes.root}>
           <div className={classes.header}>
-            <Typography variant="h5" fontWeight={900}>
+            <Typography variant='h5' fontWeight={900}>
               Daybook for {displayDate}
             </Typography>
             <div>
               <Button
-                variant="contained"
-                size="small"
+                variant='contained'
+                size='small'
                 sx={{ mr: 2 }}
-                onClick={() => dispatch(getDaybook(date))}
-              >
+                onClick={() => dispatch(getDaybook(date))}>
                 REFRESH
               </Button>
               <CustomDatePicker
                 fullWidth={false}
-                placeholder="Date"
+                placeholder='Date'
                 getDate={(date) => setDate(date)}
                 value={date}
+                isEndDate
               />
             </div>
           </div>
 
-          <Typography variant="button" fontWeight={900} sx={{ mb: 2 }}>
+          <Typography variant='button' fontWeight={900} sx={{ mb: 2 }}>
             Account Balances
           </Typography>
           <div className={classes.accountTypesWrapper}>
@@ -91,7 +91,7 @@ const Daybook = (props) => {
 
           {daybookData.transactions.length > 0 && (
             <>
-              <Typography variant="button" fontWeight={900} sx={{ mb: 1 }}>
+              <Typography variant='button' fontWeight={900} sx={{ mb: 1 }}>
                 Transactions
               </Typography>
               <ViewTransactions
@@ -105,10 +105,9 @@ const Daybook = (props) => {
           {daybookData.expenses.length > 0 && (
             <>
               <Typography
-                variant="button"
+                variant='button'
                 fontWeight={900}
-                sx={{ mt: 1, mb: 3 }}
-              >
+                sx={{ mt: 1, mb: 3 }}>
                 Expenses
               </Typography>
               <ViewExpenses
@@ -122,10 +121,9 @@ const Daybook = (props) => {
           {daybookData.ledgers.length > 0 && (
             <>
               <Typography
-                variant="button"
+                variant='button'
                 fontWeight={900}
-                sx={{ mt: 3, mb: 1 }}
-              >
+                sx={{ mt: 3, mb: 1 }}>
                 Ledgers
               </Typography>
               <Ledgers
@@ -138,10 +136,9 @@ const Daybook = (props) => {
           {daybookData.externalCheques.length > 0 && (
             <>
               <Typography
-                variant="button"
+                variant='button'
                 fontWeight={900}
-                sx={{ mt: 3, mb: 1 }}
-              >
+                sx={{ mt: 3, mb: 1 }}>
                 Party Cheques
               </Typography>
               <ChequeList
@@ -155,10 +152,9 @@ const Daybook = (props) => {
           {daybookData.externalChequesHistory.length > 0 && (
             <>
               <Typography
-                variant="button"
+                variant='button'
                 fontWeight={900}
-                sx={{ mt: 3, mb: 1 }}
-              >
+                sx={{ mt: 3, mb: 1 }}>
                 Party Cheques History
               </Typography>
               <ChequeHistoryTable
@@ -170,10 +166,9 @@ const Daybook = (props) => {
           {daybookData.personalCheques.length > 0 && (
             <>
               <Typography
-                variant="button"
+                variant='button'
                 fontWeight={900}
-                sx={{ mt: 3, mb: 1 }}
-              >
+                sx={{ mt: 3, mb: 1 }}>
                 Personal Cheques
               </Typography>
               <ChequeList

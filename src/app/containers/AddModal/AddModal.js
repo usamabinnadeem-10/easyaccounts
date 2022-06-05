@@ -13,10 +13,10 @@ import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 import Paper from '@mui/material/Paper';
-import TextField from '@mui/material/TextField';
+// import TextField from '@mui/material/TextField';
 import { LoadingButton } from '@mui/lab';
 
-import { useStyles } from './styles';
+import { useStyles, StyledTextField } from './styles';
 import { FIELDS } from '../../../constants/fieldTypes';
 // import { resetAdded } from "../../../store/essentials/actions";
 
@@ -124,7 +124,7 @@ const AddModal = ({
                     }
                   }}
                   renderInput={(params) => (
-                    <TextField
+                    <StyledTextField
                       {...params}
                       variant='outlined'
                       label={field.label}
@@ -157,7 +157,7 @@ const AddModal = ({
                 autoFormat={false}
               />
             ) : (
-              <TextField
+              <StyledTextField
                 error={error && field.required && !state[field.name]}
                 multiline={field.type !== FIELDS.NUMBER}
                 value={state[field.name] || ''}

@@ -90,7 +90,7 @@ const TransactionBody = ({
 
   useEffect(() => {
     setValidate(
-      transactionTypes.filter((type) => type.value === values.type)[0].validate
+      transactionTypes.filter((type) => type.value === values.type)[0]?.validate
     );
   }, [values.type, transactionTypes]);
 
@@ -197,9 +197,9 @@ const TransactionBody = ({
   // add new row helper
   const getNewRow = (rowIndex) => {
     let data = values.transaction_detail[rowIndex];
-    if (transaction) {
-      data = { ...data, id: null, new: true };
-    }
+    // if (transaction) {
+    //   data = { ...data, id: null, new: true };
+    // }
     return data;
   };
 

@@ -39,7 +39,11 @@ function CustomerTransaction(props) {
         requiresAction: data.requires_action,
       });
       setTransactions(data.transaction_detail);
-      setTransaction({ ...data, amount_paid: location.state.paid_amount });
+      setTransaction({
+        ...data,
+        account_type: location.state.account_type,
+        amount_paid: location.state.paid_amount,
+      });
     }
   }, []);
 

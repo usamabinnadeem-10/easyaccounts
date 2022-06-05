@@ -123,11 +123,10 @@ function ViewTransactions({
     let transactionToEdit = transactionDataRaw.filter(
       (transaction) => transaction.id === id
     )[0];
-    console.log(transactionToEdit);
     let account = accounts?.[transactionToEdit.account_type];
     let person = persons[transactionToEdit.person];
     history.push({
-      pathname: REDIRECTS[person.person_type],
+      pathname: REDIRECTS[transactionToEdit.manual_serial_type],
       state: {
         transaction: {
           ...transactionToEdit,

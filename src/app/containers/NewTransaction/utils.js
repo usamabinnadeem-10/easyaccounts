@@ -53,8 +53,8 @@ export const formatDataForPosting = (values, natures, prefixes) => {
     account_type: values.account_type?.value,
     transaction_detail: values.transaction_detail.map((data) => {
       return {
-        id: data.id,
-        new: data.new,
+        // id: data.id,
+        // new: data.new,
         product: data.product.value,
         yards_per_piece: data.yards_per_piece.value,
         quantity: data.quantity,
