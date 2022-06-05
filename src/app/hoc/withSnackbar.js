@@ -11,7 +11,7 @@ export const withSnackbar = (Component) => {
     const [duration, setDuration] = useState(2000);
     const [severity, setSeverity] = useState('success');
 
-    const showSnackbar = (message, severity = 'success', duration = 10000) => {
+    const showSnackbar = (message, severity = 'success', duration = 5000) => {
       setMessage(message);
       setSeverity(severity);
       setDuration(duration);

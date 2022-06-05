@@ -1,8 +1,8 @@
-import * as Yup from "yup";
+import * as Yup from 'yup';
 
-import { ACTION_TYPES } from "./constants";
+import { ACTION_TYPES } from './constants';
 
-const REQUIRED = "required";
+const REQUIRED = 'required';
 const defaultSchema = Yup.object().shape({
   cheque: Yup.string().required(REQUIRED),
 });
@@ -19,15 +19,27 @@ const accountSchema = defaultSchema.concat(
   })
 );
 
+const personAndDateSchema = personSchema.concat(
+  Yup.object().shape({
+    date: Yup.date().required(REQUIRED),
+  })
+);
+
+const defaultAndDateSchema = defaultSchema.concat(
+  Yup.object().shape({
+    date: Yup.date().required(REQUIRED),
+  })
+);
+
 export const getSchema = (isPersonal, actionType) => {
   if (isPersonal) {
     switch (actionType) {
-      case ACTION_TYPES.PERSONAL.PASS ||
-        ACTION_TYPES.PERSONAL.CANCEL ||
-        ACTION_TYPES.PERSONAL.RETURN:
+      case ACTION_TYPES.PERSONAL.PASS || ACTION_TYPES.PERSONAL.CANCEL:
         return defaultSchema;
+      case ACTION_TYPES.PERSONAL.RETURN:
+        return defaultAndDateSchema;
       case ACTION_TYPES.PERSONAL.RE_ISSUE:
-        return personSchema;
+        return personAndDateSchema;
       default:
         return defaultSchema;
     }
@@ -36,10 +48,10 @@ export const getSchema = (isPersonal, actionType) => {
       case ACTION_TYPES.EXTERNAL.PASS:
         return accountSchema;
       case ACTION_TYPES.EXTERNAL.TRANSFER:
-        return personSchema;
+        return personAndDateSchema;
       case ACTION_TYPES.EXTERNAL.RETURN ||
         ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED:
-        return defaultSchema;
+        return defaultAndDateSchema;
       default:
         return defaultSchema;
     }

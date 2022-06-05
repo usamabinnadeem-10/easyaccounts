@@ -26,6 +26,7 @@ import { StyledButton } from './styled';
 import { BANKS } from '../../../constants/banks';
 import { withSnackbar } from '../../hoc/withSnackbar';
 import { findErrorMessage } from '../../utilities/objectUtils';
+import { convertDate } from '../../utilities/stringUtils';
 
 import { formatValues } from '../ChequeForm/utils';
 
@@ -44,7 +45,17 @@ const CreateChequeHistory = ({
   const handleSubmit = (values, actions) => {
     setLoading(true);
     api
-      .createChequeHistory(formatValues(values), isChequeEntry)
+      .createChequeHistory(
+        {
+          ...formatValues(values),
+          due_date: convertDate(
+            'yyyy-MM-DD HH:mm:ss',
+            'yyyy-MM-DD',
+            values.due_date
+          ),
+        },
+        isChequeEntry
+      )
       .then((response) => {
         setLoading(false);
         props.showSuccessSnackbar('Added successfully');

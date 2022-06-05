@@ -1,30 +1,34 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { Formik } from "formik";
-import { Field } from "formik";
+import { Formik } from 'formik';
+import { Field } from 'formik';
 
-import Grid from "@mui/material/Grid";
-import Modal from "@mui/material/Modal";
-import Typography from "@mui/material/Typography";
+import Grid from '@mui/material/Grid';
+import Modal from '@mui/material/Modal';
+import Typography from '@mui/material/Typography';
 
-import { FormAutoCompleteField } from "../../utilities/formUtils";
+import {
+  FormAutoCompleteField,
+  FormDateField,
+} from '../../utilities/formUtils';
 
-import { API_MAPPING } from "./api";
-import { ACTION_TYPES } from "./constants";
-import { FIELDS } from "./constants";
-import { getInitialValues } from "./constants";
-import { getSchema } from "./validation";
-import { StyledButton } from "./styled";
-import { StyledPaper } from "./styled";
-import { StyledForm } from "./styled";
+import { API_MAPPING } from './api';
+import { ACTION_TYPES } from './constants';
+import { FIELDS } from './constants';
+import { getInitialValues } from './constants';
+import { getSchema } from './validation';
+import { StyledButton } from './styled';
+import { StyledPaper } from './styled';
+import { StyledForm } from './styled';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
-import { findErrorMessage } from "../../utilities/objectUtils";
+import { withSnackbar } from '../../hoc/withSnackbar';
+import { findErrorMessage } from '../../utilities/objectUtils';
 
-import { formatValues } from "../ChequeForm/utils";
+import { formatValues } from '../ChequeForm/utils';
+import { ACTIONS } from '../SideBar/constants';
 
 const ChequeActions = ({
   open,
@@ -57,40 +61,90 @@ const ChequeActions = ({
 
   const getActionComponents = (setFieldValue) => {
     if (isPersonal) {
-      switch (actionType) {
-        case ACTION_TYPES.PERSONAL.PASS ||
-          ACTION_TYPES.PERSONAL.CANCEL ||
-          ACTION_TYPES.PERSONAL.RETURN:
-          return <></>;
-        case ACTION_TYPES.PERSONAL.RE_ISSUE:
-          return (
+      if (
+        actionType === ACTION_TYPES.PERSONAL.PASS ||
+        actionType === ACTION_TYPES.PERSONAL.CANCEL
+      ) {
+        return <></>;
+      } else if (actionType === ACTION_TYPES.PERSONAL.RETURN) {
+        return (
+          <Field
+            component={FormDateField}
+            name={FIELDS.DATE}
+            label='Return Date'
+          />
+        );
+      } else if (actionType === ACTION_TYPES.PERSONAL.RE_ISSUE) {
+        return (
+          <>
+            <Field
+              component={FormDateField}
+              name={FIELDS.DATE}
+              label='Re-issue date'
+            />
             <Field
               component={FormAutoCompleteField}
               options={[...suppliers, ...customers]}
               name={FIELDS.PERSON}
-              label="Select Party"
+              label='Select Party'
             />
-          );
-        default:
-          return <></>;
+          </>
+        );
+      } else {
+        return <></>;
       }
+      // switch (actionType) {
+      //   case ACTION_TYPES.PERSONAL.PASS || ACTION_TYPES.PERSONAL.CANCEL:
+      //     return <></>;
+      //   case ACTION_TYPES.PERSONAL.RETURN:
+      //     return (
+      //       <Field
+      //         component={FormDateField}
+      //         name={FIELDS.DATE}
+      //         label='Return Date'
+      //       />
+      //     );
+      //   case ACTION_TYPES.PERSONAL.RE_ISSUE:
+      //     return (
+      //       <>
+      //         <Field
+      //           component={FormDateField}
+      //           name={FIELDS.DATE}
+      //           label='Re-issue date'
+      //         />
+      //         <Field
+      //           component={FormAutoCompleteField}
+      //           options={[...suppliers, ...customers]}
+      //           name={FIELDS.PERSON}
+      //           label='Select Party'
+      //         />
+      //       </>
+      //     );
+      //   default:
+      //     return <></>;
+      // }
     } else {
-      switch (actionType) {
-        case ACTION_TYPES.EXTERNAL.PASS:
-          return (
+      if (actionType === ACTION_TYPES.EXTERNAL.PASS) {
+        return (
+          <Field
+            component={FormAutoCompleteField}
+            options={accounts}
+            name={FIELDS.ACCOUNT_TYPE}
+            label='Select Account'
+          />
+        );
+      } else if (actionType === ACTION_TYPES.EXTERNAL.TRANSFER) {
+        return (
+          <>
             <Field
-              component={FormAutoCompleteField}
-              options={accounts}
-              name={FIELDS.ACCOUNT_TYPE}
-              label="Select Account"
+              component={FormDateField}
+              name={FIELDS.DATE}
+              label='Transfer date'
             />
-          );
-        case ACTION_TYPES.EXTERNAL.TRANSFER:
-          return (
             <Field
               onChange={(event, value, reason) => {
-                if (reason === "clear" || !value) {
-                  setFieldValue(FIELDS.PERSON, "");
+                if (reason === 'clear' || !value) {
+                  setFieldValue(FIELDS.PERSON, '');
                 } else {
                   setFieldValue(FIELDS.PERSON, value?.value);
                 }
@@ -98,45 +152,55 @@ const ChequeActions = ({
               component={FormAutoCompleteField}
               options={[...suppliers, ...customers]}
               name={FIELDS.PERSON}
-              label="Select Party"
+              label='Select Party'
             />
-          );
-        case ACTION_TYPES.EXTERNAL.RETURN ||
-          ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED ||
-          ACTION_TYPES.EXTERNAL.COMPLETE_HISTORY:
-          return <></>;
-        default:
-          return <></>;
+          </>
+        );
+      } else if (
+        actionType === ACTION_TYPES.EXTERNAL.RETURN ||
+        actionType === ACTION_TYPES.EXTERNAL.RETURN_TRANSFERRED
+      ) {
+        return (
+          <Field
+            component={FormDateField}
+            name={FIELDS.DATE}
+            label='Return date'
+          />
+        );
+      } else if (actionType === ACTION_TYPES.EXTERNAL.COMPLETE_HISTORY) {
+        return <></>;
+      } else {
+        return <></>;
       }
     }
   };
 
   return (
-    <Modal paper="true" open={open} onClose={onClose}>
+    <Modal paper='true' open={open} onClose={onClose}>
       <StyledPaper>
-        <Typography variant="h6">
-          {actionType ? actionType.replaceAll("_", " ") : ""}
+        <Typography variant='h6'>
+          {actionType ? actionType.replaceAll('_', ' ') : ''}
         </Typography>
         {chequeId && (
           <Formik
             onSubmit={async (values, actions) => handleSubmit(values, actions)}
             enableReinitialize
             initialValues={getInitialValues(isPersonal, actionType, chequeId)}
-            validationSchema={getSchema(isPersonal, actionType)}
-          >
+            validationSchema={getSchema(isPersonal, actionType)}>
             {({ setFieldValue }) => (
               <StyledForm>
-                {getActionComponents(setFieldValue)}
+                <Grid container direction='column' gap={2}>
+                  {getActionComponents(setFieldValue)}
+                </Grid>
 
-                <Grid container justify="space-between">
+                <Grid container justify='space-between'>
                   <Grid item xs={5}>
                     <StyledButton
                       onClick={() => onClose()}
-                      variant="contained"
+                      variant='contained'
                       fullWidth
                       disabled={loading}
-                      color="error"
-                    >
+                      color='error'>
                       Close
                     </StyledButton>
                   </Grid>
@@ -144,11 +208,10 @@ const ChequeActions = ({
                   <Grid item xs={5}>
                     <StyledButton
                       loading={loading}
-                      type="submit"
-                      variant="contained"
-                      fullWidth
-                    >
-                      {actionType ? actionType.replaceAll("_", " ") : ""}
+                      type='submit'
+                      variant='contained'
+                      fullWidth>
+                      {actionType ? actionType.replaceAll('_', ' ') : ''}
                     </StyledButton>
                   </Grid>
                 </Grid>
