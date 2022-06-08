@@ -122,7 +122,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
                   <ListItemButton
                     onClick={() => handleOpen(index)}
                     disableRipple>
-                    <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon>
+                    {/* <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon> */}
                     <ListItemText primary={panel.panelName} />
                     {open.panel === index && open.expand ? (
                       <ExpandLess />
@@ -154,9 +154,9 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
                               key={index}
                               sx={{ pl: 4 }}
                               disableRipple>
-                              <ListItemIcon>
+                              {/* <ListItemIcon>
                                 {getIcon(panelData.name)}
-                              </ListItemIcon>
+                              </ListItemIcon> */}
                               <ListItemText primary={panelData.name} />
                             </ListItemButton>
                           </PermissionGate>

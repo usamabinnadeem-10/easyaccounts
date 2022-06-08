@@ -22,6 +22,7 @@ const RawDebit = lazy(() => import('../app/views/Raw/RawDebit'));
 const RawTransfer = lazy(() => import('../app/views/Raw/RawTransfer'));
 const StockTransfer = lazy(() => import('../app/views/StockTransfer'));
 const ViewTransfers = lazy(() => import('../app/views/ViewTransfers'));
+const Payment = lazy(() => import('../app/views/Payment'));
 const ProductPerformance = lazy(() =>
   import('../app/views/ProductPerformance')
 );
@@ -117,5 +118,9 @@ export const authenticatedRoutes = [
   {
     component: ViewTransfers,
     path: url.VIEW_TRANSFERS,
+  },
+  {
+    component: Payment,
+    path: url.PAYMENT_ROUTE,
   },
 ];

@@ -143,3 +143,13 @@ export const RAW_APIS = {
     LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
   },
 };
+
+const PAYMENT = 'payments/';
+export const PAYMENT_APIS = {
+  CREATE: {
+    PAYMENT: `${PAYMENT}${CREATE}`,
+  },
+  LIST: {
+    PAYMENT: `${PAYMENT}${LIST}`,
+  },
+};

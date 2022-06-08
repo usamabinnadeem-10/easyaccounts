@@ -33,6 +33,10 @@ export const CUSTOMER_TRANSACTION = 'Sale';
 export const LEDGER = 'Ledgers';
 export const LEDGER_ENTRY = 'Ledger Entry';
 
+// ----------------------LEDGERS--------------------------- //
+export const PAYMENT = 'Payment';
+export const PAYMENT_ENTRY = 'Payment Entry';
+
 // ----------------------EXPENSES--------------------------- //
 export const EXPENSES = 'Expenses';
 export const EXPENSE_ENTRY = 'Expense Entry';
@@ -140,10 +144,23 @@ export const SIDEBAR = [
         name: VIEW,
         route: routes.LEDGERS,
       },
+      // {
+      //   name: LEDGER_ENTRY,
+      //   route: routes.LEDGER_TRANSACTION,
+      // },
+    ],
+  },
+  {
+    panelName: PAYMENT,
+    panelData: [
       {
-        name: LEDGER_ENTRY,
-        route: routes.LEDGER_TRANSACTION,
+        name: PAYMENT_ENTRY,
+        route: routes.PAYMENT_ROUTE,
       },
+      // {
+      //   name: LEDGER_ENTRY,
+      //   route: routes.LEDGER_TRANSACTION,
+      // },
     ],
   },
   // ----------------EXPENSES---------------//

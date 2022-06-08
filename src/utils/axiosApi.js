@@ -1,13 +1,13 @@
-import axios from "axios";
+import axios from 'axios';
 
-import { BASE } from "../constants/restEndPoints";
+import { BASE } from '../constants/restEndPoints';
 
-import createAuthRefreshInterceptor from "axios-auth-refresh";
+import createAuthRefreshInterceptor from 'axios-auth-refresh';
 
 export const cscInstance = axios.create({
-  baseURL: "https://api.countrystatecity.in/v1/",
+  baseURL: 'https://api.countrystatecity.in/v1/',
   headers: {
-    "X-CSCAPI-KEY": "a1pZdWUxNk9wbmFrcnNHWlJPYnNpanhvQVhyenN0c0NFeFZPNENxcA==",
+    'X-CSCAPI-KEY': 'a1pZdWUxNk9wbmFrcnNHWlJPYnNpanhvQVhyenN0c0NFeFZPNENxcA==',
   },
 });
 
@@ -16,11 +16,11 @@ const instance = axios.create({
 });
 
 export const setHeaders = () => {
-  const token = localStorage.getItem("access");
+  const token = localStorage.getItem('access');
   if (token) {
-    instance.defaults.headers.common["Authorization"] = "Bearer " + token;
+    instance.defaults.headers.common['Authorization'] = 'Bearer ' + token;
   } else {
-    instance.defaults.headers.common["Authorization"] = null;
+    instance.defaults.headers.common['Authorization'] = null;
   }
 };
 
@@ -30,11 +30,11 @@ export const setHeaders = () => {
 
 const refreshAuthLogic = (failedRequest) => {
   return instance
-    .post("/auth/token/refresh/", {
-      refresh: localStorage.getItem("refresh"),
+    .post('/auth/token/refresh/', {
+      refresh: localStorage.getItem('refresh'),
     })
     .then((tokenRefreshResponse) => {
-      localStorage.setItem("access", tokenRefreshResponse.data.access);
+      localStorage.setItem('access', tokenRefreshResponse.data.access);
       failedRequest.response.config.headers.Authorization = `Bearer ${tokenRefreshResponse.data.access}`;
       setHeaders();
       return Promise.resolve();

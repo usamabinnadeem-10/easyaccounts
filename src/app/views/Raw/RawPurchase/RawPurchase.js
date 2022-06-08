@@ -98,7 +98,6 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
 
   const handleSubmit = (values, actions) => {
     let { isValid, error } = utils.isFormValid(values);
-    console.log(isValid, error);
     if (isValid) {
       let data = utils.formatBeforeSubmit(values);
       setIsLoading(true);

@@ -32,14 +32,19 @@ export const schema = Yup.object().shape({
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,
   [FIELDS.PAID_AMOUNT]: numberSchemaNotRequired,
   [FIELDS.DETAIL]: Yup.string().nullable(true),
-  [FIELDS.TRANS_DETAIL]: Yup.array().of(
-    Yup.object().shape({
-      [FIELDS.ID]: Yup.string().nullable(true),
-      [FIELDS.PRODUCT]: reqObjectSchema,
-      [FIELDS.GAZAANA]: reqObjectSchema,
-      [FIELDS.WAREHOUSE]: reqObjectSchema,
-      [FIELDS.RATE]: postiveNumberSchema,
-      [FIELDS.QTY]: postiveNumberSchema,
-    })
-  ),
+  [FIELDS.TRANS_DETAIL]: Yup.array()
+    .of(
+      Yup.object().shape({
+        // [FIELDS.ID]: Yup.string().nullable(true),
+        [FIELDS.PRODUCT]: reqObjectSchema,
+        [FIELDS.GAZAANA]: reqObjectSchema,
+        [FIELDS.WAREHOUSE]: reqObjectSchema,
+        [FIELDS.RATE]: postiveNumberSchema,
+        [FIELDS.QTY]: postiveNumberSchema,
+      })
+    )
+    .unique(
+      [FIELDS.PRODUCT, FIELDS.GAZAANA, FIELDS.WAREHOUSE],
+      'Please use unique entries'
+    ),
 });
