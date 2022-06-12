@@ -145,9 +145,14 @@ export const RAW_APIS = {
 };
 
 const PAYMENT = 'payments/';
+const IMAGE = 'image/';
 export const PAYMENT_APIS = {
   CREATE: {
     PAYMENT: `${PAYMENT}${CREATE}`,
+    IMAGE: `${PAYMENT}${IMAGE}${CREATE}`,
+  },
+  DELETE: {
+    IMAGE: `${PAYMENT}${IMAGE}${DELETE}:uuid/`,
   },
   LIST: {
     PAYMENT: `${PAYMENT}${LIST}`,

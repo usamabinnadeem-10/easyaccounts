@@ -19,8 +19,9 @@ import { FormTextField } from '../../utilities/formUtils';
 import ImageUpload from '../../components/ImageUpload';
 
 import * as constants from './constants';
+import { formatPaymentDataForPosting } from './utils';
 import { schema } from './validation';
-import { createPaymentApi } from './api';
+import * as api from './api';
 
 const Row = ({ children }) => {
   return (
@@ -38,16 +39,23 @@ const Payment = () => {
   const essentials = useSelector((state) => state.essentials);
   const [images, setImages] = useState([]);
 
-  const handleSubmit = (values) => {
-    createPaymentApi(values).then((response) => {
-      console.log(response.data);
+  const convertImagesToFiles = (images) => {
+    let formData = new FormData();
+    images.forEach((img) => {
+      formData.append(`images`, img.file);
     });
+    return formData;
   };
 
-  async function formatImageArray(images, setFieldValue) {
-    let imgs = images.map((img) => img.file);
-    setFieldValue('images', imgs);
-  }
+  const handleSubmit = (values) => {
+    api.uploadImageApi(convertImagesToFiles(images)).then((response) => {
+      api
+        .createPaymentApi(
+          formatPaymentDataForPosting(values, response.data.image_ids)
+        )
+        .then((response) => {});
+    });
+  };
 
   return (
     <ViewWrapper>
@@ -92,10 +100,7 @@ const Payment = () => {
               </Row>
               <Grid item xs={12}>
                 <ImageUpload
-                  onImageUpload={(images) => {
-                    setImages(images);
-                    formatImageArray(images, setFieldValue);
-                  }}
+                  onImageUpload={setImages}
                   maxImages={5}
                   images={images}
                 />

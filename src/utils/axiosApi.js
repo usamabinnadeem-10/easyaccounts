@@ -45,7 +45,8 @@ const refreshAuthLogic = (failedRequest) => {
 };
 
 createAuthRefreshInterceptor(instance, refreshAuthLogic, {
-  skipWhileRefreshing: true,
+  // skipWhileRefreshing: true, commented out because deprecated, using pauseInstanceWhileRefreshing
+  pauseInstanceWhileRefreshing: true,
 });
 
 export default instance;

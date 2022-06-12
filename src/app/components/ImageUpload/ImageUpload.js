@@ -35,7 +35,7 @@ const ImageUpload = ({
       onChange={handleImageUpload}
       maxNumber={maxImages}
       dataURLKey='data_url'
-      acceptType={['jpg', 'png']}
+      acceptType={['jpg', 'png', 'jpeg']}
       maxFileSize={maxFileSize}
       onError={(errors) => {
         showErrorSnackbar(getImageError(errors, maxFileSize, maxImages));
