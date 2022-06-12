@@ -205,9 +205,16 @@ function Ledgers({
   };
 
   const loadMoreData = () => {
-    instance.get(nextPage).then((response) => {
-      handleFormattingLedger(response, true);
-    });
+    setLoading(true);
+    instance
+      .get(nextPage)
+      .then((response) => {
+        handleFormattingLedger(response, true);
+        setLoading(false);
+      })
+      .catch((error) => {
+        setLoading(false);
+      });
   };
 
   const handleOpenWhatsapp = () => {
@@ -332,7 +339,12 @@ function Ledgers({
           )}
         </div>
         {nextPage && !daybookView && (
-          <Button sx={{ mb: 3 }} onClick={() => loadMoreData()} fullWidth>
+          <Button
+            disabled={loading}
+            sx={{ mb: 3 }}
+            variant='contained'
+            onClick={() => loadMoreData()}
+            fullWidth>
             LOAD MORE
           </Button>
         )}

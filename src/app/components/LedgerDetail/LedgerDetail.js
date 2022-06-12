@@ -32,24 +32,24 @@ function LedgerDetail({
         </div>
       ),
     },
-    {
-      accessor: 'transaction_serial',
-      Header: 'Invoice #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || '--'}
-        </div>
-      ),
-    },
-    {
-      accessor: 'manual_invoice_serial',
-      Header: 'Book #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || '--'}
-        </div>
-      ),
-    },
+    // {
+    //   accessor: 'transaction_serial',
+    //   Header: 'Invoice #',
+    //   Cell: (row) => (
+    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+    //       {row.value || '--'}
+    //     </div>
+    //   ),
+    // },
+    // {
+    //   accessor: 'manual_invoice_serial',
+    //   Header: 'Book #',
+    //   Cell: (row) => (
+    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+    //       {row.value || '--'}
+    //     </div>
+    //   ),
+    // },
     {
       accessor: 'detail',
       Header: 'Detail',
@@ -129,57 +129,57 @@ function LedgerDetail({
     ];
   }
 
-  COLUMNS = [
-    ...COLUMNS,
-    {
-      accessor: 'edit',
-      Header: 'Edit',
-      hideInPrint: true,
-      Cell: (row) => {
-        let values = row.row.original;
-        if (
-          typeof row.row.id === 'string' &&
-          !values.transaction &&
-          !values.external_cheque &&
-          !values.personal_cheque &&
-          !values.raw_debit &&
-          !values.raw_transaction
-        ) {
-          return (
-            <IconButton onClick={() => handleEdit(row.row.id)}>
-              <EditIcon />
-            </IconButton>
-          );
-        } else {
-          return <div></div>;
-        }
-      },
-    },
-    {
-      accessor: 'delete',
-      Header: 'Delete',
-      hideInPrint: true,
-      Cell: (row) => {
-        let values = row.row.original;
-        if (
-          typeof row.row.id === 'string' &&
-          !values.transaction &&
-          !values.external_cheque &&
-          !values.personal_cheque &&
-          !values.raw_debit &&
-          !values.raw_transaction
-        ) {
-          return (
-            <IconButton onClick={() => handleDelete(row.row.id)}>
-              <DeleteIcon />
-            </IconButton>
-          );
-        } else {
-          return <div></div>;
-        }
-      },
-    },
-  ];
+  // COLUMNS = [
+  //   ...COLUMNS,
+  //   {
+  //     accessor: 'edit',
+  //     Header: 'Edit',
+  //     hideInPrint: true,
+  //     Cell: (row) => {
+  //       let values = row.row.original;
+  //       if (
+  //         typeof row.row.id === 'string' &&
+  //         !values.transaction &&
+  //         !values.external_cheque &&
+  //         !values.personal_cheque &&
+  //         !values.raw_debit &&
+  //         !values.raw_transaction
+  //       ) {
+  //         return (
+  //           <IconButton onClick={() => handleEdit(row.row.id)}>
+  //             <EditIcon />
+  //           </IconButton>
+  //         );
+  //       } else {
+  //         return <div></div>;
+  //       }
+  //     },
+  //   },
+  //   {
+  //     accessor: 'delete',
+  //     Header: 'Delete',
+  //     hideInPrint: true,
+  //     Cell: (row) => {
+  //       let values = row.row.original;
+  //       if (
+  //         typeof row.row.id === 'string' &&
+  //         !values.transaction &&
+  //         !values.external_cheque &&
+  //         !values.personal_cheque &&
+  //         !values.raw_debit &&
+  //         !values.raw_transaction
+  //       ) {
+  //         return (
+  //           <IconButton onClick={() => handleDelete(row.row.id)}>
+  //             <DeleteIcon />
+  //           </IconButton>
+  //         );
+  //       } else {
+  //         return <div></div>;
+  //       }
+  //     },
+  //   },
+  // ];
 
   const classes = useStyles();
   const [columns, setColumns] = useState(COLUMNS);
