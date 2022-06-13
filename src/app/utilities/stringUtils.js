@@ -35,7 +35,11 @@ export const formatCurrency = (value, style = 'decimal') =>
     currency: 'PKR',
   }).format(value);
 
-export const convertDate = (from, to, date) => {
+export const convertDate = (
+  from = 'YYYY-MM-DD HH:mm:ss',
+  to = 'DD-MM-YYYY',
+  date
+) => {
   return moment(date, from).format(to);
 };
 
