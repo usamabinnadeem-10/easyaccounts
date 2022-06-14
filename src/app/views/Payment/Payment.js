@@ -23,6 +23,8 @@ import * as constants from './constants';
 import { formatPaymentDataForPosting } from './utils';
 import { schema } from './validation';
 import * as api from './api';
+import { findErrorMessage } from '../../utilities/objectUtils';
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const Row = ({ children }) => {
   return (
@@ -36,7 +38,7 @@ const Row = ({ children }) => {
   );
 };
 
-const Payment = ({ ...props }) => {
+const Payment = ({ showErrorSnackbar, ...props }) => {
   const essentials = useSelector((state) => state.essentials);
   const [images, setImages] = useState([]);
   const [showReceipt, setShowReceipt] = useState(true);
@@ -52,16 +54,28 @@ const Payment = ({ ...props }) => {
   };
 
   const handleSubmit = (values) => {
-    api.uploadImageApi(convertImagesToFiles(images)).then((response) => {
-      api
-        .createPaymentApi(
-          formatPaymentDataForPosting(values, response.data.image_ids)
-        )
-        .then((response) => {
-          setShowReceipt(true);
-          setPaymentData(response.data);
-        });
-    });
+    setLoading(true);
+    api
+      .uploadImageApi(convertImagesToFiles(images))
+      .then((response) => {
+        api
+          .createPaymentApi(
+            formatPaymentDataForPosting(values, response.data.image_ids)
+          )
+          .then((response) => {
+            setShowReceipt(true);
+            setPaymentData(response.data);
+            setLoading(false);
+          })
+          .catch((error) => {
+            setLoading(false);
+            showErrorSnackbar(findErrorMessage(error.response.data));
+          });
+      })
+      .catch((error) => {
+        setLoading(false);
+        showErrorSnackbar(findErrorMessage(error.response.data));
+      });
   };
 
   return (
@@ -123,7 +137,10 @@ const Payment = ({ ...props }) => {
                       images={images}
                     />
                   </Grid>
-                  <Button variant='contained' onClick={handleSubmit}>
+                  <Button
+                    disabled={loading}
+                    variant='contained'
+                    onClick={handleSubmit}>
                     POST
                   </Button>
                 </Grid>
@@ -136,4 +153,4 @@ const Payment = ({ ...props }) => {
   );
 };
 
-export default Payment;
+export default withSnackbar(Payment);

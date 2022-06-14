@@ -20,6 +20,7 @@ export const formatPaymentAsTable = (paymentData, persons, accounts) => {
       'Date',
       convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', paymentData.date)
     ),
+    getTableRowObject('Amount', paymentData.amount),
     getTableRowObject('Nature', NATURES[paymentData.nature]),
     getTableRowObject(
       'Account',

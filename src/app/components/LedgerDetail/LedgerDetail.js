@@ -32,15 +32,15 @@ function LedgerDetail({
         </div>
       ),
     },
-    // {
-    //   accessor: 'transaction_serial',
-    //   Header: 'Invoice #',
-    //   Cell: (row) => (
-    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-    //       {row.value || '--'}
-    //     </div>
-    //   ),
-    // },
+    {
+      accessor: 'serial',
+      Header: 'Serial #',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value || '--'}
+        </div>
+      ),
+    },
     // {
     //   accessor: 'manual_invoice_serial',
     //   Header: 'Book #',
