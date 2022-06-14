@@ -17,6 +17,7 @@ import { FormDateField } from '../../utilities/formUtils';
 import { FormTextField } from '../../utilities/formUtils';
 
 import ImageUpload from '../../components/ImageUpload';
+import ImageViewAndDelete from '../../containers/ImageViewAndDelete';
 import PaymentReceipt from '../../components/PaymentReceipt';
 
 import * as constants from './constants';
@@ -38,10 +39,15 @@ const Row = ({ children }) => {
   );
 };
 
-const Payment = ({ showErrorSnackbar, ...props }) => {
+const Payment = ({
+  showErrorSnackbar,
+  edit = false,
+  editData = null,
+  ...props
+}) => {
   const essentials = useSelector((state) => state.essentials);
   const [images, setImages] = useState([]);
-  const [showReceipt, setShowReceipt] = useState(true);
+  const [showReceipt, setShowReceipt] = useState(false);
   const [loading, setLoading] = useState(false);
   const [paymentData, setPaymentData] = useState(null);
 
@@ -53,15 +59,22 @@ const Payment = ({ showErrorSnackbar, ...props }) => {
     return formData;
   };
 
+  const handleGoBack = () => {
+    setShowReceipt(false);
+    setImages([]);
+    setPaymentData(null);
+  };
+
   const handleSubmit = (values) => {
+    let paymentApi = edit ? api.editPaymentApi : api.createPaymentApi;
     setLoading(true);
     api
       .uploadImageApi(convertImagesToFiles(images))
       .then((response) => {
-        api
-          .createPaymentApi(
-            formatPaymentDataForPosting(values, response.data.image_ids)
-          )
+        paymentApi(
+          formatPaymentDataForPosting(values, response.data.image_ids),
+          editData?.id
+        )
           .then((response) => {
             setShowReceipt(true);
             setPaymentData(response.data);
@@ -80,13 +93,20 @@ const Payment = ({ showErrorSnackbar, ...props }) => {
 
   return (
     <>
+      {edit ? (
+        <Button onClick={props.handleCloseEditing}>Cancel editing</Button>
+      ) : showReceipt ? (
+        <Button onClick={handleGoBack}>Go back</Button>
+      ) : (
+        <></>
+      )}
       {showReceipt && !!paymentData ? (
         <PaymentReceipt paymentData={paymentData} {...props} />
       ) : (
         <ViewWrapper>
           <Heading heading='Add Payment' />
           <Formik
-            initialValues={constants.INITIAL_VALUES}
+            initialValues={edit ? editData : constants.INITIAL_VALUES}
             validationSchema={schema}
             onSubmit={(values, actions) => handleSubmit(values)}>
             {({ setFieldValue, handleSubmit }) => (
@@ -131,6 +151,12 @@ const Payment = ({ showErrorSnackbar, ...props }) => {
                     />
                   </Row>
                   <Grid item xs={12}>
+                    {edit && (
+                      <ImageViewAndDelete
+                        imageUrls={editData.image_urls}
+                        onDelete={() => {}}
+                      />
+                    )}
                     <ImageUpload
                       onImageUpload={setImages}
                       maxImages={5}
@@ -141,7 +167,7 @@ const Payment = ({ showErrorSnackbar, ...props }) => {
                     disabled={loading}
                     variant='contained'
                     onClick={handleSubmit}>
-                    POST
+                    {edit ? 'Edit' : 'Post'}
                   </Button>
                 </Grid>
               </Form>

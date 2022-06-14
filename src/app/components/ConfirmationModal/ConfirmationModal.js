@@ -5,7 +5,13 @@ import { StyledModal, CustomBackground, Text } from './styled';
 import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 
-const ConfirmationModal = ({ open, closeDialogue, setDialogueState }) => {
+const ConfirmationModal = ({
+  open,
+  closeDialogue,
+  setDialogueState,
+  onCancel,
+  onConfirm,
+}) => {
   return (
     <StyledModal onClose={closeDialogue} open={open}>
       <CustomBackground>
@@ -15,11 +21,14 @@ const ConfirmationModal = ({ open, closeDialogue, setDialogueState }) => {
             <Button
               fullWidth
               variant='contained'
-              onClick={() =>
-                setDialogueState({
-                  open: false,
-                  dialogueValue: false,
-                })
+              onClick={
+                onCancel
+                  ? onCancel
+                  : () =>
+                      setDialogueState({
+                        open: false,
+                        dialogueValue: false,
+                      })
               }>
               CANCEL
             </Button>
@@ -29,11 +38,14 @@ const ConfirmationModal = ({ open, closeDialogue, setDialogueState }) => {
               fullWidth
               color='error'
               variant='contained'
-              onClick={() =>
-                setDialogueState({
-                  open: false,
-                  dialogueValue: true,
-                })
+              onClick={
+                onConfirm
+                  ? onConfirm
+                  : () =>
+                      setDialogueState({
+                        open: false,
+                        dialogueValue: true,
+                      })
               }>
               DELETE
             </Button>

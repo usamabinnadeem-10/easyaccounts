@@ -143,7 +143,7 @@ export const RAW_APIS = {
     LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
   },
 };
-
+const EDIT = 'edit/';
 const PAYMENT = 'payments/';
 const IMAGE = 'image/';
 export const PAYMENT_APIS = {
@@ -151,8 +151,12 @@ export const PAYMENT_APIS = {
     PAYMENT: `${PAYMENT}${CREATE}`,
     IMAGE: `${PAYMENT}${IMAGE}${CREATE}`,
   },
+  EDIT: {
+    PAYMENT: `${PAYMENT}${EDIT}:uuid/`,
+  },
   DELETE: {
     IMAGE: `${PAYMENT}${IMAGE}${DELETE}:uuid/`,
+    PAYMENT: `${PAYMENT}${DELETE}:uuid/`,
   },
   LIST: {
     PAYMENT: `${PAYMENT}${LIST}`,

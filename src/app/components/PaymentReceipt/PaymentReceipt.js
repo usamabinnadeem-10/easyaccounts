@@ -50,7 +50,7 @@ const ImagesWrapper = ({ images, onClick }) => {
   );
 };
 
-const PaymentReceipt = ({ paymentData, persons, accounts }) => {
+const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
   const componentRef = useRef();
   const [currentImg, setCurrentImg] = useState(0);
   const [showViewer, setShowViewer] = useState(false);
@@ -81,7 +81,7 @@ const PaymentReceipt = ({ paymentData, persons, accounts }) => {
   };
 
   return (
-    <ViewWrapper>
+    <ViewWrapper overridewidth={overridewidth}>
       <Heading heading='Payment Receipt' />
       <Box ref={componentRef} sx={{ p: 3 }}>
         <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
