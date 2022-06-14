@@ -29,6 +29,7 @@ const ProductPerformance = lazy(() =>
 const ViewSingleTransaction = lazy(() =>
   import('../app/containers/ViewSingleTransaction')
 );
+const PaymentList = lazy(() => import('../app/views/PaymentList'));
 
 export const authenticatedRoutes = [
   {
@@ -122,5 +123,9 @@ export const authenticatedRoutes = [
   {
     component: Payment,
     path: url.PAYMENT_ROUTE,
+  },
+  {
+    component: PaymentList,
+    path: url.PAYMENT_LIST_ROUTE,
   },
 ];

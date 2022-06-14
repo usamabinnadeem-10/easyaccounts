@@ -1,14 +1,10 @@
 import React from 'react';
 import { useState } from 'react';
 
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
-import { IconButton } from '@mui/material';
-
-import MoreVertIcon from '@mui/icons-material/MoreVert';
-
 import ChequeActions from '../../containers/ChequeActions';
 import CreateChequeHistory from '../../containers/CreateChequeHistory';
+
+import CustomMenu from '../../containers/CustomMenu';
 
 import { ACTION_TYPES } from '../../containers/ChequeActions/constants';
 
@@ -18,9 +14,6 @@ const ChequeActionMenu = ({
   isPersonal,
   chequeSerial,
 }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
   const [addHistoryState, setAddHistoryState] = useState({
     showModal: false,
     isChequeEntry: false,
@@ -34,12 +27,6 @@ const ChequeActionMenu = ({
     isPersonal: false,
   });
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const getChequeIdHelper = (chequeId, isPersonal) => ({
     chequeId: chequeId,
     isPersonal: isPersonal,
@@ -251,26 +238,10 @@ const ChequeActionMenu = ({
     <div>
       {ACTIONS[isPersonal ? 'PERSONAL' : 'EXTERNAL'][chequeStatus].length >
         0 && (
-        <>
-          <IconButton onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            {ACTIONS[isPersonal ? 'PERSONAL' : 'EXTERNAL'][chequeStatus].map(
-              (action, index) => (
-                <MenuItem
-                  disableRipple
-                  key={index}
-                  onClick={() => {
-                    action.action(chequeId);
-                    handleClose();
-                  }}>
-                  {action.name}
-                </MenuItem>
-              )
-            )}
-          </Menu>
-        </>
+        <CustomMenu
+          menu={ACTIONS[isPersonal ? 'PERSONAL' : 'EXTERNAL'][chequeStatus]}
+          id={chequeId}
+        />
       )}
       <CreateChequeHistory
         chequeSerial={chequeSerial}

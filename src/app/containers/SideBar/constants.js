@@ -36,6 +36,7 @@ export const LEDGER_ENTRY = 'Ledger Entry';
 // ----------------------LEDGERS--------------------------- //
 export const PAYMENT = 'Payment';
 export const PAYMENT_ENTRY = 'Payment Entry';
+export const PAYMENT_LIST = 'Payment List';
 
 // ----------------------EXPENSES--------------------------- //
 export const EXPENSES = 'Expenses';
@@ -154,13 +155,13 @@ export const SIDEBAR = [
     panelName: PAYMENT,
     panelData: [
       {
+        name: PAYMENT_LIST,
+        route: routes.PAYMENT_LIST_ROUTE,
+      },
+      {
         name: PAYMENT_ENTRY,
         route: routes.PAYMENT_ROUTE,
       },
-      // {
-      //   name: LEDGER_ENTRY,
-      //   route: routes.LEDGER_TRANSACTION,
-      // },
     ],
   },
   // ----------------EXPENSES---------------//

@@ -25,3 +25,4 @@ export const RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer`;
 export const STOCK_TRANSFER = `${HOME}/transfer-stock`;
 export const VIEW_TRANSFERS = `${HOME}/view-transfers`;
 export const PAYMENT_ROUTE = `${HOME}/add-payment`;
+export const PAYMENT_LIST_ROUTE = `${HOME}/payment-list`;
