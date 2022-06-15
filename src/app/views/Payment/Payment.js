@@ -24,6 +24,7 @@ import * as constants from './constants';
 import { formatPaymentDataForPosting } from './utils';
 import { schema } from './validation';
 import * as api from './api';
+import { ReceiptImagesWrapper } from './styled';
 import { findErrorMessage } from '../../utilities/objectUtils';
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -150,16 +151,19 @@ const Payment = ({
                       name='account_type'
                     />
                   </Row>
-                  <Grid item xs={12}>
-                    {edit && (
+                  {edit && (
+                    <ReceiptImagesWrapper item xs={12}>
                       <ImageViewAndDelete
                         imageUrls={editData.image_urls}
                         onDelete={() => {}}
                       />
-                    )}
+                    </ReceiptImagesWrapper>
+                  )}
+
+                  <Grid sx={{ overflow: 'auto !important' }} item xs={12}>
                     <ImageUpload
                       onImageUpload={setImages}
-                      maxImages={5}
+                      maxImages={5 - editData?.image_urls.length ?? 5}
                       images={images}
                     />
                   </Grid>

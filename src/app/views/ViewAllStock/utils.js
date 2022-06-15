@@ -65,6 +65,11 @@ export const getFilters = (essentials) => {
       type: FIELDS.SELECT,
       placeholder: 'Warehouse',
     },
+    // {
+    //   qp: 'date',
+    //   type: FIELDS.DATE,
+    //   placeholder: 'Date (less than)',
+    // },
     {
       qp: 'outcut',
       options: OUTCUT,

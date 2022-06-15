@@ -5,6 +5,7 @@ import { isArrayOfObjectsUnique } from './objectUtils';
 const REQUIRED = 'Required';
 const NUMBER_ERROR = 'Please enter a value greater than 0';
 const POSITIVE_NUMBER_ERROR = 'Please enter a value greater than or equal to 1';
+const SMALL_POSITIVE_NUMBER_ERROR = 'Please enter a bigger value';
 const INVALID_OBJECT_ERROR = 'Not a valid choice';
 
 export const reqNumberSchema = Yup.number()
@@ -15,6 +16,11 @@ export const reqNumberSchema = Yup.number()
 export const positiveReqNumberSchema = Yup.number()
   .typeError(REQUIRED)
   .min(1, POSITIVE_NUMBER_ERROR)
+  .required(REQUIRED);
+
+export const smallPositiveReqNumberSchema = Yup.number()
+  .typeError(REQUIRED)
+  .min(0.000001, SMALL_POSITIVE_NUMBER_ERROR)
   .required(REQUIRED);
 
 export const reqObjectSchema = Yup.object()

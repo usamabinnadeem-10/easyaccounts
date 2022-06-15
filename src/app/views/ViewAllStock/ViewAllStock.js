@@ -20,7 +20,7 @@ import { Button } from '@mui/material';
 import { useStyles } from './styles';
 import { getColumns } from './constants';
 import { formatStockData, getFilters } from './utils';
-import { ESSENTIAL_URLS } from '../../../constants/restEndPoints';
+import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 
 import { getAllStock } from '../../../store/transactions/actions';
 
@@ -79,7 +79,7 @@ const ViewAllStock = (props) => {
   return (
     <>
       <CustomFilters
-        api={ESSENTIAL_URLS.ALL_STOCK}
+        api={TRANSACTION_URLS.ALL_STOCK}
         filters={filters}
         onSearch={onSearch}
       />

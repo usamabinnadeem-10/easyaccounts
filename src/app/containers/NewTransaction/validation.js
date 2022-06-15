@@ -1,5 +1,9 @@
 import Yup from '../../utilities/yup';
-import { reqNumberSchema, reqObjectSchema } from '../../utilities/yup';
+import {
+  reqNumberSchema,
+  reqObjectSchema,
+  smallPositiveReqNumberSchema,
+} from '../../utilities/yup';
 
 import { FIELDS } from './constants';
 
@@ -40,7 +44,7 @@ export const schema = Yup.object().shape({
         [FIELDS.GAZAANA]: reqObjectSchema,
         [FIELDS.WAREHOUSE]: reqObjectSchema,
         [FIELDS.RATE]: postiveNumberSchema,
-        [FIELDS.QTY]: postiveNumberSchema,
+        [FIELDS.QTY]: smallPositiveReqNumberSchema,
       })
     )
     .unique(

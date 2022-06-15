@@ -1,32 +1,25 @@
-import * as Yup from 'yup';
+import Yup from '../../utilities/yup';
+import {
+  reqObjectSchema,
+  smallPositiveReqNumberSchema,
+  reqNumberSchema,
+} from '../../utilities/yup';
 
 import { isArrayOfObjectsUnique } from '../../utilities/objectUtils';
 
 import { FIELDS } from './constants';
 
-const REQUIRED = 'Required';
-const objectSchema = Yup.object().typeError(REQUIRED).required(REQUIRED);
-const numberSchema = Yup.number()
-  .typeError(REQUIRED)
-  .min(0, 'Please enter a number greater than zero')
-  .required(REQUIRED);
-Yup.addMethod(Yup.array, 'unique', function (keys, message) {
-  return this.test('unique', message, function (array) {
-    return isArrayOfObjectsUnique(array, keys);
-  });
-});
-
 export const schema = Yup.object().shape({
   [FIELDS.DATE]: Yup.date().typeError('Enter a valid date'),
-  [FIELDS.FROM_WAREHOUSE]: objectSchema,
-  [FIELDS.MANUAL_SERIAL]: numberSchema,
+  [FIELDS.FROM_WAREHOUSE]: reqObjectSchema,
+  [FIELDS.MANUAL_SERIAL]: reqNumberSchema,
   [FIELDS.TRANSFER_DETAIL]: Yup.array()
     .of(
       Yup.object().shape({
-        [FIELDS.PRODUCT]: objectSchema,
-        [FIELDS.GAZAANA]: numberSchema,
-        [FIELDS.TO_WAREHOUSE]: objectSchema,
-        [FIELDS.QUANTITY]: numberSchema,
+        [FIELDS.PRODUCT]: reqObjectSchema,
+        [FIELDS.GAZAANA]: reqNumberSchema,
+        [FIELDS.TO_WAREHOUSE]: reqObjectSchema,
+        [FIELDS.QUANTITY]: smallPositiveReqNumberSchema,
       })
     )
     .unique(
