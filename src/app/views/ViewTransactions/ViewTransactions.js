@@ -28,6 +28,7 @@ import {
   getFilters,
 } from './utils';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
+import { setShouldFetch } from '../../../store/transactions';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -81,6 +82,7 @@ function ViewTransactions({
         .then((response) => {
           showSuccessSnackbar('Deleted, please search again to refresh data');
           dispatch(setShouldFetchDaybook(true));
+          dispatch(setShouldFetch(true));
           setDialogueState(DIALOGUE_INIT);
           showSuccessSnackbar(SUCCESS.DELETED);
           setTransactionData(transactionData.filter((t) => t.id !== tId));

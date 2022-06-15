@@ -14,11 +14,15 @@ import { deletePaymentApi } from './api';
 import { PAYMENT_APIS } from '../../../constants/restEndPoints';
 import { withConfirmation } from '../../hoc/withConfirmation';
 
-const PaymentList = ({ ...props }) => {
+const PaymentList = ({
+  daybookView = false,
+  daybookPayments = null,
+  ...props
+}) => {
   const essentials = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
 
-  const [paymentData, setPaymentData] = useState([]);
+  const [paymentData, setPaymentData] = useState(daybookPayments || []);
   const [currentPayment, setCurrentPayment] = useState(null);
   const [showDrawer, setShowDrawer] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -88,11 +92,14 @@ const PaymentList = ({ ...props }) => {
     <>
       {!isEditing && (
         <>
-          <CustomFilters
-            onSearch={handleSearch}
-            api={PAYMENT_APIS.LIST.PAYMENT}
-            filters={getFilters(essentials, role)}
-          />
+          {!daybookView && (
+            <CustomFilters
+              onSearch={handleSearch}
+              api={PAYMENT_APIS.LIST.PAYMENT}
+              filters={getFilters(essentials, role)}
+            />
+          )}
+
           {paymentData.length > 0 && (
             <PaymentTable
               rows={paymentData}

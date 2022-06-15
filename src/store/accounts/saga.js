@@ -1,11 +1,11 @@
-import { all } from "redux-saga/effects";
-import { call } from "redux-saga/effects";
-import { put } from "redux-saga/effects";
-import { takeLatest } from "redux-saga/effects";
+import { all } from 'redux-saga/effects';
+import { call } from 'redux-saga/effects';
+import { put } from 'redux-saga/effects';
+import { takeLatest } from 'redux-saga/effects';
 
-import * as actionTypes from "./actionTypes";
-import * as actions from "./actions";
-import * as api from "./api";
+import * as actionTypes from './actionTypes';
+import * as actions from './actions';
+import * as api from './api';
 
 function* accountsSagas() {
   yield all([takeLatest(actionTypes.GET_DAYBOOK, getDaybookSaga)]);
@@ -15,9 +15,10 @@ function* getDaybookSaga(action) {
   try {
     let response = yield call(api.getDaybookApi, action.payload);
     let data = response.data;
+    console.log(data);
     let formattedData = {
       transactions: data.transactions,
-      ledgers: data.ledgers,
+      payments: data.payments,
       expenses: data.expenses,
       accounts: data.balance_ledgers,
       externalCheques: data.external_cheques,
