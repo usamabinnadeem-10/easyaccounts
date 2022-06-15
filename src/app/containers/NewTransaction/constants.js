@@ -37,7 +37,6 @@ export const INITIAL = {
   [FIELDS.DETAIL]: '',
   [FIELDS.TRANS_DETAIL]: [
     {
-      [FIELDS.ID]: '',
       [FIELDS.PRODUCT]: '',
       [FIELDS.GAZAANA]: '',
       [FIELDS.WAREHOUSE]: '',
