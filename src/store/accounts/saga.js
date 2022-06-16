@@ -15,7 +15,6 @@ function* getDaybookSaga(action) {
   try {
     let response = yield call(api.getDaybookApi, action.payload);
     let data = response.data;
-    console.log(data);
     let formattedData = {
       transactions: data.transactions,
       payments: data.payments,

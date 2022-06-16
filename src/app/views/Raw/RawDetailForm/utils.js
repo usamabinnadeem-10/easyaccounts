@@ -53,4 +53,7 @@ export const getFields = (essentials, formulas, isTransfer) => {
 };
 
 export const formatLotNumbers = (lotNumbers) =>
-  lotNumbers.map((number) => ({ value: number.id, label: number.lot_number }));
+  lotNumbers.map((number) => ({
+    value: number.id,
+    label: `${number.lot_number}`,
+  }));

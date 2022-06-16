@@ -15,6 +15,16 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       Cell: (row) => <div>{row.value}</div>,
     },
     {
+      accessor: 'serial',
+      Header: 'Serial',
+      Cell: (row) => (
+        <div>
+          {row.value && 'E-'}
+          {row.value}
+        </div>
+      ),
+    },
+    {
       accessor: 'detail',
       Header: 'Detail',
       Cell: (row) => <div>{row.value}</div>,

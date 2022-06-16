@@ -1,25 +1,28 @@
-import { getReadableDate } from "../../utilities/stringUtils";
+import { getReadableDate, formatCurrency } from '../../utilities/stringUtils';
 
 export const COLUMNS = [
   {
-    Header: "Type",
-    accessor: "type",
+    Header: 'Serial',
+    accessor: 'serial',
   },
   {
-    Header: "Date",
-    accessor: "date",
-    Cell: (row) => <div>{row.value ? getReadableDate(row.value) : "---"}</div>,
+    Header: 'Date',
+    accessor: 'date',
+    Cell: (row) => <div>{row.value ? getReadableDate(row.value) : '---'}</div>,
   },
   {
-    Header: "Debit",
-    accessor: "debit",
+    Header: 'Debit',
+    accessor: 'debit',
+    Cell: (row) => <div>{formatCurrency(row.value)}</div>,
   },
   {
-    Header: "Credit",
-    accessor: "credit",
+    Header: 'Credit',
+    accessor: 'credit',
+    Cell: (row) => <div>{formatCurrency(row.value)}</div>,
   },
   {
-    Header: "Balance",
-    accessor: "balance",
+    Header: 'Balance',
+    accessor: 'balance',
+    Cell: (row) => <div>{formatCurrency(row.value)}</div>,
   },
 ];
