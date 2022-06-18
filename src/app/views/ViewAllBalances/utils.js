@@ -1,4 +1,6 @@
-import { formatCurrency } from "../../utilities/stringUtils";
+import { formatCurrency } from '../../utilities/stringUtils';
+
+import { ROLES } from '../../../constants/userRoles';
 
 export const formatBalances = (data) => {
   let newBalancesData = [];
@@ -15,7 +17,7 @@ export const formatBalances = (data) => {
       id: index,
       person: key,
       balance: formatCurrency(Math.abs(value)),
-      status: value > 0 ? "CR" : "DB",
+      status: value > 0 ? 'CR' : 'DB',
     });
     index++;
   }
@@ -24,15 +26,15 @@ export const formatBalances = (data) => {
       ...newBalancesData,
       ...[
         {
-          person: "TOTAL CR",
+          person: 'TOTAL CR',
           balance: `${formatCurrency(totalCR)}`,
-          status: "",
+          status: '',
           id: index++,
         },
         {
-          person: "TOTAL DB",
+          person: 'TOTAL DB',
           balance: `${formatCurrency(totalDB)}`,
-          status: "",
+          status: '',
           id: index++,
         },
       ],
@@ -41,3 +43,5 @@ export const formatBalances = (data) => {
 
   return newBalancesData;
 };
+
+export const hasAdminPermission = (role) => role === ROLES.ADMIN;

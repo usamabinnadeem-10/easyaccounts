@@ -1,35 +1,35 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
 
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from 'react-to-print';
 
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import CustomTable from "../../components/CustomTable/CustomTable";
-import CustomToggleButtons from "../../components/CustomToggleButtons/CustomToggleButtons";
-import Empty from "../../components/Empty/Empty";
-import Heading from "../../components/Heading";
+import CustomLoader from '../../components/CustomLoader/CustomLoader';
+import CustomTable from '../../components/CustomTable/CustomTable';
+import CustomToggleButtons from '../../components/CustomToggleButtons/CustomToggleButtons';
+import Empty from '../../components/Empty/Empty';
+import Heading from '../../components/Heading';
 
-import { LoadingButton } from "@mui/lab";
-import { Button } from "@mui/material";
+import { LoadingButton } from '@mui/lab';
+import { Button } from '@mui/material';
 
-import { makeQueryParamURL } from "../../utilities/stringUtils";
-import { useStyles } from "./styles";
-import instance from "../../../utils/axiosApi";
-import { LEDGER_URLS } from "../../../constants/restEndPoints";
-import { PERSONS, COLUMNS } from "./constants";
-import { formatBalances } from "./utils";
+import { makeQueryParamURL } from '../../utilities/stringUtils';
+import { useStyles } from './styles';
+import instance from '../../../utils/axiosApi';
+import { LEDGER_URLS } from '../../../constants/restEndPoints';
+import { PERSONS, COLUMNS, PERSONS_CUSTOMER } from './constants';
+import { formatBalances, hasAdminPermission } from './utils';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
-const Balances = ({ showErrorSnackbar }) => {
+const Balances = ({ showErrorSnackbar, role }) => {
   const classes = useStyles();
   const componentRef = useRef();
 
   const [loading, setLoading] = useState(false);
   const [balancesData, setBalancesData] = useState([]);
-  const [currentPerson, setCurrentPerson] = useState("C");
+  const [currentPerson, setCurrentPerson] = useState('C');
   const [isEmpty, setIsEmpty] = useState(false);
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const Balances = ({ showErrorSnackbar }) => {
   const search = () => {
     let query = [
       {
-        key: "person",
+        key: 'person',
         value: currentPerson,
       },
     ];
@@ -54,7 +54,7 @@ const Balances = ({ showErrorSnackbar }) => {
       })
       .catch((error) => {
         setLoading(false);
-        showErrorSnackbar("Oops, something went wrong");
+        showErrorSnackbar('Oops, something went wrong');
       });
   };
 
@@ -66,28 +66,26 @@ const Balances = ({ showErrorSnackbar }) => {
     <>
       <div className={classes.root}>
         <div className={classes.headerWrapper}>
-          <Heading heading={"View All Balances"} />
+          <Heading heading={'View All Balances'} />
           <Button
             disabled={balancesData.length === 0}
             onClick={handlePrint}
-            variant="contained"
-            color="secondary"
-          >
+            variant='contained'
+            color='secondary'>
             PRINT
           </Button>
         </div>
         <div className={classes.selectPerson}>
           <CustomToggleButtons
-            buttons={PERSONS}
+            buttons={hasAdminPermission(role) ? PERSONS : PERSONS_CUSTOMER}
             getSelectedValue={(value) => setCurrentPerson(value)}
             selectedValue={currentPerson}
           />
           <LoadingButton
             sx={{ fontWeight: 900 }}
-            variant="contained"
+            variant='contained'
             onClick={() => search()}
-            loading={loading}
-          >
+            loading={loading}>
             SEARCH
           </LoadingButton>
         </div>

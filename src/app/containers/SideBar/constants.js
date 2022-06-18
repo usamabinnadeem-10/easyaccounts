@@ -111,6 +111,7 @@ export const SIDEBAR = [
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
         route: routes.PRODUCT_PERFORMANCE,
+        roles: [ROLES.ADMIN],
       },
       {
         name: ACCOUNTS_HISTORY,
@@ -133,7 +134,7 @@ export const SIDEBAR = [
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN],
       },
     ],
   },
