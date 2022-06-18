@@ -1,42 +1,52 @@
-import React from "react";
+import React from 'react';
 
-import CustomTable from "../CustomTable/CustomTable";
+import CustomTable from '../CustomTable/CustomTable';
 
-import { IconButton } from "@mui/material";
+import { IconButton } from '@mui/material';
 
-import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
   const COLUMNS = [
     {
-      accessor: "date",
-      Header: "Date",
+      accessor: 'date',
+      Header: 'Date',
       Cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: "detail",
-      Header: "Detail",
+      accessor: 'serial',
+      Header: 'Serial',
+      Cell: (row) => (
+        <div>
+          {row.value && 'E-'}
+          {row.value}
+        </div>
+      ),
+    },
+    {
+      accessor: 'detail',
+      Header: 'Detail',
       Cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: "amount",
-      Header: "Amount",
+      accessor: 'amount',
+      Header: 'Amount',
       Cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: "expense_name",
-      Header: "Expense Account",
+      accessor: 'expense',
+      Header: 'Expense Account',
       Cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: "account_type_name",
-      Header: "Account Type",
+      accessor: 'account_type',
+      Header: 'Account Type',
       Cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: "edit",
-      Header: "Edit",
+      accessor: 'edit',
+      Header: 'Edit',
       hideInPrint: true,
       Cell: (row) => {
         if (row.row.id) {
@@ -51,8 +61,8 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       },
     },
     {
-      accessor: "delete",
-      Header: "Delete",
+      accessor: 'delete',
+      Header: 'Delete',
       hideInPrint: true,
       Cell: (row) => {
         if (row.row.id) {

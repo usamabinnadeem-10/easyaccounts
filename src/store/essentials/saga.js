@@ -51,8 +51,8 @@ function* getAllEssentialsSaga() {
     response = yield call(api.getCategoriesApi);
     yield put(actions.getAllCategoriesSuccess(response.data));
 
-    response = yield call(api.getCitiesApi);
-    yield put(actions.getAllCitiesSuccess(response.data));
+    // response = yield call(api.getCitiesApi);
+    // yield put(actions.getAllCitiesSuccess(response.data));
 
     yield put(actions.getAllEssentialsSuccess());
   } catch (error) {
@@ -101,8 +101,12 @@ function* addNewCategorySaga(action) {
 }
 
 function* addExpenseDetailSaga(action) {
-  yield call(api.addExpenseDetailApi, action.payload);
-  yield put(actions.addExpenseDetailSuccess());
+  try {
+    let response = yield call(api.addExpenseDetailApi, action.payload);
+    yield put(actions.addExpenseDetailSuccess());
+  } catch (error) {
+    yield put(actions.setError(findErrorMessage(error.response.data)));
+  }
 }
 
 function* addNewAreaSaga(action) {

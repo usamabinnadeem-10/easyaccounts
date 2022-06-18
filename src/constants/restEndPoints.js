@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = 'http://127.0.0.1:8000/';
-export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
+export const BASE = 'http://127.0.0.1:8000/';
+// export const BASE = 'https://easyaccounts-backend-cde39.ondigitalocean.app/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -38,7 +38,6 @@ export const ESSENTIAL_URLS = {
     OPENING_STOCK: `${ESSENTIALS}create-opening-stock/`,
   },
   DAY_BOOK: `${ESSENTIALS}daybook/`,
-  ALL_STOCK: `${ESSENTIALS}stock-quantity/`,
   ACCOUNT_HISTORY: `${ESSENTIALS}account-history/`,
 };
 
@@ -69,6 +68,7 @@ export const TRANSACTION_URLS = {
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
   DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
   CANCEL_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}cancel/`,
+  ALL_STOCK: `${TRANSACTION}all-stock/`,
 };
 
 const LEDGER = 'ledger/';
@@ -140,5 +140,25 @@ export const RAW_APIS = {
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,
     PRODUCT: `${RAW}${PRODUCT}${LIST}`,
+    LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
+  },
+};
+const EDIT = 'edit/';
+const PAYMENT = 'payments/';
+const IMAGE = 'image/';
+export const PAYMENT_APIS = {
+  CREATE: {
+    PAYMENT: `${PAYMENT}${CREATE}`,
+    IMAGE: `${PAYMENT}${IMAGE}${CREATE}`,
+  },
+  EDIT: {
+    PAYMENT: `${PAYMENT}${EDIT}:uuid/`,
+  },
+  DELETE: {
+    IMAGE: `${PAYMENT}${IMAGE}${DELETE}:uuid/`,
+    PAYMENT: `${PAYMENT}${DELETE}:uuid/`,
+  },
+  LIST: {
+    PAYMENT: `${PAYMENT}${LIST}`,
   },
 };

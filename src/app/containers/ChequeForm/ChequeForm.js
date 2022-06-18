@@ -20,6 +20,7 @@ import { personalSchema, externalSchema } from './validation';
 import { formatValues } from './utils';
 
 import { BANKS } from '../../../constants/banks';
+import { convertDate } from '../../utilities/stringUtils';
 
 const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
   const customers = useSelector((state) => state.essentials.customers);
@@ -27,7 +28,17 @@ const ChequeForm = ({ onSubmit, isLoading, isPersonal }) => {
   const accounts = useSelector((state) => state.essentials.accountTypes);
 
   const handleSubmit = (values, actions) => {
-    onSubmit(formatValues(values), actions);
+    onSubmit(
+      {
+        ...formatValues(values),
+        due_date: convertDate(
+          'yyyy-MM-DD HH:mm:ss',
+          'yyyy-MM-DD',
+          values.due_date
+        ),
+      },
+      actions
+    );
   };
 
   return (

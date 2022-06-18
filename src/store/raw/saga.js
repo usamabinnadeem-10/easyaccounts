@@ -24,7 +24,7 @@ function* getAllFormulaSaga(action) {
     let response = yield call(api.listFormulaApi);
     yield put(actions.getAllFormulasSuccess(response.data));
   } catch (error) {
-    yield put(actions.addNewFormulaFail(findErrorMessage(error.response.data)));
+    // yield put(actions.addNewFormulaFail(findErrorMessage(error.response.data)));
   }
 }
 

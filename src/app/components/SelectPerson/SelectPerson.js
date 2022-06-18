@@ -39,9 +39,7 @@ function SelectPerson({
       </div>
       <CustomToggleButtons
         buttons={
-          [ROLES.ADMIN, ROLES.ACCOUNTANT].includes(role)
-            ? PERSON_TYPES
-            : PERSON_TYPES_CUSTOMER
+          [ROLES.ADMIN].includes(role) ? PERSON_TYPES : PERSON_TYPES_CUSTOMER
         }
         selectedValue={personType}
         getSelectedValue={(value) => setPersonType(value)}

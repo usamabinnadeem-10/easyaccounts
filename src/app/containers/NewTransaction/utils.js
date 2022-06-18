@@ -1,6 +1,6 @@
 import { INITIAL } from './constants';
 
-import moment from 'moment';
+import { getToday } from '../../utilities/stringUtils';
 
 export const getInitialValues = (toggleButtons, prefilledData) => {
   if (prefilledData) {
@@ -8,7 +8,7 @@ export const getInitialValues = (toggleButtons, prefilledData) => {
   }
   return {
     ...INITIAL,
-    date: moment(moment.now()).format('YYYY-MM-DD'),
+    date: getToday(),
     type: toggleButtons[0].value,
   };
 };
@@ -53,8 +53,8 @@ export const formatDataForPosting = (values, natures, prefixes) => {
     account_type: values.account_type?.value,
     transaction_detail: values.transaction_detail.map((data) => {
       return {
-        id: data.id,
-        new: data.new,
+        // id: data.id,
+        // new: data.new,
         product: data.product.value,
         yards_per_piece: data.yards_per_piece.value,
         quantity: data.quantity,

@@ -10,3 +10,11 @@ export const formatRawProducts = (products) => {
     label: `${products.name} - ${products.type}`,
   };
 };
+
+export const formatFormulas = (formulas) => {
+  return formulas.map((formula) => ({
+    ...formula,
+    value: formula.id,
+    label: `${formula.numerator}/${formula.denominator}`,
+  }));
+};

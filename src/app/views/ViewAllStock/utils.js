@@ -6,23 +6,24 @@ import {
 import { FIELDS } from '../../containers/CustomFilters/constants';
 
 export const formatStockData = (data, props) => {
-  let newStockData = data.map((stockData) => {
+  let newStockData = data.map((stockData, index) => {
     return {
       ...stockData,
+      id: index + 1,
       product: props.products[stockData.product].label,
       warehouse: props.warehouses[stockData.warehouse].label,
-      stock_quantity: formatCurrency(stockData.stock_quantity),
+      quantity: formatCurrency(stockData.quantity),
       total_gazaana: formatCurrency(
-        stockData.stock_quantity * stockData.yards_per_piece
+        stockData.quantity * stockData.yards_per_piece
       ),
     };
   });
   newStockData.push({
+    id: data.length + 2,
     product: 'TOTAL',
-    stock_quantity: formatCurrency(
+    quantity: formatCurrency(
       newStockData.reduce(
-        (acc, stockData) =>
-          acc + convertCurrencyToNumber(stockData.stock_quantity),
+        (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
         0
       )
     ),
@@ -64,6 +65,11 @@ export const getFilters = (essentials) => {
       type: FIELDS.SELECT,
       placeholder: 'Warehouse',
     },
+    // {
+    //   qp: 'date',
+    //   type: FIELDS.DATE,
+    //   placeholder: 'Date (less than)',
+    // },
     {
       qp: 'outcut',
       options: OUTCUT,
@@ -71,12 +77,12 @@ export const getFilters = (essentials) => {
       placeholder: 'Outcut',
     },
     {
-      qp: 'stock_quantity__gte',
+      qp: 'quantity__gte',
       type: FIELDS.NUMBER,
       placeholder: 'Stock Qty (more than)',
     },
     {
-      qp: 'stock_quantity__lte',
+      qp: 'quantity__lte',
       type: FIELDS.NUMBER,
       placeholder: 'Stock Qty (less than)',
     },

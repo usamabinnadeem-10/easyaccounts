@@ -15,6 +15,8 @@ import { FieldArray } from 'formik';
 import AddRemove from '../../components/AddRemove';
 import CustomLoader from '../CustomLoader';
 
+import { ErrorAwareGrid } from './styled';
+
 import {
   FormAutoCompleteField,
   FormTextField,
@@ -39,6 +41,18 @@ const TransactionBody = ({
   const stock = useSelector((state) => state.transactions);
 
   const [validate, setValidate] = useState(true);
+  const [uniqueError, setUniqueError] = useState(false);
+
+  useEffect(() => {
+    if (
+      errors?.transaction_detail &&
+      typeof errors.transaction_detail === 'string'
+    ) {
+      setUniqueError(true);
+    } else {
+      setUniqueError(false);
+    }
+  }, [errors]);
 
   // check if the given row has any filled data
   const isFormikRowDirty = (rowIndex) => {
@@ -90,7 +104,7 @@ const TransactionBody = ({
 
   useEffect(() => {
     setValidate(
-      transactionTypes.filter((type) => type.value === values.type)[0].validate
+      transactionTypes.filter((type) => type.value === values.type)[0]?.validate
     );
   }, [values.type, transactionTypes]);
 
@@ -114,7 +128,7 @@ const TransactionBody = ({
     let { product } = getCurrentRowData(rowIndex);
     if (product?.value) {
       let options = stock.allStock.filter(
-        (s) => s.product === product?.value && s.stock_quantity > 0
+        (s) => s.product === product?.value && s.quantity > 0
       );
       return [
         ...new Map(
@@ -122,7 +136,7 @@ const TransactionBody = ({
         ).values(),
       ].map((val) => ({
         value: val.yards_per_piece,
-        label: val.yards_per_piece,
+        label: `${val.yards_per_piece}`,
       }));
     }
     return [];
@@ -136,7 +150,7 @@ const TransactionBody = ({
         (s) =>
           s.product === product?.value &&
           s.yards_per_piece === gazaana?.value &&
-          s.stock_quantity > 0
+          s.quantity > 0
       );
       return [
         ...new Map(
@@ -189,7 +203,7 @@ const TransactionBody = ({
         s.warehouse === warehouse?.value
     );
     if (qty.length) {
-      return qty[0].stock_quantity;
+      return qty[0].quantity;
     }
     return 0;
   };
@@ -197,9 +211,9 @@ const TransactionBody = ({
   // add new row helper
   const getNewRow = (rowIndex) => {
     let data = values.transaction_detail[rowIndex];
-    if (transaction) {
-      data = { ...data, id: null, new: true };
-    }
+    // if (transaction) {
+    //   data = { ...data, id: null, new: true };
+    // }
     return data;
   };
 
@@ -210,97 +224,108 @@ const TransactionBody = ({
           <CustomLoader loading={true} />
         </Grid>
       ) : (
-        <FieldArray
-          name='transaction_detail'
-          render={(arrayHelpers) =>
-            values.transaction_detail.map((row, rowIndex) => (
-              <Grid key={rowIndex} container>
-                <Grid item xs={8}>
-                  <Grid container>
-                    <Grid item xs={3}>
-                      <FastField
-                        name={`transaction_detail.${rowIndex}.product`}
-                        component={FormAutoCompleteField}
-                        options={essentials.products}
-                        label='Product'
-                        variant='standard'
-                        {...getFieldErrors(rowIndex, 'product')}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Field
-                        name={`transaction_detail.${rowIndex}.yards_per_piece`}
-                        component={FormAutoCompleteField}
-                        freeSolo={true}
-                        options={getGazaanaOptions(rowIndex)}
-                        label='Gazaana'
-                        variant='standard'
-                        type='number'
-                        {...getFieldErrors(rowIndex, 'yards_per_piece')}
-                      />
-                    </Grid>
-                    <Grid item xs={3}>
-                      <Field
-                        name={`transaction_detail.${rowIndex}.warehouse`}
-                        component={FormAutoCompleteField}
-                        options={
-                          validate
-                            ? getWarehouseOptions(rowIndex)
-                            : essentials.warehouses
-                        }
-                        label='Warehouse'
-                        variant='standard'
-                        {...getFieldErrors(rowIndex, 'warehouse')}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <FastField
-                        name={`transaction_detail.${rowIndex}.rate`}
-                        component={FormTextField}
-                        label='Rate'
-                        variant='standard'
-                        size='small'
-                        {...getFieldErrors(rowIndex, 'rate')}
-                      />
-                    </Grid>
-                    <Grid item xs={2}>
-                      <Field
-                        name={`transaction_detail.${rowIndex}.quantity`}
-                        component={FormTextField}
-                        variant='standard'
-                        size='small'
-                        label={`Qty: ${getStockQuantity(rowIndex)} thaan`}
-                        {...getFieldErrors(rowIndex, 'quantity')}
-                      />
-                    </Grid>
-                  </Grid>
-                </Grid>
-                <Grid
-                  sx={{ display: 'flex', alignItems: 'center' }}
-                  item
-                  xs={2}>
-                  <Grid container alignItems='center'>
-                    {getRowTotals(rowIndex).map((total, totalIndex) => (
-                      <Grid sx={{ textAlign: 'center' }} item xs={6}>
-                        <Typography variant='body1'>
-                          {total.value} {total.label}
-                        </Typography>
+        <>
+          <ErrorAwareGrid iserror={uniqueError}>
+            <FieldArray
+              name='transaction_detail'
+              render={(arrayHelpers) =>
+                values.transaction_detail.map((row, rowIndex) => (
+                  <Grid iserror={uniqueError} key={rowIndex} container>
+                    <Grid item xs={8}>
+                      <Grid container>
+                        <Grid item xs={3}>
+                          <FastField
+                            name={`transaction_detail.${rowIndex}.product`}
+                            component={FormAutoCompleteField}
+                            options={essentials.products}
+                            label='Product'
+                            variant='standard'
+                            {...getFieldErrors(rowIndex, 'product')}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Field
+                            name={`transaction_detail.${rowIndex}.yards_per_piece`}
+                            component={FormAutoCompleteField}
+                            freeSolo={true}
+                            options={getGazaanaOptions(rowIndex)}
+                            label='Gazaana'
+                            variant='standard'
+                            type='number'
+                            {...getFieldErrors(rowIndex, 'yards_per_piece')}
+                          />
+                        </Grid>
+                        <Grid item xs={3}>
+                          <Field
+                            name={`transaction_detail.${rowIndex}.warehouse`}
+                            component={FormAutoCompleteField}
+                            options={
+                              validate
+                                ? getWarehouseOptions(rowIndex)
+                                : essentials.warehouses
+                            }
+                            label='Warehouse'
+                            variant='standard'
+                            {...getFieldErrors(rowIndex, 'warehouse')}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <FastField
+                            name={`transaction_detail.${rowIndex}.rate`}
+                            component={FormTextField}
+                            label='Rate'
+                            variant='standard'
+                            size='small'
+                            type='number'
+                            {...getFieldErrors(rowIndex, 'rate')}
+                          />
+                        </Grid>
+                        <Grid item xs={2}>
+                          <Field
+                            name={`transaction_detail.${rowIndex}.quantity`}
+                            component={FormTextField}
+                            variant='standard'
+                            size='small'
+                            type='number'
+                            label={`Qty: ${getStockQuantity(rowIndex)} thaan`}
+                            {...getFieldErrors(rowIndex, 'quantity')}
+                          />
+                        </Grid>
                       </Grid>
-                    ))}
-                  </Grid>
-                </Grid>
+                    </Grid>
+                    <Grid
+                      sx={{ display: 'flex', alignItems: 'center' }}
+                      item
+                      xs={2}>
+                      <Grid container alignItems='center'>
+                        {getRowTotals(rowIndex).map((total, totalIndex) => (
+                          <Grid sx={{ textAlign: 'center' }} item xs={6}>
+                            <Typography variant='body1'>
+                              {total.value} {total.label}
+                            </Typography>
+                          </Grid>
+                        ))}
+                      </Grid>
+                    </Grid>
 
-                <Grid item xs={2}>
-                  <AddRemove
-                    disabled={values.transaction_detail.length === 1}
-                    onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
-                    onDelete={() => arrayHelpers.remove(rowIndex)}
-                  />
-                </Grid>
-              </Grid>
-            ))
-          }
-        />
+                    <Grid item xs={2}>
+                      <AddRemove
+                        disabled={values.transaction_detail.length === 1}
+                        onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
+                        onDelete={() => arrayHelpers.remove(rowIndex)}
+                      />
+                    </Grid>
+                  </Grid>
+                ))
+              }
+            />
+          </ErrorAwareGrid>
+          {uniqueError && (
+            <Typography variant='body2' color='error'>
+              Please use unique entries
+            </Typography>
+          )}
+        </>
       )}
     </>
   );

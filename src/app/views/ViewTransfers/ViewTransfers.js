@@ -20,6 +20,8 @@ import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 import { withSnackbar } from '../../hoc/withSnackbar';
 import { setShouldFetch } from '../../../store/transactions';
 
+import { findErrorMessage } from '../../utilities/objectUtils';
+
 const ViewTransfers = ({
   showSuccessSnackbar,
   showErrorSnackbar,
@@ -49,7 +51,7 @@ const ViewTransfers = ({
         setDialogueState(DIALOGUE_INIT);
       })
       .catch((error) => {
-        showErrorSnackbar('Oops something went wrong');
+        showErrorSnackbar(findErrorMessage(error.response.data));
       });
   };
 

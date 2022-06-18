@@ -1,16 +1,12 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import { IconButton } from "@mui/material";
+import ChequeActions from '../../containers/ChequeActions';
+import CreateChequeHistory from '../../containers/CreateChequeHistory';
 
-import MoreVertIcon from "@mui/icons-material/MoreVert";
+import CustomMenu from '../../containers/CustomMenu';
 
-import ChequeActions from "../../containers/ChequeActions";
-import CreateChequeHistory from "../../containers/CreateChequeHistory";
-
-import { ACTION_TYPES } from "../../containers/ChequeActions/constants";
+import { ACTION_TYPES } from '../../containers/ChequeActions/constants';
 
 const ChequeActionMenu = ({
   chequeId,
@@ -18,13 +14,10 @@ const ChequeActionMenu = ({
   isPersonal,
   chequeSerial,
 }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const open = Boolean(anchorEl);
-
   const [addHistoryState, setAddHistoryState] = useState({
     showModal: false,
     isChequeEntry: false,
-    chequeId: "",
+    chequeId: '',
   });
 
   const [chequeActionState, setChequeActionState] = useState({
@@ -34,12 +27,6 @@ const ChequeActionMenu = ({
     isPersonal: false,
   });
 
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
-  };
   const getChequeIdHelper = (chequeId, isPersonal) => ({
     chequeId: chequeId,
     isPersonal: isPersonal,
@@ -166,12 +153,12 @@ const ChequeActionMenu = ({
 
   const EXTERNAL_DELETE = {
     action: handleDeleteExternalCheque,
-    name: "Delete party cheque",
+    name: 'Delete party cheque',
   };
 
   const PERSONAL_DELETE = {
     action: handleDeletePersonalCheque,
-    name: "Delete personal cheque",
+    name: 'Delete personal cheque',
   };
 
   const ACTIONS = {
@@ -179,22 +166,22 @@ const ChequeActionMenu = ({
       pending: [
         {
           action: handlePassPersonalCheque,
-          name: "Clear personal cheque",
+          name: 'Clear personal cheque',
         },
         {
           action: handleReturnPersonalCheque,
-          name: "Return personal cheque",
+          name: 'Return personal cheque',
         },
         PERSONAL_DELETE,
       ],
       returned: [
         {
           action: handleReissueReturnedPersonalCheque,
-          name: "Re-issue personal cheque",
+          name: 'Re-issue personal cheque',
         },
         {
           action: handleCancelPersonalCheque,
-          name: "Cancel personal cheque",
+          name: 'Cancel personal cheque',
         },
         PERSONAL_DELETE,
       ],
@@ -205,38 +192,38 @@ const ChequeActionMenu = ({
       pending: [
         {
           action: handleTransferExternalCheque,
-          name: "Transfer cheque",
+          name: 'Transfer cheque',
         },
         {
           action: handleAddHistory,
-          name: "Add paid history",
+          name: 'Add paid history',
         },
         {
           action: handleAddChequeHistory,
-          name: "Add cheque history",
+          name: 'Add cheque history',
         },
         {
           action: handleReturnExternalCheque,
-          name: "Return cheque to party",
+          name: 'Return cheque to party',
         },
         {
           action: handlePassExternalCheque,
-          name: "Clear party cheque",
+          name: 'Clear party cheque',
         },
         {
           action: handleCompleteHistoryExternalCheque,
-          name: "Complete party cheque with history",
+          name: 'Complete party cheque with history',
         },
         EXTERNAL_DELETE,
       ],
       transferred: [
         {
           action: handleReturnExternalTransferredCheque,
-          name: "Return transferred cheque",
+          name: 'Return transferred cheque',
         },
         {
           action: handleCompleteExternalTransferredCheque,
-          name: "Clear transferred cheque",
+          name: 'Clear transferred cheque',
         },
         EXTERNAL_DELETE,
       ],
@@ -249,29 +236,12 @@ const ChequeActionMenu = ({
 
   return (
     <div>
-      {ACTIONS[isPersonal ? "PERSONAL" : "EXTERNAL"][chequeStatus].length >
+      {ACTIONS[isPersonal ? 'PERSONAL' : 'EXTERNAL'][chequeStatus].length >
         0 && (
-        <>
-          <IconButton onClick={handleClick}>
-            <MoreVertIcon />
-          </IconButton>
-          <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
-            {ACTIONS[isPersonal ? "PERSONAL" : "EXTERNAL"][chequeStatus].map(
-              (action, index) => (
-                <MenuItem
-                  disableRipple
-                  key={index}
-                  onClick={() => {
-                    action.action(chequeId);
-                    handleClose();
-                  }}
-                >
-                  {action.name}
-                </MenuItem>
-              )
-            )}
-          </Menu>
-        </>
+        <CustomMenu
+          menu={ACTIONS[isPersonal ? 'PERSONAL' : 'EXTERNAL'][chequeStatus]}
+          id={chequeId}
+        />
       )}
       <CreateChequeHistory
         chequeSerial={chequeSerial}
@@ -281,7 +251,7 @@ const ChequeActionMenu = ({
         onClose={() =>
           setAddHistoryState({
             showModal: false,
-            chequeId: "",
+            chequeId: '',
           })
         }
       />

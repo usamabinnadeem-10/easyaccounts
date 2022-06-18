@@ -1,9 +1,6 @@
 import instance from '../../utils/axiosApi';
 
-import {
-  TRANSACTION_URLS,
-  ESSENTIAL_URLS,
-} from '../../constants/restEndPoints';
+import { TRANSACTION_URLS } from '../../constants/restEndPoints';
 
 import { getURL } from '../../app/utilities/stringUtils';
 
@@ -14,7 +11,7 @@ export const getSingleTransactionApi = (transactionID) => {
 };
 
 export const getAllStock = () => {
-  return instance.get(ESSENTIAL_URLS.ALL_STOCK);
+  return instance.get(TRANSACTION_URLS.ALL_STOCK);
 };
 
 export const cancelStockTransferApi = (data) => {

@@ -12,23 +12,16 @@ export const MetaWrapper = styled(Grid)(({ theme }) => ({
 export const LotWrapper = styled(Grid, {
   shouldForwardProp: (prop) => prop !== 'error',
 })(({ theme, error }) => ({
-  border: error ? `1px solid red` : `1px solid rgba(105, 105, 105, 0.1)`,
-  borderRadius: '4px',
-  padding: theme.spacing(2),
+  border: error ? `1px solid red` : `0px solid rgba(105, 105, 105, 0.1)`,
+  borderRadius: error ? '4px' : '0px',
+  borderBottom: error ? `1px solid red` : `2px solid rgb(0,0,0)`,
+  padding: error ? theme.spacing(2) : theme.spacing('0px', '0px', 2, '0px'),
   marginBottom: theme.spacing(2),
 }));
 
 export const LotHeader = styled(Grid)(({ theme }) => ({}));
 
 export const DetailWrapper = styled(Grid)(({ theme }) => ({}));
-
-export const TotalText = styled(Typography)(({ theme }) => ({
-  marginRight: `${theme.spacing(2)} !important`,
-}));
-
-export const LotTotalWrapper = styled(Grid)(({ theme }) => ({
-  marginTop: theme.spacing(4),
-}));
 
 export const StyledButton = styled(LoadingButton)(({ theme }) => ({
   marginTop: `${theme.spacing(4)} !important`,

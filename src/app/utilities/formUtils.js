@@ -1,6 +1,6 @@
 import React from 'react';
 
-import Autocomplete, { createFilterOptions } from '@mui/material/Autocomplete';
+import Autocomplete from '@mui/material/Autocomplete';
 import { TextField } from '@mui/material';
 import { styled } from '@mui/styles';
 
@@ -12,6 +12,8 @@ import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 import moment from 'moment';
+
+import { isObject } from '../../utils/objectUtils';
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-input': {
@@ -37,6 +39,7 @@ export const FormTextField = ({
     <StyledTextField
       {...field}
       {...props}
+      size='small'
       error={(touched[field.name] && !!errors[field.name]) || isError}
       helperText={
         (touched[field.name] && errors[field.name]) ||
@@ -57,6 +60,7 @@ export const FormAutoCompleteField = ({
   variant,
   freeSolo,
   type,
+  autoCompleteProps,
   ...props
 }) => {
   return (
@@ -116,7 +120,10 @@ export const FormDateField = ({
         maxDate={moment(Date.now()).add(10, 'years')}
         onChange={(value) => {
           setFieldTouched(name);
-          setFieldValue(name, moment(value).format('yyyy-MM-DD'));
+          let time = moment().format('HH:mm:ss');
+          let date = moment(value).format('yyyy-MM-DD');
+          let final = moment(date + ' ' + time).format('yyyy-MM-DD HH:mm:ss');
+          setFieldValue(name, final);
         }}
         label={props.label}
         inputFormat='DD/MM/yyyy'
@@ -125,7 +132,7 @@ export const FormDateField = ({
             {...params}
             onBlur={onBlur}
             fullWidth
-            size={props.size}
+            size={props.size || 'small'}
             error={(touched[name] && !!errors[name]) || isError}
             helperText={
               (touched[name] && errors[name]) || (isError ? errorText : null)
@@ -174,3 +181,52 @@ export const FormToggleField = ({
     />
   );
 };
+
+// utility function to get the errors for array fields
+// pass the actual array wherever it is located inside the form
+export const getErrors = (
+  errors,
+  touched,
+  index,
+  name,
+  forceError = false,
+  forceErrorText = ''
+) => {
+  if (forceError) {
+    return {
+      isError: true,
+      errorText: forceErrorText,
+    };
+  }
+  if (errors?.[index]?.[name] && touched?.[index]?.[name]) {
+    return {
+      isError: true,
+      errorText: errors[index][name],
+    };
+  }
+  return {
+    isError: false,
+    errorText: '',
+  };
+};
+
+// /**
+//  * helper function to format form's objects and retrieve the interested key recursively
+//  * @param {} root
+//  * @param {string} key
+//  */
+// export const formatFormForPosting = (root, key='value') => {
+//   // if the root is an object then iterate over keys and for each key, call func recursively
+//   if (isObject(root)) {
+//     for (const key in root) {
+//       formatFormForPosting(root[key]);
+//     }
+//   }
+//   // if root is an array then for each index, call the func recursively
+//   else if (Array.isArray(root)) {
+//     root.forEach((r) => formatFormForPosting(r))
+//   }
+//   else {
+//     if (root === key)
+//   }
+// }

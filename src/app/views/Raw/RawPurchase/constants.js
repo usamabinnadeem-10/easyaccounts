@@ -1,3 +1,5 @@
+import { getToday } from '../../../utilities/stringUtils';
+
 export const FIELDS = {
   person: 'person',
   raw_product: 'raw_product',
@@ -35,7 +37,7 @@ export const LOT_DETAIL_INITIAL = {
 export const INITIAL_VALUES = {
   [FIELDS.person]: '',
   [FIELDS.manual_invoice_serial]: '',
-  [FIELDS.date]: '',
+  [FIELDS.date]: getToday(),
   [FIELDS.lots]: [
     {
       [FIELDS.raw_product]: '',

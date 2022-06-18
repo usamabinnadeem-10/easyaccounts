@@ -167,12 +167,15 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                       value={filterState[filter.qp]}
                       minDate={moment(Date.now()).subtract(10, 'years')}
                       maxDate={moment(Date.now()).add(10, 'years')}
-                      onChange={(value) =>
+                      onChange={(value) => {
+                        let date = moment(value).format('yyyy-MM-DD');
+                        date = `${date} 00:00:00`;
                         handleSetFilter(
-                          moment(value).format('yyyy-MM-DD'),
+                          // moment(value).format('yyyy-MM-DD'),
+                          date,
                           filter
-                        )
-                      }
+                        );
+                      }}
                       renderInput={(params) => (
                         <TextField size='small' {...params} />
                       )}

@@ -33,6 +33,11 @@ export const CUSTOMER_TRANSACTION = 'Sale';
 export const LEDGER = 'Ledgers';
 export const LEDGER_ENTRY = 'Ledger Entry';
 
+// ----------------------LEDGERS--------------------------- //
+export const PAYMENT = 'Payment';
+export const PAYMENT_ENTRY = 'Payment Entry';
+export const PAYMENT_LIST = 'Payment List';
+
 // ----------------------EXPENSES--------------------------- //
 export const EXPENSES = 'Expenses';
 export const EXPENSE_ENTRY = 'Expense Entry';
@@ -71,6 +76,8 @@ export const RAW = 'Kora';
 export const RAW_PURCHASE = 'Buying';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
+export const RAW_DEBIT = 'Kora Sale/Return';
+export const RAW_TRANSFER = 'Kora Transfer';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
@@ -104,6 +111,7 @@ export const SIDEBAR = [
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
         route: routes.PRODUCT_PERFORMANCE,
+        roles: [ROLES.ADMIN],
       },
       {
         name: ACCOUNTS_HISTORY,
@@ -126,7 +134,7 @@ export const SIDEBAR = [
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN],
       },
     ],
   },
@@ -138,9 +146,22 @@ export const SIDEBAR = [
         name: VIEW,
         route: routes.LEDGERS,
       },
+      // {
+      //   name: LEDGER_ENTRY,
+      //   route: routes.LEDGER_TRANSACTION,
+      // },
+    ],
+  },
+  {
+    panelName: PAYMENT,
+    panelData: [
       {
-        name: LEDGER_ENTRY,
-        route: routes.LEDGER_TRANSACTION,
+        name: PAYMENT_LIST,
+        route: routes.PAYMENT_LIST_ROUTE,
+      },
+      {
+        name: PAYMENT_ENTRY,
+        route: routes.PAYMENT_ROUTE,
       },
     ],
   },
@@ -262,14 +283,14 @@ export const SIDEBAR = [
         name: RAW_PURCHASE,
         route: routes.RAW_PURCHASE_ROUTE,
       },
-      // {
-      //   name: RAW_SALE,
-      //   route: routes.RETURN_DYING,
-      // },
-      // {
-      //   name: RAW_SEARCH,
-      //   route: routes.RETURN_DYING,
-      // },
+      {
+        name: RAW_DEBIT,
+        route: routes.RAW_DEBIT_ROUTE,
+      },
+      {
+        name: RAW_TRANSFER,
+        route: routes.RAW_TRANSFER_ROUTE,
+      },
     ],
   },
   // ----------------ACTIONS---------------//
@@ -337,17 +358,17 @@ export const getPersonForm = (essentials) => {
         options: essentials.areas,
         name: DB.AREA,
       },
-      {
-        label: 'City',
-        type: FIELDS.SELECT,
-        name: DB.CITY,
-        options: essentials.cities,
-      },
-      {
-        label: 'Business Name',
-        type: FIELDS.STRING,
-        name: DB.BUSINESS_NAME,
-      },
+      // {
+      //   label: 'City',
+      //   type: FIELDS.SELECT,
+      //   name: DB.CITY,
+      //   options: essentials.cities,
+      // },
+      // {
+      //   label: 'Business Name',
+      //   type: FIELDS.STRING,
+      //   name: DB.BUSINESS_NAME,
+      // },
       {
         label: 'Address',
         type: FIELDS.STRING,
@@ -368,13 +389,13 @@ export const getAreaForm = (essentials) => {
         name: DB.NAME,
         required: true,
       },
-      {
-        label: 'Area City',
-        type: FIELDS.SELECT,
-        name: DB.CITY,
-        options: essentials.cities,
-        required: true,
-      },
+      // {
+      //   label: 'Area City',
+      //   type: FIELDS.SELECT,
+      //   name: DB.CITY,
+      //   options: essentials.cities,
+      //   required: true,
+      // },
     ],
   };
 };
@@ -555,11 +576,11 @@ export const MODAL_DEFAULTS = {
         name: DB.NAME,
         required: true,
       },
-      {
-        label: 'Warehouse Location',
-        type: FIELDS.STRING,
-        name: DB.ADDRESS,
-      },
+      // {
+      //   label: 'Warehouse Location',
+      //   type: FIELDS.STRING,
+      //   name: DB.ADDRESS,
+      // },
     ],
   },
   [ACCOUNT]: {

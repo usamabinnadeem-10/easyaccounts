@@ -21,13 +21,6 @@ export const getMetaFields = (essentials) => {
   ];
 };
 
-export const formatFormulas = (formulas) => {
-  return formulas.map((formula) => ({
-    ...formula,
-    label: `${formula.numerator}/${formula.denominator}`,
-  }));
-};
-
 export const getLotDetailFields = (
   essentials,
   lotIndex,
@@ -57,7 +50,7 @@ export const getLotDetailFields = (
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.formula}`,
       name: FIELDS.formula,
       type: FIELD_TYPES.SELECT,
-      options: formatFormulas(formulas),
+      options: formulas,
       label: 'Formula',
       xs: 2,
     },
@@ -126,85 +119,6 @@ export const getLotHeadField = (
       label: 'Dying Unit',
       options: formatDyingOptions(dyingOptions),
       isFast: true,
-    },
-  ];
-};
-
-const calculateValues = (obj) => {
-  let qty = obj[FIELDS.quantity] || 0;
-  let formula = obj[FIELDS.formula];
-  let ratio = formula?.numerator / formula?.denominator;
-  let expected = qty * obj[FIELDS.expected_gazaana] || 0;
-  let actual = qty * ratio * obj[FIELDS.actual_gazaana] || 0;
-  let total = obj[FIELDS.rate] * actual;
-  return {
-    qty,
-    expected,
-    actual,
-    total,
-  };
-};
-
-export const getCalculatedValues = (values, lotIndex, lotDetailIndex) => {
-  let obj = values.lots[lotIndex].lot_detail[lotDetailIndex];
-  let calculated = calculateValues(obj);
-  return [
-    {
-      label: 'Actual',
-      value: calculated.actual,
-    },
-    {
-      label: 'Expected',
-      value: calculated.expected,
-    },
-    {
-      label: 'Total',
-      value: calculated.total,
-    },
-  ];
-};
-
-export const getTotals = (values, global = false) => {
-  let thaan = 0;
-  let expected = 0;
-  let actual = 0;
-  let total = 0;
-  if (global) {
-    values.lots.forEach((lot) => {
-      lot.lot_detail.forEach((lotDetail) => {
-        let calculated = calculateValues(lotDetail);
-        expected += calculated.expected;
-        actual += calculated.actual;
-        thaan += calculated.qty;
-        total += calculated.total;
-      });
-    });
-  } else {
-    values.forEach((lotDetail) => {
-      let calculated = calculateValues(lotDetail);
-      expected += calculated.expected;
-      actual += calculated.actual;
-      thaan += calculated.qty;
-      total += calculated.total;
-    });
-  }
-
-  return [
-    {
-      label: 'Thaan',
-      value: thaan,
-    },
-    {
-      label: 'Actual',
-      value: actual.toFixed(2),
-    },
-    {
-      label: 'Expected',
-      value: expected.toFixed(2),
-    },
-    {
-      label: 'Total',
-      value: total.toFixed(2),
     },
   ];
 };

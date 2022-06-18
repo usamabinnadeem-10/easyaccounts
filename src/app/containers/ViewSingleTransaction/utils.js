@@ -76,9 +76,10 @@ const formatTransactionDetails = (
   grandTotalGazaana
 ) => {
   let newDetails = [];
-  details.forEach((detail) => {
+  details.forEach((detail, index) => {
     newDetails.push({
       ...detail,
+      id: `${detail.transaction}-${index}`,
       amount: formatCurrency(
         detail.rate * detail.quantity * detail.yards_per_piece
       ),

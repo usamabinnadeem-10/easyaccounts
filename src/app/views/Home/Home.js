@@ -34,6 +34,7 @@ const Home = ({ showErrorSnackbar }) => {
   let essentials = useEssentials();
 
   const { fetched, error } = useSelector((state) => state.essentials);
+  const role = useSelector((state) => state.auth.userRole);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
 
   useEffect(() => {
@@ -74,7 +75,7 @@ const Home = ({ showErrorSnackbar }) => {
                   key={index}
                   path={route.path}
                   exact>
-                  <Component {...essentials} />
+                  <Component role={role} {...essentials} />
                 </PrivateRoute>
               );
             })}
