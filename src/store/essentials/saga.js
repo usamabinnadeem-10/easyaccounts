@@ -101,8 +101,12 @@ function* addNewCategorySaga(action) {
 }
 
 function* addExpenseDetailSaga(action) {
-  yield call(api.addExpenseDetailApi, action.payload);
-  yield put(actions.addExpenseDetailSuccess());
+  try {
+    let response = yield call(api.addExpenseDetailApi, action.payload);
+    yield put(actions.addExpenseDetailSuccess());
+  } catch (error) {
+    yield put(actions.setError(findErrorMessage(error.response.data)));
+  }
 }
 
 function* addNewAreaSaga(action) {
