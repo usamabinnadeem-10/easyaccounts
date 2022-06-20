@@ -9,10 +9,10 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
       value: transaction[DB.SERIAL],
       label: 'Serial #',
     },
-    {
-      value: `${transaction[DB.SERIAL_TYPE]}-${transaction[DB.BOOK_SERIAL]}`,
-      label: 'Book #',
-    },
+    // {
+    //   value: `${transaction[DB.SERIAL_TYPE]}-${transaction[DB.SERIAL]}`,
+    //   label: 'Book #',
+    // },
     {
       value: person?.label,
       label: `${DB_TRANSLATION[person.person_type]}:`,

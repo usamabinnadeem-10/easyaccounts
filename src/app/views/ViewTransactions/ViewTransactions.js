@@ -128,7 +128,7 @@ function ViewTransactions({
     let account = accounts?.[transactionToEdit.account_type];
     let person = persons[transactionToEdit.person];
     history.push({
-      pathname: REDIRECTS[transactionToEdit.manual_serial_type],
+      pathname: REDIRECTS[transactionToEdit.serial_type],
       state: {
         transaction: {
           ...transactionToEdit,

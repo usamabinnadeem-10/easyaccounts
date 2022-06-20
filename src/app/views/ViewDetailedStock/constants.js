@@ -40,24 +40,24 @@ export const COLUMNS = [
       );
     },
   },
-  {
-    accessor: 'bookSerial',
-    Header: 'Book #',
-    Cell: (row) => {
-      return (
-        <Chip
-          size='small'
-          color={CHIP_COLORS[row.row.original.transactionType]}
-          label={row.value || '---'}
-          sx={{
-            fontWeight: 700,
-            borderRadius: 1.5,
-            textTransform: 'capitalize',
-          }}
-        />
-      );
-    },
-  },
+  // {
+  //   accessor: 'bookSerial',
+  //   Header: 'Book #',
+  //   Cell: (row) => {
+  //     return (
+  //       <Chip
+  //         size='small'
+  //         color={CHIP_COLORS[row.row.original.transactionType]}
+  //         label={row.value || '---'}
+  //         sx={{
+  //           fontWeight: 700,
+  //           borderRadius: 1.5,
+  //           textTransform: 'capitalize',
+  //         }}
+  //       />
+  //     );
+  //   },
+  // },
   {
     accessor: 'person',
     Header: 'Person',

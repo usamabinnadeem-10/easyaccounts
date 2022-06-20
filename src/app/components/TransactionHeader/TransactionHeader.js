@@ -98,7 +98,7 @@ function TransactionHeader(props) {
             />
           </Grid>
         )}
-        <Grid item xs={6}>
+        {/* <Grid item xs={6}>
           <FastField
             component={FormTextField}
             name='manual_invoice_serial'
@@ -106,7 +106,7 @@ function TransactionHeader(props) {
             size='small'
             fullWidth
           />
-        </Grid>
+        </Grid> */}
         <Grid item xs={6}>
           <FastField
             component={FormTextField}

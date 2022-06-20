@@ -22,7 +22,7 @@ function SupplierTransaction(props) {
     user: null,
     date: null,
     transactionType: constants.TRANSACTION_TYPES[0].value,
-    manualInvoiceSerial: null,
+    // manualInvoiceSerial: null,
     requiresAction: false,
   });
 
@@ -72,7 +72,7 @@ function SupplierTransaction(props) {
           currentPerson: metaData.user,
           currentTransactionType: metaData.transactionType,
           currentDate: metaData.date,
-          currentManualInvoiceSerial: metaData.manualInvoiceSerial,
+          // currentManualInvoiceSerial: metaData.manualInvoiceSerial,
           currentRequiresAction: metaData.requiresAction,
         }}
         transactionDetails={location.state ? transactions : null}

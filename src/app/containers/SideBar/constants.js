@@ -294,20 +294,20 @@ export const SIDEBAR = [
     ],
   },
   // ----------------ACTIONS---------------//
-  {
-    panelName: ACTIONS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
-    panelData: [
-      {
-        name: CANCEL_INVOICE,
-        modal: CANCEL_INVOICE,
-      },
-      {
-        name: CANCEL_STOCK_TRANSFER,
-        modal: CANCEL_STOCK_TRANSFER,
-      },
-    ],
-  },
+  // {
+  //   panelName: ACTIONS,
+  //   roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+  //   panelData: [
+  //     {
+  //       name: CANCEL_INVOICE,
+  //       modal: CANCEL_INVOICE,
+  //     },
+  //     {
+  //       name: CANCEL_STOCK_TRANSFER,
+  //       modal: CANCEL_STOCK_TRANSFER,
+  //     },
+  //   ],
+  // },
 ];
 
 export const getPersonForm = (essentials) => {

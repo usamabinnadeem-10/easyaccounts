@@ -30,7 +30,7 @@ export const schema = Yup.object().shape({
       is: (val) => val === 'paid',
       then: reqObjectSchema,
     }),
-  [FIELDS.BOOK_NUM]: reqNumberSchema,
+  // [FIELDS.BOOK_NUM]: reqNumberSchema,
   [FIELDS.BUILTY]: Yup.string().nullable(),
   [FIELDS.ACTION]: Yup.boolean().required(REQUIRED),
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,

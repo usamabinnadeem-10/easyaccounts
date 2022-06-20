@@ -34,15 +34,15 @@ function TransactionDetail({
         </div>
       ),
     },
-    {
-      accessor: 'manual_invoice_serial',
-      Header: 'Book #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
-      ),
-    },
+    // {
+    //   accessor: 'manual_invoice_serial',
+    //   Header: 'Book #',
+    //   Cell: (row) => (
+    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+    //       {row.value}
+    //     </div>
+    //   ),
+    // },
     {
       accessor: 'date',
       Header: 'Date',

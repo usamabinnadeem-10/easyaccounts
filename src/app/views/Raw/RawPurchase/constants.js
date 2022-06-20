@@ -36,7 +36,7 @@ export const LOT_DETAIL_INITIAL = {
 
 export const INITIAL_VALUES = {
   [FIELDS.person]: '',
-  [FIELDS.manual_invoice_serial]: '',
+  // [FIELDS.manual_invoice_serial]: '',
   [FIELDS.date]: getToday(),
   [FIELDS.lots]: [
     {
