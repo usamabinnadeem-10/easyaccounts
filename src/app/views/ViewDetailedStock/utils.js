@@ -23,7 +23,7 @@ export const formatDetailedStock = (
       id: value.transaction_id,
       stock: balance,
       serial: `${value.transaction__serial_type}-${value.transaction__serial}`,
-      // bookSerial: `${value.transaction__manual_serial_type}-${value.transaction__manual_invoice_serial}`,
+      manual_serial: `${value.transaction__manual_serial || '---'}`,
       date: getReadableDate(value.transaction__date),
       credit: currentNature === 'C' ? value.quantity : null,
       debit: currentNature === 'D' ? value.quantity : null,

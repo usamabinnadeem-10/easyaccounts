@@ -1,6 +1,5 @@
 import Yup from '../../utilities/yup';
 import {
-  reqNumberSchema,
   reqObjectSchema,
   smallPositiveReqNumberSchema,
 } from '../../utilities/yup';
@@ -16,7 +15,9 @@ const postiveNumberSchema = Yup.number()
   .min(0.01, POSITIVE_NUM_ERROR)
   .required(REQUIRED);
 
-const numberSchemaNotRequired = Yup.number().typeError(INVALID_NUMBER);
+const numberSchemaNotRequired = Yup.number()
+  .nullable()
+  .typeError(INVALID_NUMBER);
 
 const textSchema = Yup.string().typeError(REQUIRED).required(REQUIRED);
 
@@ -30,7 +31,7 @@ export const schema = Yup.object().shape({
       is: (val) => val === 'paid',
       then: reqObjectSchema,
     }),
-  // [FIELDS.BOOK_NUM]: reqNumberSchema,
+  [FIELDS.BOOK_NUM]: numberSchemaNotRequired,
   [FIELDS.BUILTY]: Yup.string().nullable(),
   [FIELDS.ACTION]: Yup.boolean().required(REQUIRED),
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,
@@ -39,7 +40,6 @@ export const schema = Yup.object().shape({
   [FIELDS.TRANS_DETAIL]: Yup.array()
     .of(
       Yup.object().shape({
-        // [FIELDS.ID]: Yup.string().nullable(true),
         [FIELDS.PRODUCT]: reqObjectSchema,
         [FIELDS.GAZAANA]: reqObjectSchema,
         [FIELDS.WAREHOUSE]: reqObjectSchema,

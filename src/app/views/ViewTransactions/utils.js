@@ -19,7 +19,8 @@ export const formatTransactionData = (data) => {
     grandTotal += total;
     transactions.push({
       ...element,
-      manual_invoice_serial: `${element.manual_serial_type}-${element.manual_invoice_serial}`,
+      serial: `${element.serial_type}-${element.serial}`,
+      manual_serial: `${element.manual_serial || '---'}`,
       date: getReadableDate(element.date),
       total: total,
     });
@@ -108,7 +109,7 @@ export const getFilters = (essentials, role) => {
       placeholder: 'Product',
     },
     {
-      qp: 'manual_serial_type',
+      qp: 'serial_type',
       options: INVOICE_OPTIONS,
       type: FIELDS.SELECT,
       placeholder: 'Invoice Type',
@@ -134,21 +135,21 @@ export const getFilters = (essentials, role) => {
       type: FIELDS.NUMBER,
       placeholder: 'Serial (less than)',
     },
-    // {
-    //   qp: 'manual_invoice_serial',
-    //   type: FIELDS.NUMBER,
-    //   placeholder: 'Book # (equal to)',
-    // },
-    // {
-    //   qp: 'manual_invoice_serial__gte',
-    //   type: FIELDS.NUMBER,
-    //   placeholder: 'Book # (more than)',
-    // },
-    // {
-    //   qp: 'manual_invoice_serial__lte',
-    //   type: FIELDS.NUMBER,
-    //   placeholder: 'Book # (less than)',
-    // },
+    {
+      qp: 'manual_serial',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (equal to)',
+    },
+    {
+      qp: 'manual_serial__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (more than)',
+    },
+    {
+      qp: 'manual_serial__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Book # (less than)',
+    },
     {
       qp: 'date__gte',
       type: FIELDS.DATE,
