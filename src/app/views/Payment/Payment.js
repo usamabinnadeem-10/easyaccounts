@@ -133,7 +133,7 @@ const Payment = ({
                     <FastField
                       component={FormAutoCompleteField}
                       options={constants.NATURES}
-                      label='Credit / Debit'
+                      label='Credit (جمع) / Debit (بنام)'
                       name='nature'
                     />
                     <FastField

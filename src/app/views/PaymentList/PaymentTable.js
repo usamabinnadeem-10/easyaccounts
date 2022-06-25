@@ -5,6 +5,8 @@ import CustomMenu from '../../containers/CustomMenu';
 
 import { convertDate } from '../../utilities/stringUtils';
 
+import { NATURES } from './constants';
+
 const PaymentTable = ({
   rows,
   persons,
@@ -33,6 +35,7 @@ const PaymentTable = ({
     {
       accessor: 'nature',
       Header: 'Nature',
+      Cell: (row) => <div>{NATURES[row.value].label}</div>,
     },
     {
       accessor: 'amount',

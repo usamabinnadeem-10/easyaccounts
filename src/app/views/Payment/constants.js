@@ -11,11 +11,11 @@ export const FIELDS = {
 
 export const NATURES = [
   {
-    label: 'Credit',
+    label: 'Credit (جمع)',
     value: 'C',
   },
   {
-    label: 'Debit',
+    label: 'Debit (بنام)',
     value: 'D',
   },
 ];
