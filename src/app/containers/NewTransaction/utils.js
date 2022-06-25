@@ -44,7 +44,7 @@ export const formatDataForPosting = (values, natures, prefixes) => {
     type: values.type,
     detail: values.detail || null,
     serial_type: prefixes[values.type],
-    manual_serial: values.manual_serial,
+    manual_serial: values.manual_serial || null,
     requires_action: values.requires_action,
     date: values.date || null,
     paid: values.type === 'paid',
