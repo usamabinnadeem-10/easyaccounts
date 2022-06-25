@@ -20,7 +20,9 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
       setInput('');
       return;
     }
-    let product = products.filter((product) => product.label === decoded.name);
+    let product = products.filter(
+      (product) => product.label === decoded.name.replace(/\s/g, '')
+    );
     if (!(product.length > 0)) {
       setInput('');
       return;
