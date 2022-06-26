@@ -611,6 +611,13 @@ export const MODAL_DEFAULTS = {
         name: DB.NAME,
         required: true,
       },
+      {
+        label: 'Account Type',
+        type: FIELDS.SELECT,
+        options: options.EXPENSE_TYPES,
+        name: DB.TYPE,
+        required: true,
+      },
     ],
   },
   [FORMULA]: {

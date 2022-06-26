@@ -12,6 +12,10 @@ export const BANKS = [
     label: 'Faysal Bank',
   },
   {
+    value: 'ubl',
+    label: 'UBL',
+  },
+  {
     value: 'al_habib',
     label: 'Bank Al-Habib',
   },
