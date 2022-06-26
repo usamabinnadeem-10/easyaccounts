@@ -26,5 +26,6 @@ export const formatPaymentAsTable = (paymentData, persons, accounts) => {
       'Account',
       accounts?.[paymentData.account_type]?.label || '---'
     ),
+    getTableRowObject('Detail', NATURES[paymentData.detail] || '---'),
   ];
 };

@@ -16,6 +16,7 @@ export const schema = Yup.object().shape({
   [FIELDS.person]: reqObjectSchema,
   [FIELDS.date]: Yup.date().typeError('Invalid Date'),
   [FIELDS.nature]: reqObjectSchema,
+  [FIELDS.detail]: Yup.string().nullable(),
   [FIELDS.amount]: postiveNumberSchema,
   [FIELDS.account_type]: notReqObjectSchema,
 });

@@ -6,6 +6,7 @@ export const FIELDS = {
   date: 'date',
   amount: 'amount',
   nature: 'nature',
+  detail: 'detail',
   images: 'images',
 };
 
@@ -26,5 +27,6 @@ export const INITIAL_VALUES = {
   [FIELDS.date]: getToday(),
   [FIELDS.amount]: '',
   [FIELDS.nature]: '',
+  [FIELDS.detail]: '',
   [FIELDS.images]: [],
 };

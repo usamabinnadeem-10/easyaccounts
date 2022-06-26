@@ -151,7 +151,15 @@ const Payment = ({
                       name='account_type'
                     />
                   </Row>
-                  {edit && (
+                  <Row>
+                    <FastField
+                      component={FormAutoCompleteField}
+                      options={essentials.accountTypes}
+                      label='Detail'
+                      name='detail'
+                    />
+                  </Row>
+                  {edit && editData.image_urls?.length > 0 && (
                     <ReceiptImagesWrapper item xs={12}>
                       <ImageViewAndDelete
                         imageUrls={editData.image_urls}
