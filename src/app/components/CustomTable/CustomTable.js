@@ -1,15 +1,15 @@
-import React from "react";
+import React from 'react';
 
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
-import TableRow from "@mui/material/TableRow";
+import Table from '@mui/material/Table';
+import TableBody from '@mui/material/TableBody';
+import TableCell from '@mui/material/TableCell';
+import TableContainer from '@mui/material/TableContainer';
+import TableHead from '@mui/material/TableHead';
+import TableRow from '@mui/material/TableRow';
 
-import { useTable } from "react-table";
+import { useTable } from 'react-table';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
 
 function CustomTable({
   columns,
@@ -19,6 +19,7 @@ function CustomTable({
   pre,
   bordered = false,
 }) {
+  console.log(data);
   const getRowId = (row) => row.id;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -28,6 +29,7 @@ function CustomTable({
       getRowId,
     });
 
+  console.log(rows);
   const classes = useStyles();
 
   return (
@@ -35,9 +37,8 @@ function CustomTable({
       {...getTableProps()}
       className={`${
         noTableStyles ? classes.noTableStyles : classes.tableWrapper
-      }`}
-    >
-      <Table size="small">
+      }`}>
+      <Table size='small'>
         <TableHead className={classes.tableHead}>
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -48,9 +49,8 @@ function CustomTable({
                   sx={{
                     color: column.color,
                   }}
-                  {...column.getHeaderProps()}
-                >
-                  {column.render("Header")}
+                  {...column.getHeaderProps()}>
+                  {column.render('Header')}
                 </TableCell>
               ))}
             </TableRow>
@@ -63,21 +63,19 @@ function CustomTable({
               <TableRow
                 hover
                 className={`${
-                  row.original[hoverProperty] ? classes.hover : ""
+                  row.original[hoverProperty] ? classes.hover : ''
                 }`}
-                {...row.getRowProps()}
-              >
+                {...row.getRowProps()}>
                 {row.cells.map((cell) => {
                   return (
                     <TableCell
                       className={`
                       ${classes.rowCell} 
-                      ${pre ? classes.pre : ""}
-                      ${bordered ? classes.bordered : ""}
+                      ${pre ? classes.pre : ''}
+                      ${bordered ? classes.bordered : ''}
                       ${cell.column.hideInPrint && classes.hideInPrint}`}
-                      {...cell.getCellProps()}
-                    >
-                      {cell.render("Cell")}
+                      {...cell.getCellProps()}>
+                      {cell.render('Cell')}
                     </TableCell>
                   );
                 })}

@@ -10,7 +10,7 @@ export const formatDetailedStock = (
   let balance = data.opening_stock;
   let totalCR = 0.0;
   let totalDB = 0.0;
-  data.data.forEach((value) => {
+  data.data.forEach((value, idx) => {
     let currentNature = value.transaction__nature;
     if (currentNature === 'C') {
       balance += value.quantity;
@@ -20,7 +20,7 @@ export const formatDetailedStock = (
       totalDB += value.quantity;
     }
     stock.push({
-      id: value.transaction_id,
+      id: `${value.transaction_id}-${idx}`,
       stock: balance,
       serial: `${value.transaction__serial_type}-${value.transaction__serial}`,
       manual_serial: `${value.transaction__manual_serial || '---'}`,
@@ -101,6 +101,7 @@ export const formatDetailedStock = (
   }
   stock.length > 0 &&
     stock.push({
+      id: `${stock.length + 1}`,
       date: 'TOTAL',
       credit: totalCR,
       debit: totalDB,
@@ -109,6 +110,5 @@ export const formatDetailedStock = (
       rowVariant: 'h6',
       rowFontWeight: '900',
     });
-  console.log(stock);
   return stock;
 };
