@@ -488,12 +488,12 @@ export const getProductForm = (essentials) => {
         options: essentials.productCategories,
         required: true,
       },
-      {
-        label: 'Minimum Rate',
-        type: FIELDS.NUMBER,
-        name: DB.MIN_RATE,
-        required: true,
-      },
+      // {
+      //   label: 'Minimum Rate',
+      //   type: FIELDS.NUMBER,
+      //   name: DB.MIN_RATE,
+      //   required: true,
+      // },
     ],
   };
 };

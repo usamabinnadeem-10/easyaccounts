@@ -35,7 +35,18 @@ export const formatStockData = (data, props) => {
       )
     ),
   });
-  return newStockData;
+  const collator = new Intl.Collator('en', {
+    numeric: true,
+    sensitivity: 'base',
+  });
+  let sorted = newStockData.sort((a, b) =>
+    collator.compare(a.product, b.product)
+  );
+  sorted = sorted.sort((a, b) =>
+    collator.compare(a.yards_per_piece, b.yards_per_piece)
+  );
+  sorted = sorted.sort((a, b) => collator.compare(a.warehouse, b.warehouse));
+  return sorted;
 };
 
 const OUTCUT = [
