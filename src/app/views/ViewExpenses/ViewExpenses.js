@@ -2,33 +2,29 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
+import { useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
 
 import { useReactToPrint } from 'react-to-print';
 
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
-import StartEndDate from '../../components/StartEndDate/StartEndDate';
 import ExpenseDetail from '../../components/ExpenseDetail/ExpenseDetail';
 import AddModal from '../../containers/AddModal/AddModal';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
+import CustomFilters from '../../containers/CustomFilters';
+import ViewWrapper from '../../components/ViewWrapper';
 
 import { Button } from '@mui/material';
-import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
-import { useStyles } from './styles';
-
+import { getFilters } from './filters';
 import { getExpenseForm } from '../../containers/FAB/constants';
 
 import instance from '../../../utils/axiosApi';
-import {
-  makeQueryParamURL,
-  getURL,
-  convertDate,
-} from '../../utilities/stringUtils';
+import { getURL, convertDate } from '../../utilities/stringUtils';
 import { EXPENSE_URLS } from '../../../constants/restEndPoints';
 import { ERRORS, SUCCESS } from './constants';
 import { formatExpensesData, getTotalExpenses } from './utils';
@@ -45,12 +41,10 @@ const ViewExpenses = ({
   showErrorSnackbar,
   showSuccessSnackbar,
 }) => {
-  const classes = useStyles();
   const componentRef = useRef();
   const essentials = useSelector((state) => state.essentials);
+  const filters = useMemo(() => getFilters(essentials), [essentials]);
 
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
   const [expensesData, setExpensesData] = useState(
     daybookView
       ? formatExpensesData(defaultExpenses, accounts, expenseAccounts)
@@ -104,39 +98,12 @@ const ViewExpenses = ({
     content: () => componentRef.current,
   });
 
-  const search = () => {
-    setLoading(true);
-    const params = [
-      startDate && {
-        key: 'date__gte',
-        value: startDate,
-      },
-      endDate && {
-        key: 'date__lte',
-        value: endDate,
-      },
-    ];
-    const URL = makeQueryParamURL(EXPENSE_URLS.LIST_EXPENSE_DETAILS, params);
-
-    instance
-      .get(URL)
-      .then((res) => {
-        let formattedExpenses = formatExpensesData(
-          res.data,
-          accounts,
-          expenseAccounts
-        );
-        setExpensesData(formattedExpenses);
-        setIsEmpty(formattedExpenses.length === 0);
-        setTotalExpenses(getTotalExpenses(res.data));
-        setLoading(false);
-        setStartDate(null);
-        setEndDate(null);
-      })
-      .catch((error) => {
-        setLoading(false);
-        showErrorSnackbar(ERRORS.OOPS);
-      });
+  const handleSearch = (data) => {
+    let formattedExpenses = formatExpensesData(data, accounts, expenseAccounts);
+    setExpensesData(formattedExpenses);
+    setIsEmpty(formattedExpenses.length === 0);
+    setTotalExpenses(getTotalExpenses(data));
+    setLoading(false);
   };
 
   const edit = (data) => {
@@ -198,6 +165,7 @@ const ViewExpenses = ({
 
   return (
     <>
+      {!daybookView && <Heading heading={'View Expenses'} />}
       <ConfirmationModal
         open={dialogueState.open}
         setDialogueState={(value) =>
@@ -217,56 +185,43 @@ const ViewExpenses = ({
         />
       )}
       {!daybookView && (
-        <div className={classes.root}>
-          <Heading heading={'View Expenses'} />
-
-          <div className={classes.dateContainer}>
-            <StartEndDate
-              startDate={startDate}
-              endDate={endDate}
-              getStartDate={(date) => setStartDate(date)}
-              getEndDate={(date) => setEndDate(date)}
-            />
-            <LoadingButton
-              onClick={() => search()}
-              variant='contained'
-              sx={{ fontWeight: 700 }}
-              loading={loading}>
-              Search
-            </LoadingButton>
-          </div>
-        </div>
+        <>
+          <CustomFilters
+            api={EXPENSE_URLS.LIST_EXPENSE_DETAILS}
+            onSearch={handleSearch}
+            filters={filters}
+          />
+        </>
       )}
-      <div className={classes.expensesWrapper} ref={componentRef}>
+      <>
         {!!totalExpenses && expensesData.length > 0 && (
-          <Grid
-            sx={{ mb: 2 }}
-            container
-            alignItems='center'
-            justifyContent='space-between'>
-            <Typography variant='body1' fontWeight={500}>
-              {`Expenses (${expensesData[0].date}) - (${
-                expensesData[expensesData.length - 2].date
-              })`}
-            </Typography>
-            <Button
-              sx={{ displayPrint: 'none' }}
-              onClick={handlePrint}
-              variant='contained'
-              color='secondary'>
-              PRINT
-            </Button>
-          </Grid>
+          <ViewWrapper overridewidth width={'100%'}>
+            <Grid
+              sx={{ mb: 2 }}
+              container
+              alignItems='center'
+              justifyContent='space-between'>
+              <Button
+                sx={{ displayPrint: 'none' }}
+                onClick={handlePrint}
+                variant='contained'
+                color='secondary'>
+                PRINT
+              </Button>
+            </Grid>
+          </ViewWrapper>
         )}
         {expensesData.length > 0 && (
-          <ExpenseDetail
-            rows={expensesData}
-            handleDelete={handleDelete}
-            handleEdit={handleEdit}
-          />
+          <div ref={componentRef}>
+            <ExpenseDetail
+              rows={expensesData}
+              handleDelete={handleDelete}
+              handleEdit={handleEdit}
+            />
+          </div>
         )}
         {isEmpty && <Empty />}
-      </div>
+      </>
     </>
   );
 };
