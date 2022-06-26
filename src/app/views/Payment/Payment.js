@@ -150,13 +150,11 @@ const Payment = ({
                       label='Account'
                       name='account_type'
                     />
-                  </Row>
-                  <Row>
                     <FastField
-                      component={FormAutoCompleteField}
-                      options={essentials.accountTypes}
+                      component={FormTextField}
                       label='Detail'
                       name='detail'
+                      fullWidth
                     />
                   </Row>
                   {edit && editData.image_urls?.length > 0 && (
