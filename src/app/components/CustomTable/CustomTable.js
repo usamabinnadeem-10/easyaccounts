@@ -19,7 +19,6 @@ function CustomTable({
   pre,
   bordered = false,
 }) {
-  console.log(data);
   const getRowId = (row) => row.id;
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
@@ -29,7 +28,6 @@ function CustomTable({
       getRowId,
     });
 
-  console.log(rows);
   const classes = useStyles();
 
   return (
