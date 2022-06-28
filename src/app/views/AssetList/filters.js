@@ -3,7 +3,7 @@ import { ASSET_TYPES, ASSET_STATUS } from '../../../constants/choices';
 
 export const FILTERS = [
   {
-    qp: 'name',
+    qp: 'name__icontains',
     type: FIELDS.TEXT,
     placeholder: 'Name',
   },
