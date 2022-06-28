@@ -23,6 +23,7 @@ export const STOCK = 'Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
+export const ASSETS_LIST = 'Assets List';
 
 // ----------------------TRANSACTIONS--------------------------- //
 export const TRANSACTIONS = 'Transactions';
@@ -65,6 +66,7 @@ export const OPENING_STOCK = 'Add Opening Stock';
 export const FORMULA = 'Formula';
 export const RAW_PRODUCT = 'Kora product';
 export const DYING_UNIT = 'Dying unit';
+export const ASSET = 'Asset';
 
 // ----------------------DYING--------------------------- //
 export const DYING = 'Dying/Washing';
@@ -116,6 +118,10 @@ export const SIDEBAR = [
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
+      },
+      {
+        name: ASSETS_LIST,
+        route: routes.ASSET_LIST_ROUTE,
       },
     ],
   },
@@ -258,6 +264,10 @@ export const SIDEBAR = [
       {
         name: DYING_UNIT,
         modal: DYING_UNIT,
+      },
+      {
+        name: ASSET,
+        route: routes.ASSET_CREATE_ROUTE,
       },
     ],
   },

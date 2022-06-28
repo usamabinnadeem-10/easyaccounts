@@ -68,3 +68,15 @@ export const EXPENSE_TYPES = [
   { value: 'software', label: 'Software' },
   { value: 'other', label: 'Other' },
 ];
+
+export const ASSET_TYPES = [
+  { value: 'property', label: 'Property' },
+  { value: 'equipment', label: 'Equipment' },
+  { value: 'investment', label: 'Investment' },
+  { value: 'vehicle', label: 'Vehicle' },
+];
+
+export const ASSET_STATUS = [
+  { value: 'P', label: 'Purchased' },
+  { value: 'S', label: 'Sold' },
+];

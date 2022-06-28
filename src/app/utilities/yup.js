@@ -29,6 +29,8 @@ export const reqObjectSchema = Yup.object()
 
 export const notReqObjectSchema = Yup.object().typeError(INVALID_OBJECT_ERROR);
 
+export const reqTextSchema = Yup.string().required(REQUIRED);
+
 Yup.addMethod(Yup.array, 'unique', function (keys, message) {
   return this.test('unique', message, function (array) {
     return isArrayOfObjectsUnique(array, keys);
