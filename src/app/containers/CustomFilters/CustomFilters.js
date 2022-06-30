@@ -38,19 +38,20 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
     setAnchorEl(null);
   };
 
-  const handleSetActiveFilters = (qp, val, placeholder) => {
+  const handleSetActiveFilters = (qp, val, placeholder, displayValue) => {
     let value = typeof val === 'string' ? val : val?.label;
     if (value) {
       let index = activeFilters.findIndex((filter) => filter.qp === qp);
       if (index === -1) {
-        setActiveFilters([
+        let newFilters = [
           ...activeFilters,
-          { qp: qp, value: value, placeholder },
-        ]);
+          { qp: qp, value: value, placeholder, displayValue },
+        ];
+        setActiveFilters(newFilters);
         return;
       } else {
         let newFilters = activeFilters;
-        newFilters[index] = { qp: qp, value: value, placeholder };
+        newFilters[index] = { qp: qp, value: value, placeholder, displayValue };
         setActiveFilters(newFilters);
         return;
       }
@@ -61,11 +62,11 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
     }
   };
 
-  const handleSetFilter = (value, filter, reason) => {
+  const handleSetFilter = (value, filter, reason, displayValue) => {
     let newFilterState = filterState;
     let qp = filter.qp;
     newFilterState[qp] = value;
-    handleSetActiveFilters(qp, value, filter.placeholder);
+    handleSetActiveFilters(qp, value, filter.placeholder, displayValue);
     if (reason === 'clear' || value === '') {
       delete newFilterState[qp];
     }
@@ -112,7 +113,9 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
             <Chip
               onDelete={() => handleSetFilter('', filter, 'clear')}
               key={index}
-              label={`${filter.placeholder} : ${filter.value}`}
+              label={`${filter.placeholder} : ${
+                filter.displayValue || filter.value
+              }`}
               sx={{ mr: 1, mb: 1 }}
               variant='outlined'
             />
@@ -173,7 +176,9 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                         handleSetFilter(
                           // moment(value).format('yyyy-MM-DD'),
                           date,
-                          filter
+                          filter,
+                          'set',
+                          moment(value).format('DD-MM-YYYY')
                         );
                       }}
                       renderInput={(params) => (

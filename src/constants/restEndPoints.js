@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = 'http://127.0.0.1:8000/';
-export const BASE = 'https://easyaccountsadmin.com/';
+export const BASE = 'http://127.0.0.1:8000/';
+// export const BASE = 'https://easyaccountsadmin.com/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -177,4 +177,10 @@ export const ASSET_APIS = {
   LIST: `${ASSET}${LIST}`,
   EDIT: `${ASSET}${EDIT}:uuid/`,
   DELETE: `${ASSET}${DELETE}:uuid/`,
+};
+
+const REPORTS = 'reports/';
+export const REPORTS_APIS = {
+  BALANCE_SHEET: `${REPORTS}balance-sheet/`,
+  INCOME_STATEMENT: `${REPORTS}income-statement/`,
 };

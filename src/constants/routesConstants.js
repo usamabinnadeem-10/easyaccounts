@@ -28,3 +28,5 @@ export const PAYMENT_ROUTE = `${HOME}/add-payment`;
 export const PAYMENT_LIST_ROUTE = `${HOME}/payment-list`;
 export const ASSET_CREATE_ROUTE = `${HOME}/add-asset`;
 export const ASSET_LIST_ROUTE = `${HOME}/asset-list`;
+export const BALANCE_SHEET_ROUTE = `${HOME}/balance-sheet`;
+export const INCOME_STATEMENT_ROUTE = `${HOME}/income-statement`;

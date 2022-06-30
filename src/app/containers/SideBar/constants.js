@@ -23,6 +23,8 @@ export const STOCK = 'Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
+export const BALANCE_SHEET = 'Balance Sheet';
+export const INCOME_STATEMENT = 'Income Statement';
 
 // ----------------------TRANSACTIONS--------------------------- //
 export const TRANSACTIONS = 'Transactions';
@@ -122,6 +124,14 @@ export const SIDEBAR = [
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
       },
+      {
+        name: BALANCE_SHEET,
+        route: routes.BALANCE_SHEET_ROUTE,
+      },
+      // {
+      //   name: INCOME_STATEMENT,
+      //   route: routes.INCOME_STATEMENT_ROUTE,
+      // },
     ],
   },
   // ----------------TRANSACTIONS---------------//
