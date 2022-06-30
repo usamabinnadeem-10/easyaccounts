@@ -37,6 +37,24 @@ const AssetTable = ({ rows, handleDelete, handleEdit }) => {
       ),
     },
     {
+      accessor: 'sold_value',
+      Header: 'Sale price',
+      Cell: (row) => (
+        <div>{`${row.value ? convertCurrencyToNumber(row.value) : '---'}`}</div>
+      ),
+    },
+    {
+      accessor: 'sold_date',
+      Header: 'Sale date',
+      Cell: (row) => (
+        <div>{`${
+          row.value
+            ? convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', row.value)
+            : '---'
+        }`}</div>
+      ),
+    },
+    {
       accessor: 'delete',
       Header: 'Delete',
       hideInPrint: true,

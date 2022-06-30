@@ -15,6 +15,7 @@ export const formatPaymentDataForPosting = (values, images) => {
     ...values,
     person: values.person.value,
     account_type: values.account_type?.value || null,
+    detail: values.detail || null,
     nature: values.nature.value,
     images: images,
   };

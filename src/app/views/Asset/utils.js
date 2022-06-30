@@ -5,6 +5,8 @@ export const formatDataForPosting = (data) => {
     ...data,
     type: data.type.value,
     status: data.status.value,
+    sold_value: data.sold_value || null,
+    sold_date: data.sold_date || null,
   };
 };
 

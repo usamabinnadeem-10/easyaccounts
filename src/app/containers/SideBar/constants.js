@@ -23,7 +23,6 @@ export const STOCK = 'Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
-export const ASSETS_LIST = 'Assets List';
 
 // ----------------------TRANSACTIONS--------------------------- //
 export const TRANSACTIONS = 'Transactions';
@@ -66,7 +65,11 @@ export const OPENING_STOCK = 'Add Opening Stock';
 export const FORMULA = 'Formula';
 export const RAW_PRODUCT = 'Kora product';
 export const DYING_UNIT = 'Dying unit';
+
+// ----------------------ASSETS--------------------------- //
 export const ASSET = 'Asset';
+export const SEARCH_ASSET = 'Search';
+export const CREATE_ASSET = 'Add Asset';
 
 // ----------------------DYING--------------------------- //
 export const DYING = 'Dying/Washing';
@@ -119,10 +122,6 @@ export const SIDEBAR = [
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
       },
-      {
-        name: ASSETS_LIST,
-        route: routes.ASSET_LIST_ROUTE,
-      },
     ],
   },
   // ----------------TRANSACTIONS---------------//
@@ -152,10 +151,10 @@ export const SIDEBAR = [
         name: VIEW,
         route: routes.LEDGERS,
       },
-      // {
-      //   name: LEDGER_ENTRY,
-      //   route: routes.LEDGER_TRANSACTION,
-      // },
+      {
+        name: LEDGER_ENTRY,
+        route: routes.LEDGER_TRANSACTION,
+      },
     ],
   },
   {
@@ -265,8 +264,19 @@ export const SIDEBAR = [
         name: DYING_UNIT,
         modal: DYING_UNIT,
       },
+    ],
+  },
+  // ----------------Assets---------------//
+  {
+    panelName: ASSET,
+    roles: [ROLES.ADMIN],
+    panelData: [
       {
-        name: ASSET,
+        name: SEARCH_ASSET,
+        route: routes.ASSET_LIST_ROUTE,
+      },
+      {
+        name: CREATE_ASSET,
         route: routes.ASSET_CREATE_ROUTE,
       },
     ],

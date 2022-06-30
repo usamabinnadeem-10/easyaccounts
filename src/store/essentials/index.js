@@ -8,6 +8,8 @@ export {
   getAllCustomersSuccess,
   getAllSuppliers,
   getAllSuppliersSuccess,
+  getAllEquity,
+  getAllEquitySuccess,
   getAllProduct,
   getAllProductSuccess,
   getAllWarehouse,

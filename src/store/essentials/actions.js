@@ -63,6 +63,19 @@ export const getAllSuppliersSuccess = (data) => {
   };
 };
 
+export const getAllEquity = () => {
+  return {
+    type: actionTypes.GET_ALL_EQUITY,
+  };
+};
+
+export const getAllEquitySuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_EQUITY_SUCCESS,
+    payload: data,
+  };
+};
+
 export const getAllProduct = () => {
   return {
     type: actionTypes.GET_ALL_PRODUCT,

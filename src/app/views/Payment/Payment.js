@@ -12,9 +12,12 @@ import { useSelector } from 'react-redux';
 import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 
-import { FormAutoCompleteField } from '../../utilities/formUtils';
-import { FormDateField } from '../../utilities/formUtils';
-import { FormTextField } from '../../utilities/formUtils';
+import {
+  FormAutoCompleteField,
+  FormRow,
+  FormTextField,
+  FormDateField,
+} from '../../utilities/formUtils';
 
 import ImageUpload from '../../components/ImageUpload';
 import ImageViewAndDelete from '../../containers/ImageViewAndDelete';
@@ -27,18 +30,6 @@ import * as api from './api';
 import { ReceiptImagesWrapper } from './styled';
 import { findErrorMessage } from '../../utilities/objectUtils';
 import { withSnackbar } from '../../hoc/withSnackbar';
-
-const Row = ({ children }) => {
-  return (
-    <Grid container justifyContent='space-between'>
-      {React.Children.map(children, (child) => (
-        <Grid item xs={12} sm={5}>
-          {child}
-        </Grid>
-      ))}
-    </Grid>
-  );
-};
 
 const Payment = ({
   showErrorSnackbar,
@@ -113,12 +104,13 @@ const Payment = ({
             {({ setFieldValue, handleSubmit }) => (
               <Form>
                 <Grid container direction='column' rowGap={2}>
-                  <Row>
+                  <FormRow>
                     <FastField
                       component={FormAutoCompleteField}
                       options={[
                         ...essentials.customers,
                         ...essentials.suppliers,
+                        ...essentials.equities,
                       ]}
                       label='Person'
                       name='person'
@@ -128,8 +120,8 @@ const Payment = ({
                       label='Date'
                       name='date'
                     />
-                  </Row>
-                  <Row>
+                  </FormRow>
+                  <FormRow>
                     <FastField
                       component={FormAutoCompleteField}
                       options={constants.NATURES}
@@ -142,8 +134,8 @@ const Payment = ({
                       name='amount'
                       fullWidth
                     />
-                  </Row>
-                  <Row>
+                  </FormRow>
+                  <FormRow>
                     <FastField
                       component={FormAutoCompleteField}
                       options={essentials.accountTypes}
@@ -156,7 +148,7 @@ const Payment = ({
                       name='detail'
                       fullWidth
                     />
-                  </Row>
+                  </FormRow>
                   {edit && editData.image_urls?.length > 0 && (
                     <ReceiptImagesWrapper item xs={12}>
                       <ImageViewAndDelete

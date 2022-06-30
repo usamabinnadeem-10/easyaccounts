@@ -6,8 +6,6 @@ import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import { useHistory } from 'react-router';
-
 import { useReactToPrint } from 'react-to-print';
 
 import { Button } from '@mui/material';
@@ -16,21 +14,20 @@ import { Typography } from '@mui/material';
 
 import WhatsAppIcon from '@mui/icons-material/WhatsApp';
 
-import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
-import SearchAndSelect from '../../components/SearchAndSelect/SearchAndSelect';
-import LedgerDetail from '../../components/LedgerDetail/LedgerDetail';
-import TransactionDrawer from '../../components/TransactionDrawer/TransactionDrawer';
-import Empty from '../../components/Empty/Empty';
+import ConfirmationModal from '../../components/ConfirmationModal';
+import SearchAndSelect from '../../components/SearchAndSelect';
+import LedgerDetail from '../../components/LedgerDetail';
+import TransactionDrawer from '../../components/TransactionDrawer/';
+import Empty from '../../components/Empty';
+import LedgerEntry from '../../views/LedgerEntry';
 
 import {
   PERSON_TYPES,
   STORE_PERSON,
 } from '../../components/SelectPerson/constants';
 import { useStyles } from './styles';
-import { ERRORS } from './constants';
-import { SUCCESS } from './constants';
-import { formatLedgerData } from './utils';
-import { getChequeTexts } from './utils';
+import { ERRORS, NATURES, SUCCESS } from './constants';
+import { formatLedgerData, getChequeTexts } from './utils';
 import { LEDGER_URLS } from '../../../constants/restEndPoints';
 
 import { DB_TRANSLATION } from '../../../constants/db';
@@ -50,9 +47,9 @@ function Ledgers({
   persons,
   showSuccessSnackbar,
   showErrorSnackbar,
+  role,
 }) {
   const classes = useStyles();
-  const history = useHistory();
   const state = useSelector((state) => state.essentials);
   const componentRef = useRef();
   const dispatch = useDispatch();
@@ -82,6 +79,9 @@ function Ledgers({
   const [hideDetails, setHideDetails] = useState(false);
   const [nextPage, setNextPage] = useState(null);
 
+  const [editData, setEditData] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+
   useEffect(() => {
     setIsEmpty(false);
   }, [personType]);
@@ -90,7 +90,11 @@ function Ledgers({
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
       instance
         .delete(
-          getURL(LEDGER_URLS.DELETE_LEDGER, 'uuid', dialogueState.idToDelete)
+          getURL(
+            LEDGER_URLS.DELETE_LEDGER_ENTRY,
+            'uuid',
+            dialogueState.idToDelete
+          )
         )
         .then((res) => {
           search();
@@ -126,9 +130,6 @@ function Ledgers({
       newLedgerData,
       response.data.opening_balance,
       persons
-      // response.data.pending_cheques,
-      // response.data.transferred_cheques.amount,
-      // response.data.transferred_to_this_person
     );
     setNextPage(response.data.next);
     setledgerData(ledgerDataFormatted);
@@ -164,7 +165,7 @@ function Ledgers({
         value: endDate,
       },
     ];
-    const URL = makeQueryParamURL(LEDGER_URLS.CREATE_LEDGER, params);
+    const URL = makeQueryParamURL(LEDGER_URLS.SEARCH_LEDGER, params);
 
     instance
       .get(URL)
@@ -185,10 +186,20 @@ function Ledgers({
   };
 
   const handleEdit = (id) => {
-    history.push({
-      pathname: '/home/ledger-transaction',
-      state: ledgerData.filter((ledger) => ledger.id === id)[0],
-    });
+    let data = ledgerDataRaw.filter((l) => l.id === id)[0];
+    data = {
+      ...data,
+      nature: NATURES[data.nature],
+      person: persons?.[data.person],
+      account_type: accounts?.[data.account_type],
+    };
+    setEditData(data);
+    setIsEditing(true);
+  };
+
+  const handleCancelEditing = () => {
+    setIsEditing(false);
+    setEditData(null);
   };
 
   const handleDelete = (id) => {
@@ -230,135 +241,149 @@ function Ledgers({
 
   return (
     <>
-      <ConfirmationModal
-        open={dialogueState.open}
-        setDialogueState={(value) =>
-          setDialogueState({ ...dialogueState, ...value })
-        }
-        closeDialogue={() =>
-          setDialogueState({ ...dialogueState, open: false })
-        }
-      />
-      {!daybookView && (
-        <div className={classes.root}>
-          <SearchAndSelect
-            header='View Ledger'
-            currentPerson={currentPerson}
-            personType={personType}
-            setCurrentPerson={setCurrentPerson}
-            options={state[STORE_PERSON[personType]]}
-            setPersonType={setPersonType}
-            startDate={startDate}
-            setStartDate={setStartDate}
-            endDate={endDate}
-            setEndDate={setEndDate}
-            loading={loading}
-            search={search}
+      {isEditing ? (
+        <LedgerEntry
+          isEdit={isEditing}
+          editData={editData}
+          role={role}
+          handleCancelEditing={handleCancelEditing}
+        />
+      ) : (
+        <>
+          <ConfirmationModal
+            open={dialogueState.open}
+            setDialogueState={(value) =>
+              setDialogueState({ ...dialogueState, ...value })
+            }
+            closeDialogue={() =>
+              setDialogueState({ ...dialogueState, open: false })
+            }
           />
-        </div>
-      )}
-      <div className={classes.ledgerWrapper} ref={componentRef}>
-        {!daybookView && (
-          <Grid container alignItems='center' justifyContent='space-between'>
-            <div>
-              {currentPerson && (
-                <Typography>
-                  {`${DB_TRANSLATION[currentPerson.person_type]} : `}
-                  <Typography component='span' fontWeight={700}>
-                    {currentPerson.label}
-                  </Typography>
-                </Typography>
-              )}
-
-              <Typography variant='body2'>
-                Opening Balance:{' '}
-                {`${
-                  Math.abs(openingBalance)
-                    ? formatCurrency(openingBalance)
-                    : '---'
-                }${openingBalance < 0 ? ' DB' : ' CR'}`}
-              </Typography>
-              <Typography variant='body2'>{`Closing Balance: ${closingBalance}`}</Typography>
-              {ledgerData.length > 0 && (
-                <>
-                  <Typography variant='body2'>{`${ledgerData[0].date} - ${
-                    ledgerData[ledgerData.length - 2].date
-                  }`}</Typography>
-                  {chequeBalances.map((balance, index) => (
-                    <Typography variant='body2' color='error'>
-                      {balance.text}: {balance.value}
-                    </Typography>
-                  ))}
-                </>
-              )}
-              <Button
-                variant='contained'
-                onClick={() => setHideDetails(!hideDetails)}
-                disabled={ledgerData.length === 0}
-                sx={{ mt: 2, displayPrint: 'none' }}
-                size='small'>
-                {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
-              </Button>
+          {!daybookView && (
+            <div className={classes.root}>
+              <SearchAndSelect
+                header='View Ledger'
+                currentPerson={currentPerson}
+                personType={personType}
+                setCurrentPerson={setCurrentPerson}
+                options={state[STORE_PERSON[personType]]}
+                setPersonType={setPersonType}
+                startDate={startDate}
+                setStartDate={setStartDate}
+                endDate={endDate}
+                setEndDate={setEndDate}
+                loading={loading}
+                search={search}
+              />
             </div>
-            <Grid item>
-              <Button
-                onClick={handlePrint}
-                variant='contained'
-                size='medium'
-                color='secondary'
-                disabled={ledgerData.length === 0}
-                sx={{ displayPrint: 'none', mr: 2 }}>
-                PRINT
-              </Button>
-
-              <Button
-                onClick={handleOpenWhatsapp}
-                variant='contained'
-                size='medium'
-                color='success'
-                disabled={ledgerData.length === 0}
-                sx={{ displayPrint: 'none' }}
-                startIcon={<WhatsAppIcon />}>
-                Whatsapp
-              </Button>
-            </Grid>
-          </Grid>
-        )}
-
-        <div className={classes.table}>
-          {ledgerData.length > 0 && (
-            <LedgerDetail
-              hideDetails={hideDetails}
-              daybookView={daybookView}
-              rows={ledgerData}
-              onRowClick={onRowClick}
-              hoverProperty={'transaction'}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
           )}
-        </div>
-        {nextPage && !daybookView && (
-          <Button
-            disabled={loading}
-            sx={{ mb: 3 }}
-            variant='contained'
-            onClick={() => loadMoreData()}
-            fullWidth>
-            LOAD MORE
-          </Button>
-        )}
-      </div>
-      {isEmpty && <Empty />}
-      <TransactionDrawer
-        hideDrawer={hideDrawer}
-        open={showDrawer}
-        transactionID={transactionID}
-        warehouses={warehouses}
-        products={products}
-        accounts={accounts}
-        persons={persons}
-      />
+          <div className={classes.ledgerWrapper} ref={componentRef}>
+            {!daybookView && (
+              <Grid
+                container
+                alignItems='center'
+                justifyContent='space-between'>
+                <div>
+                  {currentPerson && (
+                    <Typography>
+                      {`${DB_TRANSLATION[currentPerson.person_type]} : `}
+                      <Typography component='span' fontWeight={700}>
+                        {currentPerson.label}
+                      </Typography>
+                    </Typography>
+                  )}
+
+                  <Typography variant='body2'>
+                    Opening Balance:{' '}
+                    {`${
+                      Math.abs(openingBalance)
+                        ? formatCurrency(openingBalance)
+                        : '---'
+                    }${openingBalance < 0 ? ' DB' : ' CR'}`}
+                  </Typography>
+                  <Typography variant='body2'>{`Closing Balance: ${closingBalance}`}</Typography>
+                  {ledgerData.length > 0 && (
+                    <>
+                      <Typography variant='body2'>{`${ledgerData[0].date} - ${
+                        ledgerData[ledgerData.length - 2].date
+                      }`}</Typography>
+                      {chequeBalances.map((balance, index) => (
+                        <Typography variant='body2' color='error'>
+                          {balance.text}: {balance.value}
+                        </Typography>
+                      ))}
+                    </>
+                  )}
+                  <Button
+                    variant='contained'
+                    onClick={() => setHideDetails(!hideDetails)}
+                    disabled={ledgerData.length === 0}
+                    sx={{ mt: 2, displayPrint: 'none' }}
+                    size='small'>
+                    {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
+                  </Button>
+                </div>
+                <Grid item>
+                  <Button
+                    onClick={handlePrint}
+                    variant='contained'
+                    size='medium'
+                    color='secondary'
+                    disabled={ledgerData.length === 0}
+                    sx={{ displayPrint: 'none', mr: 2 }}>
+                    PRINT
+                  </Button>
+
+                  <Button
+                    onClick={handleOpenWhatsapp}
+                    variant='contained'
+                    size='medium'
+                    color='success'
+                    disabled={ledgerData.length === 0}
+                    sx={{ displayPrint: 'none' }}
+                    startIcon={<WhatsAppIcon />}>
+                    Whatsapp
+                  </Button>
+                </Grid>
+              </Grid>
+            )}
+
+            <div className={classes.table}>
+              {ledgerData.length > 0 && (
+                <LedgerDetail
+                  hideDetails={hideDetails}
+                  daybookView={daybookView}
+                  rows={ledgerData}
+                  onRowClick={onRowClick}
+                  hoverProperty={'transaction'}
+                  handleEdit={handleEdit}
+                  handleDelete={handleDelete}
+                />
+              )}
+            </div>
+            {nextPage && !daybookView && (
+              <Button
+                disabled={loading}
+                sx={{ mb: 3 }}
+                variant='contained'
+                onClick={() => loadMoreData()}
+                fullWidth>
+                LOAD MORE
+              </Button>
+            )}
+          </div>
+          {isEmpty && <Empty />}
+          <TransactionDrawer
+            hideDrawer={hideDrawer}
+            open={showDrawer}
+            transactionID={transactionID}
+            warehouses={warehouses}
+            products={products}
+            accounts={accounts}
+            persons={persons}
+          />
+        </>
+      )}
     </>
   );
 }

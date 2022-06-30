@@ -7,6 +7,10 @@ export const PERSON_OPTIONS = [
     label: 'Supplier',
     value: 'S',
   },
+  {
+    label: 'Equity',
+    value: 'E',
+  },
 ];
 
 export const NATURE_OPTIONS = [

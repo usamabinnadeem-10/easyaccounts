@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-export const BASE = 'http://127.0.0.1:8000/';
-// export const BASE = 'https://easyaccountsadmin.com/';
+// export const BASE = 'http://127.0.0.1:8000/';
+export const BASE = 'https://easyaccountsadmin.com/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -12,11 +12,16 @@ export const AUTH_URLS = {
   LOGOUT: `${AUTH}logout/`,
 };
 
+const LIST = 'list/';
+const CREATE = 'create/';
+const EDIT = 'edit/';
+const DELETE = 'delete/';
+
 const ESSENTIALS = 'essentials/';
 const CUSTOMER = 'C';
 const SUPPLIER = 'S';
-const LIST = 'list/';
-const CREATE = 'create/';
+const EQUITY = 'E';
+
 const PERSON_TYPE = 'person_type';
 export const ESSENTIAL_URLS = {
   LIST: {
@@ -25,6 +30,7 @@ export const ESSENTIAL_URLS = {
     PRODUCT: `${ESSENTIALS}product/${LIST}`,
     CUSTOMERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${CUSTOMER}`,
     SUPPLIERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${SUPPLIER}`,
+    EQUITY: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${EQUITY}`,
     AREAS: `${ESSENTIALS}area/${LIST}`,
     CATEGORIES: `${ESSENTIALS}product-category/${LIST}`,
   },
@@ -72,10 +78,12 @@ export const TRANSACTION_URLS = {
 };
 
 const LEDGER = 'ledger/';
+const LEDGER_ENTRY = 'ledger-entry/';
 export const LEDGER_URLS = {
-  CREATE_LEDGER: `${LEDGER}`,
-  DELETE_LEDGER: `${LEDGER}:uuid/`,
-  UPDATE_LEDGER: `${LEDGER}:uuid/`,
+  SEARCH_LEDGER: `${LEDGER}`,
+  CREATE_LEDGER_ENTRY: `${LEDGER}${LEDGER_ENTRY}${CREATE}`,
+  UPDATE_LEDGER_ENTRY: `${LEDGER}${LEDGER_ENTRY}${EDIT}:uuid/`,
+  DELETE_LEDGER_ENTRY: `${LEDGER}${LEDGER_ENTRY}${DELETE}:uuid/`,
   ALL_BALANCES: `${LEDGER}balances/all/`,
 };
 
@@ -86,7 +94,7 @@ const PASS = 'pass/';
 const CANCEL = 'cancel/';
 const RETURN = 'return/';
 const TRANSFER = 'transfer/';
-const DELETE = 'delete/';
+
 export const CHEQUE_URLS = {
   PERSONAL: {
     ISSUE: `${CHEQUE}${PERSONAL}issue/`,
@@ -143,7 +151,7 @@ export const RAW_APIS = {
     LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
   },
 };
-const EDIT = 'edit/';
+
 const PAYMENT = 'payments/';
 const IMAGE = 'image/';
 export const PAYMENT_APIS = {

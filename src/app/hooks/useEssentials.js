@@ -1,17 +1,18 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
 const DEFAULTS = {
-  warehouses: "warehouses",
-  products: "products",
-  suppliers: "persons",
-  customers: "persons",
-  accountTypes: "accounts",
-  expenseAccounts: "expenseAccounts",
+  warehouses: 'warehouses',
+  products: 'products',
+  suppliers: 'persons',
+  customers: 'persons',
+  equities: 'persons',
+  accountTypes: 'accounts',
+  expenseAccounts: 'expenseAccounts',
 };
 
 const useEssentials = () => {

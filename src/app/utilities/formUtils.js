@@ -13,7 +13,7 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
 import moment from 'moment';
 
-import { isObject } from '../../utils/objectUtils';
+import { Grid } from '@mui/material';
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-input': {
@@ -230,3 +230,15 @@ export const getErrors = (
 //     if (root === key)
 //   }
 // }
+
+export const FormRow = ({ children }) => {
+  return (
+    <Grid container justifyContent='space-between' gap={2}>
+      {React.Children.map(children, (child) => (
+        <Grid item xs={12} sm={5}>
+          {child}
+        </Grid>
+      ))}
+    </Grid>
+  );
+};

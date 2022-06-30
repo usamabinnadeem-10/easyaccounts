@@ -7,6 +7,7 @@ const initialState = {
   accountTypes: [],
   customers: [],
   suppliers: [],
+  equities: [],
   products: [],
   productCategories: [],
   expenseAccounts: [],
@@ -68,6 +69,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         suppliers: suppliers,
+      };
+
+    case actionTypes.GET_ALL_EQUITY_SUCCESS:
+      const equities = renameKeys(
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
+      );
+      return {
+        ...state,
+        equities: equities,
       };
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:

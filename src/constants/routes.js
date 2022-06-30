@@ -5,7 +5,7 @@ import * as url from './routesConstants';
 import CustomerTransaction from '../app/views/CustomerTransaction/CustomerTransaction';
 import SupplierTransaction from '../app/views/SupplierTransaction/SupplierTransaction';
 const Ledgers = lazy(() => import('../app/views/Ledgers/Ledgers'));
-const LedgerTransaction = lazy(() => import('../app/views/LedgerTransaction'));
+const LedgerEntry = lazy(() => import('../app/views/LedgerEntry'));
 const ViewTransactions = lazy(() => import('../app/views/ViewTransactions'));
 const Daybook = lazy(() => import('../app/views/Daybook/Daybook'));
 const ViewExpenses = lazy(() => import('../app/views/ViewExpenses'));
@@ -43,7 +43,7 @@ export const authenticatedRoutes = [
     path: url.SUPPLIER_TRANSACTION,
   },
   {
-    component: LedgerTransaction,
+    component: LedgerEntry,
     path: url.LEDGER_TRANSACTION,
   },
   {

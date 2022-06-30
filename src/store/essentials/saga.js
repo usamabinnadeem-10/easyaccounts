@@ -39,6 +39,9 @@ function* getAllEssentialsSaga() {
     response = yield call(api.getSuppliersApi);
     yield put(actions.getAllSuppliersSuccess(response.data));
 
+    response = yield call(api.getEquityApi);
+    yield put(actions.getAllEquitySuccess(response.data));
+
     response = yield call(api.getProductApi);
     yield put(actions.getAllProductSuccess(response.data));
 

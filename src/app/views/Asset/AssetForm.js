@@ -12,24 +12,13 @@ import {
   FormAutoCompleteField,
   FormTextField,
   FormDateField,
+  FormRow,
 } from '../../utilities/formUtils';
 
 import { ASSET_TYPES, ASSET_STATUS } from '../../../constants/choices';
 
 import { INITIAL_VALUES } from './constants';
 import { schema } from './validation';
-
-const Row = ({ children }) => {
-  return (
-    <Grid container justifyContent='space-between' gap={3}>
-      {React.Children.map(children, (child) => (
-        <Grid item xs={12} sm={5}>
-          {child}
-        </Grid>
-      ))}
-    </Grid>
-  );
-};
 
 const AssetForm = ({ isEdit = false, editData, onSubmit, loading }) => {
   return (
@@ -38,10 +27,10 @@ const AssetForm = ({ isEdit = false, editData, onSubmit, loading }) => {
       initialValues={isEdit ? editData : INITIAL_VALUES}
       validationSchema={schema}
       onSubmit={(values, actions) => onSubmit(values, actions)}>
-      {({ handleSubmit }) => (
+      {({ values, handleSubmit }) => (
         <Form>
           <Grid container gap={3}>
-            <Row>
+            <FormRow>
               <FastField
                 component={FormDateField}
                 fullWidth
@@ -54,8 +43,8 @@ const AssetForm = ({ isEdit = false, editData, onSubmit, loading }) => {
                 label='Asset name'
                 name='name'
               />
-            </Row>
-            <Row>
+            </FormRow>
+            <FormRow>
               <FastField
                 component={FormAutoCompleteField}
                 options={ASSET_TYPES}
@@ -69,16 +58,32 @@ const AssetForm = ({ isEdit = false, editData, onSubmit, loading }) => {
                 type='number'
                 name='value'
               />
-            </Row>
+            </FormRow>
             {isEdit && (
-              <Row>
+              <FormRow>
                 <FastField
                   component={FormAutoCompleteField}
                   options={ASSET_STATUS}
                   name='status'
                   label='Asset type'
                 />
-              </Row>
+              </FormRow>
+            )}
+            {isEdit && values.status.value === 'S' && (
+              <FormRow>
+                <FastField
+                  component={FormTextField}
+                  name='sold_value'
+                  type='number'
+                  fullWidth
+                  label='Selling price'
+                />
+                <FastField
+                  component={FormDateField}
+                  name='sold_date'
+                  label='Selling date'
+                />
+              </FormRow>
             )}
             <LoadingButton
               fullWidth
