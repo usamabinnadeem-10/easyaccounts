@@ -115,11 +115,11 @@ export const SIDEBAR = [
         name: VIEW_DETAILED_STOCK,
         route: routes.DETAILED_STOCK,
       },
-      {
-        name: PRODUCT_PERFORMANCE_HISTORY,
-        route: routes.PRODUCT_PERFORMANCE,
-        roles: [ROLES.ADMIN],
-      },
+      // {
+      //   name: PRODUCT_PERFORMANCE_HISTORY,
+      //   route: routes.PRODUCT_PERFORMANCE,
+      //   roles: [ROLES.ADMIN],
+      // },
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
@@ -127,11 +127,13 @@ export const SIDEBAR = [
       {
         name: BALANCE_SHEET,
         route: routes.BALANCE_SHEET_ROUTE,
+        roles: [ROLES.ADMIN],
       },
-      // {
-      //   name: INCOME_STATEMENT,
-      //   route: routes.INCOME_STATEMENT_ROUTE,
-      // },
+      {
+        name: INCOME_STATEMENT,
+        route: routes.INCOME_STATEMENT_ROUTE,
+        roles: [ROLES.ADMIN],
+      },
     ],
   },
   // ----------------TRANSACTIONS---------------//
