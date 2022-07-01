@@ -18,23 +18,6 @@ export const formatStockData = (data, props) => {
       ),
     };
   });
-  newStockData.push({
-    id: data.length + 2,
-    product: 'TOTAL',
-    quantity: formatCurrency(
-      newStockData.reduce(
-        (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
-        0
-      )
-    ),
-    total_gazaana: formatCurrency(
-      newStockData.reduce(
-        (acc, stockData) =>
-          acc + convertCurrencyToNumber(stockData.total_gazaana),
-        0
-      )
-    ),
-  });
   const collator = new Intl.Collator('en', {
     numeric: true,
     sensitivity: 'base',
@@ -46,6 +29,25 @@ export const formatStockData = (data, props) => {
     collator.compare(a.yards_per_piece, b.yards_per_piece)
   );
   sorted = sorted.sort((a, b) => collator.compare(a.warehouse, b.warehouse));
+
+  sorted.push({
+    id: data.length + 2,
+    product: 'TOTAL',
+    quantity: formatCurrency(
+      sorted.reduce(
+        (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
+        0
+      )
+    ),
+    total_gazaana: formatCurrency(
+      sorted.reduce(
+        (acc, stockData) =>
+          acc + convertCurrencyToNumber(stockData.total_gazaana),
+        0
+      )
+    ),
+  });
+
   return sorted;
 };
 
@@ -86,6 +88,11 @@ export const getFilters = (essentials) => {
       options: OUTCUT,
       type: FIELDS.SELECT,
       placeholder: 'Outcut',
+    },
+    {
+      qp: 'quantity',
+      type: FIELDS.NUMBER,
+      placeholder: 'Stock Qty',
     },
     {
       qp: 'quantity__gte',
