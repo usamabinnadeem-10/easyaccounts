@@ -35,8 +35,8 @@ export const LineItem = ({ label, value, padLeft, minus }) => {
         {label}
       </Typography>
       <Typography variant={textVariant}>
-        {minus ? '-' : ''}
-        {value !== null ? formatCurrency(value) : ''}
+        {minus && !!value ? '-' : ''}
+        {value !== null && !!value ? formatCurrency(value) : '-'}
       </Typography>
     </Grid>
   );
@@ -65,7 +65,7 @@ const IncomeStatement = () => {
         onSearch={handleSearch}
       />
       <ViewWrapper overridewidth width='100%'>
-        <Button fullWidth onClick={handlePrint}>
+        <Button disabled={!incomeData} fullWidth onClick={handlePrint}>
           Print
         </Button>
         <div ref={componentRef}>
