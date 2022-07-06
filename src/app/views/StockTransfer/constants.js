@@ -6,13 +6,13 @@ export const FIELDS = {
   FROM_WAREHOUSE: 'from_warehouse',
   TO_WAREHOUSE: 'to_warehouse',
   QUANTITY: 'quantity',
-  MANUAL_SERIAL: 'manual_invoice_serial',
+  MANUAL_SERIAL: 'manual_serial',
 };
 
 export const INITIAL_VALUES = {
   [FIELDS.DATE]: '',
   [FIELDS.FROM_WAREHOUSE]: '',
-  // [FIELDS.MANUAL_SERIAL]: '',
+  [FIELDS.MANUAL_SERIAL]: '',
   [FIELDS.TRANSFER_DETAIL]: [
     {
       [FIELDS.PRODUCT]: '',

@@ -49,7 +49,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     data = {
       ...data,
       from_warehouse: values.from_warehouse.value,
-      manual_invoice_serial: values.manual_invoice_serial,
+      manual_serial: values.manual_serial,
       transfer_detail: values.transfer_detail.map((detail) => ({
         product: detail.product.value,
         yards_per_piece: detail.yards_per_piece,
@@ -128,15 +128,16 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                   fullWidth
                 />
               </Grid>
-              {/* <Grid item xs={4}>
+              <Grid item xs={4}>
                 <FastField
                   size='small'
                   component={FormTextField}
-                  name='manual_invoice_serial'
+                  name='manual_serial'
                   label='Receipt #'
                   fullWidth
+                  type='number'
                 />
-              </Grid> */}
+              </Grid>
             </MetaWrapper>
             <Grid container direction='column'>
               <FieldArray

@@ -35,17 +35,17 @@ export const getFilters = (essentials) => {
       placeholder: 'Serial (less than)',
     },
     {
-      qp: 'manual_invoice_serial',
+      qp: 'manual_serial',
       type: FIELDS.NUMBER,
       placeholder: 'Book # (equal to)',
     },
     {
-      qp: 'manual_invoice_serial__gte',
+      qp: 'manual_serial__gte',
       type: FIELDS.NUMBER,
       placeholder: 'Book # (more than)',
     },
     {
-      qp: 'manual_invoice_serial__lte',
+      qp: 'manual_serial__lte',
       type: FIELDS.NUMBER,
       placeholder: 'Book # (less than)',
     },
@@ -120,7 +120,7 @@ export const getColumns = (handleClick, handleDelete) => {
       ),
     },
     {
-      accessor: 'manual_invoice_serial',
+      accessor: 'manual_serial',
       Header: 'Book #',
       Cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
