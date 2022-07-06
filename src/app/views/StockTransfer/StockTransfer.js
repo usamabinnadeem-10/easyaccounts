@@ -128,7 +128,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                   fullWidth
                 />
               </Grid>
-              <Grid item xs={4}>
+              {/* <Grid item xs={4}>
                 <FastField
                   size='small'
                   component={FormTextField}
@@ -136,7 +136,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                   label='Receipt #'
                   fullWidth
                 />
-              </Grid>
+              </Grid> */}
             </MetaWrapper>
             <Grid container direction='column'>
               <FieldArray

@@ -5,14 +5,12 @@ import {
   reqNumberSchema,
 } from '../../utilities/yup';
 
-import { isArrayOfObjectsUnique } from '../../utilities/objectUtils';
-
 import { FIELDS } from './constants';
 
 export const schema = Yup.object().shape({
   [FIELDS.DATE]: Yup.date().typeError('Enter a valid date'),
   [FIELDS.FROM_WAREHOUSE]: reqObjectSchema,
-  [FIELDS.MANUAL_SERIAL]: reqNumberSchema,
+  // [FIELDS.MANUAL_SERIAL]: reqNumberSchema,
   [FIELDS.TRANSFER_DETAIL]: Yup.array()
     .of(
       Yup.object().shape({

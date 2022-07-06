@@ -12,7 +12,7 @@ export const FIELDS = {
 export const INITIAL_VALUES = {
   [FIELDS.DATE]: '',
   [FIELDS.FROM_WAREHOUSE]: '',
-  [FIELDS.MANUAL_SERIAL]: '',
+  // [FIELDS.MANUAL_SERIAL]: '',
   [FIELDS.TRANSFER_DETAIL]: [
     {
       [FIELDS.PRODUCT]: '',
