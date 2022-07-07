@@ -97,23 +97,26 @@ export const SIDEBAR = [
   // ----------------REPORTS---------------//
   {
     panelName: REPORTS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: DAYBOOK,
         route: routes.VIEW_DAYBOOK,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
       },
       {
         name: BALANCES,
         route: routes.ALL_BALANCES,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
       },
       {
         name: STOCK,
         route: routes.ALL_STOCK,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.STOCKIST],
       },
       {
         name: VIEW_DETAILED_STOCK,
         route: routes.DETAILED_STOCK,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
       },
       // {
       //   name: PRODUCT_PERFORMANCE_HISTORY,
@@ -123,6 +126,7 @@ export const SIDEBAR = [
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
       },
       {
         name: BALANCE_SHEET,
@@ -139,6 +143,7 @@ export const SIDEBAR = [
   // ----------------TRANSACTIONS---------------//
   {
     panelName: TRANSACTIONS,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: VIEW,
@@ -158,6 +163,7 @@ export const SIDEBAR = [
   // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: VIEW,

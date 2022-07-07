@@ -3,4 +3,5 @@ export const ROLES = {
   ACCOUNTANT: 'accountant',
   SALEMAN: 'saleman',
   PURCHASER: 'purchaser',
+  STOCKIST: 'stockist',
 };
