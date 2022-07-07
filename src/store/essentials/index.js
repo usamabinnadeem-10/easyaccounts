@@ -41,4 +41,5 @@ export {
   setEssentialsFetchedFalse,
   resetState,
   addNewCategory,
+  setBreakpoint,
 } from './actions';

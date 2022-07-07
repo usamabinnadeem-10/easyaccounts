@@ -89,6 +89,7 @@ const ViewAllStock = (props) => {
             onClick={handlePrint}
             sx={{ my: 3, displayPrint: 'none' }}
             variant='contained'
+            size='small'
             color='secondary'>
             PRINT
           </Button>

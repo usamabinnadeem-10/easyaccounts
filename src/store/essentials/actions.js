@@ -332,3 +332,11 @@ export const addNewProductFail = (data) => {
     payload: data,
   };
 };
+
+// ----------------------Breakpoint Actions-------------------------- //
+export const setBreakpoint = (data) => {
+  return {
+    type: actionTypes.SET_BREAKPOINT,
+    payload: data,
+  };
+};

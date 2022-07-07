@@ -7,6 +7,9 @@ import { useSelector } from 'react-redux';
 
 import { useHistory } from 'react-router';
 
+import Grid from '@mui/material/Grid';
+import IconButton from '@mui/material/IconButton';
+import Fab from '@mui/material/Fab';
 import Drawer from '@mui/material/Drawer';
 import List from '@mui/material/List';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -17,6 +20,7 @@ import Collapse from '@mui/material/Collapse';
 import ExpandLess from '@mui/icons-material/ExpandLess';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import LogoutIcon from '@mui/icons-material/Logout';
+import MenuIcon from '@mui/icons-material/Menu';
 
 import AddModal from '../AddModal/AddModal';
 import PermissionGate from '../../components/PermissionGate';
@@ -35,7 +39,12 @@ import { logout } from '../../../store/auth';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
-const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
+const SideBar = ({
+  fetched,
+  showErrorSnackbar,
+  showSuccessSnackbar,
+  tablet,
+}) => {
   let history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -44,6 +53,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
   const transactions = useSelector((state) => state.transactions);
   const activeBranch = useSelector((state) => state.auth.activeBranch);
 
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
   const [open, setOpen] = useState({
     panel: 0,
     expand: false,
@@ -95,6 +105,13 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
     setIsAddModalOpen(true);
   };
 
+  const handleListItemClick = (panelData) => {
+    panelData.route
+      ? history.push(panelData.route)
+      : handleOpenAddModal(panelData.modal);
+    tablet && setIsDrawerOpen(false);
+  };
+
   return (
     <>
       {isAddModalOpen && (
@@ -105,8 +122,19 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
           form={form}
         />
       )}
+      {tablet && (
+        <Grid container>
+          <Fab sx={{ mt: 1, ml: 1 }} size='small'>
+            <IconButton onClick={() => setIsDrawerOpen(true)}>
+              <MenuIcon color='primary' />
+            </IconButton>
+          </Fab>
+        </Grid>
+      )}
       <Drawer
-        variant='permanent'
+        open={tablet ? isDrawerOpen : true}
+        onClose={() => setIsDrawerOpen(false)}
+        variant={tablet ? 'temporary' : 'permanent'}
         sx={{
           '& .MuiDrawer-paper': {
             width: DRAWER_WIDTH,
@@ -146,11 +174,7 @@ const SideBar = ({ fetched, showErrorSnackbar, showSuccessSnackbar }) => {
                           <PermissionGate permit={panelData.roles}>
                             <ListItemButton
                               disabled={!fetched}
-                              onClick={
-                                panelData.route
-                                  ? () => history.push(panelData.route)
-                                  : () => handleOpenAddModal(panelData.modal)
-                              }
+                              onClick={() => handleListItemClick(panelData)}
                               key={index}
                               sx={{ pl: 4 }}
                               disableRipple>

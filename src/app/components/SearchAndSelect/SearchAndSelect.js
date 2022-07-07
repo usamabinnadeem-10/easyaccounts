@@ -1,14 +1,16 @@
-import React from "react";
+import React from 'react';
 
-import SelectPerson from "../SelectPerson/SelectPerson";
-import StartEndDate from "../StartEndDate/StartEndDate";
+import SelectPerson from '../SelectPerson/SelectPerson';
+import StartEndDate from '../StartEndDate/StartEndDate';
 
-import { Grid } from "@mui/material";
-import LoadingButton from "@mui/lab/LoadingButton";
+import { Grid } from '@mui/material';
+import LoadingButton from '@mui/lab/LoadingButton';
 
-import Heading from "../Heading";
+import Heading from '../Heading';
 
-import { useStyles } from "./styles";
+import { useStyles } from './styles';
+
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 function SearchAndSelect({
   header,
@@ -25,6 +27,7 @@ function SearchAndSelect({
   search,
 }) {
   const classes = useStyles();
+  const dimensions = useWindowSize();
   return (
     <>
       <Heading heading={header} />
@@ -37,9 +40,9 @@ function SearchAndSelect({
       />
       <Grid
         container
-        justifyContent="space-between"
-        className={classes.dateWrapper}
-      >
+        gap={2}
+        justifyContent={dimensions.width < 600 ? 'center' : 'space-between'}
+        className={classes.dateWrapper}>
         <StartEndDate
           startDate={startDate}
           endDate={endDate}
@@ -48,10 +51,10 @@ function SearchAndSelect({
         />
         <LoadingButton
           loading={loading}
-          variant="contained"
-          sx={{ fontWeight: 900 }}
-          onClick={() => search()}
-        >
+          variant='contained'
+          fullWidth={dimensions.width < 600}
+          sx={{ fontWeight: 900, mt: dimensions.width < 600 ? 2 : '0px' }}
+          onClick={() => search()}>
           Search
         </LoadingButton>
       </Grid>

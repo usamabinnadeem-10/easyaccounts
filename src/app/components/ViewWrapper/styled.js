@@ -12,4 +12,7 @@ export const Wrapper = styled('div', {
   padding: theme.spacing(padding || 2),
   width: overridewidth ? overridewidth : width ? `${width}vw` : '75vw',
   marginBottom: theme.spacing(marginbottom) || '0rem',
+  [theme.breakpoints.down('md')]: {
+    width: '100%',
+  },
 }));

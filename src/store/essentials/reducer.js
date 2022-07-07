@@ -17,6 +17,7 @@ const initialState = {
   added: false,
   adding: false,
   error: '',
+  breakpoint: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -371,6 +372,11 @@ const reducer = (state = initialState, action) => {
         error: action.payload,
       };
 
+    case actionTypes.SET_BREAKPOINT:
+      return {
+        ...state,
+        breakpoint: action.payload,
+      };
     default:
       return state;
   }

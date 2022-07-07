@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 import { Autocomplete } from '@mui/material';
 import { Chip } from '@mui/material';
@@ -9,11 +10,12 @@ import DateAdapter from '@mui/lab/AdapterMoment';
 import LocalizationProvider from '@mui/lab/LocalizationProvider';
 import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 
+import CustomModal from '../../components/CustomModal';
+
 import moment from 'moment';
 
 import { StyledButton } from './styled';
 import { StyledGrid } from './styled';
-import { StyledMenu } from './styled';
 
 import * as constants from './constants';
 import instance from '../../../utils/axiosApi';
@@ -23,19 +25,17 @@ import { findErrorMessage } from '../../utilities/objectUtils';
 import { withSnackbar } from '../../hoc/withSnackbar';
 
 const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
-  const [anchorEl, setAnchorEl] = React.useState(null);
-  const [filterState, setFilterState] = React.useState({});
-  const [activeFilters, setActiveFilters] = React.useState([]);
-  const [isLoading, setIsLoading] = React.useState(false);
+  const [filterState, setFilterState] = useState({});
+  const [activeFilters, setActiveFilters] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [modalOpen, setModalOpen] = useState(false);
 
-  const open = Boolean(anchorEl);
-
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget);
+  const handleClick = () => {
+    setModalOpen(true);
   };
 
   const handleClose = () => {
-    setAnchorEl(null);
+    setModalOpen(false);
   };
 
   const handleSetActiveFilters = (qp, val, placeholder, displayValue) => {
@@ -102,118 +102,124 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
   };
 
   return (
-    <StyledGrid
-      mb={3}
-      sx={{ backgroundColor: '#eee', p: 2, borderRadius: 1 }}
-      container
-      justifyContent='space-between'>
-      <StyledGrid item xs={8}>
-        {activeFilters.length > 0 ? (
-          activeFilters.map((filter, index) => (
+    <>
+      <StyledGrid
+        mb={3}
+        sx={{ backgroundColor: '#eee', p: 2, borderRadius: 1 }}
+        container
+        justifyContent='space-between'>
+        <StyledGrid sx={{ overflow: 'auto' }} item xs={8}>
+          {activeFilters.length > 0 ? (
+            activeFilters.map((filter, index) => (
+              <Chip
+                onDelete={() => handleSetFilter('', filter, 'clear')}
+                key={index}
+                label={`${filter.placeholder} : ${
+                  filter.displayValue || filter.value
+                }`}
+                sx={{ mr: 1, mb: 1 }}
+                variant='outlined'
+              />
+            ))
+          ) : (
             <Chip
-              onDelete={() => handleSetFilter('', filter, 'clear')}
-              key={index}
-              label={`${filter.placeholder} : ${
-                filter.displayValue || filter.value
-              }`}
-              sx={{ mr: 1, mb: 1 }}
-              variant='outlined'
+              size='small'
+              label='No Filters Applied'
+              color='info'
+              variant='contained'
             />
-          ))
-        ) : (
-          <Chip label='No Filters Applied' color='info' variant='contained' />
-        )}
+          )}
+        </StyledGrid>
+        <StyledGrid item xs={3}>
+          <StyledGrid
+            container
+            gap={1}
+            direction='column'
+            justifyContent='flex-end'>
+            <StyledButton
+              size='small'
+              onClick={handleClick}
+              variant='contained'
+              color='warning'>
+              FILTERS
+            </StyledButton>
+            <StyledButton
+              size='small'
+              loading={isLoading}
+              variant='contained'
+              onClick={() => search()}>
+              Search
+            </StyledButton>
+          </StyledGrid>
+        </StyledGrid>
       </StyledGrid>
-      <StyledGrid item xs={4}>
-        <StyledGrid container justifyContent='flex-end'>
-          <StyledButton
-            onClick={handleClick}
-            variant='contained'
-            color='warning'
-            mr={8}>
-            FILTERS
-          </StyledButton>
-          <StyledMenu
-            variant='menu'
-            anchorEl={anchorEl}
-            open={open}
-            onClose={handleClose}
-            disableAutoFocusItem={true}
-            autoFocus={false}>
-            {filters.map((filter, index) => (
-              <MenuItem disableRipple key={index}>
-                {filter.type === constants.FIELDS.SELECT ? (
-                  <Autocomplete
-                    clearOnEscape
-                    autoComplete
-                    autoHighlight
-                    fullWidth
-                    size='small'
-                    getOptionLabel={(option) => option.label}
-                    options={filter.options}
-                    onChange={(e, value, reason) =>
-                      handleSetFilter(value, filter, reason)
-                    }
-                    renderInput={(params) => (
-                      <TextField
-                        {...params}
-                        variant='outlined'
-                        label={filter.placeholder}
-                      />
-                    )}
-                    value={filterState[filter.qp] || null}
-                  />
-                ) : filter.type === constants.FIELDS.DATE ? (
-                  <LocalizationProvider dateAdapter={DateAdapter}>
-                    <DesktopDatePicker
-                      label={filter.placeholder}
-                      value={filterState[filter.qp]}
-                      minDate={moment(Date.now()).subtract(10, 'years')}
-                      maxDate={moment(Date.now()).add(10, 'years')}
-                      onChange={(value) => {
-                        let date = moment(value).format('yyyy-MM-DD');
-                        date = `${date} 00:00:00`;
-                        handleSetFilter(
-                          // moment(value).format('yyyy-MM-DD'),
-                          date,
-                          filter,
-                          'set',
-                          moment(value).format('DD-MM-YYYY')
-                        );
-                      }}
-                      renderInput={(params) => (
-                        <TextField size='small' {...params} />
-                      )}
-                    />
-                  </LocalizationProvider>
-                ) : (
+      <CustomModal open={modalOpen} handleClose={handleClose}>
+        {filters.map((filter, index) => (
+          <MenuItem disableRipple key={index}>
+            {filter.type === constants.FIELDS.SELECT ? (
+              <Autocomplete
+                clearOnEscape
+                autoComplete
+                autoHighlight
+                fullWidth
+                size='small'
+                getOptionLabel={(option) => option.label}
+                options={filter.options}
+                onChange={(e, value, reason) =>
+                  handleSetFilter(value, filter, reason)
+                }
+                renderInput={(params) => (
                   <TextField
-                    onChange={(e) => handleSetFilter(e.target.value, filter)}
+                    {...params}
+                    variant='outlined'
                     label={filter.placeholder}
-                    type={filter.type}
-                    size='small'
-                    fullWidth
-                    // value={filterState[filter.qp]}
-                    InputLabelProps={{ shrink: true }}
                   />
                 )}
-              </MenuItem>
-            ))}
-            {/* <MenuItem sx={{ mt: 3 }} disableRipple>
+                value={filterState[filter.qp] || null}
+              />
+            ) : filter.type === constants.FIELDS.DATE ? (
+              <LocalizationProvider dateAdapter={DateAdapter}>
+                <DesktopDatePicker
+                  label={filter.placeholder}
+                  value={filterState[filter.qp]}
+                  minDate={moment(Date.now()).subtract(10, 'years')}
+                  maxDate={moment(Date.now()).add(10, 'years')}
+                  onChange={(value) => {
+                    let date = moment(value).format('yyyy-MM-DD');
+                    date = `${date} 00:00:00`;
+                    handleSetFilter(
+                      // moment(value).format('yyyy-MM-DD'),
+                      date,
+                      filter,
+                      'set',
+                      moment(value).format('DD-MM-YYYY')
+                    );
+                  }}
+                  renderInput={(params) => (
+                    <TextField size='small' fullWidth {...params} />
+                  )}
+                />
+              </LocalizationProvider>
+            ) : (
+              <TextField
+                onChange={(e) => handleSetFilter(e.target.value, filter)}
+                label={filter.placeholder}
+                type={filter.type}
+                size='small'
+                fullWidth
+                // value={filterState[filter.qp]}
+                InputLabelProps={{ shrink: true }}
+              />
+            )}
+          </MenuItem>
+        ))}
+        {/* <MenuItem sx={{ mt: 3 }} disableRipple>
             <StyledButton fullWidth variant="contained" onClick={() => search()}>
                 Search
             </StyledButton>
             </MenuItem> */}
-          </StyledMenu>
-          <StyledButton
-            loading={isLoading}
-            variant='contained'
-            onClick={() => search()}>
-            Search
-          </StyledButton>
-        </StyledGrid>
-      </StyledGrid>
-    </StyledGrid>
+      </CustomModal>
+    </>
   );
 };
 

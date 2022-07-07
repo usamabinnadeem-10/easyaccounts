@@ -14,6 +14,8 @@ import { selectCustomStyles } from './styles';
 
 import { ROLES } from '../../../constants/roles';
 
+import { useWindowSize } from '../../hooks/useWindowSize';
+
 function SelectPerson({
   currentPerson,
   personType,
@@ -23,10 +25,11 @@ function SelectPerson({
 }) {
   const classes = useStyles();
   const role = useSelector((state) => state.auth.userRole);
+  const dimensions = useWindowSize();
   return (
     <Grid
       container
-      justifyContent='space-between'
+      justifyContent={dimensions.width < 600 ? 'center' : 'space-between'}
       className={classes.container}>
       <div className={classes.people}>
         <Select

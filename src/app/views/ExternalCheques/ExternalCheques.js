@@ -1,21 +1,21 @@
-import React from "react";
-import { useState } from "react";
+import React from 'react';
+import { useState } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import ChequeList from "../../components/ChequeList";
-import CustomFilters from "../../containers/CustomFilters";
-import CustomTabs from "../../components/CustomTabs";
-import CustomTabPanel from "../../components/CustomTabPanel";
-import Heading from "../../components/Heading";
-import ExternalChequeEntry from "../../containers/ExternalChequeEntry";
-import Empty from "../../components/Empty";
+import ChequeList from '../../components/ChequeList';
+import CustomFilters from '../../containers/CustomFilters';
+import CustomTabs from '../../components/CustomTabs';
+import CustomTabPanel from '../../components/CustomTabPanel';
+import Heading from '../../components/Heading';
+import ExternalChequeEntry from '../../containers/ExternalChequeEntry';
+import Empty from '../../components/Empty';
 
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 
-import { TABS } from "./constants";
-import { getFilters } from "./utils";
-import { CHEQUE_URLS } from "../../../constants/restEndPoints";
+import { TABS } from './constants';
+import { getFilters } from './utils';
+import { CHEQUE_URLS } from '../../../constants/restEndPoints';
 
 const ExternalCheques = (props) => {
   const essentials = useSelector((state) => state.essentials);
@@ -27,8 +27,11 @@ const ExternalCheques = (props) => {
     setActiveTab(newValue);
   };
   return (
-    <Grid sx={{ ml: 2 }} container direction="column">
-      <Heading heading={"Party Cheques"} />
+    <Grid
+      sx={{ ml: props.dimensions.width < 900 ? '0px' : 2 }}
+      container
+      direction='column'>
+      <Heading heading={'Party Cheques'} />
       <CustomTabs
         tabs={TABS}
         activeTab={activeTab}

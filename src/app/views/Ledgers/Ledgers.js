@@ -318,7 +318,7 @@ function Ledgers({
                     variant='contained'
                     onClick={() => setHideDetails(!hideDetails)}
                     disabled={ledgerData.length === 0}
-                    sx={{ mt: 2, displayPrint: 'none' }}
+                    sx={{ mt: 2, mb: 1, displayPrint: 'none' }}
                     size='small'>
                     {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
                   </Button>
@@ -327,7 +327,7 @@ function Ledgers({
                   <Button
                     onClick={handlePrint}
                     variant='contained'
-                    size='medium'
+                    size='small'
                     color='secondary'
                     disabled={ledgerData.length === 0}
                     sx={{ displayPrint: 'none', mr: 2 }}>
@@ -337,7 +337,7 @@ function Ledgers({
                   <Button
                     onClick={handleOpenWhatsapp}
                     variant='contained'
-                    size='medium'
+                    size='small'
                     color='success'
                     disabled={ledgerData.length === 0}
                     sx={{ displayPrint: 'none' }}

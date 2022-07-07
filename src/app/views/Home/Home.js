@@ -12,6 +12,9 @@ import CustomLoader from '../../components/CustomLoader/CustomLoader';
 // import FAB from "../../containers/FAB/FAB";
 import SideBar from '../../containers/SideBar/SideBar';
 
+import { useTheme } from '@mui/material/styles';
+import useMediaQuery from '@mui/material/useMediaQuery';
+
 import useEssentials from '../../hooks/useEssentials';
 
 import { HOME } from '../../../constants/routesConstants';
@@ -19,23 +22,31 @@ import { LOGIN } from '../../../constants/routesConstants';
 import { authenticatedRoutes } from '../../../constants/routes';
 import { PrivateRoute } from './PrivateRoute';
 
-import { getAllEssentials } from '../../../store/essentials';
-import { resetState } from '../../../store/essentials';
+import {
+  getAllEssentials,
+  resetState,
+  setBreakpoint,
+} from '../../../store/essentials';
 
-import { useStyles } from './styles';
+import { StyledDiv } from './styled';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
+import { useWindowSize } from '../../hooks/useWindowSize';
 
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
-  let classes = useStyles();
   let dispatch = useDispatch();
   let essentials = useEssentials();
 
   const { fetched, error } = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+
+  const theme = useTheme();
+  const tablet = useMediaQuery(theme.breakpoints.down('md'));
+
+  const dimensions = useWindowSize();
 
   useEffect(() => {
     if (isAuthenticated) {
@@ -62,8 +73,8 @@ const Home = ({ showErrorSnackbar }) => {
 
   return (
     <>
-      <SideBar fetched={fetched} />
-      <div className={classes.homeOffset}>
+      <SideBar tablet={tablet} fetched={fetched} />
+      <StyledDiv tablet={tablet}>
         {fetched ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {
@@ -75,7 +86,11 @@ const Home = ({ showErrorSnackbar }) => {
                   key={index}
                   path={route.path}
                   exact>
-                  <Component role={role} {...essentials} />
+                  <Component
+                    role={role}
+                    dimensions={dimensions}
+                    {...essentials}
+                  />
                 </PrivateRoute>
               );
             })}
@@ -83,7 +98,7 @@ const Home = ({ showErrorSnackbar }) => {
         ) : (
           <CustomLoader loading={!fetched} pageLoader />
         )}
-      </div>
+      </StyledDiv>
       {/* <FAB fetched={fetched} /> */}
     </>
   );
