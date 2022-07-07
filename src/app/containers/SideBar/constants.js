@@ -177,6 +177,7 @@ export const SIDEBAR = [
   },
   {
     panelName: PAYMENT,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: PAYMENT_LIST,
@@ -302,6 +303,7 @@ export const SIDEBAR = [
   // ----------------DYING---------------//
   {
     panelName: DYING,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: DYING_ISSUE,
@@ -316,6 +318,7 @@ export const SIDEBAR = [
   // ----------------RAW---------------//
   {
     panelName: RAW,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
     panelData: [
       {
         name: RAW_PURCHASE,
