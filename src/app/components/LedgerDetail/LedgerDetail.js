@@ -130,7 +130,7 @@ function LedgerDetail({
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
-            <IconButton onClick={() => handleEdit(row.row.id)}>
+            <IconButton size='small' onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
             </IconButton>
           );
@@ -147,7 +147,7 @@ function LedgerDetail({
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
-            <IconButton onClick={() => handleDelete(row.row.id)}>
+            <IconButton size='small' onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />
             </IconButton>
           );

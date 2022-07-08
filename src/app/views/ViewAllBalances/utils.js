@@ -2,7 +2,7 @@ import { formatCurrency } from '../../utilities/stringUtils';
 
 import { ROLES } from '../../../constants/userRoles';
 
-export const formatBalances = (data) => {
+export const formatBalances = (data, persons) => {
   let newBalancesData = [];
   let totalCR = 0;
   let totalDB = 0;
@@ -15,7 +15,7 @@ export const formatBalances = (data) => {
     }
     newBalancesData.push({
       id: index,
-      person: key,
+      person: persons[key].label,
       balance: formatCurrency(Math.abs(value)),
       status: value > 0 ? 'CR' : 'DB',
     });

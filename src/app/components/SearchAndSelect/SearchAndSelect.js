@@ -50,6 +50,7 @@ function SearchAndSelect({
           getEndDate={setEndDate}
         />
         <LoadingButton
+          size='small'
           loading={loading}
           variant='contained'
           fullWidth={dimensions.width < 600}

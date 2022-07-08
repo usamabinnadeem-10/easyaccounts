@@ -45,6 +45,7 @@ const Home = ({ showErrorSnackbar }) => {
 
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.down('md'));
+  const mobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const dimensions = useWindowSize();
 
@@ -74,7 +75,7 @@ const Home = ({ showErrorSnackbar }) => {
   return (
     <>
       <SideBar tablet={tablet} fetched={fetched} />
-      <StyledDiv tablet={tablet}>
+      <StyledDiv tablet={tablet} mobile={mobile}>
         {fetched ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {

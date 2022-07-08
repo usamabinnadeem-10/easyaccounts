@@ -58,7 +58,10 @@ const reducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        customers: customers,
+        customers: customers.map((c) => ({
+          ...c,
+          label: `${c.label} (${c.address || ''})`,
+        })),
       };
 
     case actionTypes.GET_ALL_SUPPLIERS_SUCCESS:
@@ -69,7 +72,10 @@ const reducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        suppliers: suppliers,
+        suppliers: suppliers.map((c) => ({
+          ...c,
+          label: `${c.label} (${c.address || ''})`,
+        })),
       };
 
     case actionTypes.GET_ALL_EQUITY_SUCCESS:

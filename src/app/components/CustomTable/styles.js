@@ -18,20 +18,31 @@ export const useStyles = makeStyles((theme) => ({
   headCell: {
     padding: '0.6rem 0',
     borderBottom: '0.5px solid rgba(105, 105, 105, 0.3)',
+    fontWeight: 'bold',
     [theme.breakpoints.down('md')]: {
-      fontSize: '10px',
+      fontSize: '12px',
+      padding: '4px 1px',
+      fontWeight: 'bold',
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: '8px',
+      padding: '2px 1px',
+      fontWeight: 'bold',
     },
   },
   rowCell: {
     maxWidth: '200px',
-    minWidth: '100px',
     borderBottom: '0.5px solid rgba(105, 105, 105, 0.2)',
     overflowWrap: 'anywhere',
     [theme.breakpoints.down('md')]: {
-      minWidth: '50px',
-      width: '50px',
-      fontSize: '10px',
+      maxWidth: '120px',
+      fontSize: '12px',
       padding: '2px',
+    },
+    [theme.breakpoints.down('sm')]: {
+      maxWidth: '80px',
+      fontSize: '8px',
+      padding: '1px',
     },
   },
   hover: {

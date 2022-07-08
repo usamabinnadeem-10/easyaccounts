@@ -23,7 +23,7 @@ import { formatBalances, hasAdminPermission } from './utils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
-const Balances = ({ showErrorSnackbar, role }) => {
+const Balances = ({ showErrorSnackbar, role, persons }) => {
   const classes = useStyles();
   const componentRef = useRef();
 
@@ -47,7 +47,7 @@ const Balances = ({ showErrorSnackbar, role }) => {
     instance
       .get(makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, query))
       .then((res) => {
-        let formattedBalances = formatBalances(res.data);
+        let formattedBalances = formatBalances(res.data, persons);
         setBalancesData(formattedBalances);
         setIsEmpty(formattedBalances.length === 0);
         setLoading(false);
@@ -82,6 +82,7 @@ const Balances = ({ showErrorSnackbar, role }) => {
             selectedValue={currentPerson}
           />
           <LoadingButton
+            size='small'
             sx={{ fontWeight: 900 }}
             variant='contained'
             onClick={() => search()}
