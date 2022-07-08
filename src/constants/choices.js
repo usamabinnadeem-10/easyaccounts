@@ -11,6 +11,10 @@ export const PERSON_OPTIONS = [
     label: 'Equity',
     value: 'E',
   },
+  {
+    label: 'Advance Expense',
+    value: 'EXA',
+  },
 ];
 
 export const NATURE_OPTIONS = [
