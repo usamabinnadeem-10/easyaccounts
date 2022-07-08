@@ -21,9 +21,16 @@ export const formatBalances = (data) => {
     });
     index++;
   }
-  if (newBalancesData.length > 0) {
-    newBalancesData = [
-      ...newBalancesData,
+  const collator = new Intl.Collator('en', {
+    numeric: true,
+    sensitivity: 'base',
+  });
+  let sorted = newBalancesData.sort((a, b) =>
+    collator.compare(a.person, b.person)
+  );
+  if (sorted.length > 0) {
+    sorted = [
+      ...sorted,
       ...[
         {
           person: 'TOTAL CR',
@@ -41,7 +48,7 @@ export const formatBalances = (data) => {
     ];
   }
 
-  return newBalancesData;
+  return sorted;
 };
 
 export const hasAdminPermission = (role) => role === ROLES.ADMIN;
