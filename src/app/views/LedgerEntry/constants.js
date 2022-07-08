@@ -2,11 +2,11 @@ import { getToday } from '../../utilities/stringUtils';
 
 export const NATURES = [
   {
-    label: 'Credit (بنام)',
+    label: 'Credit (جمع)',
     value: 'C',
   },
   {
-    label: 'Debit (جمع)',
+    label: 'Debit (بنام)',
     value: 'D',
   },
 ];
