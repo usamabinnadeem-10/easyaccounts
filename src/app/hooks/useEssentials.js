@@ -11,6 +11,7 @@ const DEFAULTS = {
   suppliers: 'persons',
   customers: 'persons',
   equities: 'persons',
+  advanceExpenses: 'persons',
   accountTypes: 'accounts',
   expenseAccounts: 'expenseAccounts',
 };

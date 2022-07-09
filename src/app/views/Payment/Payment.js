@@ -111,6 +111,7 @@ const Payment = ({
                         ...essentials.customers,
                         ...essentials.suppliers,
                         ...essentials.equities,
+                        ...essentials.advanceExpenses,
                       ]}
                       label='Person'
                       name='person'

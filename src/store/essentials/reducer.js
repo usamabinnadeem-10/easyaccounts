@@ -61,7 +61,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         customers: customers.map((c) => ({
           ...c,
-          label: `${c.label} (${c.address || ''})`,
+          label: `${c.label} ${c.address ? `(${c.address})` : ''}`,
         })),
       };
 
@@ -75,7 +75,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         suppliers: suppliers.map((c) => ({
           ...c,
-          label: `${c.label}${c.address ? `(${c.address})` : ''}`,
+          label: `${c.label} ${c.address ? `(${c.address})` : ''}`,
         })),
       };
 
