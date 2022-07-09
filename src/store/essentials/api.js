@@ -31,6 +31,10 @@ export const getEquityApi = () => {
   return instance.get(ESSENTIAL_URLS.LIST.EQUITY);
 };
 
+export const getAdvanceExpensesApi = () => {
+  return instance.get(ESSENTIAL_URLS.LIST.ADVANCE_EXPENSES);
+};
+
 export const getProductApi = () => {
   return instance.get(ESSENTIAL_URLS.LIST.PRODUCT);
 };

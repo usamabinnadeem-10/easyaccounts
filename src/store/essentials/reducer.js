@@ -8,6 +8,7 @@ const initialState = {
   customers: [],
   suppliers: [],
   equities: [],
+  advanceExpenses: [],
   products: [],
   productCategories: [],
   expenseAccounts: [],
@@ -74,7 +75,7 @@ const reducer = (state = initialState, action) => {
         ...state,
         suppliers: suppliers.map((c) => ({
           ...c,
-          label: `${c.label} (${c.address || ''})`,
+          label: `${c.label}${c.address ? `(${c.address})` : ''}`,
         })),
       };
 
@@ -87,6 +88,17 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         equities: equities,
+      };
+
+    case actionTypes.GET_ALL_ADVANCE_EXPENSES_SUCCESS:
+      const advanceExpenses = renameKeys(
+        'id',
+        'value',
+        renameKeys('name', 'label', action.payload)
+      );
+      return {
+        ...state,
+        advanceExpenses: advanceExpenses,
       };
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:

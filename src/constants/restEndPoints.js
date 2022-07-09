@@ -21,6 +21,7 @@ const ESSENTIALS = 'essentials/';
 const CUSTOMER = 'C';
 const SUPPLIER = 'S';
 const EQUITY = 'E';
+const ADVANCE_EXPENSE = 'EXA';
 
 const PERSON_TYPE = 'person_type';
 export const ESSENTIAL_URLS = {
@@ -31,6 +32,7 @@ export const ESSENTIAL_URLS = {
     CUSTOMERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${CUSTOMER}`,
     SUPPLIERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${SUPPLIER}`,
     EQUITY: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${EQUITY}`,
+    ADVANCE_EXPENSES: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${ADVANCE_EXPENSE}`,
     AREAS: `${ESSENTIALS}area/${LIST}`,
     CATEGORIES: `${ESSENTIALS}product-category/${LIST}`,
   },

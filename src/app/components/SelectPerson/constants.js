@@ -7,6 +7,7 @@ export const STORE_PERSON = {
   C: 'customers',
   S: 'suppliers',
   E: 'equities',
+  EXA: 'advanceExpenses',
 };
 
 export const PERSON_TYPES = [
@@ -25,6 +26,11 @@ export const PERSON_TYPES = [
     name: 'Equity',
     value: 'E',
     color: 'success',
+  },
+  {
+    name: 'Expenses',
+    value: 'EXA',
+    color: 'error',
   },
 ];
 

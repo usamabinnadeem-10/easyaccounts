@@ -76,6 +76,19 @@ export const getAllEquitySuccess = (data) => {
   };
 };
 
+export const getAllAdvanceExpenses = () => {
+  return {
+    type: actionTypes.GET_ALL_ADVANCE_EXPENSES,
+  };
+};
+
+export const getAllAdvanceExpensesSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_ADVANCE_EXPENSES_SUCCESS,
+    payload: data,
+  };
+};
+
 export const getAllProduct = () => {
   return {
     type: actionTypes.GET_ALL_PRODUCT,
