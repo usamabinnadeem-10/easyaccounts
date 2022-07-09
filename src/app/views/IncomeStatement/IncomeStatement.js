@@ -20,7 +20,10 @@ import { FILTERS } from './filters';
 import { StyledPaper, IncomeDataWrapper } from './styled';
 import { formatIncomeStatement } from './utils';
 
-import { formatCurrency } from '../../utilities/stringUtils';
+import {
+  formatCurrency,
+  capitalizeFirstLetter,
+} from '../../utilities/stringUtils';
 
 export const LineItem = ({ label, value, padLeft, minus }) => {
   let textVariant = padLeft ? 'body2' : 'body1';
@@ -92,7 +95,7 @@ const IncomeStatement = () => {
                     return (
                       <LineItem
                         padLeft
-                        label={e.expense__type}
+                        label={capitalizeFirstLetter(e.expense__type)}
                         value={e.total}
                       />
                     );
