@@ -36,12 +36,12 @@ function TransactionFooter({
       let q = parseFloat(value.quantity) || 0;
       let y = parseFloat(value.yards_per_piece?.value) || 0;
       let r = parseFloat(value.rate) || 0;
-      let d = parseFloat(values.discount) || 0;
       qty += q;
       gaz += q * y;
-      amount += q * y * r - d;
+      amount += q * y * r;
     });
-    setTotalAmount(amount);
+    let d = parseFloat(values.discount) || 0;
+    setTotalAmount(amount - d);
     setTotalQuantity(qty);
     setTotalGazaana(gaz);
   }, [values]);
