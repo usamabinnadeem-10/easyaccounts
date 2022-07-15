@@ -140,7 +140,7 @@ const Cheque = ({
         </StyledGrid>
         {!isPersonal && viewHistoryButton && (
           <StyledGrid container>
-            <Button variant='contained' onClick={handleClick}>
+            <Button size='small' variant='contained' onClick={handleClick}>
               View History
             </Button>
           </StyledGrid>

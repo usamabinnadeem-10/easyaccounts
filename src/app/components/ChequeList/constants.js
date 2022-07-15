@@ -1,49 +1,49 @@
-import { Chip } from "@mui/material";
-import { IconButton } from "@mui/material";
-import { Tooltip } from "@mui/material";
+import { Chip } from '@mui/material';
+import { IconButton } from '@mui/material';
+import { Tooltip } from '@mui/material';
 
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
+import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
-import ChequeActionMenu from "../../components/ChequeActionMenu";
+import ChequeActionMenu from '../../components/ChequeActionMenu';
 
-import { formatCurrency } from "../../utilities/stringUtils";
-import { capitalizeFirstLetter } from "../../utilities/stringUtils";
+import { formatCurrency } from '../../utilities/stringUtils';
+import { capitalizeFirstLetter } from '../../utilities/stringUtils';
 
-import { STATUS_COLORS } from "../Cheque/constants";
-import { STATUS_VARIANTS } from "../Cheque/constants";
+import { STATUS_COLORS } from '../Cheque/constants';
+import { STATUS_VARIANTS } from '../Cheque/constants';
 
 export const getColumns = (onClick, isPersonal) => {
   return [
     {
-      Header: "Serial",
-      accessor: "serial",
+      Header: 'Serial',
+      accessor: 'serial',
     },
     {
-      Header: "Cheque Number",
-      accessor: "cheque_number",
+      Header: 'Cheque #',
+      accessor: 'cheque_number',
     },
     {
-      Header: "Due Date",
-      accessor: "due_date",
+      Header: 'Due Date',
+      accessor: 'due_date',
     },
     {
-      Header: "Person",
-      accessor: "person",
+      Header: 'Person',
+      accessor: 'person',
     },
     {
-      Header: "Amount",
-      accessor: "amount",
+      Header: 'Amount',
+      accessor: 'amount',
       Cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
-      Header: "Status",
-      accessor: "status",
+      Header: 'Status',
+      accessor: 'status',
       Cell: (row) => {
         if (row.value) {
           return (
             <Chip
-              size="small"
-              label={capitalizeFirstLetter(row.value.replace("_", " "))}
+              size='small'
+              label={capitalizeFirstLetter(row.value.replace('_', ' '))}
               color={STATUS_COLORS[row.value]}
               variant={STATUS_VARIANTS[row.value]}
               sx={{ fontWeight: 700 }}
@@ -55,21 +55,20 @@ export const getColumns = (onClick, isPersonal) => {
       },
     },
     {
-      Header: "Transferred to",
-      accessor: "transferred_to",
+      Header: 'Transferred to',
+      accessor: 'transferred_to',
     },
     {
-      Header: "View",
-      accessor: "view",
+      Header: 'View',
+      accessor: 'view',
       Cell: (row) => {
-        if (typeof row.row.id === "string") {
+        if (typeof row.row.id === 'string') {
           return (
             <Tooltip
-              placement="top"
-              title={isPersonal ? "View Cheque" : "View Cheque History"}
-              arrow
-            >
-              <IconButton size="small" onClick={() => onClick(row.row.id)}>
+              placement='top'
+              title={isPersonal ? 'View Cheque' : 'View Cheque History'}
+              arrow>
+              <IconButton size='small' onClick={() => onClick(row.row.id)}>
                 <OpenInNewIcon />
               </IconButton>
             </Tooltip>
@@ -80,10 +79,10 @@ export const getColumns = (onClick, isPersonal) => {
       },
     },
     {
-      Header: "Actions",
-      accessor: "actions",
+      Header: 'Actions',
+      accessor: 'actions',
       Cell: (row) => {
-        if (typeof row.row.id === "string") {
+        if (typeof row.row.id === 'string') {
           return (
             <ChequeActionMenu
               chequeStatus={row.row.values.status}

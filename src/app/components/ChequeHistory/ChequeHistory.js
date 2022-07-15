@@ -1,27 +1,33 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-import moment from "moment";
+import moment from 'moment';
 
-import Typography from "@mui/material/Typography";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineOppositeContent from "@mui/lab/TimelineOppositeContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import LocalAtmIcon from "@mui/icons-material/LocalAtm";
-import PriceCheckIcon from "@mui/icons-material/PriceCheck";
+import Typography from '@mui/material/Typography';
+import Box from '@mui/material/Box';
+import Timeline from '@mui/lab/Timeline';
+import TimelineItem from '@mui/lab/TimelineItem';
+import TimelineSeparator from '@mui/lab/TimelineSeparator';
+import TimelineConnector from '@mui/lab/TimelineConnector';
+import TimelineContent from '@mui/lab/TimelineContent';
+import TimelineOppositeContent from '@mui/lab/TimelineOppositeContent';
+import TimelineDot from '@mui/lab/TimelineDot';
 
-import Cheque from "../Cheque";
+import LocalAtmIcon from '@mui/icons-material/LocalAtm';
+import PriceCheckIcon from '@mui/icons-material/PriceCheck';
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
-import * as api from "./api";
+import CustomIconButton from '../../components/CustomIconButton';
 
-import { formatCurrency } from "../../utilities/stringUtils";
+import { useWindowSize } from '../../hooks/useWindowSize';
+
+import Cheque from '../Cheque';
+import { StyledDrawer } from './styled';
+
+import * as api from './api';
+
+import { formatCurrency } from '../../utilities/stringUtils';
 
 const ChequeHistory = ({
   open,
@@ -32,6 +38,7 @@ const ChequeHistory = ({
   isExternal,
 }) => {
   const [history, setHistory] = useState(null);
+  const { width, height } = useWindowSize();
 
   // fetch history if cheque is external
   useEffect(() => {
@@ -52,7 +59,12 @@ const ChequeHistory = ({
   }, [chequeId, isExternal]);
 
   return (
-    <Drawer open={open} onClose={onClose}>
+    <StyledDrawer open={open} onClose={onClose}>
+      {width <= 600 && (
+        <CustomIconButton color='error' onClick={onClose}>
+          <CancelOutlinedIcon />
+        </CustomIconButton>
+      )}
       {history && (
         <Box sx={{ m: 2 }}>
           <Cheque
@@ -67,11 +79,10 @@ const ChequeHistory = ({
         <Box
           sx={{
             m: 2,
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-          }}
-        >
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}>
           <Typography>Cheque History</Typography>
           <Typography>
             Remaining Amount: {formatCurrency(history.remaining_amount)}/=
@@ -80,14 +91,13 @@ const ChequeHistory = ({
             {history.cheque_history.map((history, index) => {
               return (
                 <TimelineItem key={index}>
-                  <TimelineOppositeContent sx={{ m: "auto 0" }}>
-                    {moment(history.date).format("DD-MM-YYYY")}
+                  <TimelineOppositeContent sx={{ m: 'auto 0' }}>
+                    {moment(history.date).format('DD-MM-YYYY')}
                   </TimelineOppositeContent>
                   <TimelineSeparator>
                     <TimelineConnector />
                     <TimelineDot
-                      color={history.return_cheque ? "info" : "success"}
-                    >
+                      color={history.return_cheque ? 'info' : 'success'}>
                       {history.return_cheque ? (
                         <LocalAtmIcon />
                       ) : (
@@ -96,7 +106,7 @@ const ChequeHistory = ({
                     </TimelineDot>
                     <TimelineConnector />
                   </TimelineSeparator>
-                  <TimelineContent sx={{ flex: 5, m: "auto 0" }}>
+                  <TimelineContent sx={{ flex: 5, m: 'auto 0' }}>
                     {history.return_cheque ? (
                       <Cheque
                         chequeData={history.return_cheque}
@@ -105,8 +115,8 @@ const ChequeHistory = ({
                         viewHistoryButton
                       />
                     ) : (
-                      <Typography variant="h6">
-                        {formatCurrency(history.amount)}/={" received in "}
+                      <Typography variant='h6'>
+                        {formatCurrency(history.amount)}/={' received in '}
                         {accounts?.[history.account_type].label}
                       </Typography>
                     )}
@@ -117,11 +127,11 @@ const ChequeHistory = ({
           </Timeline>
         </Box>
       ) : (
-        <Typography sx={{ textAlign: "center", mt: 2, mx: 5 }} variant="h5">
+        <Typography sx={{ textAlign: 'center', mt: 2, mx: 5 }} variant='h5'>
           No History
         </Typography>
       )}
-    </Drawer>
+    </StyledDrawer>
   );
 };
 
