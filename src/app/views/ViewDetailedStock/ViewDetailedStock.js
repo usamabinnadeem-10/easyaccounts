@@ -1,29 +1,34 @@
-import React from "react";
-import { useState } from "react";
-import { useRef } from "react";
+import React from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
+import { useMemo } from 'react';
 
-import { useSelector } from "react-redux";
+import { useSelector } from 'react-redux';
 
-import { useReactToPrint } from "react-to-print";
+import { useReactToPrint } from 'react-to-print';
 
-import Select from "react-select";
+import Select from 'react-select';
 
-import StartEndDate from "../../components/StartEndDate/StartEndDate";
-import CustomTable from "../../components/CustomTable/CustomTable";
-import CustomLoader from "../../components/CustomLoader/CustomLoader";
-import Empty from "../../components/Empty/Empty";
-import Heading from "../../components/Heading";
+import CustomFilters from '../../containers/CustomFilters';
+import StartEndDate from '../../components/StartEndDate/StartEndDate';
+import CustomTable from '../../components/CustomTable/CustomTable';
+import CustomLoader from '../../components/CustomLoader/CustomLoader';
+import Empty from '../../components/Empty/Empty';
+import Heading from '../../components/Heading';
 
-import * as api from "./api";
-import * as styled from "./styled";
-import * as utils from "./utils";
-import * as constants from "./constants";
+import * as api from './api';
+import * as styled from './styled';
+import * as utils from './utils';
+import * as constants from './constants';
+import { getFilters } from './filters';
+
+import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 
 const ViewDetailedStock = (props) => {
   const componentRef = useRef();
 
-  const products = useSelector((state) => state.essentials.products);
-  const warehouses = useSelector((state) => state.essentials.warehouses);
+  const essentials = useSelector((state) => state.essentials);
+  let filters = useMemo(() => getFilters(essentials), [essentials]);
 
   const [product, setProduct] = useState(null);
   const [warehouse, setWarehouse] = useState(null);
@@ -61,98 +66,60 @@ const ViewDetailedStock = (props) => {
       });
   };
 
+  const handleSearch = (data) => {
+    setIsEmpty(false);
+    setIsLoading(true);
+    let formatted = utils.formatDetailedStock(
+      data,
+      props.persons,
+      props.warehouses,
+      warehouse
+    );
+    setFormattedStock(formatted);
+    setIsEmpty(formatted.length === 0);
+    setIsLoading(false);
+  };
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
   });
 
   return (
-    <styled.StyledGrid container direction="column">
-      <styled.StyledGrid mb={3} container justifyContent="space-between">
-        <Heading heading={"Detailed Stock"} />
+    <styled.StyledGrid container direction='column'>
+      <styled.StyledGrid mb={3} container justifyContent='space-between'>
+        <Heading heading={'Detailed Stock'} />
         <styled.StyledButton
-          size="small"
-          variant="contained"
+          size='small'
           onClick={handlePrint}
-          disabled={formattedStock.length === 0}
-        >
+          disabled={formattedStock.length === 0}>
           Print
         </styled.StyledButton>
       </styled.StyledGrid>
 
-      <styled.StyledGrid
-        align="center"
-        mt={2}
-        container
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <styled.StyledGrid mb={3} item xs={12} justifyContent="space-between">
-          <Select
-            escapeClearsValue
-            isClearable
-            styles={{
-              menu: (base) => ({
-                ...base,
-                zIndex: 10000,
-              }),
-            }}
-            options={products}
-            value={product}
-            placeholder="Select Product"
-            onChange={(value) => setProduct(value)}
-          />
-          <Select
-            escapeClearsValue
-            isClearable
-            styles={{
-              menu: (base) => ({
-                ...base,
-                zIndex: 10000,
-              }),
-            }}
-            options={warehouses}
-            value={warehouse}
-            placeholder="Select Warehouse"
-            onChange={(value) => setWarehouse(value)}
-          />
-          <styled.StyledInput
-            size="small"
-            label="Gazaana"
-            onChange={(e) => setGazaana(parseFloat(e.target.value))}
-          />
-        </styled.StyledGrid>
-        <StartEndDate
-          startDate={startDate}
-          endDate={endDate}
-          getStartDate={(value) => setStartDate(value)}
-          getEndDate={(value) => setEndDate(value)}
-        />
+      <CustomFilters
+        api={TRANSACTION_URLS.VIEW_DETAILED_STOCK}
+        onSearch={handleSearch}
+        filters={filters}
+      />
 
-        <styled.StyledButton
-          disabled={!product}
-          variant="contained"
-          onClick={handleClick}
-        >
-          Search
-        </styled.StyledButton>
-      </styled.StyledGrid>
       <styled.StyledGrid
         container
-        direction="column"
-        alignItems="center"
+        direction='column'
+        alignItems='center'
         ref={componentRef}
-        mt={3}
-      >
+        mt={3}>
         {isEmpty ? (
           <Empty />
         ) : isLoading ? (
           <CustomLoader />
-        ) : (
+        ) : formattedStock.length > 0 ? (
           <CustomTable
             bordered
             columns={constants.COLUMNS}
             data={formattedStock}
           />
+        ) : (
+          <></>
         )}
       </styled.StyledGrid>
     </styled.StyledGrid>

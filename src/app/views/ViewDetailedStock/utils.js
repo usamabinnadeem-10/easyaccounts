@@ -84,7 +84,7 @@ export const formatDetailedStock = (
         ...data,
         id: `${transfer.id}0`,
         debit: transfer.quantity,
-        warehouse: warehouses?.[transfer.from_warehouse].label,
+        warehouse: warehouses?.[transfer.transfer__from_warehouse].label,
         stock: balance,
         gazaanaBalance: formatCurrency(balance * transfer.yards_per_piece),
       });
