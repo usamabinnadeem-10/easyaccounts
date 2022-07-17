@@ -23,11 +23,13 @@ export const getFilters = (essentials) => {
       qp: 'start',
       type: FIELDS.DATE,
       placeholder: 'Start Date',
+      variant: 'start',
     },
     {
       qp: 'end',
       type: FIELDS.DATE,
       placeholder: 'End Date',
+      variant: 'end',
     },
   ];
 };

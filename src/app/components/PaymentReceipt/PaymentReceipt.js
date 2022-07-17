@@ -85,15 +85,19 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
       <Heading heading='Payment Receipt' />
       <Box ref={componentRef} sx={{ p: 3 }}>
         <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
-        <ImagesWrapper images={images} onClick={handleClickImage} />
-        <ImgsViewer
-          imgs={paymentData.image_urls.map((img) => ({ src: img.url }))}
-          currImg={currentImg}
-          isOpen={showViewer}
-          onClickPrev={goToPrevious}
-          onClickNext={goToNext}
-          onClose={toggleViewer}
-        />
+        {images && images?.length && (
+          <>
+            <ImagesWrapper images={images} onClick={handleClickImage} />
+            <ImgsViewer
+              imgs={paymentData.image_urls.map((img) => ({ src: img.url }))}
+              currImg={currentImg}
+              isOpen={showViewer}
+              onClickPrev={goToPrevious}
+              onClickNext={goToNext}
+              onClose={toggleViewer}
+            />
+          </>
+        )}
       </Box>
       <Button onClick={handlePrint}>PRINT</Button>
     </ViewWrapper>

@@ -22,20 +22,22 @@ export const FILTERS = [
     type: FIELDS.NUMBER,
     placeholder: 'Value (less than)',
   },
-  {
-    qp: 'date',
-    type: FIELDS.DATE,
-    placeholder: 'Date',
-  },
+  // {
+  //   qp: 'date',
+  //   type: FIELDS.DATE,
+  //   placeholder: 'Date',
+  // },
   {
     qp: 'date__gte',
     type: FIELDS.DATE,
     placeholder: 'Date (more than)',
+    variant: 'start',
   },
   {
     qp: 'date__lte',
     type: FIELDS.DATE,
     placeholder: 'Date (less than)',
+    variant: 'end',
   },
   {
     qp: 'type',

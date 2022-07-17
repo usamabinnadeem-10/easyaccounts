@@ -11,20 +11,22 @@ export const getFilters = (essentials, role) => {
       type: FIELDS.SELECT,
       placeholder: 'Person',
     },
-    {
-      qp: 'date',
-      type: FIELDS.DATE,
-      placeholder: 'Date',
-    },
+    // {
+    //   qp: 'date',
+    //   type: FIELDS.DATE,
+    //   placeholder: 'Date',
+    // },
     {
       qp: 'date__gte',
       type: FIELDS.DATE,
       placeholder: 'Start Date',
+      variant: 'start',
     },
     {
       qp: 'date__lte',
       type: FIELDS.DATE,
       placeholder: 'End Date',
+      variant: 'end',
     },
     {
       qp: 'nature',

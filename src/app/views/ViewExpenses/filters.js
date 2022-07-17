@@ -25,11 +25,13 @@ export const getFilters = (essentials) => {
       qp: 'date__gte',
       type: FIELDS.DATE,
       placeholder: 'Start Date',
+      variant: 'start',
     },
     {
       qp: 'date__lte',
       type: FIELDS.DATE,
       placeholder: 'End Date',
+      variant: 'end',
     },
     {
       qp: 'amount',
