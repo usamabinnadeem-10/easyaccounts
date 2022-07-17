@@ -285,11 +285,12 @@ function Ledgers({
                 justifyContent='space-between'>
                 <div>
                   {currentPerson && (
-                    <Typography>
-                      {`${DB_TRANSLATION[currentPerson.person_type]} : `}
-                      <Typography component='span' fontWeight={700}>
-                        {currentPerson.label}
-                      </Typography>
+                    // <Typography>
+                    //   {`${DB_TRANSLATION[currentPerson.person_type]} : `}
+
+                    // </Typography>
+                    <Typography component='span' fontWeight={700}>
+                      {currentPerson.label}
                     </Typography>
                   )}
 
