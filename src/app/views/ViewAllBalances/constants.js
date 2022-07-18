@@ -1,19 +1,29 @@
 export const PERSONS = [
   {
-    name: 'Customer',
+    label: 'Customer',
     value: 'C',
     color: 'info',
   },
   {
-    name: 'Supplier',
+    label: 'Supplier',
     value: 'S',
+    color: 'info',
+  },
+  {
+    label: 'Equities',
+    value: 'E',
+    color: 'info',
+  },
+  {
+    label: 'Advance Expenses',
+    value: 'EXA',
     color: 'info',
   },
 ];
 
 export const PERSONS_CUSTOMER = [
   {
-    name: 'Customer',
+    label: 'Customer',
     value: 'C',
     color: 'info',
   },
@@ -31,5 +41,16 @@ export const COLUMNS = [
   {
     accessor: 'status',
     Header: 'CR/DB',
+  },
+];
+
+export const BALANCE_NATURES = [
+  {
+    label: 'Debit',
+    value: 'D',
+  },
+  {
+    label: 'Credit',
+    value: 'C',
   },
 ];

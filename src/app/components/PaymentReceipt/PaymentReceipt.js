@@ -85,7 +85,7 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
       <Heading heading='Payment Receipt' />
       <Box ref={componentRef} sx={{ p: 3 }}>
         <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
-        {images && images?.length && (
+        {images && images?.length ? (
           <>
             <ImagesWrapper images={images} onClick={handleClickImage} />
             <ImgsViewer
@@ -97,6 +97,8 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
               onClose={toggleViewer}
             />
           </>
+        ) : (
+          <></>
         )}
       </Box>
       <Button onClick={handlePrint}>PRINT</Button>

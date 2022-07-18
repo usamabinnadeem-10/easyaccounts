@@ -1,25 +1,22 @@
 import React from 'react';
-import { useEffect } from 'react';
 import { useState } from 'react';
 import { useRef } from 'react';
+import { useMemo } from 'react';
 
 import { useReactToPrint } from 'react-to-print';
 
-import CustomLoader from '../../components/CustomLoader/CustomLoader';
+import CustomFilters from '../../containers/CustomFilters';
 import CustomTable from '../../components/CustomTable/CustomTable';
-import CustomToggleButtons from '../../components/CustomToggleButtons/CustomToggleButtons';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
 
-import { LoadingButton } from '@mui/lab';
 import { Button } from '@mui/material';
 
-import { makeQueryParamURL } from '../../utilities/stringUtils';
 import { useStyles } from './styles';
-import instance from '../../../utils/axiosApi';
-import { LEDGER_URLS } from '../../../constants/restEndPoints';
-import { PERSONS, COLUMNS, PERSONS_CUSTOMER } from './constants';
-import { formatBalances, hasAdminPermission } from './utils';
+import { REPORTS_APIS } from '../../../constants/restEndPoints';
+import { COLUMNS } from './constants';
+import { formatBalances } from './utils';
+import { getFilters } from './filters';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -27,35 +24,15 @@ const Balances = ({ showErrorSnackbar, role, persons }) => {
   const classes = useStyles();
   const componentRef = useRef();
 
-  const [loading, setLoading] = useState(false);
+  let filters = useMemo(() => getFilters(role), [role]);
+
   const [balancesData, setBalancesData] = useState([]);
-  const [currentPerson, setCurrentPerson] = useState('C');
   const [isEmpty, setIsEmpty] = useState(false);
 
-  useEffect(() => {
-    setIsEmpty(false);
-  }, [currentPerson]);
-
-  const search = () => {
-    let query = [
-      {
-        key: 'person',
-        value: currentPerson,
-      },
-    ];
-    setLoading(true);
-    instance
-      .get(makeQueryParamURL(LEDGER_URLS.ALL_BALANCES, query))
-      .then((res) => {
-        let formattedBalances = formatBalances(res.data, persons);
-        setBalancesData(formattedBalances);
-        setIsEmpty(formattedBalances.length === 0);
-        setLoading(false);
-      })
-      .catch((error) => {
-        setLoading(false);
-        showErrorSnackbar('Oops, something went wrong');
-      });
+  const handleSearch = (data) => {
+    let formattedBalances = formatBalances(data, persons);
+    setBalancesData(formattedBalances);
+    setIsEmpty(formattedBalances.length === 0);
   };
 
   const handlePrint = useReactToPrint({
@@ -75,21 +52,11 @@ const Balances = ({ showErrorSnackbar, role, persons }) => {
             PRINT
           </Button>
         </div>
-        <div className={classes.selectPerson}>
-          <CustomToggleButtons
-            buttons={hasAdminPermission(role) ? PERSONS : PERSONS_CUSTOMER}
-            getSelectedValue={(value) => setCurrentPerson(value)}
-            selectedValue={currentPerson}
-          />
-          <LoadingButton
-            size='small'
-            sx={{ fontWeight: 900 }}
-            variant='contained'
-            onClick={() => search()}
-            loading={loading}>
-            SEARCH
-          </LoadingButton>
-        </div>
+        <CustomFilters
+          api={REPORTS_APIS.ALL_BALANCES}
+          filters={filters}
+          onSearch={handleSearch}
+        />
         <div ref={componentRef}>
           {balancesData.length > 0 && (
             <CustomTable data={balancesData} columns={COLUMNS} />
@@ -97,7 +64,6 @@ const Balances = ({ showErrorSnackbar, role, persons }) => {
         </div>
         {isEmpty && <Empty />}
       </div>
-      {loading && <CustomLoader pageLoader loading={loading} />}
     </>
   );
 };

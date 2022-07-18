@@ -12,8 +12,10 @@ import ViewTransactions from '../ViewTransactions';
 import ViewExpenses from '../ViewExpenses';
 import AccountTypeCard from '../../components/AccountTypeCard/AccountTypeCard';
 import ChequeHistoryTable from '../../components/ChequeHistoryTable';
+import Heading from '../../components/Heading';
 
 import { Button } from '@mui/material';
+import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { useStyles } from './styles';
@@ -50,15 +52,12 @@ const Daybook = (props) => {
         <CustomLoader pageLoader loading={!daybookData.fetched} />
       ) : (
         <div className={classes.root}>
-          <div className={classes.header}>
-            <Typography variant='h5' fontWeight={900}>
-              Daybook for {displayDate}
-            </Typography>
-            <div>
+          <Grid container className={classes.header}>
+            <Heading heading={`Daybook for ${displayDate}`} />
+            <Grid container gap={2}>
               <Button
                 variant='contained'
                 size='small'
-                sx={{ mr: 2 }}
                 onClick={() => dispatch(getDaybook(date))}>
                 REFRESH
               </Button>
@@ -69,8 +68,8 @@ const Daybook = (props) => {
                 value={date}
                 isEndDate
               />
-            </div>
-          </div>
+            </Grid>
+          </Grid>
 
           <Typography variant='button' fontWeight={900} sx={{ mb: 2 }}>
             Account Balances

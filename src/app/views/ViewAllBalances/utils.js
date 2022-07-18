@@ -1,7 +1,5 @@
 import { formatCurrency } from '../../utilities/stringUtils';
 
-import { ROLES } from '../../../constants/userRoles';
-
 export const formatBalances = (data, persons) => {
   let newBalancesData = [];
   let totalCR = 0;
@@ -50,5 +48,3 @@ export const formatBalances = (data, persons) => {
 
   return sorted;
 };
-
-export const hasAdminPermission = (role) => role === ROLES.ADMIN;

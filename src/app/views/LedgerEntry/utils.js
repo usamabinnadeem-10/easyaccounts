@@ -1,7 +1,6 @@
 import { ROLES } from '../../../constants/roles';
 
 export const getPersonOptions = (essentials, role) => {
-  console.log(role);
   if (!essentials || !role) {
     return [];
   }
@@ -10,6 +9,7 @@ export const getPersonOptions = (essentials, role) => {
       ...essentials.customers,
       ...essentials.suppliers,
       ...essentials.equities,
+      ...essentials.advanceExpenses,
     ];
   }
   return essentials.customers;

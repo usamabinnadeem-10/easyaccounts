@@ -1,21 +1,23 @@
-import { makeStyles } from "@mui/styles";
+import { makeStyles } from '@mui/styles';
 
-export const useStyles = makeStyles({
+export const useStyles = makeStyles((theme) => ({
   root: {
-    width: "75vw",
-    display: "flex",
-    flexDirection: "column",
-    marginBottom: "2rem",
+    width: '75vw',
+    display: 'flex',
+    flexDirection: 'column',
+    marginBottom: '2rem',
+    [theme.breakpoints.down('md')]: {
+      width: '100%',
+    },
   },
   header: {
-    display: "flex",
-    justifyContent: "space-between",
-    marginBottom: "2rem",
+    justifyContent: 'space-between',
+    marginBottom: '2rem',
   },
   accountTypesWrapper: {
-    display: "flex",
-    marginBottom: "1.5rem",
-    flexWrap: "wrap",
-    rowGap: "20px",
+    display: 'flex',
+    marginBottom: '1.5rem',
+    flexWrap: 'wrap',
+    rowGap: '20px',
   },
-});
+}));
