@@ -1,17 +1,17 @@
 import { FIELDS } from '../../../constants/fieldTypes';
 
 export const TRANSACTION_TYPES = [
-  // {
-  //   name: "Paid",
-  //   value: "paid",
-  //   color: "success",
-  //   accountTypes: true,
-  //   validate: true,
-  // },
   {
     name: 'Credit',
     value: 'credit',
     color: 'error',
+    validate: true,
+  },
+  {
+    name: 'Paid',
+    value: 'paid',
+    color: 'success',
+    accountTypes: true,
     validate: true,
   },
   {

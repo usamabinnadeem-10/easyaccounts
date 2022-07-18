@@ -67,6 +67,7 @@ export const EXPENSE_TYPES = [
   { value: 'administrative', label: 'Administrative' },
   { value: 'marketing', label: 'Marketing' },
   { value: 'refreshments', label: 'Refreshments' },
+  { value: 'food', label: 'Food' },
   { value: 'special', label: 'Special' },
   { value: 'commission', label: 'Commission' },
   { value: 'printing', label: 'Printing' },
