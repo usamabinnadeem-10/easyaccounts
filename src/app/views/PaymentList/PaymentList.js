@@ -7,6 +7,8 @@ import PaymentTable from './PaymentTable';
 import PaymentReceiptDrawer from './PaymentReceiptDrawer';
 import Payment from '../Payment';
 
+import { Typography } from '@mui/material';
+
 import { NATURES } from './constants';
 import { getFilters } from './filters';
 import { deletePaymentApi } from './api';
@@ -26,6 +28,27 @@ const PaymentList = ({
   const [currentPayment, setCurrentPayment] = useState(null);
   const [showDrawer, setShowDrawer] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
+  const [totals, setTotals] = useState({
+    credit: 0,
+    debit: 0,
+  });
+
+  // set totals for payment debit and credit
+  useEffect(() => {
+    let credit = 0;
+    let debit = 0;
+    paymentData.forEach((payment) => {
+      if (payment.nature === 'C') {
+        credit += payment.amount;
+      } else {
+        debit += payment.amount;
+      }
+    });
+    setTotals({
+      credit,
+      debit,
+    });
+  }, [paymentData]);
 
   const handleSearch = (data) => {
     setPaymentData(data.results);
@@ -108,6 +131,16 @@ const PaymentList = ({
               handleView={handleViewPayment}
               {...props}
             />
+          )}
+          {paymentData.length > 0 && (
+            <>
+              <Typography variant='body2'>
+                Total Credit : {totals.credit}
+              </Typography>
+              <Typography variant='body2'>
+                Total Debit : {totals.debit}
+              </Typography>
+            </>
           )}
           <PaymentReceiptDrawer
             open={showDrawer}
