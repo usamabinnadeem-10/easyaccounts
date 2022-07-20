@@ -34,6 +34,7 @@ export const useStyles = makeStyles((theme) => ({
     maxWidth: '200px',
     borderBottom: '0.5px solid rgba(105, 105, 105, 0.2)',
     overflowWrap: 'anywhere',
+    padding: '4px 0px',
     [theme.breakpoints.down('md')]: {
       maxWidth: '120px',
       fontSize: '12px',

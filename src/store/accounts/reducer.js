@@ -1,4 +1,4 @@
-import * as actionTypes from "./actionTypes";
+import * as actionTypes from './actionTypes';
 
 const initialState = {
   daybook: {
@@ -12,6 +12,8 @@ const initialState = {
     externalCheques: [],
     externalChequesHistory: [],
     personalCheques: [],
+    ledgerDetails: [],
+    payments: [],
   },
 };
 

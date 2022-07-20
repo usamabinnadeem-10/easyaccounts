@@ -1,5 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
+import { useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
 import { useDispatch } from 'react-redux';
@@ -13,12 +14,14 @@ import ViewExpenses from '../ViewExpenses';
 import AccountTypeCard from '../../components/AccountTypeCard/AccountTypeCard';
 import ChequeHistoryTable from '../../components/ChequeHistoryTable';
 import Heading from '../../components/Heading';
+import CustomTable from '../../components/CustomTable';
 
 import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { useStyles } from './styles';
+import { getLedgerDetailTable } from './utils';
 
 import moment from 'moment';
 import { getDaybook } from '../../../store/accounts/actions';
@@ -30,6 +33,11 @@ const Daybook = (props) => {
   const daybookData = useSelector((state) => state.accounts.daybook);
   const [date, setDate] = React.useState(null);
   const [displayDate, setDisplayDate] = React.useState(null);
+
+  let ledgerDetailColumns = useMemo(
+    () => getLedgerDetailTable(props.persons, props.accounts),
+    [props]
+  );
 
   useEffect(() => {
     if (daybookData.shouldFetch) {
@@ -130,6 +138,20 @@ const Daybook = (props) => {
                 daybookView
                 daybookPayments={daybookData.payments}
                 // defaultLedgers={daybookData.ledgers}
+              />
+            </>
+          )}
+          {daybookData.ledgerDetails.length > 0 && (
+            <>
+              <Typography
+                variant='button'
+                fontWeight={900}
+                sx={{ mt: 3, mb: 1 }}>
+                Ledger Entries
+              </Typography>
+              <CustomTable
+                data={daybookData.ledgerDetails}
+                columns={ledgerDetailColumns}
               />
             </>
           )}

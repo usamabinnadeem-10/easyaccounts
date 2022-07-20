@@ -23,6 +23,7 @@ function* getDaybookSaga(action) {
       externalCheques: data.external_cheques,
       externalChequesHistory: data.external_cheques_history,
       personalCheques: data.personal_cheques,
+      ledgerDetails: data.ledger_details,
     };
     yield put(actions.getDaybookSuccess(formattedData));
   } catch (error) {
