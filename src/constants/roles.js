@@ -4,4 +4,5 @@ export const ROLES = {
   SALEMAN: 'saleman',
   PURCHASER: 'purchaser',
   STOCKIST: 'stockist',
+  ADMIN_VIEWER: 'admin_viewer',
 };

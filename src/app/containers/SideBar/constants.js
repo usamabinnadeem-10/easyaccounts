@@ -101,22 +101,27 @@ export const SIDEBAR = [
       {
         name: DAYBOOK,
         route: routes.VIEW_DAYBOOK,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
       },
       {
         name: BALANCES,
         route: routes.ALL_BALANCES,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
       },
       {
         name: STOCK,
         route: routes.ALL_STOCK,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.STOCKIST],
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ACCOUNTANT,
+          ROLES.STOCKIST,
+          ROLES.ADMIN_VIEWER,
+        ],
       },
       {
         name: VIEW_DETAILED_STOCK,
         route: routes.DETAILED_STOCK,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
       },
       // {
       //   name: PRODUCT_PERFORMANCE_HISTORY,
@@ -126,24 +131,24 @@ export const SIDEBAR = [
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
       },
       {
         name: BALANCE_SHEET,
         route: routes.BALANCE_SHEET_ROUTE,
-        roles: [ROLES.ADMIN],
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
       },
       {
         name: INCOME_STATEMENT,
         route: routes.INCOME_STATEMENT_ROUTE,
-        roles: [ROLES.ADMIN],
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
       },
     ],
   },
   // ----------------TRANSACTIONS---------------//
   {
     panelName: TRANSACTIONS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: VIEW,
@@ -163,7 +168,7 @@ export const SIDEBAR = [
   // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: VIEW,
@@ -177,7 +182,7 @@ export const SIDEBAR = [
   },
   {
     panelName: PAYMENT,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: PAYMENT_LIST,
@@ -192,7 +197,7 @@ export const SIDEBAR = [
   // ----------------EXPENSES---------------//
   {
     panelName: EXPENSES,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.SALEMAN],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: VIEW,
@@ -207,7 +212,7 @@ export const SIDEBAR = [
   // ----------------TRANSFERS---------------//
   {
     panelName: TRANSFERS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.SALEMAN],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: VIEW,
@@ -222,7 +227,7 @@ export const SIDEBAR = [
   // ----------------CHEQUE MANAGEMENT---------------//
   {
     panelName: CHEQUE_MANAGEMENT,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: PERSONAL_CHEQUES,
@@ -288,7 +293,7 @@ export const SIDEBAR = [
   // ----------------Assets---------------//
   {
     panelName: ASSET,
-    roles: [ROLES.ADMIN],
+    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: SEARCH_ASSET,
@@ -303,7 +308,7 @@ export const SIDEBAR = [
   // ----------------DYING---------------//
   {
     panelName: DYING,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: DYING_ISSUE,
@@ -318,7 +323,7 @@ export const SIDEBAR = [
   // ----------------RAW---------------//
   {
     panelName: RAW,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: RAW_PURCHASE,
