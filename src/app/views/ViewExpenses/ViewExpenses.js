@@ -194,7 +194,7 @@ const ViewExpenses = ({
         </>
       )}
       <>
-        {!!totalExpenses && expensesData.length > 0 && (
+        {!!totalExpenses && expensesData.length > 0 && !daybookView && (
           <ViewWrapper overridewidth width={'100%'}>
             <Grid
               sx={{ mb: 2 }}

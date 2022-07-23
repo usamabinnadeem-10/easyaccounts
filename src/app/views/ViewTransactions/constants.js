@@ -20,3 +20,33 @@ export const DIALOGUE_INIT = {
   deleteItem: false,
   idToDelete: null,
 };
+
+export const TRANSACTION_TYPES = [
+  {
+    label: 'Credit',
+    value: 'credit',
+  },
+  {
+    label: 'Paid',
+    value: 'paid',
+  },
+  {
+    label: 'Maal Wapsi',
+    value: 'maal_wapsi',
+  },
+  {
+    label: 'Purchase',
+    value: 'purchase',
+  },
+];
+
+export const TRANSACTION_STATUS_OPTIONS = [
+  {
+    label: 'Complete',
+    value: false,
+  },
+  {
+    label: 'Incomplete',
+    value: true,
+  },
+];

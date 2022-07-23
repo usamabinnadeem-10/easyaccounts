@@ -22,11 +22,10 @@ import { LoadMoreButton } from './styled';
 import instance from '../../../utils/axiosApi';
 import { getURL } from '../../utilities/stringUtils';
 import { findErrorMessage } from '../../utilities/objectUtils';
-import {
-  formatTransactionData,
-  formatTransactionDetails,
-  getFilters,
-} from './utils';
+import { formatTransactionData, formatTransactionDetails } from './utils';
+
+import { getFilters } from './filters';
+
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 import { setShouldFetch } from '../../../store/transactions';
 
