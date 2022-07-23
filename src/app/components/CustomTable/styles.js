@@ -57,5 +57,6 @@ export const useStyles = makeStyles((theme) => ({
   },
   bordered: {
     border: '0.5px solid rgba(105, 105, 105, 0.3)',
+    padding: '2px 4px !important',
   },
 }));
