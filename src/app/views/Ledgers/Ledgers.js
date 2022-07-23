@@ -33,6 +33,7 @@ import { LEDGER_URLS } from '../../../constants/restEndPoints';
 import { DB_TRANSLATION } from '../../../constants/db';
 import instance from '../../../utils/axiosApi';
 import { makeQueryParamURL, formatCurrency } from '../../utilities/stringUtils';
+import { findErrorMessage } from '../../utilities/objectUtils';
 import { getURL } from '../../utilities/stringUtils';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 
@@ -109,7 +110,7 @@ function Ledgers({
           showSuccessSnackbar(SUCCESS.DELETED);
         })
         .catch((error) => {
-          showErrorSnackbar(ERRORS.OOPS);
+          showErrorSnackbar(findErrorMessage(error.response.data));
         });
     }
   }, [dialogueState]);
@@ -174,7 +175,7 @@ function Ledgers({
       })
       .catch((error) => {
         setLoading(false);
-        showErrorSnackbar(ERRORS.OOPS);
+        showErrorSnackbar(findErrorMessage(error.response.data));
       });
   };
 
@@ -187,6 +188,7 @@ function Ledgers({
 
   const handleEdit = (id) => {
     let data = ledgerDataRaw.filter((l) => l.id === id)[0];
+    console.log(data);
     data = {
       ...data,
       nature: NATURES[data.nature],
@@ -340,7 +342,9 @@ function Ledgers({
                     variant='contained'
                     size='small'
                     color='success'
-                    disabled={ledgerData.length === 0}
+                    disabled={
+                      ledgerData.length === 0 || !currentPerson?.phone_number
+                    }
                     sx={{ displayPrint: 'none' }}
                     startIcon={<WhatsAppIcon />}>
                     Whatsapp

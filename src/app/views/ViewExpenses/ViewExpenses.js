@@ -30,6 +30,7 @@ import { ERRORS, SUCCESS } from './constants';
 import { formatExpensesData, getTotalExpenses } from './utils';
 
 import { convertCurrencyToNumber } from '../../utilities/stringUtils';
+import { findErrorMessage } from '../../utilities/objectUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -85,7 +86,7 @@ const ViewExpenses = ({
           });
         })
         .catch((error) => {
-          showErrorSnackbar(ERRORS.OOPS);
+          showErrorSnackbar(findErrorMessage(error.response.data));
         });
     }
   }, [dialogueState]);
@@ -128,7 +129,7 @@ const ViewExpenses = ({
         setOldExpenseState({});
       })
       .catch((error) => {
-        showErrorSnackbar(ERRORS.OOPS);
+        showErrorSnackbar(findErrorMessage(error.response.data));
       });
   };
 
