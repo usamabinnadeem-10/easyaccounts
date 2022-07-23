@@ -5,16 +5,22 @@ import * as options from '../../../constants/choices';
 export const getFilters = (essentials) => {
   return [
     {
+      qp: 'expense',
+      type: FIELDS.SELECT,
+      options: essentials.expenseAccounts,
+      placeholder: 'Expense Head',
+    },
+    {
       qp: 'expense__type',
       type: FIELDS.SELECT,
       options: options.EXPENSE_TYPES,
-      placeholder: 'Expense type',
+      placeholder: 'Expense Category',
     },
     {
       qp: 'account_type',
       type: FIELDS.SELECT,
       options: essentials.accountTypes,
-      placeholder: 'Account',
+      placeholder: 'Account Type',
     },
     {
       qp: 'date',
