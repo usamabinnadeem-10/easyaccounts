@@ -7,16 +7,19 @@ import CustomTable from '../../components/CustomTable';
 import { COLUMNS } from './constants';
 import { formatTransferDetail } from './utils';
 import { Meta } from './styled';
+import { getReadableDate } from '../../utilities/stringUtils';
 
 const ViewSingleTransfer = ({ data, ...props }) => {
+  console.log(data);
+  console.log(props.warehouses);
   const TEXTS = [
     { name: 'Serial', value: data.serial },
-    { name: 'Book #', value: data.manual_invoice_serial },
+    { name: 'Book #', value: data.manual_serial },
     {
       name: 'From Warehouse',
-      value: data.from_warehouse,
+      value: props.warehouses[data.from_warehouse].label,
     },
-    { name: 'Date', value: data.date },
+    { name: 'Date', value: getReadableDate(data.date) },
   ];
 
   return (

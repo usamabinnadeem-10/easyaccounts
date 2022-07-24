@@ -5,29 +5,16 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
-import { Form } from 'formik';
-import { FastField } from 'formik';
-import { FieldArray } from 'formik';
 
-import AddRemove from '../../components/AddRemove';
+import { Button } from '@mui/material';
+
 import ViewWrapper from '../../components/ViewWrapper';
 import Heading from '../../components/Heading';
-import ScannerInput from '../../components/ScannerInput';
-
-import { FormAutoCompleteField } from '../../utilities/formUtils';
-import { FormDateField } from '../../utilities/formUtils';
-import { FormTextField } from '../../utilities/formUtils';
-
-import { Grid } from '@mui/material';
-
-import { Error } from './styled';
-import { MetaWrapper } from './styled';
-import { RowWrapper } from './styled';
-import { StyledButton } from './styled';
+import TransferDrawer from '../../components/TransferDrawer';
+import StockTransferForm from './StockTransferForm';
 
 import { INITIAL_VALUES } from './constants';
 import { schema } from './validation';
-import { getRowFields } from './utils';
 import { transferStockApi } from './api';
 
 import { getAllStock } from '.././../../store/transactions';
@@ -35,10 +22,20 @@ import { findErrorMessage, isObjectDirty } from '../../utilities/objectUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
-const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
+const StockTransfer = ({
+  showErrorSnackbar,
+  showSuccessSnackbar,
+  products,
+  warehouses,
+  editData,
+  editId,
+  handleCancelEdit,
+}) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const [isLoading, setIsLoading] = useState(false);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [currentTransfer, setCurrentTransfer] = useState(null);
 
   const submit = (values, actions) => {
     setIsLoading(true);
@@ -57,9 +54,11 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         quantity: detail.quantity,
       })),
     };
-    transferStockApi(data)
+    transferStockApi(data, editId)
       .then((response) => {
         showSuccessSnackbar('Transferred successfully');
+        setShowDrawer(true);
+        setCurrentTransfer(response.data);
         setIsLoading(false);
         dispatch(getAllStock());
         actions.resetForm();
@@ -67,6 +66,7 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
       .catch((error) => {
         showErrorSnackbar(findErrorMessage(error.response.data));
         setIsLoading(false);
+        setCurrentTransfer(null);
       });
   };
 
@@ -98,127 +98,54 @@ const StockTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     }
   };
 
+  const handleCloseDrawer = () => {
+    setShowDrawer(false);
+    setCurrentTransfer(null);
+    if (editData && editId) {
+      handleCancelEdit();
+    }
+  };
+
   return (
     <ViewWrapper>
+      {editData && editId && (
+        <Button
+          size='small'
+          sx={{ mb: 2 }}
+          onClick={handleCancelEdit}
+          variant='contained'
+          color='error'>
+          Go back
+        </Button>
+      )}
+
+      {currentTransfer && (
+        <TransferDrawer
+          open={showDrawer}
+          onClose={handleCloseDrawer}
+          data={currentTransfer}
+          products={products}
+          warehouses={warehouses}
+        />
+      )}
       <Heading heading='Transfer Stock' />
       <Formik
-        initialValues={INITIAL_VALUES}
+        enableReinitialize
+        initialValues={editData || INITIAL_VALUES}
         validationSchema={schema}
         onSubmit={(values, actions) => submit(values, actions)}>
         {({ values, errors, touched, handleSubmit, setFieldValue }) => (
-          <Form>
-            <MetaWrapper container justifyContent='space-between'>
-              <Grid item xs={3}>
-                <FastField
-                  size='small'
-                  component={FormDateField}
-                  name='date'
-                  label='Date'
-                  isError={touched['date'] && !!errors['date']}
-                  errorText={touched['date'] ? errors['date'] : ''}
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FastField
-                  size='small'
-                  component={FormAutoCompleteField}
-                  options={essentials.warehouses}
-                  name='from_warehouse'
-                  label='From Warehouse'
-                  fullWidth
-                />
-              </Grid>
-              <Grid item xs={4}>
-                <FastField
-                  size='small'
-                  component={FormTextField}
-                  name='manual_serial'
-                  label='Receipt #'
-                  fullWidth
-                  type='number'
-                />
-              </Grid>
-            </MetaWrapper>
-            <Grid container direction='column'>
-              <FieldArray
-                name='transfer_detail'
-                render={(arrayHelpers) =>
-                  values.transfer_detail.map((row, rowIndex) => (
-                    <RowWrapper
-                      key={rowIndex}
-                      container
-                      justifyContent='space-between'>
-                      {getRowFields(essentials).map(
-                        (rowField, rowFieldIndex) => (
-                          <Grid item xs={rowField.xs}>
-                            <FastField
-                              component={
-                                rowField.component
-                                  ? FormTextField
-                                  : FormAutoCompleteField
-                              }
-                              options={rowField.options}
-                              size='small'
-                              variant='standard'
-                              name={`transfer_detail.${rowIndex}.${rowField.name}`}
-                              label={rowField.label}
-                              isError={
-                                touched.transfer_detail?.[rowIndex]?.[
-                                  rowField.name
-                                ] &&
-                                !!errors?.transfer_detail?.[rowIndex]?.[
-                                  rowField.name
-                                ]
-                              }
-                              errorText={
-                                touched.transfer_detail?.[rowIndex]?.[
-                                  rowField.name
-                                ]
-                                  ? errors.transfer_detail?.[rowIndex]?.[
-                                      rowField.name
-                                    ]
-                                  : ''
-                              }
-                            />
-                          </Grid>
-                        )
-                      )}
-                      <Grid item xs={2}>
-                        <AddRemove
-                          disabled={values.transfer_detail.length === 1}
-                          onDelete={() => arrayHelpers.remove(rowIndex)}
-                          onAdd={() =>
-                            arrayHelpers.push({
-                              ...values.transfer_detail[rowIndex],
-                              yards_per_piece: '',
-                            })
-                          }
-                        />
-                      </Grid>
-                    </RowWrapper>
-                  ))
-                }
-              />
-            </Grid>
-
-            {typeof errors.transfer_detail === 'string' && (
-              <Error color='error' variant='caption'>
-                {errors.transfer_detail}
-              </Error>
-            )}
-
-            <StyledButton
-              loading={isLoading}
-              onClick={handleSubmit}
-              variant='contained'>
-              Transfer
-            </StyledButton>
-            <ScannerInput
-              getScannedValue={(val) =>
-                addScannerDataToForm(val, values, setFieldValue)
-              }
-            />
-          </Form>
+          <StockTransferForm
+            values={values}
+            touched={touched}
+            errors={errors}
+            essentials={essentials}
+            setFieldValue={setFieldValue}
+            handleSubmit={handleSubmit}
+            addScannerDataToForm={addScannerDataToForm}
+            isLoading={isLoading}
+            isEdit={editData && editId}
+          />
         )}
       </Formik>
     </ViewWrapper>

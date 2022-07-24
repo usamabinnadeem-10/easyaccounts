@@ -74,6 +74,7 @@ export const TRANSACTION_URLS = {
   FILTER: `${TRANSACTION}search/`,
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
   DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
+  EDIT_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}update/:uuid/`,
   ALL_STOCK: `${TRANSACTION}all-stock/`,
 };
 

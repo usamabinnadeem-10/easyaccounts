@@ -2,6 +2,7 @@ import { FIELDS } from '../../containers/CustomFilters/constants';
 
 import { IconButton } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
 
 import { getReadableDate } from '../../utilities/stringUtils';
 
@@ -101,14 +102,19 @@ export const getFilters = (essentials) => {
   ];
 };
 
-export const getColumns = (handleClick, handleDelete) => {
+export const getColumns = (
+  handleClick,
+  handleEdit,
+  handleDelete,
+  warehouses
+) => {
   return [
     {
       accessor: 'date',
       Header: 'Date',
       Cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
-          {row.value}
+          {row.value ? getReadableDate(row.value) : ''}
         </div>
       ),
     },
@@ -135,7 +141,7 @@ export const getColumns = (handleClick, handleDelete) => {
       Header: 'From',
       Cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
-          {row.value}
+          {warehouses?.[row.value]?.label || '---'}
         </div>
       ),
     },
@@ -152,6 +158,21 @@ export const getColumns = (handleClick, handleDelete) => {
           {row.value}
         </div>
       ),
+    },
+    {
+      accessor: 'edit',
+      Header: 'Edit',
+      Cell: (row) => {
+        if (!row.row.original.dummy) {
+          return (
+            <IconButton
+              onClick={row.row.id ? () => handleEdit(row.row.id) : null}>
+              <EditIcon />
+            </IconButton>
+          );
+        }
+        return <></>;
+      },
     },
     {
       accessor: 'delete',
@@ -171,11 +192,11 @@ export const getColumns = (handleClick, handleDelete) => {
   ];
 };
 
-export const formatTransferData = (data, warehouses) => {
+export const formatTransferData = (data) => {
   let _data = data.map((val) => ({
     ...val,
-    date: getReadableDate(val.date),
-    from_warehouse: warehouses[val.from_warehouse].label,
+    // date: getReadableDate(val.date),
+    // from_warehouse: warehouses[val.from_warehouse].label,
     total: val.transfer_detail.reduce((prev, curr) => prev + curr.quantity, 0),
   }));
   _data.push({

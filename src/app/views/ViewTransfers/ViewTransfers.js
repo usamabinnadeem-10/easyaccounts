@@ -10,7 +10,8 @@ import ConfirmationModal from '../../components/ConfirmationModal';
 import CustomFilters from '../../containers/CustomFilters';
 import CustomTable from '../../components/CustomTable';
 import Heading from '../../components/Heading';
-import TransferDrawer from './TransferDrawer';
+import TransferDrawer from '../../components/TransferDrawer';
+import StockTransfer from '../../views/StockTransfer';
 
 import { getColumns, getFilters, formatTransferData } from './utils';
 import { deleteTransferApi } from './api';
@@ -35,11 +36,14 @@ const ViewTransfers = ({
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransfer, setCurrentTransfer] = useState([]);
   const [dialogueState, setDialogueState] = useState(DIALOGUE_INIT);
+  const [isEdit, setIsEdit] = useState(false);
+  const [editData, setEditData] = useState(null);
+  const [editId, setEditId] = useState(null);
 
   const filters = useMemo(() => getFilters(essentials), [essentials]);
 
   const handleSearch = (data) => {
-    setTransferData(formatTransferData(data, warehouses));
+    setTransferData(formatTransferData(data));
   };
 
   const handleDelete = async (id) => {
@@ -76,40 +80,79 @@ const ViewTransfers = ({
     }
   }, [dialogueState]);
 
+  const handleEdit = (id) => {
+    let current = transferData.filter((val) => val.id === id)[0];
+    let editData = {
+      ...current,
+      from_warehouse: {
+        value: current.from_warehouse,
+        label: warehouses[current.from_warehouse].label,
+      },
+      transfer_detail: current.transfer_detail.map((d) => ({
+        ...d,
+        to_warehouse: {
+          value: d.to_warehouse,
+          label: warehouses[d.to_warehouse].label,
+        },
+        product: { value: d.product, label: products[d.product].label },
+      })),
+    };
+    setEditData(editData);
+    setIsEdit(true);
+    setEditId(id);
+  };
+
+  const handleCancelEdit = () => {
+    setEditData(null);
+    setEditId(null);
+  };
+
   const columns = useMemo(
-    () => getColumns(onRowClick, askConfirmation),
-    [transferData]
+    () => getColumns(onRowClick, handleEdit, askConfirmation, warehouses),
+    [transferData, warehouses]
   );
 
   return (
     <>
-      <Heading heading='Warehouse Transfers' />
-      <CustomFilters
-        api={TRANSACTION_URLS.LIST_TRANSFERS}
-        onSearch={handleSearch}
-        filters={filters}
-      />
-      <CustomTable
-        columns={columns}
-        data={transferData}
-        hoverProperty='serial'
-      />
-      <TransferDrawer
-        open={showDrawer}
-        onClose={() => setShowDrawer(false)}
-        data={currentTransfer}
-        warehouses={warehouses}
-        products={products}
-      />
-      <ConfirmationModal
-        open={dialogueState.open}
-        setDialogueState={(value) =>
-          setDialogueState({ ...dialogueState, ...value })
-        }
-        closeDialogue={() =>
-          setDialogueState({ ...dialogueState, open: false })
-        }
-      />
+      {isEdit && editData ? (
+        <StockTransfer
+          products={products}
+          warehouses={warehouses}
+          editData={editData}
+          editId={editId}
+          handleCancelEdit={handleCancelEdit}
+        />
+      ) : (
+        <>
+          <Heading heading='Warehouse Transfers' />
+          <CustomFilters
+            api={TRANSACTION_URLS.LIST_TRANSFERS}
+            onSearch={handleSearch}
+            filters={filters}
+          />
+          <CustomTable
+            columns={columns}
+            data={transferData}
+            hoverProperty='serial'
+          />
+          <TransferDrawer
+            open={showDrawer}
+            onClose={() => setShowDrawer(false)}
+            data={currentTransfer}
+            warehouses={warehouses}
+            products={products}
+          />
+          <ConfirmationModal
+            open={dialogueState.open}
+            setDialogueState={(value) =>
+              setDialogueState({ ...dialogueState, ...value })
+            }
+            closeDialogue={() =>
+              setDialogueState({ ...dialogueState, open: false })
+            }
+          />
+        </>
+      )}
     </>
   );
 };
