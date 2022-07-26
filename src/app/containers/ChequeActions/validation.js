@@ -13,9 +13,10 @@ const personSchema = defaultSchema.concat(
   })
 );
 
-const accountSchema = defaultSchema.concat(
+const accountAndDateSchema = defaultSchema.concat(
   Yup.object().shape({
     account_type: Yup.object().required(REQUIRED),
+    date: Yup.date().required(REQUIRED),
   })
 );
 
@@ -46,7 +47,7 @@ export const getSchema = (isPersonal, actionType) => {
   } else {
     switch (actionType) {
       case ACTION_TYPES.EXTERNAL.PASS:
-        return accountSchema;
+        return accountAndDateSchema;
       case ACTION_TYPES.EXTERNAL.TRANSFER:
         return personAndDateSchema;
       case ACTION_TYPES.EXTERNAL.RETURN ||

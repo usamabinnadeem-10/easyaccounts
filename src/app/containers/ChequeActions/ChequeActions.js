@@ -126,12 +126,19 @@ const ChequeActions = ({
     } else {
       if (actionType === ACTION_TYPES.EXTERNAL.PASS) {
         return (
-          <Field
-            component={FormAutoCompleteField}
-            options={accounts}
-            name={FIELDS.ACCOUNT_TYPE}
-            label='Select Account'
-          />
+          <>
+            <Field
+              component={FormAutoCompleteField}
+              options={accounts}
+              name={FIELDS.ACCOUNT_TYPE}
+              label='Select Account'
+            />
+            <Field
+              component={FormDateField}
+              name={FIELDS.DATE}
+              label='Clearing date'
+            />
+          </>
         );
       } else if (actionType === ACTION_TYPES.EXTERNAL.TRANSFER) {
         return (
