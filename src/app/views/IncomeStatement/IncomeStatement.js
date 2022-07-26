@@ -95,7 +95,9 @@ const IncomeStatement = () => {
                     return (
                       <LineItem
                         padLeft
-                        label={capitalizeFirstLetter(e.expense__type)}
+                        label={capitalizeFirstLetter(
+                          e.expense__type
+                        ).replaceAll('_', ' ')}
                         value={e.total}
                       />
                     );
