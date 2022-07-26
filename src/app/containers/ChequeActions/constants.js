@@ -67,6 +67,7 @@ export const getInitialValues = (isPersonal, actionType, chequeId) => {
         return {
           ...getDefault(chequeId),
           account_type: '',
+          date: '',
         };
       case ACTION_TYPES.EXTERNAL.TRANSFER:
         return {
