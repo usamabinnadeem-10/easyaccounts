@@ -73,6 +73,8 @@ export const EXPENSE_TYPES = [
   { value: 'printing', label: 'Printing' },
   { value: 'legal', label: 'Legal' },
   { value: 'communication', label: 'Communication' },
+  { value: 'nagh_mazdoori', label: 'Nagh Mazdoori' },
+  { value: 'construction', label: 'Construction' },
   { value: 'taxation', label: 'Taxation' },
   { value: 'software', label: 'Software' },
   { value: 'other', label: 'Other' },
