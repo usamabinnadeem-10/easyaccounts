@@ -75,4 +75,8 @@ export const BANKS = [
     value: 'citi',
     label: 'Citi Bank',
   },
+  {
+    value: 'ubank',
+    label: 'U Microfinance Bank',
+  },
 ];
