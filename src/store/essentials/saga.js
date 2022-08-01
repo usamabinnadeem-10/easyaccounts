@@ -7,6 +7,8 @@ import * as actionTypes from './actionTypes';
 import * as actions from './actions';
 import * as api from './api';
 
+import { ROLES } from '../../constants/roles';
+
 import { findErrorMessage } from '../../app/utilities/objectUtils';
 
 function* essentialSagas() {
@@ -27,35 +29,50 @@ function* essentialSagas() {
 
 function* getAllEssentialsSaga() {
   try {
-    let response = yield call(api.getAccountsApi);
-    yield put(actions.getAllAccountTypesSuccess(response.data));
+    let role = localStorage.getItem('userRole');
+    let allowed = [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER];
+    let allow = allowed.includes(role);
 
-    response = yield call(api.getWarehouseApi);
-    yield put(actions.getAllWarehouseSuccess(response.data));
+    if (allow) {
+      let response = yield call(api.getAccountsApi);
+      yield put(actions.getAllAccountTypesSuccess(response.data));
 
-    response = yield call(api.getCustomersApi);
-    yield put(actions.getAllCustomersSuccess(response.data));
+      response = yield call(api.getWarehouseApi);
+      yield put(actions.getAllWarehouseSuccess(response.data));
 
-    response = yield call(api.getSuppliersApi);
-    yield put(actions.getAllSuppliersSuccess(response.data));
+      response = yield call(api.getCustomersApi);
+      yield put(actions.getAllCustomersSuccess(response.data));
 
-    response = yield call(api.getEquityApi);
-    yield put(actions.getAllEquitySuccess(response.data));
+      response = yield call(api.getSuppliersApi);
+      yield put(actions.getAllSuppliersSuccess(response.data));
 
-    response = yield call(api.getAdvanceExpensesApi);
-    yield put(actions.getAllAdvanceExpensesSuccess(response.data));
+      response = yield call(api.getEquityApi);
+      yield put(actions.getAllEquitySuccess(response.data));
 
-    response = yield call(api.getProductApi);
-    yield put(actions.getAllProductSuccess(response.data));
+      response = yield call(api.getAdvanceExpensesApi);
+      yield put(actions.getAllAdvanceExpensesSuccess(response.data));
 
-    response = yield call(api.getExpenseAccountsApi);
-    yield put(actions.getAllExpenseAccountsSuccess(response.data));
+      response = yield call(api.getProductApi);
+      yield put(actions.getAllProductSuccess(response.data));
 
-    response = yield call(api.getAreasApi);
-    yield put(actions.getAllAreasSuccess(response.data));
+      response = yield call(api.getExpenseAccountsApi);
+      yield put(actions.getAllExpenseAccountsSuccess(response.data));
 
-    response = yield call(api.getCategoriesApi);
-    yield put(actions.getAllCategoriesSuccess(response.data));
+      response = yield call(api.getAreasApi);
+      yield put(actions.getAllAreasSuccess(response.data));
+
+      response = yield call(api.getCategoriesApi);
+      yield put(actions.getAllCategoriesSuccess(response.data));
+    } else {
+      let response = yield call(api.getProductApi);
+      yield put(actions.getAllProductSuccess(response.data));
+
+      response = yield call(api.getWarehouseApi);
+      yield put(actions.getAllWarehouseSuccess(response.data));
+
+      response = yield call(api.getCategoriesApi);
+      yield put(actions.getAllCategoriesSuccess(response.data));
+    }
 
     // response = yield call(api.getCitiesApi);
     // yield put(actions.getAllCitiesSuccess(response.data));
