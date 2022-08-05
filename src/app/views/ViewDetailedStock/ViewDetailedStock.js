@@ -54,8 +54,7 @@ const ViewDetailedStock = (props) => {
         let formatted = utils.formatDetailedStock(
           response.data,
           props.persons,
-          props.warehouses,
-          warehouse
+          props.warehouses
         );
         setFormattedStock(formatted);
         setIsEmpty(formatted.length === 0);
