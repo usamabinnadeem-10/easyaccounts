@@ -1,4 +1,4 @@
-import { Chip } from '@mui/material';
+import CustomChip from '../../components/CustomChip';
 
 import { Cell } from './styled';
 
@@ -27,7 +27,7 @@ export const COLUMNS = [
     Header: 'Inv #',
     Cell: (row) => {
       return (
-        <Chip
+        <CustomChip
           size='small'
           color={CHIP_COLORS[row.row.original.transactionType]}
           label={row.value || '---'}
@@ -45,7 +45,7 @@ export const COLUMNS = [
     Header: 'Book #',
     Cell: (row) => {
       return (
-        <Chip
+        <CustomChip
           size='small'
           color={CHIP_COLORS[row.row.original.transactionType]}
           label={row.value || '---'}

@@ -1,8 +1,7 @@
 import React from 'react';
 
 import CustomTable from '../CustomTable/CustomTable';
-
-import { IconButton } from '@mui/material';
+import CustomIconButton from '../../components/CustomIconButton';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -51,9 +50,9 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       Cell: (row) => {
         if (row.row.id) {
           return (
-            <IconButton onClick={() => handleEdit(row.row.id)}>
+            <CustomIconButton onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;
@@ -67,9 +66,9 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       Cell: (row) => {
         if (row.row.id) {
           return (
-            <IconButton onClick={() => handleDelete(row.row.id)}>
+            <CustomIconButton onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;

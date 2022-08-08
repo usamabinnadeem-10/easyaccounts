@@ -1,14 +1,14 @@
-import { Button } from "@mui/material";
-import { Grid } from "@mui/material";
-import { styled } from "@mui/styles";
-import { Typography } from "@mui/material";
-import { TextField } from "@mui/material";
+import { Button } from '@mui/material';
+import { Grid } from '@mui/material';
+import { styled } from '@mui/styles';
+import { Typography } from '@mui/material';
+import { TextField } from '@mui/material';
 
 export const StyledGrid = styled(Grid, {
-  shouldForwardProp: (prop) => prop !== "mt" && prop !== "mb",
+  shouldForwardProp: (prop) => prop !== 'mt' && prop !== 'mb',
 })(({ theme, mt, mb }) => ({
-  display: "flex",
-  flexDirection: "column",
+  display: 'flex',
+  flexDirection: 'column',
   ...(mt && {
     marginTop: `${mt}px`,
   }),
@@ -26,7 +26,7 @@ export const StyledInput = styled(TextField)(({ theme }) => ({
 }));
 
 export const Cell = styled(Typography, {
-  shouldForwardProp: (prop) => prop !== "textColor",
+  shouldForwardProp: (prop) => prop !== 'textColor',
 })(({ theme, textColor }) => ({
   color: textColor,
 }));

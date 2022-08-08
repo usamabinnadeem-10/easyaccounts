@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { IconButton } from '@mui/material';
+import { StyledIconButton } from './styled';
 
 const CustomIconButton = ({ color, onClick, children }) => {
   return (
-    <IconButton color={color} onClick={onClick}>
+    <StyledIconButton color={color} onClick={onClick}>
       {children}
-    </IconButton>
+    </StyledIconButton>
   );
 };
 

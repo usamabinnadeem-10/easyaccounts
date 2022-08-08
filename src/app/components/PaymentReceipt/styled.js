@@ -3,6 +3,16 @@ import { Box } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
+export const TableWrapper = styled(Box)(({ theme }) => ({
+  padding: '1.6rem',
+  [theme.breakpoints.down(750)]: {
+    padding: '0.8rem',
+  },
+  [theme.breakpoints.down(600)]: {
+    padding: '0.4rem',
+  },
+}));
+
 export const TableCell = styled(Box)(({ theme }) => ({
   border: '1px solid black',
   minHeight: '32px',

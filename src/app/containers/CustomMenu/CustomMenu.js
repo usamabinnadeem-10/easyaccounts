@@ -7,6 +7,8 @@ import { IconButton } from '@mui/material';
 
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 
+import CustomIconButton from '../../components/CustomIconButton';
+
 const CustomMenu = ({ menu, id }) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -21,9 +23,9 @@ const CustomMenu = ({ menu, id }) => {
 
   return (
     <>
-      <IconButton size='small' onClick={handleOpenMenu}>
+      <CustomIconButton size='small' onClick={handleOpenMenu}>
         <MoreVertIcon />
-      </IconButton>
+      </CustomIconButton>
       <Menu anchorEl={anchorEl} open={open} onClose={handleCloseMenu}>
         {menu.map((menuItem, index) => (
           <MenuItem

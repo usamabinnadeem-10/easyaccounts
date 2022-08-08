@@ -1,10 +1,10 @@
-import { Chip } from '@mui/material';
-import { IconButton } from '@mui/material';
 import { Tooltip } from '@mui/material';
 
 import OpenInNewIcon from '@mui/icons-material/OpenInNew';
 
 import ChequeActionMenu from '../../components/ChequeActionMenu';
+import CustomChip from '../../components/CustomChip';
+import CustomIconButton from '../../components/CustomIconButton';
 
 import { formatCurrency } from '../../utilities/stringUtils';
 import { capitalizeFirstLetter } from '../../utilities/stringUtils';
@@ -41,7 +41,7 @@ export const getColumns = (onClick, isPersonal) => {
       Cell: (row) => {
         if (row.value) {
           return (
-            <Chip
+            <CustomChip
               size='small'
               label={capitalizeFirstLetter(row.value.replace('_', ' '))}
               color={STATUS_COLORS[row.value]}
@@ -68,9 +68,11 @@ export const getColumns = (onClick, isPersonal) => {
               placement='top'
               title={isPersonal ? 'View Cheque' : 'View Cheque History'}
               arrow>
-              <IconButton size='small' onClick={() => onClick(row.row.id)}>
+              <CustomIconButton
+                size='small'
+                onClick={() => onClick(row.row.id)}>
                 <OpenInNewIcon />
-              </IconButton>
+              </CustomIconButton>
             </Tooltip>
           );
         } else {

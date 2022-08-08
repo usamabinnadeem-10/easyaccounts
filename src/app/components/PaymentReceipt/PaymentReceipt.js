@@ -14,7 +14,13 @@ import ImgsViewer from 'react-images-viewer';
 
 import { useReactToPrint } from 'react-to-print';
 
-import { CellText, TableCell, StyledImage, ImagesContainer } from './styled';
+import {
+  CellText,
+  TableCell,
+  StyledImage,
+  ImagesContainer,
+  TableWrapper,
+} from './styled';
 
 import { formatPaymentAsTable } from './utils';
 
@@ -83,7 +89,7 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
   return (
     <ViewWrapper overridewidth={overridewidth}>
       <Heading heading='Payment Receipt' />
-      <Box ref={componentRef} sx={{ p: 3 }}>
+      <TableWrapper ref={componentRef}>
         <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
         {images && images?.length ? (
           <>
@@ -100,7 +106,7 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
         ) : (
           <></>
         )}
-      </Box>
+      </TableWrapper>
       <Button onClick={handlePrint}>PRINT</Button>
     </ViewWrapper>
   );

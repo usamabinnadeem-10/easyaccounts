@@ -1,9 +1,10 @@
 import React from 'react';
 
 import CustomTable from '../CustomTable/CustomTable';
+import CustomChip from '../../components/CustomChip';
+import CustomIconButton from '../../components/CustomIconButton';
 
 import { IconButton } from '@mui/material';
-import { Chip } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -76,7 +77,7 @@ function TransactionDetail({
       Cell: (row) => {
         if (row.row.id) {
           return (
-            <Chip
+            <CustomChip
               size='small'
               color={CHIP_COLORS[row.value]}
               label={row.value?.replace('_', ' ')}
@@ -98,9 +99,9 @@ function TransactionDetail({
       Cell: (row) => {
         if (row.row.id) {
           return (
-            <IconButton onClick={() => handleEdit(row.row.id)}>
+            <CustomIconButton onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;
@@ -113,9 +114,9 @@ function TransactionDetail({
       Cell: (row) => {
         if (row.row.id) {
           return (
-            <IconButton onClick={() => handleDelete(row.row.id)}>
+            <CustomIconButton onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;

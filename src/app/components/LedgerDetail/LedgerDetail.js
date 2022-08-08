@@ -3,8 +3,7 @@ import { useState } from 'react';
 import { useEffect } from 'react';
 
 import CustomTable from '../CustomTable/CustomTable';
-
-import { IconButton } from '@mui/material';
+import CustomIconButton from '../../components/CustomIconButton';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -130,9 +129,11 @@ function LedgerDetail({
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
-            <IconButton size='small' onClick={() => handleEdit(row.row.id)}>
+            <CustomIconButton
+              size='small'
+              onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;
@@ -147,9 +148,11 @@ function LedgerDetail({
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
-            <IconButton size='small' onClick={() => handleDelete(row.row.id)}>
+            <CustomIconButton
+              size='small'
+              onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         } else {
           return <div></div>;

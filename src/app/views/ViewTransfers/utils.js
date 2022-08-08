@@ -1,6 +1,7 @@
 import { FIELDS } from '../../containers/CustomFilters/constants';
 
-import { IconButton } from '@mui/material';
+import CustomIconButton from '../../components/CustomIconButton';
+
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -165,10 +166,10 @@ export const getColumns = (
       Cell: (row) => {
         if (!row.row.original.dummy) {
           return (
-            <IconButton
+            <CustomIconButton
               onClick={row.row.id ? () => handleEdit(row.row.id) : null}>
               <EditIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         }
         return <></>;
@@ -180,10 +181,10 @@ export const getColumns = (
       Cell: (row) => {
         if (!row.row.original.dummy) {
           return (
-            <IconButton
+            <CustomIconButton
               onClick={row.row.id ? () => handleDelete(row.row.id) : null}>
               <DeleteIcon />
-            </IconButton>
+            </CustomIconButton>
           );
         }
         return <></>;

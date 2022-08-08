@@ -16,14 +16,10 @@ import TimelineDot from '@mui/lab/TimelineDot';
 
 import LocalAtmIcon from '@mui/icons-material/LocalAtm';
 import PriceCheckIcon from '@mui/icons-material/PriceCheck';
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
-import CustomIconButton from '../../components/CustomIconButton';
-
-import { useWindowSize } from '../../hooks/useWindowSize';
+import CustomDrawer from '../CustomDrawer/CustomDrawer';
 
 import Cheque from '../Cheque';
-import { StyledDrawer } from './styled';
 
 import * as api from './api';
 
@@ -38,7 +34,6 @@ const ChequeHistory = ({
   isExternal,
 }) => {
   const [history, setHistory] = useState(null);
-  const { width, height } = useWindowSize();
 
   // fetch history if cheque is external
   useEffect(() => {
@@ -59,12 +54,7 @@ const ChequeHistory = ({
   }, [chequeId, isExternal]);
 
   return (
-    <StyledDrawer open={open} onClose={onClose}>
-      {width <= 600 && (
-        <CustomIconButton color='error' onClick={onClose}>
-          <CancelOutlinedIcon />
-        </CustomIconButton>
-      )}
+    <CustomDrawer open={open} onClose={onClose}>
       {history && (
         <Box sx={{ m: 2 }}>
           <Cheque
@@ -131,7 +121,7 @@ const ChequeHistory = ({
           No History
         </Typography>
       )}
-    </StyledDrawer>
+    </CustomDrawer>
   );
 };
 
