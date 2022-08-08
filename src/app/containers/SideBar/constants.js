@@ -25,6 +25,7 @@ export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
 export const BALANCE_SHEET = 'Balance Sheet';
 export const INCOME_STATEMENT = 'Income Statement';
+export const ACTIVITY_LOGS = 'Activity Logs';
 
 // ----------------------TRANSACTIONS--------------------------- //
 export const TRANSACTIONS = 'Transactions';
@@ -141,6 +142,11 @@ export const SIDEBAR = [
       {
         name: INCOME_STATEMENT,
         route: routes.INCOME_STATEMENT_ROUTE,
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+      },
+      {
+        name: ACTIVITY_LOGS,
+        route: routes.ACTIVITY_LOGS_ROUTE,
         roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
       },
     ],

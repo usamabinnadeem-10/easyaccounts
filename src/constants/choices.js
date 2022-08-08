@@ -91,3 +91,29 @@ export const ASSET_STATUS = [
   { value: 'P', label: 'Purchased' },
   { value: 'S', label: 'Sold' },
 ];
+
+export const ACTIVITY_LOG_CATEGORY = [
+  { value: 'transaction', label: 'Transaction' },
+  { value: 'cancelled_transaction', label: 'Cancelled Transaction' },
+  { value: 'expense', label: 'Expense' },
+  { value: 'ledger_entry', label: 'Ledger entry' },
+  { value: 'external_cheque', label: 'External cheque' },
+  { value: 'external_cheque_history', label: 'External cheque history' },
+  { value: 'personal_cheque', label: 'Personal cheque' },
+  { value: 'personal_cheque_history', label: 'Personal cheque history' },
+  { value: 'stock_transfer', label: 'Stock transfer' },
+  { value: 'cancelled_stock_transfer', label: 'Cancelled stock transfer' },
+  { value: 'person', label: 'Person' },
+  { value: 'account_type', label: 'Account type' },
+  { value: 'warehouse', label: 'Warehouse' },
+  { value: 'product', label: 'Product' },
+  { value: 'product_category', label: 'Product category' },
+  { value: 'area', label: 'Area' },
+  { value: 'payment', label: 'Payment' },
+];
+
+export const ACTIVITY_LOG_TYPE = [
+  { value: 'C', label: 'Created' },
+  { value: 'E', label: 'Edited' },
+  { value: 'D', label: 'Deleted' },
+];

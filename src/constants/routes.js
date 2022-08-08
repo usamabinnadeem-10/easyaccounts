@@ -34,6 +34,7 @@ const CreateAsset = lazy(() => import('../app/views/Asset'));
 const AssetList = lazy(() => import('../app/views/AssetList'));
 const BalanceSheet = lazy(() => import('../app/views/BalanceSheet'));
 const IncomeStatement = lazy(() => import('../app/views/IncomeStatement'));
+const ActivityLogs = lazy(() => import('../app/views/ActivityLogs'));
 
 export const authenticatedRoutes = [
   {
@@ -147,5 +148,9 @@ export const authenticatedRoutes = [
   {
     component: IncomeStatement,
     path: url.INCOME_STATEMENT_ROUTE,
+  },
+  {
+    component: ActivityLogs,
+    path: url.ACTIVITY_LOGS_ROUTE,
   },
 ];
