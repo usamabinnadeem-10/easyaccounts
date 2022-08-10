@@ -10,7 +10,7 @@ import { getReadableDate } from '../../utilities/stringUtils';
 export const getFilters = (essentials) => {
   return [
     {
-      qp: 'transaction_detail__product',
+      qp: 'transfer_detail__product',
       type: FIELDS.SELECT,
       options: essentials.products,
       placeholder: 'Product',
@@ -58,7 +58,7 @@ export const getFilters = (essentials) => {
       placeholder: 'From Warehouse',
     },
     {
-      qp: 'transaction_detail__to_warehouse',
+      qp: 'transfer_detail__to_warehouse',
       type: FIELDS.SELECT,
       options: essentials.warehouses,
       placeholder: 'To Warehouse',
