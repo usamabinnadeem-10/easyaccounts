@@ -118,13 +118,13 @@ const RawDetailForm = ({
                           component={FormAutoCompleteField}
                           options={lotNumbers}
                           fullWidth
-                          name={`data.${lotIndex}.lot_number`}
+                          name={`data.${lotIndex}.purchase_lot_number`}
                           label='Lot number'
                           {...getErrors(
                             errors['data'],
                             touched['data'],
                             lotIndex,
-                            'lot_number',
+                            'purchase_lot_number',
                             typeof errors.data === 'string',
                             'Duplicate lot number'
                           )}

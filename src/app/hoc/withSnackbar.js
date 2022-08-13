@@ -4,6 +4,8 @@ import { useState } from 'react';
 import { Alert } from '@mui/material';
 import { Snackbar } from '@mui/material';
 
+import { findErrorMessage } from '../utilities/objectUtils';
+
 export const withSnackbar = (Component) => {
   return (props) => {
     const [open, setOpen] = useState(false);
@@ -23,7 +25,7 @@ export const withSnackbar = (Component) => {
     };
 
     const showErrorSnackbar = (message) => {
-      showSnackbar(message, 'error');
+      showSnackbar(findErrorMessage(message), 'error');
     };
 
     const handleClose = (event, reason) => {

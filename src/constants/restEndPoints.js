@@ -1,6 +1,6 @@
 // export const BASE = "https://usamabinnadeem10.pythonanywhere.com/";
-// export const BASE = 'http://127.0.0.1:8000/';
-export const BASE = 'https://easyaccountsadmin.com/';
+export const BASE = 'http://127.0.0.1:8000/';
+// export const BASE = 'https://easyaccountsadmin.com/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -145,6 +145,7 @@ export const RAW_APIS = {
     FORMULA: `${RAW}${FORMULA}${CREATE}`,
     PRODUCT: `${RAW}${PRODUCT}${CREATE}`,
     TRANSACTION: `${RAW}${TRANSACTION}${CREATE}`,
+    SALE_OR_RETURN: `${RAW}${TRANSACTION}sale-or-return/`,
   },
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,

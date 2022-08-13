@@ -8,11 +8,11 @@ export const getMetaFields = (essentials) => {
       options: essentials.suppliers,
       label: 'Supplier',
     },
-    // {
-    //   field: FIELDS.manual_invoice_serial,
-    //   type: FIELD_TYPES.NUMBER,
-    //   label: 'Manual book number',
-    // },
+    {
+      field: FIELDS.manual_serial,
+      type: FIELD_TYPES.NUMBER,
+      label: 'Manual book number',
+    },
     {
       field: FIELDS.date,
       type: FIELD_TYPES.DATE,

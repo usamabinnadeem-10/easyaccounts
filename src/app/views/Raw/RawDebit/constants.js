@@ -3,7 +3,7 @@ import { getToday } from '../../../utilities/stringUtils';
 export const FIELDS = {
   person: 'person',
   raw_product: 'raw_product',
-  manual_invoice_serial: 'manual_invoice_serial',
+  manual_serial: 'manual_serial',
   date: 'date',
   warehouse: 'warehouse',
   quantity: 'quantity',
@@ -12,10 +12,10 @@ export const FIELDS = {
   formula: 'formula',
   data: 'data',
   lot_detail: 'lot_detail',
-  lot_number: 'lot_number',
+  purchase_lot_number: 'purchase_lot_number',
   detail: 'detail',
   rate: 'rate',
-  debit_type: 'debit_type',
+  transaction_type: 'transaction_type',
 };
 
 export const DETAIL_INITIAL = {
@@ -28,29 +28,35 @@ export const DETAIL_INITIAL = {
 };
 
 export const LOT_INITIAL = {
-  [FIELDS.lot_number]: '',
+  [FIELDS.purchase_lot_number]: '',
   [FIELDS.detail]: [DETAIL_INITIAL],
 };
 
 export const INITIAL_VALUES = {
   [FIELDS.person]: '',
-  [FIELDS.manual_invoice_serial]: '',
-  [FIELDS.debit_type]: 'Sale',
+  [FIELDS.manual_serial]: '',
+  [FIELDS.transaction_type]: 'RINV',
   [FIELDS.date]: getToday(),
   [FIELDS.data]: [LOT_INITIAL],
 };
 
-export const RAW_DEBIT_TYPES = [
+export const RAW_TRANSACTION_TYPES = [
   {
     name: 'Sale',
-    value: 'Sale',
+    value: 'RINV',
     color: 'success',
     validate: false,
   },
   {
-    name: 'Return',
-    value: 'Return',
+    name: 'Customer Return',
+    value: 'RMWC',
     color: 'error',
+    validate: true,
+  },
+  {
+    name: 'Supplier Return',
+    value: 'RMWS',
+    color: 'info',
     validate: true,
   },
 ];

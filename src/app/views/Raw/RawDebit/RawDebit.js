@@ -1,4 +1,5 @@
 import React from 'react';
+import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -6,7 +7,7 @@ import { Formik } from 'formik';
 import { Form } from 'formik';
 import { FastField } from 'formik';
 
-import { Button } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 import { Grid } from '@mui/material';
 import { TextField } from '@mui/material';
 
@@ -18,20 +19,40 @@ import { FormAutoCompleteField } from '../../../utilities/formUtils';
 import { FormDateField } from '../../../utilities/formUtils';
 import { FormTextField } from '../../../utilities/formUtils';
 
-import { INITIAL_VALUES, RAW_DEBIT_TYPES, FIELDS } from './constants';
+import { INITIAL_VALUES, RAW_TRANSACTION_TYPES, FIELDS } from './constants';
 import { schema } from './validation';
 import { formatForm } from './utils';
 import { MetaContainer } from './styled';
+import { saleOrReturnApi } from './api';
 
-const RawDebit = () => {
+import { withSnackbar } from '../../../hoc/withSnackbar';
+
+const RawDebit = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   const essentials = useSelector((state) => state.essentials);
 
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = (values, actions) => {
+    setLoading(true);
+    saleOrReturnApi(values)
+      .then((response) => {
+        showSuccessSnackbar('Posted');
+        setLoading(false);
+      })
+      .catch((error) => {
+        showErrorSnackbar(error.response.data);
+        setLoading(false);
+      });
+  };
+
   return (
-    <ViewWrapper marginBottom={4} heading='Kora Debit' width={80}>
+    <ViewWrapper marginBottom={4} heading='Kora Sale/Return' width={80}>
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={schema}
-        onSubmit={(values, actions) => console.log(formatForm(values))}>
+        onSubmit={(values, actions) =>
+          handleSubmit(formatForm(values, actions))
+        }>
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>
             <Grid container direction='column' gap={3}>
@@ -50,11 +71,11 @@ const RawDebit = () => {
                   </Grid>
                   <Grid item xs={12} sm={5}>
                     <CustomToggleButtons
-                      buttons={RAW_DEBIT_TYPES}
+                      buttons={RAW_TRANSACTION_TYPES}
                       getSelectedValue={(value) =>
                         setFieldValue(FIELDS.debit_type, value)
                       }
-                      selectedValue={values[FIELDS.debit_type]}
+                      selectedValue={values[FIELDS.transaction_type]}
                     />
                   </Grid>
                 </Grid>
@@ -62,7 +83,7 @@ const RawDebit = () => {
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormTextField}
-                      name={FIELDS.manual_invoice_serial}
+                      name={FIELDS.manual_serial}
                       label='Book #'
                       fullWidth
                       type='number'
@@ -82,9 +103,12 @@ const RawDebit = () => {
                 touched={touched}
                 values={values}
               />
-              <Button variant='contained' onClick={handleSubmit}>
+              <LoadingButton
+                loading={loading}
+                variant='contained'
+                onClick={handleSubmit}>
                 POST
-              </Button>
+              </LoadingButton>
             </Grid>
           </Form>
         )}
@@ -93,4 +117,4 @@ const RawDebit = () => {
   );
 };
 
-export default RawDebit;
+export default withSnackbar(RawDebit);
