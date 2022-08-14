@@ -33,15 +33,7 @@ export const getFields = (essentials, formulas, isTransfer) => {
       xs: 2,
     },
   ];
-  if (isTransfer) {
-    fields.push({
-      field: 'to_warehouse',
-      type: 'select',
-      label: 'Transfer to',
-      options: essentials.warehouses,
-      xs: 2,
-    });
-  } else {
+  if (!isTransfer) {
     fields.push({
       field: 'rate',
       type: 'number',

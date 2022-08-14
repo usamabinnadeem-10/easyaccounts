@@ -146,6 +146,7 @@ export const RAW_APIS = {
     PRODUCT: `${RAW}${PRODUCT}${CREATE}`,
     TRANSACTION: `${RAW}${TRANSACTION}${CREATE}`,
     SALE_OR_RETURN: `${RAW}${TRANSACTION}sale-or-return/`,
+    TRANSFER: `${RAW}${TRANSACTION}transfer/`,
   },
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,
