@@ -79,4 +79,8 @@ export const BANKS = [
     value: 'ubank',
     label: 'U Microfinance Bank',
   },
+  {
+    value: 'soneri',
+    label: 'Soneri Bank Limited',
+  },
 ];
