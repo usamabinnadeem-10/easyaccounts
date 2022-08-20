@@ -17,7 +17,8 @@ import { getColumns } from './constants';
 import { formatStockData, getFilters } from './utils';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 
-import { getAllStock } from '../../../store/transactions/actions';
+import { getAllStock } from '../../../store/transactions';
+import { cacheAllStock } from '../../../store/cache';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
@@ -31,13 +32,14 @@ const ViewAllStock = (props) => {
   const productCategories = useSelector(
     (state) => state.essentials.productCategories
   );
+  const allStockCache = useSelector((state) => state.cache.allStockCache);
 
   let filters = useMemo(
     () => getFilters({ warehouses, products, productCategories }),
     [warehouses, products, productCategories]
   );
 
-  const [stockData, setStockData] = useState([]);
+  const [stockData, setStockData] = useState(allStockCache || []);
   const [loading, setLoading] = useState(true);
 
   const COLUMNS = useMemo(() => getColumns(), [allStock]);
@@ -47,7 +49,9 @@ const ViewAllStock = (props) => {
       dispatch(getAllStock());
     }
     if (stock.fetched) {
-      if (stock.allStock.length > 0) {
+      if (allStockCache?.length > 0) {
+        setStockData(allStockCache);
+      } else if (stock.allStock.length > 0) {
         setStockData(formatStockData(stock.allStock, props));
       }
       setLoading(false);
@@ -55,7 +59,9 @@ const ViewAllStock = (props) => {
   }, [stock.shouldFetchStock, stock.fetched]);
 
   useEffect(() => {
-    if (allStock.length > 0) {
+    if (allStockCache) {
+      setStockData(allStockCache);
+    } else if (allStock.length > 0) {
       setStockData(formatStockData(allStock, props));
       setLoading(false);
     }
@@ -63,6 +69,7 @@ const ViewAllStock = (props) => {
 
   const onSearch = (data) => {
     setStockData(formatStockData(data, props));
+    dispatch(cacheAllStock(formatStockData(data, props)));
   };
 
   return (

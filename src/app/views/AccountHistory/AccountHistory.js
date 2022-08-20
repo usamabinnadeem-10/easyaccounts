@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { LoadingButton } from '@mui/lab';
 
@@ -17,29 +18,51 @@ import { formatData } from './utils';
 import { COLUMNS } from './constants';
 
 import instance from '../../../utils/axiosApi';
+import { cacheAccountHistory } from '../../../store/cache';
 
 const AccountHistory = (props) => {
+  const dispatch = useDispatch();
   const accounts = useSelector((state) => state.essentials.accountTypes);
-  const [data, setData] = useState([]);
-  const [rawData, setRawData] = useState([]);
-  const [next, setNext] = useState(null);
+  const accountHistoryCache = useSelector(
+    (state) => state.cache.accountHistoryCache
+  );
+  const [data, setData] = useState(accountHistoryCache.data || []);
+  const [rawData, setRawData] = useState(accountHistoryCache.rawData || []);
+  const [next, setNext] = useState(accountHistoryCache.next || null);
   const [loading, setLoading] = useState(false);
+
+  // set cache in redux store
+  const setCache = (data, rawData, next) => {
+    dispatch(
+      cacheAccountHistory({
+        data,
+        rawData,
+        next,
+      })
+    );
+  };
 
   const handleSearch = (data) => {
     let newData = [...data.data.results];
+    let formattedData = formatData(newData);
+    let next = data.data.next;
     setRawData(newData);
-    setData(formatData(newData));
-    setNext(data.data.next);
+    setData(formattedData);
+    setNext(next);
+    setCache(formattedData, newData, next);
   };
 
   const loadMore = () => {
     setLoading(true);
     instance.get(next).then((response) => {
       let newData = [...rawData, ...response.data.data.results];
+      let formattedData = formatData(newData);
+      let next = response.data.data.next;
       setRawData(newData);
-      setData(formatData(newData));
+      setData(formattedData);
       setLoading(false);
-      setNext(response.data.data.next);
+      setNext(next);
+      setCache(formattedData, newData, next);
     });
   };
 

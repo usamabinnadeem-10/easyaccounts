@@ -1,6 +1,8 @@
 import React from 'react';
 import { useState, useEffect } from 'react';
+
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import CustomFilters from '../../containers/CustomFilters';
 import PaymentTable from './PaymentTable';
@@ -16,15 +18,21 @@ import { deletePaymentApi } from './api';
 import { PAYMENT_APIS } from '../../../constants/restEndPoints';
 import { withConfirmation } from '../../hoc/withConfirmation';
 
+import { cachePaymentList } from '../../../store/cache';
+
 const PaymentList = ({
   daybookView = false,
   daybookPayments = null,
   ...props
 }) => {
+  const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
+  const paymentListCache = useSelector((state) => state.cache.paymentListCache);
   const role = useSelector((state) => state.auth.userRole);
 
-  const [paymentData, setPaymentData] = useState(daybookPayments || []);
+  const [paymentData, setPaymentData] = useState(
+    daybookPayments || paymentListCache.paymentData || []
+  );
   const [currentPayment, setCurrentPayment] = useState(null);
   const [showDrawer, setShowDrawer] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -50,8 +58,18 @@ const PaymentList = ({
     });
   }, [paymentData]);
 
+  const setCache = (paymentData) => {
+    dispatch(
+      cachePaymentList({
+        paymentData,
+      })
+    );
+  };
+
   const handleSearch = (data) => {
-    setPaymentData(data.results);
+    let paymentData = data.results;
+    setPaymentData(paymentData);
+    setCache(paymentData);
   };
 
   const filterSelectedPayment = (paymentId) => {
@@ -94,7 +112,9 @@ const PaymentList = ({
   const confirmDeletion = (paymentId) => {
     deletePaymentApi(paymentId)
       .then((response) => {
-        setPaymentData(paymentData.filter((p) => p.id !== paymentId));
+        let filtered = paymentData.filter((p) => p.id !== paymentId);
+        setPaymentData(filtered);
+        setCache(filtered);
       })
       .then((response) => {
         props.resetConfirmation();

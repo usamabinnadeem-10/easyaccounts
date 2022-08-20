@@ -1,7 +1,9 @@
 import React from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 import { useMemo } from 'react';
+
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import CustomFilters from '../../containers/CustomFilters';
 import CustomTable from '../../components/CustomTable/CustomTable';
@@ -17,17 +19,22 @@ import { getFilters } from './filters';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
-const Balances = ({ showErrorSnackbar, role, persons }) => {
+import { cacheAllBalances } from '../../../store/cache';
+
+const Balances = ({ role, persons }) => {
+  const dispatch = useDispatch();
   const classes = useStyles();
-  const componentRef = useRef();
 
   let filters = useMemo(() => getFilters(role), [role]);
 
-  const [balancesData, setBalancesData] = useState([]);
+  const allBalancesCache = useSelector((state) => state.cache.allBalancesCache);
+
+  const [balancesData, setBalancesData] = useState(allBalancesCache || []);
   const [isEmpty, setIsEmpty] = useState(false);
 
   const handleSearch = (data) => {
     let formattedBalances = formatBalances(data, persons);
+    dispatch(cacheAllBalances(formattedBalances));
     setBalancesData(formattedBalances);
     setIsEmpty(formattedBalances.length === 0);
   };

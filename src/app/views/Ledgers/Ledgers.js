@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
@@ -34,9 +33,11 @@ import instance from '../../../utils/axiosApi';
 import { makeQueryParamURL, formatCurrency } from '../../utilities/stringUtils';
 import { findErrorMessage } from '../../utilities/objectUtils';
 import { getURL } from '../../utilities/stringUtils';
-import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
+
+import { setShouldFetchDaybook } from '../../../store/accounts/actions';
+import { cacheLedger } from '../../../store/cache';
 
 function Ledgers({
   daybookView,
@@ -51,20 +52,32 @@ function Ledgers({
 }) {
   const classes = useStyles();
   const state = useSelector((state) => state.essentials);
-  const componentRef = useRef();
+  const ledgerCache = useSelector((state) => state.cache.ledgerCache);
   const dispatch = useDispatch();
 
   const [personType, setPersonType] = useState(PERSON_TYPES[0].value);
-  const [currentPerson, setCurrentPerson] = useState(null);
+  const [currentPerson, setCurrentPerson] = useState(
+    ledgerCache.currentPerson || null
+  );
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
-  const [ledgerDataRaw, setLedgerDataRaw] = useState([]);
-  const [ledgerData, setledgerData] = useState(
-    daybookView ? formatLedgerData(defaultLedgers, 0, persons) : []
+  const [ledgerDataRaw, setLedgerDataRaw] = useState(
+    ledgerCache.ledgerDataRaw || []
   );
-  const [openingBalance, setOpeningBalance] = useState(0);
-  const [closingBalance, setClosingBalance] = useState(0);
-  const [chequeBalances, setChequeBalances] = useState([]);
+  const [ledgerData, setledgerData] = useState(
+    daybookView
+      ? formatLedgerData(defaultLedgers, 0, persons)
+      : ledgerCache.ledgerData || []
+  );
+  const [openingBalance, setOpeningBalance] = useState(
+    ledgerCache.openingBalance || 0
+  );
+  const [closingBalance, setClosingBalance] = useState(
+    ledgerCache.closingBalance || 0
+  );
+  const [chequeBalances, setChequeBalances] = useState(
+    ledgerCache.chequeBalances || []
+  );
   const [loading, setLoading] = useState(false);
   const [dialogueState, setDialogueState] = useState({
     open: false,
@@ -77,7 +90,7 @@ function Ledgers({
   const [transactionID, setTransactionID] = useState(null);
   const [isEmpty, setIsEmpty] = useState(false);
   const [hideDetails, setHideDetails] = useState(false);
-  const [nextPage, setNextPage] = useState(null);
+  const [nextPage, setNextPage] = useState(ledgerCache.next || null);
 
   const [editData, setEditData] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -114,6 +127,28 @@ function Ledgers({
     }
   }, [dialogueState]);
 
+  const setCache = (
+    ledgerData,
+    ledgerDataRaw,
+    openingBalance,
+    closingBalance,
+    chequeBalances,
+    next,
+    currentPerson
+  ) => {
+    dispatch(
+      cacheLedger({
+        ledgerData,
+        ledgerDataRaw,
+        openingBalance,
+        closingBalance,
+        chequeBalances,
+        next,
+        currentPerson,
+      })
+    );
+  };
+
   const handleFormattingLedger = (response, isLoadMore = false) => {
     let newLedgerData = [];
     if (isLoadMore) {
@@ -127,14 +162,28 @@ function Ledgers({
       response.data.opening_balance,
       persons
     );
-    setNextPage(response.data.next);
-    setledgerData(ledgerDataFormatted);
-    setOpeningBalance(response.data.opening_balance);
-    setClosingBalance(
+    let openingBalance = response.data.opening_balance;
+    let closingBalance =
       ledgerDataFormatted[ledgerDataFormatted.length - 2]?.formattedBalance ||
-        '---'
+      '---';
+    let next = response.data.next;
+    let chequeTexts = getChequeTexts(response.data);
+    setNextPage(next);
+    setledgerData(ledgerDataFormatted);
+    setOpeningBalance(openingBalance);
+    setClosingBalance(closingBalance);
+    setChequeBalances(chequeTexts);
+
+    setCache(
+      ledgerDataFormatted,
+      newLedgerData,
+      response.data.opening_balance,
+      openingBalance,
+      chequeTexts,
+      next,
+      currentPerson
     );
-    setChequeBalances(getChequeTexts(response.data));
+
     setIsEmpty(ledgerDataFormatted.length === 0);
     setLoading(false);
     setStartDate(null);
@@ -183,7 +232,6 @@ function Ledgers({
 
   const handleEdit = (id) => {
     let data = ledgerDataRaw.filter((l) => l.id === id)[0];
-    console.log(data);
     data = {
       ...data,
       nature: NATURES[data.nature],
@@ -277,7 +325,7 @@ function Ledgers({
           <Printable
             disablePrint={ledgerData.length === 0}
             documentTitle={`Ledger for ${currentPerson?.label}`}>
-            <div className={classes.ledgerWrapper} ref={componentRef}>
+            <div className={classes.ledgerWrapper}>
               {!daybookView && (
                 <Grid
                   container

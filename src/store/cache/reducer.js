@@ -2,6 +2,26 @@ import * as actionTypes from './actionTypes';
 
 const initialState = {
   lowStockCache: null,
+  allStockCache: null,
+  detailedStockCache: null,
+  accountHistoryCache: {
+    next: null,
+    data: null,
+    rawData: null,
+  },
+  ledgerCache: {
+    ledgerData: null,
+    ledgerDataRaw: null,
+    currentPerson: null,
+    openingBalance: null,
+    closingBalance: null,
+    chequeBalances: null,
+    next: null,
+  },
+  paymentListCache: {
+    paymentData: null,
+  },
+  allBalancesCache: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -10,6 +30,45 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         lowStockCache: action.payload,
+      };
+    case actionTypes.CACHE_ALL_STOCK:
+      return {
+        ...state,
+        allStockCache: action.payload,
+      };
+    case actionTypes.CACHE_DETAILED_STOCK:
+      return {
+        ...state,
+        detailedStockCache: action.payload,
+      };
+    case actionTypes.CACHE_ACCOUNT_HISTORY:
+      return {
+        ...state,
+        accountHistoryCache: {
+          ...state.accountHistoryCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_LEDGER:
+      return {
+        ...state,
+        ledgerCache: {
+          ...state.ledgerCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_PAYMENT_LIST:
+      return {
+        ...state,
+        paymentListCache: {
+          ...state.paymentListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_ALL_BALANCES:
+      return {
+        ...state,
+        allBalancesCache: action.payload,
       };
     default:
       return state;

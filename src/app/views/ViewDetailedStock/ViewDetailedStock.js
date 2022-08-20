@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useMemo } from 'react';
 
 import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import CustomFilters from '../../containers/CustomFilters';
 import CustomTable from '../../components/CustomTable/CustomTable';
@@ -18,11 +19,19 @@ import { getFilters } from './filters';
 
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 
+import { cacheDetailedStock } from '../../../store/cache';
+
 const ViewDetailedStock = (props) => {
+  const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
+  const detailedStockCache = useSelector(
+    (state) => state.cache.detailedStockCache
+  );
   let filters = useMemo(() => getFilters(essentials), [essentials]);
 
-  const [formattedStock, setFormattedStock] = useState([]);
+  const [formattedStock, setFormattedStock] = useState(
+    detailedStockCache || []
+  );
   const [isEmpty, setIsEmpty] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -35,6 +44,7 @@ const ViewDetailedStock = (props) => {
       props.warehouses
     );
     setFormattedStock(formatted);
+    dispatch(cacheDetailedStock(formatted));
     setIsEmpty(formatted.length === 0);
     setIsLoading(false);
   };
