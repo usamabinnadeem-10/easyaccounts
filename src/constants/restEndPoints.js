@@ -70,7 +70,6 @@ export const TRANSACTION_URLS = {
   GET_TRANSACTION: `${TRANSACTION}:uuid/`,
   TRANSFER_STOCK: `${TRANSACTION}${TRANSFER_STOCK}`,
   VIEW_DETAILED_STOCK: `${TRANSACTION}detailed-stock/`,
-  PRODUCT_PERFORMANCE: `${TRANSACTION}product-performance-history/`,
   FILTER: `${TRANSACTION}search/`,
   LIST_TRANSFERS: `${TRANSACTION}view-transfers/`,
   DELETE_TRANSFER: `${TRANSACTION}${TRANSFER_STOCK}delete/:uuid/`,
@@ -187,4 +186,5 @@ export const REPORTS_APIS = {
   ALL_BALANCES: `${REPORTS}all-balances/`,
   ACTIVITY_LOGS_LIST: `logs/list/`,
   LOW_STOCK: `${REPORTS}get-low-stock/`,
+  PRODUCT_PERFORMANCE_HISTORY: `${REPORTS}product-performance-history/`,
 };

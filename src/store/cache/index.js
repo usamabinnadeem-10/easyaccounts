@@ -6,4 +6,5 @@ export {
   cacheLedger,
   cachePaymentList,
   cacheAllBalances,
+  cacheProductPerformance,
 } from './actions';

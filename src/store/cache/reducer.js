@@ -22,6 +22,7 @@ const initialState = {
     paymentData: null,
   },
   allBalancesCache: null,
+  productPerformanceCache: null,
 };
 
 const reducer = (state = initialState, action) => {
@@ -69,6 +70,11 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         allBalancesCache: action.payload,
+      };
+    case actionTypes.CACHE_PRODUCT_PERFORMANCE:
+      return {
+        ...state,
+        productPerformanceCache: action.payload,
       };
     default:
       return state;

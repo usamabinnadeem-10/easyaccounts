@@ -48,3 +48,10 @@ export const cacheAllBalances = (data) => {
     payload: data,
   };
 };
+
+export const cacheProductPerformance = (data) => {
+  return {
+    type: actionTypes.CACHE_PRODUCT_PERFORMANCE,
+    payload: data,
+  };
+};
