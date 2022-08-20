@@ -20,6 +20,7 @@ export const REPORTS = 'Reports';
 export const DAYBOOK = 'Daybook';
 export const BALANCES = 'Balances';
 export const STOCK = 'Stock';
+export const LOW_STOCK = 'Low Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
@@ -112,6 +113,16 @@ export const SIDEBAR = [
       {
         name: STOCK,
         route: routes.ALL_STOCK,
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ACCOUNTANT,
+          ROLES.STOCKIST,
+          ROLES.ADMIN_VIEWER,
+        ],
+      },
+      {
+        name: LOW_STOCK,
+        route: routes.LOW_STOCK,
         roles: [
           ROLES.ADMIN,
           ROLES.ACCOUNTANT,

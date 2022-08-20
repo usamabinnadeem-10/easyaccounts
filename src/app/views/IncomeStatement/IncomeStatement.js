@@ -1,10 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 
-import { useReactToPrint } from 'react-to-print';
-
-import { Button } from '@mui/material';
 import { Divider } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -12,6 +8,7 @@ import { Typography } from '@mui/material';
 import CustomFilters from '../../containers/CustomFilters';
 import Heading from '../../components/Heading';
 import ViewWrapper from '../../components/ViewWrapper';
+import Printable from '../../containers/Printable';
 
 import { REPORTS_APIS } from '../../../constants/restEndPoints';
 
@@ -48,16 +45,11 @@ export const LineItem = ({ label, value, padLeft, minus }) => {
 const DIVIDER = <Divider sx={{ width: '100%', mb: 1 }} />;
 
 const IncomeStatement = () => {
-  const componentRef = useRef();
   const [incomeData, setIncomeData] = useState(null);
 
   const handleSearch = (data) => {
     setIncomeData(formatIncomeStatement(data));
   };
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   return (
     <>
@@ -68,10 +60,9 @@ const IncomeStatement = () => {
         onSearch={handleSearch}
       />
       <ViewWrapper overridewidth width='100%'>
-        <Button disabled={!incomeData} fullWidth onClick={handlePrint}>
-          Print
-        </Button>
-        <div ref={componentRef}>
+        <Printable
+          disablePrint={!incomeData}
+          documentTitle={`Income Statement ${incomeData?.period}`}>
           <StyledPaper>
             <Typography variant='h5'>Income Statement</Typography>
             {incomeData && (
@@ -132,7 +123,7 @@ const IncomeStatement = () => {
               </>
             )}
           </StyledPaper>
-        </div>
+        </Printable>
       </ViewWrapper>
     </>
   );

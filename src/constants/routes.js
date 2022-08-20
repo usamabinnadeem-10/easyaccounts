@@ -35,6 +35,7 @@ const AssetList = lazy(() => import('../app/views/AssetList'));
 const BalanceSheet = lazy(() => import('../app/views/BalanceSheet'));
 const IncomeStatement = lazy(() => import('../app/views/IncomeStatement'));
 const ActivityLogs = lazy(() => import('../app/views/ActivityLogs'));
+const LowStock = lazy(() => import('../app/views/LowStock'));
 
 export const authenticatedRoutes = [
   {
@@ -152,5 +153,9 @@ export const authenticatedRoutes = [
   {
     component: ActivityLogs,
     path: url.ACTIVITY_LOGS_ROUTE,
+  },
+  {
+    component: LowStock,
+    path: url.LOW_STOCK,
   },
 ];

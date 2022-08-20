@@ -6,8 +6,6 @@ import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import { useReactToPrint } from 'react-to-print';
-
 import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
@@ -20,6 +18,7 @@ import LedgerDetail from '../../components/LedgerDetail';
 import TransactionDrawer from '../../components/TransactionDrawer/';
 import Empty from '../../components/Empty';
 import LedgerEntry from '../../views/LedgerEntry';
+import Printable from '../../containers/Printable';
 
 import {
   PERSON_TYPES,
@@ -114,10 +113,6 @@ function Ledgers({
         });
     }
   }, [dialogueState]);
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   const handleFormattingLedger = (response, isLoadMore = false) => {
     let newLedgerData = [];
@@ -279,104 +274,94 @@ function Ledgers({
               />
             </div>
           )}
-          <div className={classes.ledgerWrapper} ref={componentRef}>
-            {!daybookView && (
-              <Grid
-                container
-                alignItems='center'
-                justifyContent='space-between'>
-                <div>
-                  {currentPerson && (
-                    // <Typography>
-                    //   {`${DB_TRANSLATION[currentPerson.person_type]} : `}
+          <Printable
+            disablePrint={ledgerData.length === 0}
+            documentTitle={`Ledger for ${currentPerson?.label}`}>
+            <div className={classes.ledgerWrapper} ref={componentRef}>
+              {!daybookView && (
+                <Grid
+                  container
+                  alignItems='center'
+                  justifyContent='space-between'>
+                  <div>
+                    {currentPerson && (
+                      <Typography component='span' fontWeight={700}>
+                        {currentPerson.label}
+                      </Typography>
+                    )}
 
-                    // </Typography>
-                    <Typography component='span' fontWeight={700}>
-                      {currentPerson.label}
+                    <Typography variant='body2'>
+                      Opening Balance:{' '}
+                      {`${
+                        Math.abs(openingBalance)
+                          ? formatCurrency(openingBalance)
+                          : '---'
+                      }${openingBalance < 0 ? ' DB' : ' CR'}`}
                     </Typography>
-                  )}
-
-                  <Typography variant='body2'>
-                    Opening Balance:{' '}
-                    {`${
-                      Math.abs(openingBalance)
-                        ? formatCurrency(openingBalance)
-                        : '---'
-                    }${openingBalance < 0 ? ' DB' : ' CR'}`}
-                  </Typography>
-                  <Typography variant='body2'>{`Closing Balance: ${closingBalance}`}</Typography>
-                  {ledgerData.length > 0 && (
-                    <>
-                      <Typography variant='body2'>{`${ledgerData[0].date} - ${
-                        ledgerData[ledgerData.length - 2].date
-                      }`}</Typography>
-                      {chequeBalances.map((balance, index) => (
-                        <Typography variant='body2' color='error'>
-                          {balance.text}: {balance.value}
-                        </Typography>
-                      ))}
-                    </>
-                  )}
-                  <Button
-                    variant='contained'
-                    onClick={() => setHideDetails(!hideDetails)}
-                    disabled={ledgerData.length === 0}
-                    sx={{ mt: 2, mb: 1, displayPrint: 'none' }}
-                    size='small'>
-                    {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
-                  </Button>
-                </div>
-                <Grid item>
-                  <Button
-                    onClick={handlePrint}
-                    variant='contained'
-                    size='small'
-                    color='secondary'
-                    disabled={ledgerData.length === 0}
-                    sx={{ displayPrint: 'none', mr: 2 }}>
-                    PRINT
-                  </Button>
-
-                  <Button
-                    onClick={handleOpenWhatsapp}
-                    variant='contained'
-                    size='small'
-                    color='success'
-                    disabled={
-                      ledgerData.length === 0 || !currentPerson?.phone_number
-                    }
-                    sx={{ displayPrint: 'none' }}
-                    startIcon={<WhatsAppIcon />}>
-                    Whatsapp
-                  </Button>
+                    <Typography variant='body2'>{`Closing Balance: ${closingBalance}`}</Typography>
+                    {ledgerData.length > 0 && (
+                      <>
+                        <Typography variant='body2'>{`${ledgerData[0].date} - ${
+                          ledgerData[ledgerData.length - 2].date
+                        }`}</Typography>
+                        {chequeBalances.map((balance, index) => (
+                          <Typography variant='body2' color='error'>
+                            {balance.text}: {balance.value}
+                          </Typography>
+                        ))}
+                      </>
+                    )}
+                    <Button
+                      variant='contained'
+                      onClick={() => setHideDetails(!hideDetails)}
+                      disabled={ledgerData.length === 0}
+                      sx={{ mt: 2, mb: 1, displayPrint: 'none' }}
+                      size='small'>
+                      {hideDetails ? 'SHOW DETAILS' : 'HIDE DETAILS'}
+                    </Button>
+                  </div>
+                  <Grid item>
+                    <Button
+                      onClick={handleOpenWhatsapp}
+                      variant='contained'
+                      size='small'
+                      color='success'
+                      disabled={
+                        ledgerData.length === 0 || !currentPerson?.phone_number
+                      }
+                      sx={{ displayPrint: 'none' }}
+                      startIcon={<WhatsAppIcon />}>
+                      Whatsapp
+                    </Button>
+                  </Grid>
                 </Grid>
-              </Grid>
-            )}
+              )}
 
-            <div className={classes.table}>
-              {ledgerData.length > 0 && (
-                <LedgerDetail
-                  hideDetails={hideDetails}
-                  daybookView={daybookView}
-                  rows={ledgerData}
-                  onRowClick={onRowClick}
-                  hoverProperty={'transaction'}
-                  handleEdit={handleEdit}
-                  handleDelete={handleDelete}
-                />
+              <div className={classes.table}>
+                {ledgerData.length > 0 && (
+                  <LedgerDetail
+                    hideDetails={hideDetails}
+                    daybookView={daybookView}
+                    rows={ledgerData}
+                    onRowClick={onRowClick}
+                    hoverProperty={'transaction'}
+                    handleEdit={handleEdit}
+                    handleDelete={handleDelete}
+                  />
+                )}
+              </div>
+              {nextPage && !daybookView && (
+                <Button
+                  disabled={loading}
+                  sx={{ mb: 3 }}
+                  variant='contained'
+                  onClick={() => loadMoreData()}
+                  fullWidth>
+                  LOAD MORE
+                </Button>
               )}
             </div>
-            {nextPage && !daybookView && (
-              <Button
-                disabled={loading}
-                sx={{ mb: 3 }}
-                variant='contained'
-                onClick={() => loadMoreData()}
-                fullWidth>
-                LOAD MORE
-              </Button>
-            )}
-          </div>
+          </Printable>
           {isEmpty && <Empty />}
           <TransactionDrawer
             hideDrawer={hideDrawer}

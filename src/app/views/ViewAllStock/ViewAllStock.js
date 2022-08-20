@@ -1,23 +1,18 @@
 import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 import { useMemo } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-
-import { useReactToPrint } from 'react-to-print';
 
 import CustomFilters from '../../containers/CustomFilters/CustomFilters';
 import CustomTable from '../../components/CustomTable/CustomTable';
 import CustomLoader from '../../components/CustomLoader/CustomLoader';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
+import Printable from '../../containers/Printable';
 
-import { Button } from '@mui/material';
-
-import { useStyles } from './styles';
 import { getColumns } from './constants';
 import { formatStockData, getFilters } from './utils';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
@@ -27,8 +22,6 @@ import { getAllStock } from '../../../store/transactions/actions';
 import { withSnackbar } from '../../hoc/withSnackbar';
 
 const ViewAllStock = (props) => {
-  const classes = useStyles();
-  const componentRef = useRef();
   const dispatch = useDispatch();
 
   const stock = useSelector((state) => state.transactions);
@@ -68,39 +61,27 @@ const ViewAllStock = (props) => {
     }
   }, [allStock]);
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
   const onSearch = (data) => {
     setStockData(formatStockData(data, props));
   };
 
   return (
     <>
+      <Heading heading={'All Stock'} />
       <CustomFilters
         api={TRANSACTION_URLS.ALL_STOCK}
         filters={filters}
         onSearch={onSearch}
       />
-      <div ref={componentRef} className={classes.root}>
-        {stockData.length > 0 && (
-          <Button
-            onClick={handlePrint}
-            sx={{ my: 3, displayPrint: 'none' }}
-            variant='contained'
-            size='small'
-            color='secondary'>
-            PRINT
-          </Button>
-        )}
-        <Heading heading={'All Stock'} />
+      <Printable
+        documentTitle={'All Stock Report'}
+        disablePrint={stockData.length === 0}>
         {stockData.length > 0 ? (
           <CustomTable columns={COLUMNS} data={stockData} />
         ) : (
           <Empty />
         )}
-      </div>
+      </Printable>
       {loading && <CustomLoader pageLoader loading={loading} />}
     </>
   );

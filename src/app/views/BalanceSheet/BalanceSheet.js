@@ -1,16 +1,13 @@
 import React from 'react';
 import { useState } from 'react';
-import { useRef } from 'react';
 
-import { useReactToPrint } from 'react-to-print';
-
-import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import CustomFilters from '../../containers/CustomFilters';
 import Heading from '../../components/Heading';
 import ViewWrapper from '../../components/ViewWrapper';
+import Printable from '../../containers/Printable';
 
 import { StyledPaper, AssetsWrapper, LiabilitesEquityWrapper } from './styled';
 import { FILTERS } from './filters';
@@ -21,16 +18,11 @@ import { REPORTS_APIS } from '../../../constants/restEndPoints';
 import { formatCurrency } from '../../utilities/stringUtils';
 
 const BalanceSheet = () => {
-  const componentRef = useRef();
   const [balanceSheetData, setBalanceSheetData] = useState(null);
 
   const handleSearch = (values) => {
     setBalanceSheetData(formatBalanceSheet(values));
   };
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   return (
     <Grid container direction='column'>
@@ -40,11 +32,10 @@ const BalanceSheet = () => {
         filters={FILTERS}
         onSearch={handleSearch}
       />
-      <Button disabled={!balanceSheetData} onClick={handlePrint}>
-        Print
-      </Button>
       <ViewWrapper overridewidth width='100%'>
-        <div ref={componentRef}>
+        <Printable
+          documentTitle={`Balance Sheet ${balanceSheetData?.date}`}
+          disablePrint={!balanceSheetData}>
           <StyledPaper>
             <Typography sx={{ mb: 3 }} variant='h5'>
               Balance Sheet
@@ -141,7 +132,7 @@ const BalanceSheet = () => {
               <></>
             )}
           </StyledPaper>
-        </div>
+        </Printable>
       </ViewWrapper>
     </Grid>
   );

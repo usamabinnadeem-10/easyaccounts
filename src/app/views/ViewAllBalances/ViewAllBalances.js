@@ -3,14 +3,11 @@ import { useState } from 'react';
 import { useRef } from 'react';
 import { useMemo } from 'react';
 
-import { useReactToPrint } from 'react-to-print';
-
 import CustomFilters from '../../containers/CustomFilters';
 import CustomTable from '../../components/CustomTable/CustomTable';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
-
-import { Button } from '@mui/material';
+import Printable from '../../containers/Printable';
 
 import { useStyles } from './styles';
 import { REPORTS_APIS } from '../../../constants/restEndPoints';
@@ -35,33 +32,24 @@ const Balances = ({ showErrorSnackbar, role, persons }) => {
     setIsEmpty(formattedBalances.length === 0);
   };
 
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
-
   return (
     <>
       <div className={classes.root}>
         <div className={classes.headerWrapper}>
           <Heading heading={'View All Balances'} />
-          <Button
-            disabled={balancesData.length === 0}
-            onClick={handlePrint}
-            variant='contained'
-            color='secondary'>
-            PRINT
-          </Button>
         </div>
         <CustomFilters
           api={REPORTS_APIS.ALL_BALANCES}
           filters={filters}
           onSearch={handleSearch}
         />
-        <div ref={componentRef}>
+        <Printable
+          disablePrint={balancesData.length === 0}
+          documentTitle='All Balances Report'>
           {balancesData.length > 0 && (
             <CustomTable data={balancesData} columns={COLUMNS} />
           )}
-        </div>
+        </Printable>
         {isEmpty && <Empty />}
       </div>
     </>

@@ -1,18 +1,14 @@
 import React from 'react';
-import { useRef } from 'react';
 
 import { useState } from 'react';
 
 import ViewWrapper from '../ViewWrapper';
 import Heading from '../Heading';
+import Printable from '../../containers/Printable';
 
-import { Box } from '@mui/material';
 import { Grid } from '@mui/material';
-import { Button } from '@mui/material';
 
 import ImgsViewer from 'react-images-viewer';
-
-import { useReactToPrint } from 'react-to-print';
 
 import {
   CellText,
@@ -57,15 +53,10 @@ const ImagesWrapper = ({ images, onClick }) => {
 };
 
 const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
-  const componentRef = useRef();
   const [currentImg, setCurrentImg] = useState(0);
   const [showViewer, setShowViewer] = useState(false);
 
   const images = paymentData.image_urls;
-
-  const handlePrint = useReactToPrint({
-    content: () => componentRef.current,
-  });
 
   const goToPrevious = () => {
     setCurrentImg(currentImg > 0 ? currentImg - 1 : 0);
@@ -89,25 +80,26 @@ const PaymentReceipt = ({ paymentData, persons, accounts, overridewidth }) => {
   return (
     <ViewWrapper overridewidth={overridewidth}>
       <Heading heading='Payment Receipt' />
-      <TableWrapper ref={componentRef}>
-        <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
-        {images && images?.length ? (
-          <>
-            <ImagesWrapper images={images} onClick={handleClickImage} />
-            <ImgsViewer
-              imgs={paymentData.image_urls.map((img) => ({ src: img.url }))}
-              currImg={currentImg}
-              isOpen={showViewer}
-              onClickPrev={goToPrevious}
-              onClickNext={goToNext}
-              onClose={toggleViewer}
-            />
-          </>
-        ) : (
-          <></>
-        )}
-      </TableWrapper>
-      <Button onClick={handlePrint}>PRINT</Button>
+      <Printable documentTitle={`Payment P-${paymentData?.serial}`}>
+        <TableWrapper>
+          <Table data={formatPaymentAsTable(paymentData, persons, accounts)} />
+          {images && images?.length ? (
+            <>
+              <ImagesWrapper images={images} onClick={handleClickImage} />
+              <ImgsViewer
+                imgs={paymentData.image_urls.map((img) => ({ src: img.url }))}
+                currImg={currentImg}
+                isOpen={showViewer}
+                onClickPrev={goToPrevious}
+                onClickNext={goToNext}
+                onClose={toggleViewer}
+              />
+            </>
+          ) : (
+            <></>
+          )}
+        </TableWrapper>
+      </Printable>
     </ViewWrapper>
   );
 };

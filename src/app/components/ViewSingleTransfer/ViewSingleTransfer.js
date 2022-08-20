@@ -10,8 +10,6 @@ import { Meta } from './styled';
 import { getReadableDate } from '../../utilities/stringUtils';
 
 const ViewSingleTransfer = ({ data, ...props }) => {
-  console.log(data);
-  console.log(props.warehouses);
   const TEXTS = [
     { name: 'Serial', value: data.serial },
     { name: 'Book #', value: data.manual_serial },

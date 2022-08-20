@@ -1,11 +1,12 @@
-import { combineReducers } from "redux";
+import { combineReducers } from 'redux';
 
-import essentialsReducer from "./essentials/reducer";
-import transactionReducer from "./transactions/reducer";
-import accountsReducer from "./accounts/reducer";
-import authReducer from "./auth/reducer";
-import rawReducer from "./raw/reducer";
-import dyingReducer from "./dying/reducer";
+import essentialsReducer from './essentials/reducer';
+import transactionReducer from './transactions/reducer';
+import accountsReducer from './accounts/reducer';
+import authReducer from './auth/reducer';
+import rawReducer from './raw/reducer';
+import dyingReducer from './dying/reducer';
+import cacheReducer from './cache/reducer';
 
 export const rootReducer = combineReducers({
   essentials: essentialsReducer,
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   auth: authReducer,
   raw: rawReducer,
   dying: dyingReducer,
+  cache: cacheReducer,
 });

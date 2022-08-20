@@ -186,4 +186,5 @@ export const REPORTS_APIS = {
   INCOME_STATEMENT: `${REPORTS}income-statement/`,
   ALL_BALANCES: `${REPORTS}all-balances/`,
   ACTIVITY_LOGS_LIST: `logs/list/`,
+  LOW_STOCK: `${REPORTS}get-low-stock/`,
 };
