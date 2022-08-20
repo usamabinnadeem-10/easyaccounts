@@ -1,10 +1,13 @@
 export const formatData = (data, products, warehouses) => {
-  return data.map((d, idx) => ({
+  let unsorted = data.map((d, idx) => ({
     ...d,
     id: idx + 1,
-    product: products?.[d.product]?.label,
-    warehouse: warehouses?.[d.warehouse]?.label || '---',
-    yards_per_piece: d?.yards_per_piece || '---',
-    quantity: d?.quantity || 0,
+    product: products?.[d]?.label,
   }));
+  const collator = new Intl.Collator('en', {
+    numeric: true,
+    sensitivity: 'base',
+  });
+  let sorted = unsorted.sort((a, b) => collator.compare(a.product, b.product));
+  return sorted;
 };
