@@ -4,6 +4,10 @@ export const COLUMNS = [
     Header: 'Product',
   },
   {
+    accessor: 'yards_per_piece',
+    Header: 'Gazaana',
+  },
+  {
     accessor: 'quantity_sold',
     Header: 'Thaan sold',
     Cell: (row) => (
@@ -34,8 +38,5 @@ export const COLUMNS = [
   {
     accessor: 'number_of_times_sold',
     Header: 'Number of bills',
-    Cell: (row) => (
-      <div>{row.value ? parseFloat(row.value).toFixed(2) : '---'}</div>
-    ),
   },
 ];
