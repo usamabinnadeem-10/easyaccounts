@@ -1,6 +1,6 @@
 import { getReadableDate } from '../../utilities/stringUtils';
 
-export const formatTransactionData = (data) => {
+export const formatTransactionData = (data, persons) => {
   let transactions = [];
   let grandTotal = 0;
   let totalDiscount = 0;
@@ -13,6 +13,7 @@ export const formatTransactionData = (data) => {
     grandTotal += total;
     transactions.push({
       ...element,
+      person: persons?.[element.person]?.label,
       serial: `${element.serial_type}-${element.serial}`,
       manual_serial: `${element.manual_serial || '---'}`,
       date: getReadableDate(element.date),

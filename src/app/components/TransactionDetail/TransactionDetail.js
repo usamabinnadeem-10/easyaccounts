@@ -45,6 +45,15 @@ function TransactionDetail({
       ),
     },
     {
+      accessor: 'person',
+      Header: 'Person',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
       accessor: 'date',
       Header: 'Date',
       Cell: (row) => (

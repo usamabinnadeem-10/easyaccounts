@@ -48,7 +48,7 @@ function ViewTransactions({
   const dispatch = useDispatch();
 
   const [transactionData, setTransactionData] = useState(
-    daybookView ? formatTransactionData(defaultTransactions) : []
+    daybookView ? formatTransactionData(defaultTransactions, persons) : []
   );
   const [transactionDataRaw, setTransactionDataRaw] = useState(
     daybookView ? defaultTransactions : []
@@ -96,8 +96,8 @@ function ViewTransactions({
 
   const handleFormattingTransactions = (data, isLoadMore = false) => {
     let formattedTransactions = isLoadMore
-      ? formatTransactionData([...transactionDataRaw, ...data.results])
-      : formatTransactionData(data.results);
+      ? formatTransactionData([...transactionDataRaw, ...data.results], persons)
+      : formatTransactionData(data.results, persons);
     let raw = data.results;
     if (isLoadMore) {
       raw = [...transactionDataRaw, ...raw];
