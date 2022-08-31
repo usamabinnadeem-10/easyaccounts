@@ -186,11 +186,14 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
                   maxDate={moment(Date.now()).add(10, 'years')}
                   onChange={(value) => {
                     let date = moment(value).format('yyyy-MM-DD');
-                    if (filter.variant === 'start') {
-                      date = `${date} 00:00:00`;
-                    } else {
-                      date = `${date} 23:59:59`;
+                    if (!!filter.variant) {
+                      if (filter.variant === 'start') {
+                        date = `${date} 00:00:00`;
+                      } else {
+                        date = `${date} 23:59:59`;
+                      }
                     }
+
                     handleSetFilter(
                       // moment(value).format('yyyy-MM-DD'),
                       date,
