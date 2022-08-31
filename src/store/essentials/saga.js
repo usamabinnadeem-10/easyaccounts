@@ -14,6 +14,20 @@ import { findErrorMessage } from '../../app/utilities/objectUtils';
 function* essentialSagas() {
   yield all([
     takeLatest(actionTypes.GET_ALL_ESSENTIALS, getAllEssentialsSaga),
+
+    takeLatest(actionTypes.GET_ALL_CUSTOMERS, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_SUPPLIERS, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_EQUITY, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_ADVANCE_EXPENSES, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_AREAS, getAllEssentialsSaga),
+
+    takeLatest(actionTypes.GET_ALL_CATEGORIES, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_PRODUCT, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_WAREHOUSE, getAllEssentialsSaga),
+
+    takeLatest(actionTypes.GET_ALL_EXPENSE_ACCOUNTS, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_ACCOUNT_TYPES, getAllEssentialsSaga),
+
     takeLatest(actionTypes.ADD_NEW_ACCOUNT_TYPE, addNewAccountTypeSaga),
     takeLatest(actionTypes.ADD_NEW_PERSON, addNewPersonSaga),
     takeLatest(actionTypes.ADD_NEW_WAREHOUSE, addNewWarehouseSaga),
@@ -82,7 +96,6 @@ function* getAllEssentialsSaga() {
     yield put(actions.getAllEssentialsFail());
   }
 }
-
 // sagas to add new
 
 function* addNewAccountTypeSaga(action) {

@@ -1,6 +1,7 @@
 import * as actionTypes from './actionTypes';
 
 import { renameKeys } from '../../utils/objectUtils';
+import { formatPersonLabels } from './utils';
 
 const initialState = {
   warehouses: [],
@@ -14,7 +15,18 @@ const initialState = {
   expenseAccounts: [],
   areas: [],
   cities: [],
-  fetched: false,
+  fetched: {
+    warehouses: false,
+    accountTypes: false,
+    customers: false,
+    suppliers: false,
+    equities: false,
+    advanceExpenses: false,
+    products: false,
+    productCategories: false,
+    expenseAccounts: false,
+    areas: false,
+  },
   added: false,
   adding: false,
   error: '',
@@ -59,10 +71,7 @@ const reducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        customers: customers.map((c) => ({
-          ...c,
-          label: `${c.label}${c.address ? ` (${c.address})` : ''}`,
-        })),
+        customers: formatPersonLabels(customers),
       };
 
     case actionTypes.GET_ALL_SUPPLIERS_SUCCESS:
@@ -73,10 +82,7 @@ const reducer = (state = initialState, action) => {
       );
       return {
         ...state,
-        suppliers: suppliers.map((c) => ({
-          ...c,
-          label: `${c.label}${c.address ? ` (${c.address})` : ''}`,
-        })),
+        suppliers: formatPersonLabels(suppliers),
       };
 
     case actionTypes.GET_ALL_EQUITY_SUCCESS:
@@ -218,11 +224,12 @@ const reducer = (state = initialState, action) => {
     case actionTypes.ADD_NEW_PERSON_SUCCESS:
       let type = action.payload.person_type;
       let person = type === 'C' ? 'customers' : 'suppliers';
-      const newPerson = renameKeys(
+      let newPerson = renameKeys(
         'id',
         'value',
         renameKeys('name', 'label', [action.payload])
       );
+      newPerson = formatPersonLabels(newPerson);
       return {
         ...state,
         [person]: [...state[person], ...newPerson],

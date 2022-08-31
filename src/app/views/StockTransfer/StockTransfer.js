@@ -17,7 +17,7 @@ import { INITIAL_VALUES } from './constants';
 import { schema } from './validation';
 import { transferStockApi } from './api';
 
-import { getAllStock } from '.././../../store/transactions';
+import { getAllStock, setShouldFetch } from '.././../../store/transactions';
 import { findErrorMessage, isObjectDirty } from '../../utilities/objectUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
@@ -60,10 +60,11 @@ const StockTransfer = ({
         setShowDrawer(true);
         setCurrentTransfer(response.data);
         setIsLoading(false);
-        dispatch(getAllStock());
+        // dispatch(getAllStock());
         actions.resetForm();
       })
       .catch((error) => {
+        dispatch(setShouldFetch());
         showErrorSnackbar(findErrorMessage(error.response.data));
         setIsLoading(false);
         setCurrentTransfer(null);

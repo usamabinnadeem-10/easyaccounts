@@ -69,13 +69,14 @@ const Transaction = ({
     let api = transaction ? editTransactionApi : postTransactionApi;
     api(data, transaction?.id)
       .then((response) => {
-        dispatch(setShouldFetch(true));
+        // dispatch(setShouldFetch(true));
         actions.resetForm();
         setLoading(false);
         redirect(response.data);
       })
       .catch((error) => {
         showErrorSnackbar(findErrorMessage(error.response.data));
+        dispatch(setShouldFetch(true)); // only fetch stock if there is an error
         setLoading(false);
       });
   };
