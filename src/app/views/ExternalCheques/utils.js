@@ -46,13 +46,11 @@ export const getFilters = (essentials) => {
       qp: 'due_date__gte',
       type: FIELDS.DATE,
       placeholder: 'Start Due Date',
-      variant: 'start',
     },
     {
       qp: 'due_date__lte',
       type: FIELDS.DATE,
       placeholder: 'End Due Date',
-      variant: 'end',
     },
     {
       qp: 'bank',
