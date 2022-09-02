@@ -52,12 +52,6 @@ export const getFilters = (essentials) => {
       placeholder: 'Book # (less than)',
     },
     {
-      qp: 'from_warehouse',
-      type: FIELDS.SELECT,
-      options: essentials.warehouses,
-      placeholder: 'From Warehouse',
-    },
-    {
       qp: 'transfer_detail__to_warehouse',
       type: FIELDS.SELECT,
       options: essentials.warehouses,
