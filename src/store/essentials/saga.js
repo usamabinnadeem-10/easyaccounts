@@ -11,9 +11,74 @@ import { ROLES } from '../../constants/roles';
 
 import { findErrorMessage } from '../../app/utilities/objectUtils';
 
+const API_MAP = {
+  CUSTOMERS: {
+    api: api.getCustomersApi,
+    action: actions.getAllCustomersSuccess,
+  },
+  SUPPLIERS: {
+    api: api.getSuppliersApi,
+    action: actions.getAllSuppliersSuccess,
+  },
+  EQUITIES: { api: api.getEquityApi, action: actions.getAllEquitySuccess },
+  ADVANCE_EXPENSES: {
+    api: api.getAdvanceExpensesApi,
+    action: actions.getAllAdvanceExpensesSuccess,
+  },
+  AREAS: { api: api.getAreasApi, action: actions.getAllAreasSuccess },
+  PRODUCT_CATEGORIES: {
+    api: api.getCategoriesApi,
+    action: actions.getAllCategoriesSuccess,
+  },
+  PRODUCTS: { api: api.getProductApi, action: actions.getAllProductSuccess },
+  WAREHOUSES: {
+    api: api.getWarehouseApi,
+    action: actions.getAllWarehouseSuccess,
+  },
+  EXPENSE_ACCOUNTS: {
+    api: api.getExpenseAccountsApi,
+    action: actions.getAllExpenseAccountsSuccess,
+  },
+  ACCOUNT_TYPES: {
+    api: api.getAccountsApi,
+    action: actions.getAllAccountTypesSuccess,
+  },
+};
+
 function* essentialSagas() {
   yield all([
-    takeLatest(actionTypes.GET_ALL_ESSENTIALS, getAllEssentialsSaga),
+    takeLatest(actionTypes.GET_ALL_ESSENTIALS, getEssentialsSaga),
+
+    takeLatest(actionTypes.GET_ALL_CUSTOMERS, getEssentialsSaga, 'CUSTOMERS'),
+    takeLatest(actionTypes.GET_ALL_SUPPLIERS, getEssentialsSaga, 'SUPPLIERS'),
+    takeLatest(actionTypes.GET_ALL_EQUITY, getEssentialsSaga, 'EQUITIES'),
+    takeLatest(
+      actionTypes.GET_ALL_ADVANCE_EXPENSES,
+      getEssentialsSaga,
+      'ADVANCE_EXPENSES'
+    ),
+
+    takeLatest(actionTypes.GET_ALL_AREAS, getEssentialsSaga, 'AREAS'),
+
+    takeLatest(
+      actionTypes.GET_ALL_CATEGORIES,
+      getEssentialsSaga,
+      'PRODUCT_CATEGORIES'
+    ),
+    takeLatest(actionTypes.GET_ALL_PRODUCT, getEssentialsSaga, 'PRODUCTS'),
+    takeLatest(actionTypes.GET_ALL_WAREHOUSE, getEssentialsSaga, 'WAREHOUSES'),
+
+    takeLatest(
+      actionTypes.GET_ALL_EXPENSE_ACCOUNTS,
+      getEssentialsSaga,
+      'EXPENSE_ACCOUNTS'
+    ),
+    takeLatest(
+      actionTypes.GET_ALL_ACCOUNT_TYPES,
+      getEssentialsSaga,
+      'ACCOUNT_TYPES'
+    ),
+
     takeLatest(actionTypes.ADD_NEW_ACCOUNT_TYPE, addNewAccountTypeSaga),
     takeLatest(actionTypes.ADD_NEW_PERSON, addNewPersonSaga),
     takeLatest(actionTypes.ADD_NEW_WAREHOUSE, addNewWarehouseSaga),
@@ -23,66 +88,71 @@ function* essentialSagas() {
     takeLatest(actionTypes.ADD_NEW_AREA, addNewAreaSaga),
     takeLatest(actionTypes.ADD_OPENING_STOCK, addOpeningStockSaga),
     takeLatest(actionTypes.ADD_EXPENSE_DETAIL, addExpenseDetailSaga),
-    takeLatest(actionTypes.CANCEL_INVOICE, cancelInvoiceSaga),
   ]);
 }
 
-function* getAllEssentialsSaga() {
+// function* getEssentialsSaga(sagaType) {
+//   try {
+//     let role = localStorage.getItem('userRole');
+//     let allowed = [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER];
+//     let allow = allowed.includes(role);
+
+//     if (allow) {
+//       let response = yield call(api.getAccountsApi);
+//       yield put(actions.getAllAccountTypesSuccess(response.data));
+
+//       response = yield call(api.getWarehouseApi);
+//       yield put(actions.getAllWarehouseSuccess(response.data));
+
+//       response = yield call(api.getCustomersApi);
+//       yield put(actions.getAllCustomersSuccess(response.data));
+
+//       response = yield call(api.getSuppliersApi);
+//       yield put(actions.getAllSuppliersSuccess(response.data));
+
+//       response = yield call(api.getEquityApi);
+//       yield put(actions.getAllEquitySuccess(response.data));
+
+//       response = yield call(api.getAdvanceExpensesApi);
+//       yield put(actions.getAllAdvanceExpensesSuccess(response.data));
+
+//       response = yield call(api.getProductApi);
+//       yield put(actions.getAllProductSuccess(response.data));
+
+//       response = yield call(api.getExpenseAccountsApi);
+//       yield put(actions.getAllExpenseAccountsSuccess(response.data));
+
+//       response = yield call(api.getAreasApi);
+//       yield put(actions.getAllAreasSuccess(response.data));
+
+//       response = yield call(api.getCategoriesApi);
+//       yield put(actions.getAllCategoriesSuccess(response.data));
+//     } else {
+//       let response = yield call(api.getProductApi);
+//       yield put(actions.getAllProductSuccess(response.data));
+
+//       response = yield call(api.getWarehouseApi);
+//       yield put(actions.getAllWarehouseSuccess(response.data));
+
+//       response = yield call(api.getCategoriesApi);
+//       yield put(actions.getAllCategoriesSuccess(response.data));
+//     }
+
+//     // response = yield call(api.getCitiesApi);
+//     // yield put(actions.getAllCitiesSuccess(response.data));
+
+//     yield put(actions.getAllEssentialsSuccess());
+//   } catch (error) {
+//     yield put(actions.getAllEssentialsFail());
+//   }
+// }
+
+function* getEssentialsSaga(sagaType) {
   try {
-    let role = localStorage.getItem('userRole');
-    let allowed = [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER];
-    let allow = allowed.includes(role);
-
-    if (allow) {
-      let response = yield call(api.getAccountsApi);
-      yield put(actions.getAllAccountTypesSuccess(response.data));
-
-      response = yield call(api.getWarehouseApi);
-      yield put(actions.getAllWarehouseSuccess(response.data));
-
-      response = yield call(api.getCustomersApi);
-      yield put(actions.getAllCustomersSuccess(response.data));
-
-      response = yield call(api.getSuppliersApi);
-      yield put(actions.getAllSuppliersSuccess(response.data));
-
-      response = yield call(api.getEquityApi);
-      yield put(actions.getAllEquitySuccess(response.data));
-
-      response = yield call(api.getAdvanceExpensesApi);
-      yield put(actions.getAllAdvanceExpensesSuccess(response.data));
-
-      response = yield call(api.getProductApi);
-      yield put(actions.getAllProductSuccess(response.data));
-
-      response = yield call(api.getExpenseAccountsApi);
-      yield put(actions.getAllExpenseAccountsSuccess(response.data));
-
-      response = yield call(api.getAreasApi);
-      yield put(actions.getAllAreasSuccess(response.data));
-
-      response = yield call(api.getCategoriesApi);
-      yield put(actions.getAllCategoriesSuccess(response.data));
-    } else {
-      let response = yield call(api.getProductApi);
-      yield put(actions.getAllProductSuccess(response.data));
-
-      response = yield call(api.getWarehouseApi);
-      yield put(actions.getAllWarehouseSuccess(response.data));
-
-      response = yield call(api.getCategoriesApi);
-      yield put(actions.getAllCategoriesSuccess(response.data));
-    }
-
-    // response = yield call(api.getCitiesApi);
-    // yield put(actions.getAllCitiesSuccess(response.data));
-
-    yield put(actions.getAllEssentialsSuccess());
-  } catch (error) {
-    yield put(actions.getAllEssentialsFail());
-  }
+    let response = yield call(API_MAP[sagaType].api);
+    yield put(API_MAP[sagaType].action(response.data));
+  } catch (error) {}
 }
-
 // sagas to add new
 
 function* addNewAccountTypeSaga(action) {
@@ -145,17 +215,6 @@ function* addOpeningStockSaga(action) {
     yield put(
       actions.addOpeningStockFail(findErrorMessage(error.response.data))
     );
-  }
-}
-
-function* cancelInvoiceSaga(action) {
-  try {
-    yield call(api.cancelInvoiceApi, action.payload);
-    yield put(actions.cancelInvoiceSuccess());
-  } catch (error) {
-    let errorObj = error.response.data;
-    let key = Object.keys(errorObj)[0];
-    yield put(actions.setError(errorObj[key]));
   }
 }
 

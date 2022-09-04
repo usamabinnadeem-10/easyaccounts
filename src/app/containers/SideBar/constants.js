@@ -11,7 +11,6 @@ import { addNewFormula, addNewRawProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
-import { cancelStockTransfer } from '../../../store/transactions';
 
 export const VIEW = 'View';
 
@@ -377,6 +376,12 @@ export const getPersonForm = (essentials) => {
   return {
     heading: 'Add Customer / Supplier',
     action: actions.addNewPerson,
+    essentialActions: [
+      {
+        action: actions.getAllAreas,
+        reducerVariable: 'areas',
+      },
+    ],
     formData: [
       {
         label: 'Name',
@@ -467,6 +472,16 @@ export const getOpeningStockForm = (essentials) => {
   return {
     heading: 'Add Opening Stock',
     action: actions.addOpeningStock,
+    essentialActions: [
+      {
+        action: actions.getAllProduct,
+        reducerVariable: 'products',
+      },
+      {
+        action: actions.getAllWarehouse,
+        reducerVariable: 'warehouses',
+      },
+    ],
     formData: [
       {
         label: 'Product',
@@ -537,6 +552,12 @@ export const getProductForm = (essentials) => {
   return {
     heading: 'Add Product',
     action: actions.addNewProduct,
+    essentialActions: [
+      {
+        action: actions.getAllCategories,
+        reducerVariable: 'productCategories',
+      },
+    ],
     formData: [
       {
         label: 'Product Name',
@@ -565,6 +586,16 @@ export const getExpenseForm = (essentials) => {
   return {
     heading: 'Add Expense',
     action: actions.addExpenseDetail,
+    essentialActions: [
+      {
+        action: actions.getAllExpenseAccounts,
+        reducerVariable: 'expenseAccounts',
+      },
+      {
+        action: actions.getAllAccountTypes,
+        reducerVariable: 'accountTypes',
+      },
+    ],
     dispatchActions: [
       {
         actionName: setShouldFetchDaybook,
@@ -603,26 +634,6 @@ export const getExpenseForm = (essentials) => {
         type: FIELDS.STRING,
         name: DB.DETAIL,
         required: true,
-      },
-    ],
-  };
-};
-
-export const getCancelStockTransferForm = (essentials) => {
-  return {
-    heading: 'Cancel Stock Transfer Serial',
-    action: cancelStockTransfer,
-    formData: [
-      {
-        label: 'Warehouse',
-        type: FIELDS.SELECT,
-        options: essentials.warehouses,
-        name: DB.WAREHOUSE,
-      },
-      {
-        label: 'Book #',
-        type: FIELDS.NUMBER,
-        name: DB.BOOK_SERIAL,
       },
     ],
   };
@@ -766,8 +777,6 @@ export const chooseModal = (name, essentials) => {
       return getProductForm(essentials);
     case EXPENSE_ENTRY:
       return getExpenseForm(essentials);
-    case CANCEL_STOCK_TRANSFER:
-      return getCancelStockTransferForm(essentials);
     default:
       return MODAL_DEFAULTS[name];
   }

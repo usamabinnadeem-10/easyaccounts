@@ -1,7 +1,6 @@
 import React from 'react';
 import { useEffect } from 'react';
 
-import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import { Switch } from 'react-router-dom';
@@ -22,12 +21,6 @@ import { LOGIN } from '../../../constants/routesConstants';
 import { authenticatedRoutes } from '../../../constants/routes';
 import { PrivateRoute } from './PrivateRoute';
 
-import {
-  getAllEssentials,
-  resetState,
-  setBreakpoint,
-} from '../../../store/essentials';
-
 import { StyledDiv } from './styled';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
@@ -36,7 +29,6 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
-  let dispatch = useDispatch();
   let essentials = useEssentials();
 
   const { fetched, error } = useSelector((state) => state.essentials);
@@ -50,14 +42,9 @@ const Home = ({ showErrorSnackbar }) => {
   const dimensions = useWindowSize();
 
   useEffect(() => {
-    if (isAuthenticated) {
-      dispatch(getAllEssentials());
-    } else {
+    if (!isAuthenticated) {
       history.push(LOGIN);
     }
-    return () => {
-      dispatch(resetState());
-    };
   }, [isAuthenticated]);
 
   useEffect(() => {
