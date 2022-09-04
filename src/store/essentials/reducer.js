@@ -61,6 +61,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         accountTypes: types,
+        fetched: {
+          ...state.fetched,
+          accountTypes: true,
+        },
       };
 
     case actionTypes.GET_ALL_CUSTOMERS_SUCCESS:
@@ -72,6 +76,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         customers: formatPersonLabels(customers),
+        fetched: {
+          ...state.fetched,
+          customers: true,
+        },
       };
 
     case actionTypes.GET_ALL_SUPPLIERS_SUCCESS:
@@ -83,6 +91,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         suppliers: formatPersonLabels(suppliers),
+        fetched: {
+          ...state.fetched,
+          suppliers: true,
+        },
       };
 
     case actionTypes.GET_ALL_EQUITY_SUCCESS:
@@ -94,6 +106,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         equities: equities,
+        fetched: {
+          ...state.fetched,
+          equities: true,
+        },
       };
 
     case actionTypes.GET_ALL_ADVANCE_EXPENSES_SUCCESS:
@@ -105,6 +121,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         advanceExpenses: advanceExpenses,
+        fetched: {
+          ...state.fetched,
+          advanceExpenses: true,
+        },
       };
 
     case actionTypes.GET_ALL_PRODUCT_SUCCESS:
@@ -116,6 +136,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         products: products,
+        fetched: {
+          ...state.fetched,
+          products: true,
+        },
       };
 
     case actionTypes.GET_ALL_CATEGORIES_SUCCESS:
@@ -127,6 +151,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         productCategories: categories,
+        fetched: {
+          ...state.fetched,
+          productCategories: true,
+        },
       };
 
     case actionTypes.GET_ALL_WAREHOUSE_SUCCESS:
@@ -138,6 +166,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         warehouses: warehouses,
+        fetched: {
+          ...state.fetched,
+          warehouses: true,
+        },
       };
 
     case actionTypes.GET_ALL_EXPENSE_ACCOUNTS_SUCCESS:
@@ -149,6 +181,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         expenseAccounts: expenses,
+        fetched: {
+          ...state.fetched,
+          expenseAccounts: true,
+        },
       };
 
     case actionTypes.GET_ALL_AREAS_SUCCESS:
@@ -160,6 +196,10 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         areas: areas,
+        fetched: {
+          ...state.fetched,
+          areas: true,
+        },
       };
 
     case actionTypes.GET_ALL_CITIES_SUCCESS:
