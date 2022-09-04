@@ -56,7 +56,11 @@ const ALL_PERSONS = [
 ];
 
 const ROUTE_ACTION_MAP = {
-  [routes.VIEW_DAYBOOK]: [...ALL_PERSONS, REDUCER.accountTypes],
+  [routes.VIEW_DAYBOOK]: [
+    ...ALL_PERSONS,
+    REDUCER.accountTypes,
+    REDUCER.expenseAccounts,
+  ],
   [routes.ALL_BALANCES]: ALL_PERSONS,
   [routes.ALL_STOCK]: [
     REDUCER.products,
