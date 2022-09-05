@@ -60,6 +60,8 @@ const ROUTE_ACTION_MAP = {
     ...ALL_PERSONS,
     REDUCER.accountTypes,
     REDUCER.expenseAccounts,
+    REDUCER.products,
+    REDUCER.warehouses,
   ],
   [routes.ALL_BALANCES]: ALL_PERSONS,
   [routes.ALL_STOCK]: [
