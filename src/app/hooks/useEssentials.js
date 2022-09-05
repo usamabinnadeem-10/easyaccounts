@@ -103,6 +103,12 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.products,
     REDUCER.accountTypes,
+    REDUCER.warehouses,
+  ],
+  [routes.VIEW_SINGLE_TRANSACTION]: [
+    ...ALL_PERSONS,
+    REDUCER.accountTypes,
+    REDUCER.warehouses,
   ],
   [routes.LEDGERS]: ALL_PERSONS,
   [routes.LEDGER_TRANSACTION]: [...ALL_PERSONS, REDUCER.accountTypes],
