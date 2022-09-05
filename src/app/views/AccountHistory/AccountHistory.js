@@ -12,7 +12,7 @@ import Heading from '../../components/Heading';
 
 import { ESSENTIAL_URLS } from '../../../constants/restEndPoints';
 
-import { getFilters } from './utils';
+import { getFilters } from './filters';
 import { formatData } from './utils';
 
 import { COLUMNS } from './constants';
