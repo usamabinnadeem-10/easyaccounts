@@ -83,8 +83,8 @@ const formatTransactionDetails = (
       amount: formatCurrency(
         detail.rate * detail.quantity * detail.yards_per_piece
       ),
-      [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]].label,
-      [DB.PRODUCT]: products?.[detail[DB.PRODUCT]].label,
+      [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]]?.label,
+      [DB.PRODUCT]: products?.[detail[DB.PRODUCT]]?.label,
       total_gazaana: formatCurrency(detail.yards_per_piece * detail.quantity),
     });
   });
