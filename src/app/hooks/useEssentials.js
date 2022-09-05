@@ -33,6 +33,8 @@ const DEFAULTS = {
   advanceExpenses: 'persons',
   accountTypes: 'accounts',
   expenseAccounts: 'expenseAccounts',
+  productCategories: 'productCategories',
+  areas: 'areas',
 };
 
 const REDUCER = {
@@ -145,10 +147,10 @@ const useEssentials = () => {
 
   useEffect(() => {
     let newValues = {};
-    for (let [key, value] of Object.entries(essentials)) {
+    for (let [key, value] of Object.entries(REDUCER)) {
       let currentEssential = DEFAULTS[key];
       if (currentEssential) {
-        value.forEach((val) => {
+        essentials[value].forEach((val) => {
           !(currentEssential in newValues) &&
             (newValues[currentEssential] = {});
           newValues = {
@@ -162,7 +164,7 @@ const useEssentials = () => {
       }
     }
     setValues(newValues);
-  }, [essentials.fetched]);
+  }, [essentials]);
 
   return values;
 };
