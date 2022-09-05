@@ -88,16 +88,18 @@ function TransactionHeader(props) {
             size='small'
           />
         </Grid>
-        {showAccountTypes && (
-          <Grid item xs={6}>
-            <FastField
-              component={FormAutoCompleteField}
-              options={options.accountTypes}
-              name='account_type'
-              label='Account type'
-            />
-          </Grid>
-        )}
+        {/* {showAccountTypes && (
+          
+        )} */}
+        <Grid item xs={6}>
+          <FastField
+            disabled={!showAccountTypes}
+            component={FormAutoCompleteField}
+            options={options.accountTypes}
+            name='account_type'
+            label='Account type'
+          />
+        </Grid>
         <Grid item xs={6}>
           <FastField
             component={FormTextField}
@@ -123,15 +125,19 @@ function TransactionHeader(props) {
             className={classes.metaItems}></Grid>
         )}
 
-        <Grid item xs={6} className={classes.metaItems}>
-          <CustomToggleButtons
-            buttons={transactionTypes}
-            getSelectedValue={(type) => {
-              updateMetaData(metaConstants.transactionType, type);
-              setFieldValue('type', type);
-            }}
-            selectedValue={selectedOptions.currentTransactionType}
-          />
+        <Grid item xs={12} className={classes.metaItems}>
+          <Grid container>
+            <Grid item xs={4}>
+              <CustomToggleButtons
+                buttons={transactionTypes}
+                getSelectedValue={(type) => {
+                  updateMetaData(metaConstants.transactionType, type);
+                  setFieldValue('type', type);
+                }}
+                selectedValue={selectedOptions.currentTransactionType}
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={6} className={classes.metaItems}>
           <FastField

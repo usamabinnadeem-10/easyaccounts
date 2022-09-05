@@ -61,6 +61,7 @@ export const FormAutoCompleteField = ({
   freeSolo,
   type,
   autoCompleteProps,
+  disabled,
   ...props
 }) => {
   return (
@@ -80,6 +81,7 @@ export const FormAutoCompleteField = ({
             label: value,
           });
       }}
+      disabled={disabled}
       value={value}
       options={options}
       size='small'
