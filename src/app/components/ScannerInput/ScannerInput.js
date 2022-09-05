@@ -64,6 +64,7 @@ const ScannerInput = ({ getScannedValue, overrideValues }) => {
               border: 0,
             },
           }}
+          size='small'
           InputProps={{ disableUnderline: true }}
           autoFocus
           variant='filled'

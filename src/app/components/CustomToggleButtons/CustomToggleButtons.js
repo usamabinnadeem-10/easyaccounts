@@ -5,6 +5,9 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { styled } from '@mui/material/styles';
 
 const StyledToggleButtonGroup = styled(ToggleButtonGroup)(({ theme }) => ({
+  display: 'flex',
+  flexWrap: 'wrap',
+  justifyContent: 'space-evenly',
   '& .MuiToggleButtonGroup-grouped': {
     margin: theme.spacing(0.5),
     width: '100%',

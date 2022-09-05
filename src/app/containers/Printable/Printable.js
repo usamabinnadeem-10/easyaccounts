@@ -7,6 +7,7 @@ import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 
 import { useStyles } from './styles';
+import { StyledGrid } from './styled';
 
 const Printable = ({ children, disablePrint, documentTitle }) => {
   const classes = useStyles();
@@ -16,7 +17,7 @@ const Printable = ({ children, disablePrint, documentTitle }) => {
     documentTitle: documentTitle,
   });
   return (
-    <Grid container direction='column'>
+    <StyledGrid container direction='column'>
       <Button
         disabled={disablePrint}
         size='small'
@@ -27,7 +28,7 @@ const Printable = ({ children, disablePrint, documentTitle }) => {
       <div ref={componentRef} className={classes.root}>
         {children}
       </div>
-    </Grid>
+    </StyledGrid>
   );
 };
 
