@@ -127,7 +127,7 @@ function TransactionHeader(props) {
 
         <Grid item xs={12} className={classes.metaItems}>
           <Grid container>
-            <Grid item xs={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <CustomToggleButtons
                 buttons={transactionTypes}
                 getSelectedValue={(type) => {

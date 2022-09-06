@@ -119,7 +119,11 @@ const ROUTE_ACTION_MAP = {
   [routes.VIEW_EXPENSES]: [REDUCER.accountTypes, REDUCER.expenseAccounts],
   [routes.VIEW_TRANSFERS]: [REDUCER.products, REDUCER.warehouses],
   [routes.STOCK_TRANSFER]: [REDUCER.products, REDUCER.warehouses],
-  [routes.EXTERNAL_CHEQUE]: [REDUCER.customers, REDUCER.suppliers],
+  [routes.EXTERNAL_CHEQUE]: [
+    REDUCER.customers,
+    REDUCER.suppliers,
+    REDUCER.accountTypes,
+  ],
   [routes.PERSONAL_CHEQUE]: [
     REDUCER.customers,
     REDUCER.suppliers,

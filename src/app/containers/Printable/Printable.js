@@ -4,7 +4,6 @@ import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
 
 import { Button } from '@mui/material';
-import { Grid } from '@mui/material';
 
 import { useStyles } from './styles';
 import { StyledGrid } from './styled';
