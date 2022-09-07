@@ -13,6 +13,7 @@ import TransactionDetail from '../../components/TransactionDetail';
 import TransactionDrawer from '../../components/TransactionDrawer';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
+import Printable from '../../containers/Printable';
 
 import { SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
@@ -209,17 +210,21 @@ function ViewTransactions({
           />
         </div>
       )}
-      <div className={classes.table}>
-        {transactionData.length > 0 && (
-          <TransactionDetail
-            rows={transactionData}
-            onRowClick={onRowClick}
-            hoverProperty={'id'}
-            handleEdit={handleEdit}
-            handleDelete={handleDelete}
-          />
-        )}
-      </div>
+      <Printable
+        disablePrint={transactionData.length === 0}
+        documentTitle='All transactions report'>
+        <div className={classes.table}>
+          {transactionData.length > 0 && (
+            <TransactionDetail
+              rows={transactionData}
+              onRowClick={onRowClick}
+              hoverProperty={'id'}
+              handleEdit={handleEdit}
+              handleDelete={handleDelete}
+            />
+          )}
+        </div>
+      </Printable>
       {!daybookView && nextPage && (
         <LoadMoreButton
           variant='contained'
