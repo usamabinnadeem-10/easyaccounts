@@ -48,13 +48,7 @@ const ViewExpenses = ({
   const [expensesData, setExpensesData] = useState(
     daybookView
       ? formatExpensesData(defaultExpenses, accounts, expenseAccounts)
-      : expenseListCache.expensesData
-      ? formatExpensesData(
-          expenseListCache.expensesData,
-          accounts,
-          expenseAccounts
-        )
-      : []
+      : expenseListCache.expensesData || []
   );
 
   const [isEditing, setIsEditing] = useState(false);

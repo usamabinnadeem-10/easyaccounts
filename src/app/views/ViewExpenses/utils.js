@@ -11,9 +11,9 @@ export const formatExpensesData = (expenses, accounts, expenseAccounts) => {
     return {
       ...expense,
       id: `${expense.id}-${index}`,
-      expense: expenseAccounts?.[expense.expense].label,
+      expense: expenseAccounts?.[expense.expense]?.label,
       expense_obj: expenseAccounts?.[expense.expense],
-      account_type: accounts?.[expense.account_type].label,
+      account_type: accounts?.[expense.account_type]?.label,
       account_type_obj: accounts?.[expense.account_type],
       date: getReadableDate(expense.date),
       amount: formatCurrency(expense.amount),
