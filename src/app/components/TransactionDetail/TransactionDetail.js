@@ -105,6 +105,7 @@ function TransactionDetail({
     {
       accessor: 'edit',
       Header: 'Edit',
+      hideInPrint: true,
       Cell: (row) => {
         if (row.row.id) {
           return (
@@ -120,6 +121,7 @@ function TransactionDetail({
     {
       accessor: 'delete',
       Header: 'Delete',
+      hideInPrint: true,
       Cell: (row) => {
         if (row.row.id) {
           return (
