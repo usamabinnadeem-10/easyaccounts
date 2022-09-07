@@ -10,7 +10,6 @@ export const formatExpensesData = (expenses, accounts, expenseAccounts) => {
     totalExpenses += expense.amount;
     return {
       ...expense,
-      id: `${expense.id}-${index}`,
       expense: expenseAccounts?.[expense.expense]?.label,
       expense_obj: expenseAccounts?.[expense.expense],
       account_type: accounts?.[expense.account_type]?.label,
@@ -21,6 +20,7 @@ export const formatExpensesData = (expenses, accounts, expenseAccounts) => {
   });
   expensesData.length > 0 &&
     expensesData.push({
+      id: expensesData.length + 1,
       date: 'TOTAL',
       amount: formatCurrency(totalExpenses),
     });
