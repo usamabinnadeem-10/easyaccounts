@@ -21,6 +21,14 @@ const initialState = {
   paymentListCache: {
     paymentData: null,
   },
+  transactionListCache: {
+    transactionData: null,
+    transactionDataRaw: null,
+    nextPage: null,
+  },
+  expensesListCache: {
+    expensesData: null,
+  },
   allBalancesCache: null,
   productPerformanceCache: null,
 };
@@ -75,6 +83,22 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         productPerformanceCache: action.payload,
+      };
+    case actionTypes.CACHE_TRANSACTION_LIST:
+      return {
+        ...state,
+        transactionListCache: {
+          ...state.transactionListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_EXPENSE_LIST:
+      return {
+        ...state,
+        expensesListCache: {
+          ...state.expensesListCache,
+          ...action.payload,
+        },
       };
     default:
       return state;

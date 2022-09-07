@@ -14,7 +14,7 @@ import TransactionDrawer from '../../components/TransactionDrawer';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
 
-import { ERRORS, SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
+import { SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
 import { useStyles } from './styles';
 import { LoadMoreButton } from './styled';
@@ -30,6 +30,8 @@ import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 import { setShouldFetch } from '../../../store/transactions';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
+
+import { cacheTransactionList } from '../../../store/cache';
 
 function ViewTransactions({
   daybookView,
@@ -47,11 +49,19 @@ function ViewTransactions({
   const history = useHistory();
   const dispatch = useDispatch();
 
+  const transactionListCache = useSelector(
+    (state) => state.cache.transactionListCache
+  );
+
   const [transactionData, setTransactionData] = useState(
-    daybookView ? formatTransactionData(defaultTransactions, persons) : []
+    daybookView
+      ? formatTransactionData(defaultTransactions, persons)
+      : transactionListCache.transactionData || []
   );
   const [transactionDataRaw, setTransactionDataRaw] = useState(
-    daybookView ? defaultTransactions : []
+    daybookView
+      ? defaultTransactions
+      : transactionListCache.transactionDataRaw || []
   );
 
   const [dialogueState, setDialogueState] = useState({
@@ -64,7 +74,9 @@ function ViewTransactions({
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransaction, setCurrentTransaction] = useState({});
   const [isEmpty, setIsEmpty] = useState(false);
-  const [nextPage, setNextPage] = useState(null);
+  const [nextPage, setNextPage] = useState(
+    transactionListCache.nextPage || null
+  );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
   useEffect(() => {
@@ -106,6 +118,14 @@ function ViewTransactions({
     setTransactionData(formattedTransactions);
     setTransactionDataRaw(raw);
     setIsEmpty(formattedTransactions.length === 0);
+
+    dispatch(
+      cacheTransactionList({
+        transactionData: formattedTransactions,
+        transactionDataRaw: raw,
+        nextPage: data.next,
+      })
+    );
   };
 
   const hideDrawer = () => {

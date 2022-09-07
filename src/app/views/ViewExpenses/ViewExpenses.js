@@ -3,6 +3,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useMemo } from 'react';
 
+import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import ConfirmationModal from '../../components/ConfirmationModal/ConfirmationModal';
@@ -27,6 +28,8 @@ import { findErrorMessage } from '../../utilities/objectUtils';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 
+import { cacheExpenseList } from '../../../store/cache';
+
 const ViewExpenses = ({
   daybookView,
   defaultExpenses,
@@ -35,20 +38,28 @@ const ViewExpenses = ({
   showErrorSnackbar,
   showSuccessSnackbar,
 }) => {
+  const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const filters = useMemo(() => getFilters(essentials), [essentials]);
+  const expenseListCache = useSelector(
+    (state) => state.cache.expensesListCache
+  );
 
   const [expensesData, setExpensesData] = useState(
     daybookView
       ? formatExpensesData(defaultExpenses, accounts, expenseAccounts)
+      : expenseListCache.expensesData
+      ? formatExpensesData(
+          expenseListCache.expensesData,
+          accounts,
+          expenseAccounts
+        )
       : []
   );
-  const [loading, setLoading] = useState(false);
 
   const [isEditing, setIsEditing] = useState(false);
   const [editingForm, setEditingForm] = useState({});
   const [oldExpenseState, setOldExpenseState] = useState({});
-  const [totalExpenses, setTotalExpenses] = useState(0);
   const [dialogueState, setDialogueState] = useState({
     open: false,
     dialogueValue: null,
@@ -83,16 +94,15 @@ const ViewExpenses = ({
     }
   }, [dialogueState]);
 
-  useEffect(() => {
-    setTotalExpenses(getTotalExpenses(expensesData));
-  }, [expensesData]);
-
   const handleSearch = (data) => {
     let formattedExpenses = formatExpensesData(data, accounts, expenseAccounts);
+    dispatch(
+      cacheExpenseList({
+        expensesData: formattedExpenses,
+      })
+    );
     setExpensesData(formattedExpenses);
     setIsEmpty(formattedExpenses.length === 0);
-    setTotalExpenses(getTotalExpenses(data));
-    setLoading(false);
   };
 
   const edit = (data) => {
@@ -111,6 +121,11 @@ const ViewExpenses = ({
           account_type_obj: accounts[res.data.account_type],
         };
         setExpensesData(newExpenseData);
+        dispatch(
+          cacheExpenseList({
+            expensesData: newExpenseData,
+          })
+        );
         showSuccessSnackbar(SUCCESS.EDITED);
         setIsEditing(false);
         setEditingForm({});

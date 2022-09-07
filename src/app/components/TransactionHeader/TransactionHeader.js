@@ -95,7 +95,7 @@ function TransactionHeader(props) {
           <FastField
             disabled={!showAccountTypes}
             component={FormAutoCompleteField}
-            options={options.accountTypes}
+            options={options.accountTypes || []}
             name='account_type'
             label='Account type'
           />

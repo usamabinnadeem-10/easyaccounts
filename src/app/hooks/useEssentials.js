@@ -98,6 +98,7 @@ const ROUTE_ACTION_MAP = {
   [routes.SUPPLIER_TRANSACTION]: [
     REDUCER.suppliers,
     REDUCER.products,
+    REDUCER.accountTypes,
     REDUCER.warehouses,
   ],
   [routes.TRANSACTIONS]: [

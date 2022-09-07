@@ -55,3 +55,17 @@ export const cacheProductPerformance = (data) => {
     payload: data,
   };
 };
+
+export const cacheTransactionList = (data) => {
+  return {
+    type: actionTypes.CACHE_TRANSACTION_LIST,
+    payload: data,
+  };
+};
+
+export const cacheExpenseList = (data) => {
+  return {
+    type: actionTypes.CACHE_EXPENSE_LIST,
+    payload: data,
+  };
+};

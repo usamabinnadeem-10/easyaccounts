@@ -10,7 +10,7 @@ export const formatExpensesData = (expenses, accounts, expenseAccounts) => {
     totalExpenses += expense.amount;
     return {
       ...expense,
-      is: `${expense.id}-${index}`,
+      id: `${expense.id}-${index}`,
       expense: expenseAccounts?.[expense.expense].label,
       expense_obj: expenseAccounts?.[expense.expense],
       account_type: accounts?.[expense.account_type].label,
