@@ -353,3 +353,10 @@ export const setBreakpoint = (data) => {
     payload: data,
   };
 };
+
+export const setEssentialsFetchError = (data) => {
+  return {
+    type: actionTypes.SET_ESSENTIAL_FETCH_ERROR,
+    payload: data,
+  };
+};

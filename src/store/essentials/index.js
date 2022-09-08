@@ -46,4 +46,5 @@ export {
   resetState,
   addNewCategory,
   setBreakpoint,
+  setEssentialsFetchError,
 } from './actions';

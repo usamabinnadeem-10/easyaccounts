@@ -31,6 +31,7 @@ const initialState = {
   adding: false,
   error: '',
   breakpoint: '',
+  fetchError: '',
 };
 
 const reducer = (state = initialState, action) => {
@@ -441,6 +442,12 @@ const reducer = (state = initialState, action) => {
       return {
         ...state,
         breakpoint: action.payload,
+      };
+
+    case actionTypes.SET_ESSENTIAL_FETCH_ERROR:
+      return {
+        ...state,
+        fetchError: action.payload,
       };
     default:
       return state;

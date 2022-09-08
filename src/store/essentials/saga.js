@@ -7,8 +7,6 @@ import * as actionTypes from './actionTypes';
 import * as actions from './actions';
 import * as api from './api';
 
-import { ROLES } from '../../constants/roles';
-
 import { findErrorMessage } from '../../app/utilities/objectUtils';
 
 const API_MAP = {
@@ -151,7 +149,10 @@ function* getEssentialsSaga(sagaType) {
   try {
     let response = yield call(API_MAP[sagaType].api);
     yield put(API_MAP[sagaType].action(response.data));
-  } catch (error) {}
+    yield put(actions.setEssentialsFetchError(''));
+  } catch (error) {
+    yield put(actions.setEssentialsFetchError(sagaType));
+  }
 }
 // sagas to add new
 
@@ -195,7 +196,7 @@ function* addNewCategorySaga(action) {
 
 function* addExpenseDetailSaga(action) {
   try {
-    let response = yield call(api.addExpenseDetailApi, action.payload);
+    yield call(api.addExpenseDetailApi, action.payload);
     yield put(actions.addExpenseDetailSuccess());
   } catch (error) {
     yield put(actions.setError(findErrorMessage(error.response.data)));

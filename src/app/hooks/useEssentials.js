@@ -153,7 +153,7 @@ const useEssentials = () => {
         }
       }
     }
-  }, [location.pathname]);
+  }, [location.pathname, essentials.fetchError]);
 
   useEffect(() => {
     let newValues = {};
