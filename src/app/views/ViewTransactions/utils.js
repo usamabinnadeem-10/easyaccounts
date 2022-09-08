@@ -4,7 +4,7 @@ export const formatTransactionData = (data, persons) => {
   let transactions = [];
   let grandTotal = 0;
   let totalDiscount = 0;
-  data.forEach((element) => {
+  data.forEach((element, idx) => {
     let total = 0.0;
     element.transaction_detail.forEach((detail) => {
       total += detail.rate * detail.quantity * detail.yards_per_piece;
@@ -13,6 +13,7 @@ export const formatTransactionData = (data, persons) => {
     grandTotal += total;
     transactions.push({
       ...element,
+      index: idx + 1,
       person: persons?.[element.person]?.label,
       serial: `${element.serial_type}-${element.serial}`,
       manual_serial: `${element.manual_serial || '---'}`,
