@@ -14,7 +14,7 @@ import Empty from '../../components/Empty';
 import { Grid } from '@mui/material';
 
 import { TABS } from './constants';
-import { getFilters } from './utils';
+import { getFilters } from './filters';
 import { CHEQUE_URLS } from '../../../constants/restEndPoints';
 
 const ExternalCheques = (props) => {

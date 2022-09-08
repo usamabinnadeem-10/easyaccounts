@@ -17,15 +17,15 @@ export const formatTransactionData = (data, persons) => {
       serial: `${element.serial_type}-${element.serial}`,
       manual_serial: `${element.manual_serial || '---'}`,
       date: getReadableDate(element.date),
-      total: total,
+      total: total - element.discount,
     });
   });
   transactions.length > 0 &&
     transactions.push({
       serial: 'TOTAL',
       manual_invoice_serial: `${transactions.length}`,
-      total: grandTotal,
-      discount: totalDiscount,
+      total: grandTotal - totalDiscount,
+      // discount: totalDiscount,
     });
   return transactions;
 };

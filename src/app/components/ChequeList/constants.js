@@ -15,12 +15,20 @@ import { STATUS_VARIANTS } from '../Cheque/constants';
 export const getColumns = (onClick, isPersonal) => {
   return [
     {
+      Header: 'Sr#',
+      accessor: 'index',
+    },
+    {
       Header: 'Serial',
       accessor: 'serial',
     },
     {
       Header: 'Cheque #',
       accessor: 'cheque_number',
+    },
+    {
+      Header: 'Receiving',
+      accessor: 'date',
     },
     {
       Header: 'Due Date',

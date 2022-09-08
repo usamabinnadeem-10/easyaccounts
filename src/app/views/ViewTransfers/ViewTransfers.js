@@ -13,7 +13,8 @@ import Heading from '../../components/Heading';
 import TransferDrawer from '../../components/TransferDrawer';
 import StockTransfer from '../../views/StockTransfer';
 
-import { getColumns, getFilters, formatTransferData } from './utils';
+import { getColumns, formatTransferData } from './utils';
+import { getFilters } from './filters';
 import { deleteTransferApi } from './api';
 import { DIALOGUE_INIT } from './constants';
 

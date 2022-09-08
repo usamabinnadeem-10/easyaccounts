@@ -16,17 +16,24 @@ export const getFilters = (essentials, role) => {
       placeholder: 'Person',
     },
     {
-      qp: 'account_type',
-      options: essentials.accountTypes,
-      type: FIELDS.SELECT,
-      placeholder: 'Account',
-    },
-    {
       qp: 'transaction_detail__product',
       type: FIELDS.SELECT,
       options: essentials.products,
       placeholder: 'Product',
     },
+    {
+      qp: 'transaction_detail__product__category',
+      type: FIELDS.SELECT,
+      options: essentials.productCategories,
+      placeholder: 'Product category',
+    },
+    {
+      qp: 'account_type',
+      options: essentials.accountTypes,
+      type: FIELDS.SELECT,
+      placeholder: 'Account',
+    },
+
     {
       qp: 'serial_type',
       options: INVOICE_OPTIONS,

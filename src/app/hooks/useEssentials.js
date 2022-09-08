@@ -107,6 +107,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.products,
     REDUCER.accountTypes,
     REDUCER.warehouses,
+    REDUCER.productCategories,
   ],
   [routes.VIEW_SINGLE_TRANSACTION]: [
     ...ALL_PERSONS,
@@ -118,7 +119,11 @@ const ROUTE_ACTION_MAP = {
   [routes.PAYMENT_LIST_ROUTE]: [...ALL_PERSONS, REDUCER.accountTypes],
   [routes.PAYMENT_ROUTE]: [...ALL_PERSONS, REDUCER.accountTypes],
   [routes.VIEW_EXPENSES]: [REDUCER.accountTypes, REDUCER.expenseAccounts],
-  [routes.VIEW_TRANSFERS]: [REDUCER.products, REDUCER.warehouses],
+  [routes.VIEW_TRANSFERS]: [
+    REDUCER.products,
+    REDUCER.warehouses,
+    REDUCER.productCategories,
+  ],
   [routes.STOCK_TRANSFER]: [REDUCER.products, REDUCER.warehouses],
   [routes.EXTERNAL_CHEQUE]: [
     REDUCER.customers,

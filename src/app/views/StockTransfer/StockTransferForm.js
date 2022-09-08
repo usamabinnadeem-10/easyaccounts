@@ -128,11 +128,11 @@ const StockTransferForm = ({
         variant='contained'>
         {isEdit ? 'Edit' : 'Transfer'}
       </StyledButton>
-      <ScannerInput
+      {/* <ScannerInput
         getScannedValue={(val) =>
           addScannerDataToForm(val, values, setFieldValue)
         }
-      />
+      /> */}
     </Form>
   );
 };

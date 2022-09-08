@@ -14,7 +14,7 @@ import Heading from '../../components/Heading';
 import Empty from '../../components/Empty';
 
 import { TABS } from './constants';
-import { getFilters } from './utils';
+import { getFilters } from './filters';
 import { CHEQUE_URLS } from '../../../constants/restEndPoints';
 
 const PersonalCheques = (props) => {

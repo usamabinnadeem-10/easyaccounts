@@ -27,6 +27,15 @@ function TransactionDetail({
 
   const COLUMNS = [
     {
+      accessor: 'index',
+      Header: 'Sr #',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value}
+        </div>
+      ),
+    },
+    {
       accessor: 'serial',
       Header: 'Serial #',
       Cell: (row) => (
@@ -71,15 +80,15 @@ function TransactionDetail({
         </div>
       ),
     },
-    {
-      accessor: 'discount',
-      Header: 'Discount',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {formatCurrency(row.value)}
-        </div>
-      ),
-    },
+    // {
+    //   accessor: 'discount',
+    //   Header: 'Discount',
+    //   Cell: (row) => (
+    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+    //       {formatCurrency(row.value)}
+    //     </div>
+    //   ),
+    // },
     {
       accessor: 'type',
       Header: 'Type',

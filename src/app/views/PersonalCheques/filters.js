@@ -13,7 +13,7 @@ export const getFilters = (essentials) => {
     },
     {
       qp: 'status',
-      options: STATUS.EXTERNAL,
+      options: STATUS.PERSONAL,
       type: FIELDS.SELECT,
       placeholder: 'Status',
     },
@@ -53,10 +53,28 @@ export const getFilters = (essentials) => {
       placeholder: 'End Due Date',
     },
     {
+      qp: 'date__gte',
+      type: FIELDS.DATE,
+      placeholder: 'Issue Start Date',
+      variant: 'start',
+    },
+    {
+      qp: 'date__lte',
+      type: FIELDS.DATE,
+      placeholder: 'Issue End Date',
+      variant: 'end',
+    },
+    {
       qp: 'bank',
       options: BANKS,
       type: FIELDS.SELECT,
-      placeholder: 'Bank',
+      placeholder: 'Status',
+    },
+    {
+      qp: 'account_type',
+      options: essentials.accountTypes,
+      type: FIELDS.SELECT,
+      placeholder: 'Account',
     },
   ];
 };

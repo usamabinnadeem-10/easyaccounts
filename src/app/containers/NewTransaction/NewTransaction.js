@@ -129,7 +129,7 @@ const Transaction = ({
           </Form>
         )}
       </Formik>
-      <ScannerInput getScannedValue={(val) => setScannerValue(val)} />
+      {/* <ScannerInput getScannedValue={(val) => setScannerValue(val)} /> */}
     </>
   );
 };
