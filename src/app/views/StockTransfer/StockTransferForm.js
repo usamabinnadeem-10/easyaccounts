@@ -106,7 +106,6 @@ const StockTransferForm = ({
                     onAdd={() =>
                       arrayHelpers.push({
                         ...values.transfer_detail[rowIndex],
-                        yards_per_piece: '',
                       })
                     }
                   />
