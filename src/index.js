@@ -1,22 +1,22 @@
-import React from "react";
-import ReactDOM from "react-dom";
+import React from 'react';
+import ReactDOM from 'react-dom';
 
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router } from 'react-router-dom';
 
-import App from "./app/App";
-import reportWebVitals from "./reportWebVitals";
+import App from './app/App';
+import reportWebVitals from './reportWebVitals';
 
-import CssBaseline from "@mui/material/CssBaseline";
-import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "../src/constants/muiThemeOverride";
+import CssBaseline from '@mui/material/CssBaseline';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from '../src/constants/muiThemeOverride';
 
-import { rootReducer } from "./store/rootReducer";
-import { rootSagas } from "./store/rootSaga";
+import { rootReducer } from './store/rootReducer';
+import { rootSagas } from './store/rootSaga';
 
-import { createStore, applyMiddleware } from "redux";
-import { composeWithDevTools } from "redux-devtools-extension";
-import { Provider } from "react-redux";
-import createSagaMiddleware from "redux-saga";
+import { createStore, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension/developmentOnly';
+import { Provider } from 'react-redux';
+import createSagaMiddleware from 'redux-saga';
 
 const sagaMiddleware = createSagaMiddleware();
 
@@ -36,7 +36,7 @@ ReactDOM.render(
       </Router>
     </ThemeProvider>
   </Provider>,
-  document.getElementById("root")
+  document.getElementById('root')
 );
 
 reportWebVitals();
