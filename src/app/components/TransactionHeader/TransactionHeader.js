@@ -118,12 +118,6 @@ function TransactionHeader(props) {
             fullWidth
           />
         </Grid>
-        {!showAccountTypes && (
-          <Grid
-            item
-            xs={showAccountTypes ? 6 : 12}
-            className={classes.metaItems}></Grid>
-        )}
 
         <Grid item xs={12} className={classes.metaItems}>
           <Grid container>

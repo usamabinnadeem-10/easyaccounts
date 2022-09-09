@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 
 import CustomLoader from '../CustomLoader/CustomLoader';
 
+import { Field } from 'formik';
 import { FastField } from 'formik';
 import { FormTextField } from '../../utilities/formUtils';
 
@@ -52,7 +53,7 @@ function TransactionFooter({
         <Grid sx={{ width: 'max-content' }} container direction='column'>
           {transactionFooter.map((field, index) => {
             return (
-              <FastField
+              <Field
                 name={field.name}
                 component={FormTextField}
                 key={index}
