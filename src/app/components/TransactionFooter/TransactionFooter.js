@@ -51,27 +51,25 @@ function TransactionFooter({
       <Grid container justifyContent='flex-end' sx={{ pb: 2, mt: 4 }}>
         <Grid sx={{ width: 'max-content' }} container direction='column'>
           {transactionFooter.map((field, index) => {
-            if (field.visible) {
-              return (
-                <FastField
-                  name={field.name}
-                  component={FormTextField}
-                  key={index}
-                  label={field.placeholder}
-                  // type={field.type}
-                  type='number'
-                  multiline
-                  variant='outlined'
-                  size='small'
-                  placeholder={field.placeholder}
-                  sx={{
-                    width: 200,
-                    my: 1,
-                  }}
-                />
-              );
-            }
-            return null;
+            return (
+              <FastField
+                name={field.name}
+                component={FormTextField}
+                key={index}
+                disabled={!field.visible}
+                label={field.placeholder}
+                // type={field.type}
+                type='number'
+                multiline
+                variant='outlined'
+                size='small'
+                placeholder={field.placeholder}
+                sx={{
+                  width: 200,
+                  my: 1,
+                }}
+              />
+            );
           })}
         </Grid>
       </Grid>
