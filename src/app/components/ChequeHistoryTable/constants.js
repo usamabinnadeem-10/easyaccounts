@@ -1,18 +1,26 @@
 export const COLUMNS = [
   {
-    accessor: "serial",
-    Header: "Serial",
+    accessor: 'serial',
+    Header: 'Sr #',
   },
   {
-    accessor: "date",
-    Header: "Date",
+    accessor: 'person',
+    Header: 'Person',
   },
   {
-    accessor: "account_type",
-    Header: "Account",
+    accessor: 'cheque_number',
+    Header: 'Cheque #',
   },
   {
-    accessor: "amount",
-    Header: "Amount",
+    accessor: 'date',
+    Header: 'Date',
+  },
+  {
+    accessor: 'account_type',
+    Header: 'Account',
+  },
+  {
+    accessor: 'amount',
+    Header: 'Amount',
   },
 ];

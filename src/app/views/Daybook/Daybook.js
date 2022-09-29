@@ -182,6 +182,7 @@ const Daybook = (props) => {
               <ChequeHistoryTable
                 historyData={daybookData.externalChequesHistory}
                 accounts={props.accounts}
+                persons={props.persons}
               />
             </>
           )}
