@@ -36,8 +36,8 @@ export const formatDetailedStock = (data, persons, warehouses) => {
       let data = {
         date: getReadableDate(value.date),
         gazaana: value.yards_per_piece,
-        serial: `TR-${value.transfer__serial}`,
-        bookSerial: `TR-${value.transfer__serial}`,
+        serial: `T-${value.transfer__serial}`,
+        manual_serial: `${value.transfer__manual_serial}`,
         transactionType: 'transfer',
       };
       stock.push({
@@ -51,6 +51,9 @@ export const formatDetailedStock = (data, persons, warehouses) => {
       balance += value.quantity;
       stock.push({
         ...data,
+        serial: null,
+        manual_serial: null,
+        transactionType: null,
         id: `${value.id}1`,
         credit: value.quantity,
         warehouse: warehouses?.[value.to_warehouse].label,
@@ -68,8 +71,8 @@ export const formatDetailedStock = (data, persons, warehouses) => {
       debit: totalDB,
       stock: formatCurrency(balance),
       gazaanaBalance: stock[stock.length - 1].gazaanaBalance,
-      rowVariant: 'h6',
-      rowFontWeight: '900',
+      // rowVariant: 'h6',
+      // rowFontWeight: '900',
     });
   return stock;
 };
