@@ -82,6 +82,7 @@ export const getFilters = (essentials) => {
       qp: 'date',
       type: FIELDS.DATE,
       placeholder: 'Date (less than)',
+      variant: 'end',
     },
     {
       qp: 'outcut',
