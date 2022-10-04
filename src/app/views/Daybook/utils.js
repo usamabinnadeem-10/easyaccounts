@@ -1,5 +1,7 @@
 import { convertDate, formatCurrency } from '../../utilities/stringUtils';
 
+import CustomChip from '../../components/CustomChip';
+
 export const getLedgerDetailTable = (persons, accountTypes) => {
   return [
     {
@@ -22,7 +24,30 @@ export const getLedgerDetailTable = (persons, accountTypes) => {
     {
       accessor: 'nature',
       Header: 'Nature',
-      Cell: (row) => <div>{row.value === 'C' ? 'Credit' : 'Debit'}</div>,
+      Cell: (row) => {
+        let CHIP = {
+          C: {
+            color: 'success',
+            label: 'Credit',
+          },
+          D: {
+            color: 'error',
+            label: 'Debit',
+          },
+        };
+        return (
+          <CustomChip
+            color={CHIP[row.value].color}
+            label={CHIP[row.value].label}
+            size='small'
+            sx={{
+              fontWeight: 700,
+              borderRadius: 1.5,
+              textTransform: 'capitalize',
+            }}
+          />
+        );
+      },
     },
     {
       accessor: 'detail',
