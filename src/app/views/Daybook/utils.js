@@ -60,3 +60,17 @@ export const getLedgerDetailTable = (persons, accountTypes) => {
     },
   ];
 };
+
+export const getTotalSale = (transactions) => {
+  let sale = transactions.reduce(
+    (prev, curr) =>
+      prev +
+      curr.transaction_detail.reduce(
+        (p, c) => p + c.rate * c.yards_per_piece * c.quantity,
+        0
+      ),
+    0
+  );
+  let discount = transactions.reduce((prev, curr) => prev + curr.discount, 0);
+  return sale - discount;
+};

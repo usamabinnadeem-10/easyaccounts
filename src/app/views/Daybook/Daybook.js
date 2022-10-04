@@ -21,7 +21,7 @@ import { Grid } from '@mui/material';
 import { Typography } from '@mui/material';
 
 import { useStyles } from './styles';
-import { getLedgerDetailTable } from './utils';
+import { getLedgerDetailTable, getTotalSale } from './utils';
 
 import moment from 'moment';
 import { getDaybook } from '../../../store/accounts/actions';
@@ -100,6 +100,9 @@ const Daybook = (props) => {
             <>
               <Typography variant='button' fontWeight={900} sx={{ mb: 1 }}>
                 Transactions
+              </Typography>
+              <Typography variant='button'>
+                Sale : {getTotalSale(daybookData.transactions)}
               </Typography>
               <ViewTransactions
                 {...props}

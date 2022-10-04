@@ -23,7 +23,6 @@ export const formatExpensesData = (expenses, accounts, expenseAccounts) => {
       id: expensesData.length + 1,
       date: 'TOTAL',
       amount: formatCurrency(totalExpenses),
-      disableEditing: true,
     });
   return expensesData;
 };
