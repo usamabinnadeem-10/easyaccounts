@@ -48,7 +48,7 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       Header: 'Edit',
       hideInPrint: true,
       Cell: (row) => {
-        if (row.row.id) {
+        if (row.row.id && !row.row.disableEditing) {
           return (
             <CustomIconButton onClick={() => handleEdit(row.row.id)}>
               <EditIcon />
@@ -64,7 +64,7 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       Header: 'Delete',
       hideInPrint: true,
       Cell: (row) => {
-        if (row.row.id) {
+        if (row.row.id && !row.row.disableEditing) {
           return (
             <CustomIconButton onClick={() => handleDelete(row.row.id)}>
               <DeleteIcon />
