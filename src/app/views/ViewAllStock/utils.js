@@ -12,9 +12,11 @@ export const formatStockData = (data, props) => {
       id: index + 1,
       product: props.products[stockData.product].label,
       warehouse: props.warehouses[stockData.warehouse].label,
-      quantity: formatCurrency(stockData.quantity),
+      quantity: formatCurrency(stockData.quantity, 'decimal', 3),
       total_gazaana: formatCurrency(
-        stockData.quantity * stockData.yards_per_piece
+        stockData.quantity * stockData.yards_per_piece,
+        'decimal',
+        3
       ),
     };
   });
@@ -37,14 +39,18 @@ export const formatStockData = (data, props) => {
       sorted.reduce(
         (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
         0
-      )
+      ),
+      'decimal',
+      3
     ),
     total_gazaana: formatCurrency(
       sorted.reduce(
         (acc, stockData) =>
           acc + convertCurrencyToNumber(stockData.total_gazaana),
         0
-      )
+      ),
+      'decimal',
+      3
     ),
   });
 
