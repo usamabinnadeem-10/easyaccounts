@@ -62,7 +62,8 @@ export const getLedgerDetailTable = (persons, accountTypes) => {
 };
 
 export const getTotalSale = (transactions) => {
-  let sale = transactions.reduce(
+  let onlySales = transactions.filter((t) => t.serial_type === 'INV');
+  let sale = onlySales.reduce(
     (prev, curr) =>
       prev +
       curr.transaction_detail.reduce(
@@ -71,6 +72,6 @@ export const getTotalSale = (transactions) => {
       ),
     0
   );
-  let discount = transactions.reduce((prev, curr) => prev + curr.discount, 0);
-  return sale - discount;
+  let discount = onlySales.reduce((prev, curr) => prev + curr.discount, 0);
+  return formatCurrency(sale - discount, 'currency', 0);
 };
