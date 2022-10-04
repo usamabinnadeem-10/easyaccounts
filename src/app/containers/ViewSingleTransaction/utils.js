@@ -112,7 +112,7 @@ export const formatTransaction = (transaction, warehouses, products) => {
   );
   return {
     ...transaction,
-    total: formatCurrency(totalAmount, 'currency'),
+    total: formatCurrency(totalAmount, 'currency', 2),
     date: getReadableDate(transaction.date),
     quantity: grandTotalQuantity,
     gazaana: formatCurrency(grandTotalGazaana),
@@ -125,10 +125,11 @@ export const formatTransaction = (transaction, warehouses, products) => {
     ),
     [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
     [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
-    [DB.DISCOUNT]: formatCurrency(transaction[DB.DISCOUNT], 'currency'),
+    [DB.DISCOUNT]: formatCurrency(transaction[DB.DISCOUNT], 'currency', 2),
     totalAfterDiscount: formatCurrency(
       totalAmount - transaction.discount,
-      'currency'
+      'currency',
+      2
     ),
   };
 };
