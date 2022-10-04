@@ -15,6 +15,8 @@ import { NATURES } from './constants';
 import { getFilters } from './filters';
 import { deletePaymentApi } from './api';
 
+import { formatCurrency } from '../../utilities/stringUtils';
+
 import { PAYMENT_APIS } from '../../../constants/restEndPoints';
 import { withConfirmation } from '../../hoc/withConfirmation';
 
@@ -155,10 +157,10 @@ const PaymentList = ({
           {paymentData.length > 0 && (
             <>
               <Typography variant='body2'>
-                Total Credit : {totals.credit}
+                Total Credit : {formatCurrency(totals.credit)}
               </Typography>
               <Typography variant='body2'>
-                Total Debit : {totals.debit}
+                Total Debit : {formatCurrency(totals.debit)}
               </Typography>
             </>
           )}

@@ -33,6 +33,7 @@ export const formatCurrency = (value, style = 'decimal') =>
   new Intl.NumberFormat('en-IN', {
     style: style,
     currency: 'PKR',
+    maximumFractionDigits: 0,
   }).format(value);
 
 export const convertDate = (

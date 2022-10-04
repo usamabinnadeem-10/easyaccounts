@@ -1,9 +1,11 @@
 import React from 'react';
 
+import CustomChip from '../../components/CustomChip';
 import CustomTable from '../../components/CustomTable';
 import CustomMenu from '../../containers/CustomMenu';
 
 import { convertDate } from '../../utilities/stringUtils';
+import { formatCurrency } from '../../utilities/stringUtils';
 
 import { NATURES } from './constants';
 
@@ -35,11 +37,25 @@ const PaymentTable = ({
     {
       accessor: 'nature',
       Header: 'Nature',
-      Cell: (row) => <div>{NATURES[row.value].label}</div>,
+      Cell: (row) => {
+        return (
+          <CustomChip
+            size='small'
+            color={NATURES[row.value].color}
+            label={NATURES[row.value].label}
+            sx={{
+              fontWeight: 900,
+              borderRadius: 1.5,
+              textTransform: 'capitalize',
+            }}
+          />
+        );
+      },
     },
     {
       accessor: 'amount',
       Header: 'Amount',
+      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
       accessor: 'account_type',

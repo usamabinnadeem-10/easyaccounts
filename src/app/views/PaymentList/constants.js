@@ -1,10 +1,12 @@
 export const NATURES = {
   C: {
-    label: 'Credit (جمع)',
+    label: 'Credit',
     value: 'C',
+    color: 'success',
   },
   D: {
-    label: 'Debit (بنام)',
+    label: 'Debit',
     value: 'D',
+    color: 'error',
   },
 };
