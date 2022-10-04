@@ -84,13 +84,13 @@ function TransactionFooter({
         <Grid item xs={6}>
           <Grid container direction='column' align='right'>
             <Typography variant='h6' color={totalAmount < 0 && 'error'}>
-              PKR : {formatCurrency(totalAmount) || 0} /=
+              PKR : {formatCurrency(totalAmount, 'decimal', 3) || 0} /=
             </Typography>
             <Typography variant='h6'>
-              Gazaana : {formatCurrency(totalGazaana) || 0} yards
+              Gazaana : {formatCurrency(totalGazaana, 'decimal', 3) || 0} yards
             </Typography>
             <Typography variant='h6'>
-              Thaan : {formatCurrency(totalQuantity) || 0}
+              Thaan : {formatCurrency(totalQuantity, 'decimal', 3) || 0}
             </Typography>
           </Grid>
         </Grid>
