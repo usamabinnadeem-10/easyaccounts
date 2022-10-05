@@ -81,11 +81,17 @@ const formatTransactionDetails = (
       ...detail,
       id: `${detail.transaction}-${index}`,
       amount: formatCurrency(
-        detail.rate * detail.quantity * detail.yards_per_piece
+        detail.rate * detail.quantity * detail.yards_per_piece,
+        'decimal',
+        2
       ),
       [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]]?.label,
       [DB.PRODUCT]: products?.[detail[DB.PRODUCT]]?.label,
-      total_gazaana: formatCurrency(detail.yards_per_piece * detail.quantity),
+      total_gazaana: formatCurrency(
+        detail.yards_per_piece * detail.quantity,
+        'decimal',
+        2
+      ),
     });
   });
   newDetails.push({
@@ -115,7 +121,7 @@ export const formatTransaction = (transaction, warehouses, products) => {
     total: formatCurrency(totalAmount, 'currency', 2),
     date: getReadableDate(transaction.date),
     quantity: grandTotalQuantity,
-    gazaana: formatCurrency(grandTotalGazaana),
+    gazaana: formatCurrency(grandTotalGazaana, 'decimal', 2),
     [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
       transaction.transaction_detail,
       warehouses,

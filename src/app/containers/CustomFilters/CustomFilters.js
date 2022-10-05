@@ -181,7 +181,7 @@ const CustomFilters = ({ api, onSearch, filters, showErrorSnackbar }) => {
               <LocalizationProvider dateAdapter={DateAdapter}>
                 <DesktopDatePicker
                   label={filter.placeholder}
-                  value={filterState[filter.qp]}
+                  value={filterState[filter.qp] || null}
                   minDate={moment(Date.now()).subtract(10, 'years')}
                   maxDate={moment(Date.now()).add(10, 'years')}
                   onChange={(value) => {
