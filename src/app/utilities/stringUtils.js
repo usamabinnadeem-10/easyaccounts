@@ -29,7 +29,7 @@ export const getReadableDate = (date) => {
   return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
 };
 
-export const formatCurrency = (value, style = 'decimal', decimalPlaces = 0) =>
+export const formatCurrency = (value, style = 'decimal', decimalPlaces = 2) =>
   new Intl.NumberFormat('en-IN', {
     style: style,
     currency: 'PKR',
