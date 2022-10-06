@@ -80,6 +80,7 @@ const formatTransactionDetails = (
     newDetails.push({
       ...detail,
       id: `${detail.transaction}-${index}`,
+      quantity: formatCurrency(detail.quantity),
       amount: formatCurrency(
         detail.rate * detail.quantity * detail.yards_per_piece,
         'decimal',
@@ -96,8 +97,8 @@ const formatTransactionDetails = (
   });
   newDetails.push({
     product: 'TOTAL',
-    quantity: grandTotalQuantity,
-    total_gazaana: grandTotalGazaana,
+    quantity: formatCurrency(grandTotalQuantity),
+    total_gazaana: formatCurrency(grandTotalGazaana),
   });
   return newDetails;
 };
