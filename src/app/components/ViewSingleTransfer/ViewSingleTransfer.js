@@ -3,6 +3,7 @@ import React from 'react';
 import { Typography } from '@mui/material';
 
 import CustomTable from '../../components/CustomTable';
+import Printable from '../../containers/Printable';
 
 import { COLUMNS } from './constants';
 import { formatTransferDetail } from './utils';
@@ -21,7 +22,8 @@ const ViewSingleTransfer = ({ data, ...props }) => {
   ];
 
   return (
-    <>
+    <Printable
+      documentTitle={`${TEXTS[2].value} T-${TEXTS[0].value} Book ${TEXTS[1].value}`}>
       <Meta direction='column' container>
         {TEXTS.map((text, index) => (
           <Typography key={index} variant='body2'>
@@ -37,7 +39,7 @@ const ViewSingleTransfer = ({ data, ...props }) => {
           props.products
         )}
       />
-    </>
+    </Printable>
   );
 };
 
