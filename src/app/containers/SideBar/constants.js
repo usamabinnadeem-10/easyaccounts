@@ -115,7 +115,7 @@ export const SIDEBAR = [
         roles: [
           ROLES.ADMIN,
           ROLES.ACCOUNTANT,
-          ROLES.STOCKIST,
+          // ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
         ],
       },
@@ -228,7 +228,7 @@ export const SIDEBAR = [
   // ----------------TRANSFERS---------------//
   {
     panelName: TRANSFERS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER, ROLES.STOCKIST],
     panelData: [
       {
         name: VIEW,
