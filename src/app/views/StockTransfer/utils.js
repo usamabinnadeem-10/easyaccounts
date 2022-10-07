@@ -6,7 +6,7 @@ export const getRowFields = (essentials) => {
       name: FIELDS.PRODUCT,
       options: essentials.products,
       label: 'Product',
-      xs: 3,
+      xs: 4,
     },
     {
       name: FIELDS.GAZAANA,
@@ -18,7 +18,7 @@ export const getRowFields = (essentials) => {
       name: FIELDS.TO_WAREHOUSE,
       options: essentials.warehouses,
       label: 'To warehouse',
-      xs: 2,
+      xs: 3,
     },
     {
       name: FIELDS.QUANTITY,

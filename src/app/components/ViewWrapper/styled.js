@@ -14,5 +14,6 @@ export const Wrapper = styled('div', {
   marginBottom: theme.spacing(marginbottom) || '0rem',
   [theme.breakpoints.down('md')]: {
     width: '100%',
+    padding: '4px',
   },
 }));
