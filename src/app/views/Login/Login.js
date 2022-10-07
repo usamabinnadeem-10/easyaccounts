@@ -1,29 +1,29 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { Formik } from "formik";
-import { Field } from "formik";
-import { Form } from "formik";
+import { Formik } from 'formik';
+import { Field } from 'formik';
+import { Form } from 'formik';
 
-import { Grid } from "@mui/material";
+import { Grid } from '@mui/material';
 
-import { FormTextField } from "../../utilities/formUtils";
+import { FormTextField } from '../../utilities/formUtils';
 
-import { INITIAL_VALUES } from "./constants";
+import { INITIAL_VALUES } from './constants';
 
-import { LoginWrapper } from "./styled";
-import { StyledForm } from "./styled";
-import { StyledButton } from "./styled";
+import { LoginWrapper } from './styled';
+import { StyledForm } from './styled';
+import { StyledButton } from './styled';
 
-import { validationSchema } from "./validation";
+import { validationSchema } from './validation';
 
-import { getToken } from "../../../store/auth";
+import { getToken } from '../../../store/auth';
 
-import { withSnackbar } from "../../hoc/withSnackbar";
+import { withSnackbar } from '../../hoc/withSnackbar';
 
 const Login = ({ showErrorSnackbar }) => {
   const dispatch = useDispatch();
@@ -40,34 +40,37 @@ const Login = ({ showErrorSnackbar }) => {
 
   const handleSubmit = (values) => {
     setLoading(true);
-    dispatch(getToken(values));
+    let data = {
+      ...values,
+      username: values.username.trim().toLowerCase(),
+    };
+    dispatch(getToken(data));
   };
 
   return (
-    <LoginWrapper container direction="column">
+    <LoginWrapper container direction='column'>
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}
-        onSubmit={async (values) => handleSubmit(values)}
-      >
+        onSubmit={async (values) => handleSubmit(values)}>
         <StyledForm>
-          <Grid container direction="column" rowGap={2}>
+          <Grid container direction='column' rowGap={2}>
             <Field
               component={FormTextField}
-              size="small"
-              name="username"
-              label="Username"
+              size='small'
+              name='username'
+              label='Username'
               fullWidth
             />
             <Field
               component={FormTextField}
-              size="small"
-              name="password"
-              label="Password"
+              size='small'
+              name='password'
+              label='Password'
               fullWidth
-              type="password"
+              type='password'
             />
-            <StyledButton loading={loading} variant="contained" type="submit">
+            <StyledButton loading={loading} variant='contained' type='submit'>
               LOGIN
             </StyledButton>
           </Grid>
