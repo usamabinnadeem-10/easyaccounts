@@ -115,7 +115,7 @@ export const SIDEBAR = [
         roles: [
           ROLES.ADMIN,
           ROLES.ACCOUNTANT,
-          // ROLES.STOCKIST,
+          ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
         ],
       },
