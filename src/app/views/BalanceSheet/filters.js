@@ -5,5 +5,6 @@ export const FILTERS = [
     qp: 'date',
     type: FIELDS.DATE,
     placeholder: 'Date',
+    variant: 'end',
   },
 ];
