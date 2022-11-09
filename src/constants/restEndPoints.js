@@ -118,6 +118,7 @@ export const CHEQUE_URLS = {
     DELETE: `${CHEQUE}${EXTERNAL}${DELETE}:uuid/`,
     COMPLETE_HISTORY: `${CHEQUE}${EXTERNAL}complete-history/`,
     COMPLETE_TRANSFER: `${CHEQUE}${EXTERNAL}complete-transfer/:uuid/`,
+    DELETE_HISTORY: `${CHEQUE}${EXTERNAL}${DELETE}history/:uuid/`,
   },
 };
 

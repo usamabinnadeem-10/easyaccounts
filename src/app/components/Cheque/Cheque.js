@@ -57,7 +57,7 @@ const Cheque = ({
   };
 
   const findBank = (bank) => {
-    return BANKS.filter((curr) => curr.value === bank)[0].label;
+    return BANKS.filter((curr) => curr.value === bank)[0]?.label;
   };
 
   return (
