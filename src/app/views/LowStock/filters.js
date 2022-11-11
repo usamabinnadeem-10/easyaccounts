@@ -28,6 +28,12 @@ export const getFilters = (essentials) => {
       placeholder: 'Ignore Gazaana',
     },
     {
+      qp: 'ignoreWarehouse',
+      type: FIELDS.SELECT,
+      options: IGNORE,
+      placeholder: 'Ignore Warehouse',
+    },
+    {
       qp: 'treshold',
       type: FIELDS.NUMBER,
       placeholder: 'Quantity (less than)',
