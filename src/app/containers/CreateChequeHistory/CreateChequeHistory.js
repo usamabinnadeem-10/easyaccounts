@@ -7,9 +7,10 @@ import { Formik } from 'formik';
 import { Form } from 'formik';
 import { Field } from 'formik';
 
-import Modal from '@mui/material/Modal';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+
+import CustomModal from '../../components/CustomModal';
 
 import { FormAutoCompleteField } from '../../utilities/formUtils';
 import { FormTextField } from '../../utilities/formUtils';
@@ -20,7 +21,6 @@ import * as schema from './validation';
 import { getInitialValues } from './constants';
 import { FIELDS } from './constants';
 
-import { StyledPaper } from './styled';
 import { StyledButton } from './styled';
 
 import { BANKS } from '../../../constants/banks';
@@ -69,81 +69,77 @@ const CreateChequeHistory = ({
   };
 
   return (
-    <Modal paper='true' open={open} onClose={onClose}>
-      <StyledPaper>
-        <Formik
-          initialValues={getInitialValues(chequeId, isChequeEntry)}
-          validationSchema={isChequeEntry ? schema.CHEQUE : schema.OTHER}
-          onSubmit={async (values, actions) => handleSubmit(values, actions)}>
-          <Form>
-            <Grid container direction='column' gap={2} alignItems='center'>
-              <Typography variant='h6'>
-                <Typography variant='h6' component='span' color='primary'>
-                  Cheque # {chequeSerial}{' '}
-                </Typography>
-                {isChequeEntry
-                  ? 'Add Cheque (History)'
-                  : 'Add Payment (History)'}
+    <CustomModal open={open} handleClose={onClose}>
+      <Formik
+        initialValues={getInitialValues(chequeId, isChequeEntry)}
+        validationSchema={isChequeEntry ? schema.CHEQUE : schema.OTHER}
+        onSubmit={async (values, actions) => handleSubmit(values, actions)}>
+        <Form>
+          <Grid container direction='column' gap={2} alignItems='center'>
+            <Typography variant='h6'>
+              <Typography variant='h6' component='span' color='primary'>
+                Cheque # {chequeSerial}{' '}
               </Typography>
-              <Field
-                component={FormTextField}
-                size='small'
-                name={FIELDS.AMOUNT}
-                label={isChequeEntry ? 'Cheque Amount' : 'Amount'}
-                fullWidth
-              />
-              {isChequeEntry && (
-                <>
-                  <Field
-                    component={FormAutoCompleteField}
-                    options={BANKS}
-                    name={FIELDS.BANK}
-                    label='Select Bank'
-                  />
-                  <Field
-                    component={FormTextField}
-                    size='small'
-                    name={FIELDS.CHEQUE_NUMBER}
-                    label='Cheque Number'
-                    fullWidth
-                  />
-                  <Field
-                    component={FormDateField}
-                    name={FIELDS.DUE_DATE}
-                    label='Due Date'
-                    size='small'
-                    fullWidth
-                  />
-                </>
-              )}
-              {!isChequeEntry && (
+              {isChequeEntry ? 'Add Cheque (History)' : 'Add Payment (History)'}
+            </Typography>
+            <Field
+              component={FormTextField}
+              size='small'
+              name={FIELDS.AMOUNT}
+              label={isChequeEntry ? 'Cheque Amount' : 'Amount'}
+              fullWidth
+            />
+            {isChequeEntry && (
+              <>
                 <Field
                   component={FormAutoCompleteField}
-                  options={accounts}
-                  name={FIELDS.ACCOUNT_TYPE}
-                  label='Account Type'
+                  options={BANKS}
+                  name={FIELDS.BANK}
+                  label='Select Bank'
                 />
-              )}
-
+                <Field
+                  component={FormTextField}
+                  size='small'
+                  name={FIELDS.CHEQUE_NUMBER}
+                  label='Cheque Number'
+                  fullWidth
+                />
+                <Field
+                  component={FormDateField}
+                  name={FIELDS.DUE_DATE}
+                  label='Due Date'
+                  size='small'
+                  fullWidth
+                />
+              </>
+            )}
+            {!isChequeEntry && (
               <Field
-                component={FormDateField}
-                name={FIELDS.DATE}
-                label='Entry Date'
-                size='small'
-                fullWidth
+                component={FormAutoCompleteField}
+                options={accounts}
+                name={FIELDS.ACCOUNT_TYPE}
+                label='Account Type'
               />
-              <StyledButton
-                type='submit'
-                fullWidth
-                variant='contained'
-                loading={loading}>
-                Submit
-              </StyledButton>
-            </Grid>
-          </Form>
-        </Formik>
-      </StyledPaper>
-    </Modal>
+            )}
+
+            <Field
+              component={FormDateField}
+              name={FIELDS.DATE}
+              label='Entry Date'
+              size='small'
+              fullWidth
+            />
+            <StyledButton
+              type='submit'
+              fullWidth
+              variant='contained'
+              loading={loading}>
+              Submit
+            </StyledButton>
+          </Grid>
+        </Form>
+      </Formik>
+    </CustomModal>
   );
 };
 
