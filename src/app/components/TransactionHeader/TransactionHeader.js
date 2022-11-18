@@ -14,6 +14,7 @@ import {
 import CustomToggleButtons from '../../components/CustomToggleButtons';
 import Heading from '../../components/Heading';
 
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 
@@ -31,6 +32,7 @@ function TransactionHeader(props) {
     metaConstants,
     showAccountTypes,
     options,
+    handleReloadStock,
   } = props;
   const classes = useStyles();
 
@@ -141,6 +143,11 @@ function TransactionHeader(props) {
             name='requires_action'
           />
         </Grid>
+        {/* <Grid item xs={6} className={classes.metaItems}>
+          <Button onClick={handleReloadStock} size='small' variant='contained'>
+            Reload Stock
+          </Button>
+        </Grid> */}
       </Grid>
     </>
   );

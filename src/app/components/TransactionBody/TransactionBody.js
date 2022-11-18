@@ -214,7 +214,8 @@ const TransactionBody = ({
     // if (transaction) {
     //   data = { ...data, id: null, new: true };
     // }
-    return data;
+    let { product, ...rest } = data;
+    return rest;
   };
 
   return (
@@ -231,7 +232,7 @@ const TransactionBody = ({
               render={(arrayHelpers) =>
                 values.transaction_detail.map((row, rowIndex) => (
                   <Grid iserror={uniqueError} key={rowIndex} container>
-                    <Grid item xs={8}>
+                    <Grid item xs={11}>
                       <Grid container>
                         <Grid item xs={3}>
                           <FastField
@@ -247,6 +248,7 @@ const TransactionBody = ({
                           <Field
                             name={`transaction_detail.${rowIndex}.yards_per_piece`}
                             component={FormAutoCompleteField}
+                            // component={FormTextField}
                             freeSolo={true}
                             options={getGazaanaOptions(rowIndex)}
                             label='Gazaana'
@@ -287,13 +289,14 @@ const TransactionBody = ({
                             variant='standard'
                             size='small'
                             type='number'
+                            // label='Quantity'
                             label={`Qty: ${getStockQuantity(rowIndex)} thaan`}
                             {...getFieldErrors(rowIndex, 'quantity')}
                           />
                         </Grid>
                       </Grid>
                     </Grid>
-                    <Grid
+                    {/* <Grid
                       sx={{ display: 'flex', alignItems: 'center' }}
                       item
                       xs={2}>
@@ -306,9 +309,9 @@ const TransactionBody = ({
                           </Grid>
                         ))}
                       </Grid>
-                    </Grid>
+                    </Grid> */}
 
-                    <Grid item xs={2}>
+                    <Grid item xs={1}>
                       <AddRemove
                         disabled={values.transaction_detail.length === 1}
                         onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
@@ -321,7 +324,7 @@ const TransactionBody = ({
             />
           </ErrorAwareGrid>
           {uniqueError && (
-            <Typography variant='body2' color='error'>
+            <Typography sx={{ mt: 2 }} variant='body2' color='error'>
               Please use unique entries
             </Typography>
           )}

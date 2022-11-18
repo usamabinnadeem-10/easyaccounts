@@ -81,12 +81,18 @@ const Transaction = ({
       });
   };
 
+  const handleReloadStock = () => {
+    dispatch(setShouldFetch(true));
+  };
+
   return (
     <>
       <Formik
         initialValues={getInitialValues(transactionTypes, transaction)}
         validationSchema={schema}
         enableReinitialize={!!transaction}
+        validateOnChange={false}
+        validateOnBlur={false}
         onSubmit={(values, actions) => postTransaction(values, actions)}>
         {({
           values,
@@ -98,6 +104,7 @@ const Transaction = ({
         }) => (
           <Form>
             <TransactionHeader
+              handleReloadStock={handleReloadStock}
               values={values}
               setFieldValue={setFieldValue}
               personIdentifier={personIdentifier}

@@ -17,6 +17,7 @@ import { MetaWrapper } from './styled';
 import { Error } from './styled';
 import { RowWrapper } from './styled';
 import { StyledButton } from './styled';
+import { ErrorAwareGrid } from './styled';
 
 import { getRowFields } from './utils';
 
@@ -31,6 +32,16 @@ const StockTransferForm = ({
   isLoading,
   isEdit,
 }) => {
+  // add new row helper
+  const getNewRow = (rowIndex) => {
+    let data = values.transfer_detail[rowIndex];
+    // if (transaction) {
+    //   data = { ...data, id: null, new: true };
+    // }
+    let { product, ...rest } = data;
+    return rest;
+  };
+
   return (
     <Form>
       <MetaWrapper container justifyContent='space-between'>
@@ -65,7 +76,10 @@ const StockTransferForm = ({
           />
         </Grid>
       </MetaWrapper>
-      <Grid container direction='column'>
+      <ErrorAwareGrid
+        iserror={typeof errors.transfer_detail === 'string'}
+        container
+        direction='column'>
         <FieldArray
           name='transfer_detail'
           render={(arrayHelpers) =>
@@ -103,18 +117,14 @@ const StockTransferForm = ({
                   <AddRemove
                     disabled={values.transfer_detail.length === 1}
                     onDelete={() => arrayHelpers.remove(rowIndex)}
-                    onAdd={() =>
-                      arrayHelpers.push({
-                        ...values.transfer_detail[rowIndex],
-                      })
-                    }
+                    onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
                   />
                 </Grid>
               </RowWrapper>
             ))
           }
         />
-      </Grid>
+      </ErrorAwareGrid>
 
       {typeof errors.transfer_detail === 'string' && (
         <Error color='error' variant='caption'>
