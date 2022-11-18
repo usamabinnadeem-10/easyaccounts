@@ -1,26 +1,13 @@
-import { styled } from "@mui/styles";
+import { styled } from '@mui/styles';
 
-import { Form } from "formik";
+import { Form } from 'formik';
 
-import LoadingButton from "@mui/lab/LoadingButton";
-import { Paper } from "@mui/material";
-
-export const StyledPaper = styled(Paper)(({ theme }) => ({
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  padding: theme.spacing(2),
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-}));
+import LoadingButton from '@mui/lab/LoadingButton';
 
 export const StyledButton = styled(LoadingButton)(({ theme }) => ({
   marginTop: `${theme.spacing(3)} !important`,
 }));
 
 export const StyledForm = styled(Form)(({ theme }) => ({
-  width: "100%",
+  width: '100%',
 }));

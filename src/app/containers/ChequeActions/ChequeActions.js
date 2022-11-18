@@ -7,8 +7,9 @@ import { Formik } from 'formik';
 import { Field } from 'formik';
 
 import Grid from '@mui/material/Grid';
-import Modal from '@mui/material/Modal';
 import Typography from '@mui/material/Typography';
+
+import CustomModal from '../../components/CustomModal';
 
 import {
   FormAutoCompleteField,
@@ -21,7 +22,6 @@ import { FIELDS } from './constants';
 import { getInitialValues } from './constants';
 import { getSchema } from './validation';
 import { StyledButton } from './styled';
-import { StyledPaper } from './styled';
 import { StyledForm } from './styled';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
@@ -183,51 +183,49 @@ const ChequeActions = ({
   };
 
   return (
-    <Modal paper='true' open={open} onClose={onClose}>
-      <StyledPaper>
-        <Typography variant='h6'>
-          {actionType ? actionType.replaceAll('_', ' ') : ''}
-        </Typography>
-        {chequeId && (
-          <Formik
-            onSubmit={async (values, actions) => handleSubmit(values, actions)}
-            enableReinitialize
-            initialValues={getInitialValues(isPersonal, actionType, chequeId)}
-            validationSchema={getSchema(isPersonal, actionType)}>
-            {({ setFieldValue }) => (
-              <StyledForm>
-                <Grid container direction='column' gap={2}>
-                  {getActionComponents(setFieldValue)}
-                </Grid>
+    <CustomModal open={open} handleClose={onClose}>
+      <Typography variant='h6'>
+        {actionType ? actionType.replaceAll('_', ' ') : ''}
+      </Typography>
+      {chequeId && (
+        <Formik
+          onSubmit={async (values, actions) => handleSubmit(values, actions)}
+          enableReinitialize
+          initialValues={getInitialValues(isPersonal, actionType, chequeId)}
+          validationSchema={getSchema(isPersonal, actionType)}>
+          {({ setFieldValue }) => (
+            <StyledForm>
+              <Grid container direction='column' gap={2}>
+                {getActionComponents(setFieldValue)}
+              </Grid>
 
-                <Grid container justify='space-between'>
-                  <Grid item xs={5}>
-                    <StyledButton
-                      onClick={() => onClose()}
-                      variant='contained'
-                      fullWidth
-                      disabled={loading}
-                      color='error'>
-                      Close
-                    </StyledButton>
-                  </Grid>
-                  <Grid item xs={2}></Grid>
-                  <Grid item xs={5}>
-                    <StyledButton
-                      loading={loading}
-                      type='submit'
-                      variant='contained'
-                      fullWidth>
-                      {actionType ? actionType.replaceAll('_', ' ') : ''}
-                    </StyledButton>
-                  </Grid>
+              <Grid container justify='space-between'>
+                <Grid item xs={5}>
+                  <StyledButton
+                    onClick={() => onClose()}
+                    variant='contained'
+                    fullWidth
+                    disabled={loading}
+                    color='error'>
+                    Close
+                  </StyledButton>
                 </Grid>
-              </StyledForm>
-            )}
-          </Formik>
-        )}
-      </StyledPaper>
-    </Modal>
+                <Grid item xs={2}></Grid>
+                <Grid item xs={5}>
+                  <StyledButton
+                    loading={loading}
+                    type='submit'
+                    variant='contained'
+                    fullWidth>
+                    {actionType ? actionType.replaceAll('_', ' ') : ''}
+                  </StyledButton>
+                </Grid>
+              </Grid>
+            </StyledForm>
+          )}
+        </Formik>
+      )}
+    </CustomModal>
   );
 };
 
