@@ -5,18 +5,18 @@ export const useStyles = makeStyles({
     position: 'relative',
   },
   transactionWrapper: {
-    width: '57vw',
+    // width: '57vw',
     padding: '0.8rem 1.6rem',
     borderRadius: '0.6rem',
     backgroundColor: 'rgba(105, 105, 105, 0.03)',
-    '@media (max-width: 750px)': {
-      width: '100%',
-      padding: '4px',
-    },
-    '@media print': {
-      width: '100vw !important',
-      padding: '0.8rem 1.6rem',
-    },
+    // '@media (max-width: 750px)': {
+    //   width: '100vw',
+    //   padding: '4px',
+    // },
+    // '@media print': {
+    //   width: '100vw !important',
+    //   padding: '0.8rem 1.6rem',
+    // },
   },
   meta: {
     display: 'flex',
