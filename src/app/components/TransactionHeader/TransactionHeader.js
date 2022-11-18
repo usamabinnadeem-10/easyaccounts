@@ -2,6 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import { Field } from 'formik';
 import { FastField } from 'formik';
 
 import {
@@ -94,7 +95,7 @@ function TransactionHeader(props) {
           
         )} */}
         <Grid item xs={6}>
-          <FastField
+          <Field
             disabled={!showAccountTypes}
             component={FormAutoCompleteField}
             options={options.accountTypes || []}
