@@ -15,7 +15,7 @@ import { FieldArray } from 'formik';
 import AddRemove from '../../components/AddRemove';
 import CustomLoader from '../CustomLoader';
 
-import { ErrorAwareGrid } from './styled';
+import { ErrorAwareGrid, TransactionRow, Badge } from './styled';
 
 import {
   FormAutoCompleteField,
@@ -35,6 +35,8 @@ const TransactionBody = ({
   scannerValue,
   setFieldValue,
   setScannerValue,
+  duplicates,
+  showErrorSnackbar,
 }) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -42,6 +44,7 @@ const TransactionBody = ({
 
   const [validate, setValidate] = useState(true);
   const [uniqueError, setUniqueError] = useState(false);
+  const [duplicateRowsColors, setDuplicateRowsColors] = useState(null);
 
   useEffect(() => {
     if (
@@ -113,6 +116,27 @@ const TransactionBody = ({
       dispatch(getAllStock());
     }
   }, [stock.shouldFetchStock]);
+
+  // listen to duplicates variable and set colors of the rows of transaction
+  useEffect(() => {
+    if (!duplicates) {
+      setDuplicateRowsColors(null);
+    } else {
+      let arr = values.transaction_detail.map((row) => '');
+      duplicates.forEach((d) => {
+        let color =
+          '#' +
+          Math.floor(Math.random() * 16777215)
+            .toString(16)
+            .padStart(6, '0');
+        d.forEach((idx) => {
+          arr[idx] = color;
+        });
+      });
+      setDuplicateRowsColors(arr);
+      showErrorSnackbar('Please remove duplicates');
+    }
+  }, [duplicates]);
 
   // returns the object of the row index passed from formik
   const getCurrentRowData = (rowIndex) => {
@@ -226,14 +250,27 @@ const TransactionBody = ({
         </Grid>
       ) : (
         <>
-          <ErrorAwareGrid iserror={uniqueError}>
+          <ErrorAwareGrid iserror={duplicates}>
             <FieldArray
               name='transaction_detail'
               render={(arrayHelpers) =>
                 values.transaction_detail.map((row, rowIndex) => (
                   <Grid iserror={uniqueError} key={rowIndex} container>
                     <Grid item xs={11}>
-                      <Grid container>
+                      <TransactionRow
+                        duplicatecolor={
+                          duplicateRowsColors
+                            ? duplicateRowsColors[rowIndex]
+                            : null
+                        }
+                        container>
+                        <Badge
+                          duplicatecolor={
+                            duplicateRowsColors
+                              ? duplicateRowsColors[rowIndex]
+                              : null
+                          }
+                        />
                         <Grid item xs={3}>
                           <FastField
                             name={`transaction_detail.${rowIndex}.product`}
@@ -294,7 +331,7 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'quantity')}
                           />
                         </Grid>
-                      </Grid>
+                      </TransactionRow>
                     </Grid>
                     {/* <Grid
                       sx={{ display: 'flex', alignItems: 'center' }}

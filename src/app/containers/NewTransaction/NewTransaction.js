@@ -50,6 +50,7 @@ const Transaction = ({
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
   const [scannerValue, setScannerValue] = useState(null);
+  const [duplicates, setDuplicates] = useState(null);
 
   const TRANSACTION_FOOTER = useMemo(
     () => getTransactionFooter(showAccountTypes),
@@ -116,6 +117,8 @@ const Transaction = ({
               transactionTypes={transactionTypes}
             />
             <TransactionBody
+              showErrorSnackbar={showErrorSnackbar}
+              duplicates={duplicates}
               transactionTypes={transactionTypes}
               values={values}
               errors={errors}
@@ -127,6 +130,7 @@ const Transaction = ({
               setScannerValue={setScannerValue}
             />
             <TransactionFooter
+              setDuplicates={setDuplicates}
               values={values}
               transactionFooter={TRANSACTION_FOOTER}
               loading={loading}

@@ -11,7 +11,7 @@ export const withSnackbar = (Component) => {
     const [duration, setDuration] = useState(2000);
     const [severity, setSeverity] = useState('success');
 
-    const showSnackbar = (message, severity = 'success', duration = 5000) => {
+    const showSnackbar = (message, severity = 'success', duration = 3000) => {
       setMessage(message);
       setSeverity(severity);
       setDuration(duration);
@@ -43,7 +43,7 @@ export const withSnackbar = (Component) => {
         <Snackbar
           anchorOrigin={{
             vertical: 'bottom',
-            horizontal: 'left',
+            horizontal: 'right',
           }}
           autoHideDuration={duration}
           open={open}

@@ -31,3 +31,25 @@ export const isObjectDirty = (obj) => {
   }
   return false;
 };
+
+export const findDuplicatesInArrayOfObjects = (array, keys) => {
+  let keysMap = {};
+  let dups = false;
+  array.forEach((element, index) => {
+    let key = keys.map((key) => JSON.stringify(element[key])).join('|');
+    if (!keysMap[key]) {
+      keysMap[key] = [index];
+    } else {
+      dups = true;
+      keysMap[key] = [...keysMap[key], index];
+    }
+  });
+
+  let dupArray = [];
+  for (let key in keysMap) {
+    if (keysMap[key].length > 1) {
+      dupArray.push(keysMap[key]);
+    }
+  }
+  return dups ? dupArray : null;
+};

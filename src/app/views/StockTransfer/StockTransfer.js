@@ -36,6 +36,7 @@ const StockTransfer = ({
   const [isLoading, setIsLoading] = useState(false);
   const [showDrawer, setShowDrawer] = useState(false);
   const [currentTransfer, setCurrentTransfer] = useState(null);
+  const [duplicates, setDuplicates] = useState(null);
 
   const submit = (values, actions) => {
     setIsLoading(true);
@@ -137,6 +138,8 @@ const StockTransfer = ({
         onSubmit={(values, actions) => submit(values, actions)}>
         {({ values, errors, touched, handleSubmit, setFieldValue }) => (
           <StockTransferForm
+            showErrorSnackbar={showErrorSnackbar}
+            setDuplicates={setDuplicates}
             values={values}
             touched={touched}
             errors={errors}
@@ -146,6 +149,7 @@ const StockTransfer = ({
             addScannerDataToForm={addScannerDataToForm}
             isLoading={isLoading}
             isEdit={editData && editId}
+            duplicates={duplicates}
           />
         )}
       </Formik>

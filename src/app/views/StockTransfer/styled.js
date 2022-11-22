@@ -13,8 +13,7 @@ export const MetaWrapper = styled(Grid)(({ theme }) => ({
 export const ErrorAwareGrid = styled(Grid, {
   shouldForwardProp: (prop) => prop !== 'iserror',
 })(({ theme, iserror }) => ({
-  padding: theme.spacing(1),
-  borderRadius: theme.spacing(1),
+  marginLeft: '12px',
   ...(iserror && {
     // padding: theme.spacing(2),
     // border: '1px solid red',
@@ -25,6 +24,8 @@ export const ErrorAwareGrid = styled(Grid, {
 
 export const RowWrapper = styled(Grid)(({ theme }) => ({
   borderBottom: `1px solid rgba(105, 105, 105, 0.1)`,
+  position: 'relative',
+
   // padding: theme.spacing(1, '0rem'),
 }));
 
@@ -35,4 +36,18 @@ export const StyledButton = styled(LoadingButton)(({ theme }) => ({
 export const Error = styled(Typography)(({ theme }) => ({
   marginTop: theme.spacing(3),
   display: 'block',
+}));
+
+export const Badge = styled('span', {
+  shouldForwardProp: (prop) => prop !== 'duplicatecolor',
+})(({ duplicatecolor }) => ({
+  position: 'absolute',
+  left: -21,
+  top: 22,
+  ...(duplicatecolor && {
+    background: duplicatecolor,
+    height: '16px',
+    width: '16px',
+    borderRadius: '16px',
+  }),
 }));

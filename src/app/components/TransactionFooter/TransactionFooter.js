@@ -17,6 +17,7 @@ import EmailIcon from '@mui/icons-material/Email';
 import EditIcon from '@mui/icons-material/Edit';
 
 import { formatCurrency } from '../../utilities/stringUtils';
+import { findDuplicatesInArrayOfObjects } from '../../utilities/objectUtils';
 
 function TransactionFooter({
   values,
@@ -24,6 +25,7 @@ function TransactionFooter({
   loading,
   makeTransaction,
   transaction,
+  setDuplicates,
 }) {
   const [totalAmount, setTotalAmount] = useState(0);
   const [totalQuantity, setTotalQuantity] = useState(0);
@@ -46,6 +48,20 @@ function TransactionFooter({
     setTotalQuantity(qty);
     setTotalGazaana(gaz);
   }, [values]);
+
+  const handleSubmit = () => {
+    let dups = findDuplicatesInArrayOfObjects(values.transaction_detail, [
+      'product',
+      'yards_per_piece',
+      'warehouse',
+    ]);
+    if (!dups) {
+      makeTransaction();
+      setDuplicates(null);
+    } else {
+      setDuplicates(dups);
+    }
+  };
 
   return (
     <>
@@ -104,7 +120,7 @@ function TransactionFooter({
             endIcon={transaction ? <EditIcon /> : <EmailIcon />}
             variant='contained'
             sx={{ fontWeight: 900, mr: 2 }}
-            onClick={makeTransaction}>
+            onClick={handleSubmit}>
             {transaction ? 'Edit' : 'Finalize'}
           </Button>
         )}

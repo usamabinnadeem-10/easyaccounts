@@ -144,11 +144,11 @@ function TransactionHeader(props) {
             name='requires_action'
           />
         </Grid>
-        {/* <Grid item xs={6} className={classes.metaItems}>
+        <Grid item xs={6} className={classes.metaItems}>
           <Button onClick={handleReloadStock} size='small' variant='contained'>
             Reload Stock
           </Button>
-        </Grid> */}
+        </Grid>
       </Grid>
     </>
   );

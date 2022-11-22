@@ -1,4 +1,6 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
 
 import { Form } from 'formik';
 import { FastField } from 'formik';
@@ -18,8 +20,10 @@ import { Error } from './styled';
 import { RowWrapper } from './styled';
 import { StyledButton } from './styled';
 import { ErrorAwareGrid } from './styled';
+import { Badge } from './styled';
 
 import { getRowFields } from './utils';
+import { findDuplicatesInArrayOfObjects } from '../../utilities/objectUtils';
 
 const StockTransferForm = ({
   values,
@@ -31,7 +35,33 @@ const StockTransferForm = ({
   addScannerDataToForm,
   isLoading,
   isEdit,
+  duplicates,
+  showErrorSnackbar,
+  setDuplicates,
 }) => {
+  const [duplicateRowsColors, setDuplicateRowsColors] = useState(null);
+
+  // listen to duplicates variable and set colors of the rows of transaction
+  useEffect(() => {
+    if (!duplicates) {
+      setDuplicateRowsColors(null);
+    } else {
+      let arr = values.transfer_detail.map((row) => '');
+      duplicates.forEach((d) => {
+        let color =
+          '#' +
+          Math.floor(Math.random() * 16777215)
+            .toString(16)
+            .padStart(6, '0');
+        d.forEach((idx) => {
+          arr[idx] = color;
+        });
+      });
+      setDuplicateRowsColors(arr);
+      showErrorSnackbar('Please remove duplicates');
+    }
+  }, [duplicates]);
+
   // add new row helper
   const getNewRow = (rowIndex) => {
     let data = values.transfer_detail[rowIndex];
@@ -40,6 +70,20 @@ const StockTransferForm = ({
     // }
     let { product, ...rest } = data;
     return rest;
+  };
+
+  const handleClick = () => {
+    let dups = findDuplicatesInArrayOfObjects(values.transfer_detail, [
+      'product',
+      'yards_per_piece',
+      'to_warehouse',
+    ]);
+    if (!dups) {
+      handleSubmit();
+      setDuplicates(null);
+    } else {
+      setDuplicates(dups);
+    }
   };
 
   return (
@@ -88,6 +132,11 @@ const StockTransferForm = ({
                 key={rowIndex}
                 container
                 justifyContent='space-between'>
+                <Badge
+                  duplicatecolor={
+                    duplicateRowsColors ? duplicateRowsColors[rowIndex] : null
+                  }
+                />
                 {getRowFields(essentials).map((rowField, rowFieldIndex) => (
                   <Grid item xs={rowField.xs}>
                     <FastField
@@ -134,7 +183,7 @@ const StockTransferForm = ({
 
       <StyledButton
         loading={isLoading}
-        onClick={handleSubmit}
+        onClick={handleClick}
         variant='contained'>
         {isEdit ? 'Edit' : 'Transfer'}
       </StyledButton>
