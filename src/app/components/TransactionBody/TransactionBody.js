@@ -37,25 +37,26 @@ const TransactionBody = ({
   setScannerValue,
   duplicates,
   showErrorSnackbar,
+  resetDuplicates,
 }) => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const stock = useSelector((state) => state.transactions);
 
   const [validate, setValidate] = useState(true);
-  const [uniqueError, setUniqueError] = useState(false);
+  // const [uniqueError, setUniqueError] = useState(false);
   const [duplicateRowsColors, setDuplicateRowsColors] = useState(null);
 
-  useEffect(() => {
-    if (
-      errors?.transaction_detail &&
-      typeof errors.transaction_detail === 'string'
-    ) {
-      setUniqueError(true);
-    } else {
-      setUniqueError(false);
-    }
-  }, [errors]);
+  // useEffect(() => {
+  //   if (
+  //     errors?.transaction_detail &&
+  //     typeof errors.transaction_detail === "string"
+  //   ) {
+  //     setUniqueError(true);
+  //   } else {
+  //     setUniqueError(false);
+  //   }
+  // }, [errors]);
 
   // check if the given row has any filled data
   const isFormikRowDirty = (rowIndex) => {
@@ -69,13 +70,13 @@ const TransactionBody = ({
     let index = detail.findIndex(
       (row) =>
         row.product.value === value.product.value &&
-        row.yards_per_piece.value === value.yards_per_piece.value
+        row.yards_per_piece.value === value.yards_per_piece.value,
     );
     // if index is matched, then add to quantity
     if (index >= 0) {
       setFieldValue(
         `transaction_detail.${index}.quantity`,
-        detail[index].quantity + 1
+        detail[index].quantity + 1,
       );
     }
     // if index is not matches, then add a new row
@@ -107,7 +108,8 @@ const TransactionBody = ({
 
   useEffect(() => {
     setValidate(
-      transactionTypes.filter((type) => type.value === values.type)[0]?.validate
+      transactionTypes.filter((type) => type.value === values.type)[0]
+        ?.validate,
     );
   }, [values.type, transactionTypes]);
 
@@ -152,11 +154,11 @@ const TransactionBody = ({
     let { product } = getCurrentRowData(rowIndex);
     if (product?.value) {
       let options = stock.allStock.filter(
-        (s) => s.product === product?.value && s.quantity > 0
+        (s) => s.product === product?.value && s.quantity > 0,
       );
       return [
         ...new Map(
-          options.map((obj) => [`${obj.product}:${obj.yards_per_piece}`, obj])
+          options.map((obj) => [`${obj.product}:${obj.yards_per_piece}`, obj]),
         ).values(),
       ].map((val) => ({
         value: val.yards_per_piece,
@@ -174,14 +176,14 @@ const TransactionBody = ({
         (s) =>
           s.product === product?.value &&
           s.yards_per_piece === gazaana?.value &&
-          s.quantity > 0
+          s.quantity > 0,
       );
       return [
         ...new Map(
           options.map((obj) => [
             `${obj.product}:${obj.yards_per_piece}:${obj.warehouse}`,
             obj,
-          ])
+          ]),
         ).values(),
       ].map((val) => ({
         value: val.warehouse,
@@ -224,7 +226,7 @@ const TransactionBody = ({
       (s) =>
         s.product === product?.value &&
         s.yards_per_piece === gazaana?.value &&
-        s.warehouse === warehouse?.value
+        s.warehouse === warehouse?.value,
     );
     if (qty.length) {
       return qty[0].quantity;
@@ -245,25 +247,19 @@ const TransactionBody = ({
   return (
     <>
       {stock.shouldFetchStock ? (
-        <Grid container justifyContent='center'>
+        <Grid container justifyContent="center">
           <CustomLoader loading={true} />
         </Grid>
       ) : (
         <>
           <ErrorAwareGrid iserror={duplicates}>
             <FieldArray
-              name='transaction_detail'
+              name="transaction_detail"
               render={(arrayHelpers) =>
                 values.transaction_detail.map((row, rowIndex) => (
-                  <Grid iserror={uniqueError} key={rowIndex} container>
+                  <Grid key={rowIndex} container>
                     <Grid item xs={11}>
-                      <TransactionRow
-                        duplicatecolor={
-                          duplicateRowsColors
-                            ? duplicateRowsColors[rowIndex]
-                            : null
-                        }
-                        container>
+                      <TransactionRow container>
                         <Badge
                           duplicatecolor={
                             duplicateRowsColors
@@ -276,8 +272,8 @@ const TransactionBody = ({
                             name={`transaction_detail.${rowIndex}.product`}
                             component={FormAutoCompleteField}
                             options={essentials.products}
-                            label='Product'
-                            variant='standard'
+                            label="Product"
+                            variant="standard"
                             {...getFieldErrors(rowIndex, 'product')}
                           />
                         </Grid>
@@ -288,9 +284,9 @@ const TransactionBody = ({
                             // component={FormTextField}
                             freeSolo={true}
                             options={getGazaanaOptions(rowIndex)}
-                            label='Gazaana'
-                            variant='standard'
-                            type='number'
+                            label="Gazaana"
+                            variant="standard"
+                            type="number"
                             {...getFieldErrors(rowIndex, 'yards_per_piece')}
                           />
                         </Grid>
@@ -303,8 +299,8 @@ const TransactionBody = ({
                                 ? getWarehouseOptions(rowIndex)
                                 : essentials.warehouses
                             }
-                            label='Warehouse'
-                            variant='standard'
+                            label="Warehouse"
+                            variant="standard"
                             {...getFieldErrors(rowIndex, 'warehouse')}
                           />
                         </Grid>
@@ -312,10 +308,10 @@ const TransactionBody = ({
                           <FastField
                             name={`transaction_detail.${rowIndex}.rate`}
                             component={FormTextField}
-                            label='Rate'
-                            variant='standard'
-                            size='small'
-                            type='number'
+                            label="Rate"
+                            variant="standard"
+                            size="small"
+                            type="number"
                             {...getFieldErrors(rowIndex, 'rate')}
                           />
                         </Grid>
@@ -323,9 +319,9 @@ const TransactionBody = ({
                           <Field
                             name={`transaction_detail.${rowIndex}.quantity`}
                             component={FormTextField}
-                            variant='standard'
-                            size='small'
-                            type='number'
+                            variant="standard"
+                            size="small"
+                            type="number"
                             // label='Quantity'
                             label={`Qty: ${getStockQuantity(rowIndex)} thaan`}
                             {...getFieldErrors(rowIndex, 'quantity')}
@@ -351,8 +347,14 @@ const TransactionBody = ({
                     <Grid item xs={1}>
                       <AddRemove
                         disabled={values.transaction_detail.length === 1}
-                        onAdd={() => arrayHelpers.push(getNewRow(rowIndex))}
-                        onDelete={() => arrayHelpers.remove(rowIndex)}
+                        onAdd={() => {
+                          arrayHelpers.push(getNewRow(rowIndex));
+                          resetDuplicates();
+                        }}
+                        onDelete={() => {
+                          arrayHelpers.remove(rowIndex);
+                          resetDuplicates();
+                        }}
                       />
                     </Grid>
                   </Grid>
@@ -360,11 +362,11 @@ const TransactionBody = ({
               }
             />
           </ErrorAwareGrid>
-          {uniqueError && (
-            <Typography sx={{ mt: 2 }} variant='body2' color='error'>
+          {/* {uniqueError && (
+            <Typography sx={{ mt: 2 }} variant="body2" color="error">
               Please use unique entries
             </Typography>
-          )}
+          )} */}
         </>
       )}
     </>
