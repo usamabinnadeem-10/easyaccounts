@@ -90,6 +90,15 @@ function TransactionDetail({
     //   ),
     // },
     {
+      accessor: 'detail',
+      Header: 'Detail',
+      Cell: (row) => (
+        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          {row.value || '---'}
+        </div>
+      ),
+    },
+    {
       accessor: 'type',
       Header: 'Type',
       Cell: (row) => {
