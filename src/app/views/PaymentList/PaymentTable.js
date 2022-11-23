@@ -58,6 +58,11 @@ const PaymentTable = ({
       Cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
+      accessor: 'detail',
+      Header: 'Detail',
+      Cell: (row) => <div>{row.value || '---'}</div>,
+    },
+    {
       accessor: 'account_type',
       Header: 'Account',
       Cell: (row) => <div>{accounts?.[row.value]?.label || '---'}</div>,
