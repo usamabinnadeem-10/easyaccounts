@@ -28,8 +28,8 @@ export const INCOME_STATEMENT = 'Income Statement';
 export const ACTIVITY_LOGS = 'Activity Logs';
 
 // ----------------------TRANSACTIONS--------------------------- //
-export const TRANSACTIONS = 'Transactions';
-export const SUPPLIER_TRANSACTION = 'Buying';
+export const TRANSACTIONS = 'Invoices';
+export const SUPPLIER_TRANSACTION = 'Purchase';
 export const CUSTOMER_TRANSACTION = 'Sale';
 
 // ----------------------LEDGERS--------------------------- //
@@ -322,39 +322,39 @@ export const SIDEBAR = [
     ],
   },
   // ----------------DYING---------------//
-  {
-    panelName: DYING,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
-    panelData: [
-      {
-        name: DYING_ISSUE,
-        route: routes.ISSUE_DYING,
-      },
-      {
-        name: DYING_RETURN,
-        route: routes.RETURN_DYING,
-      },
-    ],
-  },
+  // {
+  //   panelName: DYING,
+  //   roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+  //   panelData: [
+  //     {
+  //       name: DYING_ISSUE,
+  //       route: routes.ISSUE_DYING,
+  //     },
+  //     {
+  //       name: DYING_RETURN,
+  //       route: routes.RETURN_DYING,
+  //     },
+  //   ],
+  // },
   // ----------------RAW---------------//
-  {
-    panelName: RAW,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
-    panelData: [
-      {
-        name: RAW_PURCHASE,
-        route: routes.RAW_PURCHASE_ROUTE,
-      },
-      {
-        name: RAW_DEBIT,
-        route: routes.RAW_DEBIT_ROUTE,
-      },
-      {
-        name: RAW_TRANSFER,
-        route: routes.RAW_TRANSFER_ROUTE,
-      },
-    ],
-  },
+  // {
+  //   panelName: RAW,
+  //   roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+  //   panelData: [
+  //     {
+  //       name: RAW_PURCHASE,
+  //       route: routes.RAW_PURCHASE_ROUTE,
+  //     },
+  //     {
+  //       name: RAW_DEBIT,
+  //       route: routes.RAW_DEBIT_ROUTE,
+  //     },
+  //     {
+  //       name: RAW_TRANSFER,
+  //       route: routes.RAW_TRANSFER_ROUTE,
+  //     },
+  //   ],
+  // },
   // ----------------ACTIONS---------------//
   // {
   //   panelName: ACTIONS,
