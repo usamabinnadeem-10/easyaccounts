@@ -62,7 +62,7 @@ const Home = ({ showErrorSnackbar }) => {
   return (
     <>
       <SideBar tablet={tablet} fetched={fetched} />
-      <StyledDiv tablet={tablet} mobile={mobile}>
+      <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>
         {fetched ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {
@@ -73,7 +73,8 @@ const Home = ({ showErrorSnackbar }) => {
                   loginRedirect={'/login'}
                   key={index}
                   path={route.path}
-                  exact>
+                  exact
+                >
                   <Component
                     role={role}
                     dimensions={dimensions}

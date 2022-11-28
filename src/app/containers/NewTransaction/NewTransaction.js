@@ -1,33 +1,33 @@
-import React from "react";
-import { useMemo } from "react";
-import { useState } from "react";
-import { useEffect } from "react";
+import React from 'react';
+import { useMemo } from 'react';
+import { useState } from 'react';
+import { useEffect } from 'react';
 
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
-import { useHistory } from "react-router";
+import { useHistory } from 'react-router';
 
-import { Formik } from "formik";
-import { Form } from "formik";
+import { Formik } from 'formik';
+import { Form } from 'formik';
 
-import ScannerInput from "../../components/ScannerInput";
-import TransactionHeader from "../../components/TransactionHeader";
-import TransactionBody from "../../components/TransactionBody";
-import TransactionFooter from "../../components/TransactionFooter";
+import ScannerInput from '../../components/ScannerInput';
+import TransactionHeader from '../../components/TransactionHeader';
+import TransactionBody from '../../components/TransactionBody';
+import TransactionFooter from '../../components/TransactionFooter';
 
-import { schema } from "./validation";
+import { schema } from './validation';
 import {
   getInitialValues,
   getTransactionFooter,
   formatDataForPosting,
-} from "./utils";
-import { postTransactionApi, editTransactionApi } from "./api";
-import { withSnackbar } from "../../hoc/withSnackbar";
-import { getURL } from "../../utilities/stringUtils";
-import { VIEW_SINGLE_TRANSACTION } from "../../../constants/routesConstants";
-import { findErrorMessage } from "../../utilities/objectUtils";
-import { setShouldFetch } from "../../../store/transactions";
+} from './utils';
+import { postTransactionApi, editTransactionApi } from './api';
+import { withSnackbar } from '../../hoc/withSnackbar';
+import { getURL } from '../../utilities/stringUtils';
+import { VIEW_SINGLE_TRANSACTION } from '../../../constants/routesConstants';
+import { findErrorMessage } from '../../utilities/objectUtils';
+import { setShouldFetch } from '../../../store/transactions';
 
 const Transaction = ({
   prefixes,
@@ -54,12 +54,12 @@ const Transaction = ({
 
   const TRANSACTION_FOOTER = useMemo(
     () => getTransactionFooter(showAccountTypes),
-    [showAccountTypes]
+    [showAccountTypes],
   );
 
   const redirect = (transaction) => {
     history.push({
-      pathname: getURL(VIEW_SINGLE_TRANSACTION, "uuid", transaction.id),
+      pathname: getURL(VIEW_SINGLE_TRANSACTION, 'uuid', transaction.id),
       state: transaction,
     });
   };

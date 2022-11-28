@@ -39,7 +39,7 @@ export const FormTextField = ({
     <StyledTextField
       {...field}
       {...props}
-      size='small'
+      size="small"
       error={(touched[field.name] && !!errors[field.name]) || isError}
       helperText={
         (touched[field.name] && errors[field.name]) ||
@@ -82,9 +82,9 @@ export const FormAutoCompleteField = ({
           });
       }}
       disabled={disabled}
-      value={value}
+      value={value || ''}
       options={options}
-      size='small'
+      size="small"
       clearOnEscape
       fullWidth
       freeSolo={freeSolo}
@@ -128,7 +128,7 @@ export const FormDateField = ({
           setFieldValue(name, final);
         }}
         label={props.label}
-        inputFormat='DD/MM/yyyy'
+        inputFormat="DD/MM/yyyy"
         renderInput={(params) => (
           <TextField
             {...params}
@@ -192,7 +192,7 @@ export const getErrors = (
   index,
   name,
   forceError = false,
-  forceErrorText = ''
+  forceErrorText = '',
 ) => {
   if (forceError) {
     return {
@@ -235,7 +235,7 @@ export const getErrors = (
 
 export const FormRow = ({ children }) => {
   return (
-    <Grid container justifyContent='space-between' gap={2}>
+    <Grid container justifyContent="space-between" gap={2}>
       {React.Children.map(children, (child) => (
         <Grid item xs={12} sm={5}>
           {child}

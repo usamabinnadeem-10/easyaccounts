@@ -65,8 +65,8 @@ function TransactionFooter({
 
   return (
     <>
-      <Grid container justifyContent='flex-end' sx={{ pb: 2, mt: 4 }}>
-        <Grid sx={{ width: 'max-content' }} container direction='column'>
+      <Grid container justifyContent="flex-end" sx={{ pb: 2, mt: 4 }}>
+        <Grid sx={{ width: 'max-content' }} container direction="column">
           {transactionFooter.map((field, index) => {
             return (
               <Field
@@ -76,10 +76,10 @@ function TransactionFooter({
                 disabled={!field.visible}
                 label={field.placeholder}
                 // type={field.type}
-                type='number'
+                type="number"
                 multiline
-                variant='outlined'
-                size='small'
+                variant="outlined"
+                size="small"
                 placeholder={field.placeholder}
                 sx={{
                   width: 200,
@@ -91,21 +91,21 @@ function TransactionFooter({
         </Grid>
       </Grid>
 
-      <Grid container justifyContent='space-between'>
+      <Grid container justifyContent="space-between">
         <Grid item xs={6}>
-          <Typography variant='subtitle'>
+          <Typography variant="subtitle">
             Items : {values.transaction_detail.length}
           </Typography>
         </Grid>
         <Grid item xs={6}>
-          <Grid container direction='column' align='right'>
-            <Typography variant='h6' color={totalAmount < 0 && 'error'}>
+          <Grid container direction="column" align="right">
+            <Typography variant="h6" color={totalAmount < 0 && 'error'}>
               PKR : {formatCurrency(totalAmount, 'decimal', 3) || 0} /=
             </Typography>
-            <Typography variant='h6'>
+            <Typography variant="h6">
               Gazaana : {formatCurrency(totalGazaana, 'decimal', 3) || 0} yards
             </Typography>
-            <Typography variant='h6'>
+            <Typography variant="h6">
               Thaan : {formatCurrency(totalQuantity, 'decimal', 3) || 0}
             </Typography>
           </Grid>
@@ -118,9 +118,10 @@ function TransactionFooter({
         ) : (
           <Button
             endIcon={transaction ? <EditIcon /> : <EmailIcon />}
-            variant='contained'
+            variant="contained"
             sx={{ fontWeight: 900, mr: 2 }}
-            onClick={handleSubmit}>
+            onClick={handleSubmit}
+          >
             {transaction ? 'Edit' : 'Finalize'}
           </Button>
         )}

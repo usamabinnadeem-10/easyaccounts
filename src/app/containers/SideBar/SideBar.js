@@ -88,7 +88,7 @@ const SideBar = ({
     ) {
       setIsLoading(false);
       showErrorSnackbar(
-        essentials.error || raw.error || dying.error || transactions.error
+        essentials.error || raw.error || dying.error || transactions.error,
       );
     }
   }, [essentials, dying, raw, transactions]);
@@ -124,9 +124,9 @@ const SideBar = ({
       )}
       {tablet && (
         <Grid container>
-          <Fab sx={{ mt: 1, ml: 1 }} size='small'>
+          <Fab sx={{ mt: 1, ml: 1 }} size="small">
             <IconButton onClick={() => setIsDrawerOpen(true)}>
-              <MenuIcon color='primary' />
+              <MenuIcon color="primary" />
             </IconButton>
           </Fab>
         </Grid>
@@ -141,7 +141,8 @@ const SideBar = ({
             bgcolor: paperWhite,
             py: 2,
           },
-        }}>
+        }}
+      >
         <List disablePadding dense>
           {SIDEBAR.map((panel, index) => {
             return (
@@ -149,7 +150,8 @@ const SideBar = ({
                 <div>
                   <ListItemButton
                     onClick={() => handleOpen(index)}
-                    disableRipple>
+                    disableRipple
+                  >
                     {/* <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon> */}
                     <ListItemText primary={panel.panelName} />
                     {open.panel === index && open.expand ? (
@@ -160,24 +162,27 @@ const SideBar = ({
                   </ListItemButton>
                   <Collapse
                     in={open.expand && open.panel === index}
-                    timeout='auto'
-                    unmountOnExit>
+                    timeout="auto"
+                    unmountOnExit
+                  >
                     <List
                       dense
-                      component='div'
+                      component="div"
                       disablePadding
                       sx={{
                         mb: 1,
-                      }}>
+                      }}
+                    >
                       {panel.panelData.map((panelData, index) => {
                         return (
-                          <PermissionGate permit={panelData.roles}>
+                          <PermissionGate key={index} permit={panelData.roles}>
                             <ListItemButton
                               disabled={!fetched}
                               onClick={() => handleListItemClick(panelData)}
                               key={index}
                               sx={{ pl: 4 }}
-                              disableRipple>
+                              disableRipple
+                            >
                               {/* <ListItemIcon>
                                 {getIcon(panelData.name)}
                               </ListItemIcon> */}
@@ -194,13 +199,14 @@ const SideBar = ({
           })}
         </List>
         <BranchInfo>
-          <BranchName variant='body1'>
+          <BranchName variant="body1">
             {activeBranch?.branch_name || ''}
           </BranchName>
           <SkeletonIconButton
             loading={false}
             onClick={handleLogout}
-            title='Logout'>
+            title="Logout"
+          >
             <LogoutIcon />
           </SkeletonIconButton>
         </BranchInfo>
