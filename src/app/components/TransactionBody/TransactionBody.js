@@ -241,7 +241,7 @@ const TransactionBody = ({
     //   data = { ...data, id: null, new: true };
     // }
     let { product, ...rest } = data;
-    return rest;
+    return { product, ...rest };
   };
 
   return (
