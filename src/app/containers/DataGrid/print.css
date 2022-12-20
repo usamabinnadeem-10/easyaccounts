@@ -1,5 +1,5 @@
 .print {
-  background-color: red;
   font-size: 20;
-  margin: 1000;
+  margin: '50px';
+  font-family: 'Poppins';
 }

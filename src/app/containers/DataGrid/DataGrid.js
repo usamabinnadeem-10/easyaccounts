@@ -33,7 +33,6 @@ const CustomDataGrid = ({ columns, rows, showToolbar = true, ...props }) => {
         sx={{
           '& .MuiDataGrid-main': {
             height: '100%',
-            // background: 'red',
             fontFamily: 'Poppins',
           },
         }}
