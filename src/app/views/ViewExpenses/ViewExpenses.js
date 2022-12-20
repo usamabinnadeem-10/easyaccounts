@@ -207,7 +207,7 @@ const ViewExpenses = ({
           </Printable>
         )}
         {isEmpty && <Empty />}
-        <DataGrid />
+        {/* <DataGrid /> */}
       </>
     </>
   );
