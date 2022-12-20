@@ -1,4 +1,5 @@
 import { getReadableDate } from '../../utilities/stringUtils';
+import { v4 } from 'uuid';
 
 export const formatTransactionData = (data, persons) => {
   let transactions = [];
@@ -17,15 +18,17 @@ export const formatTransactionData = (data, persons) => {
       person: persons?.[element.person]?.label,
       serial: `${element.serial_type}-${element.serial}`,
       manual_serial: `${element.manual_serial || '---'}`,
-      date: getReadableDate(element.date),
       total: total - element.discount,
+      hasClick: true,
     });
   });
   transactions.length > 0 &&
     transactions.push({
+      id: v4(),
       serial: 'TOTAL',
       manual_invoice_serial: `${transactions.length}`,
       total: grandTotal - totalDiscount,
+      hasClick: false,
       // discount: totalDiscount,
     });
   return transactions;

@@ -3,39 +3,41 @@ import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 
 import { DataGridWrapper } from './styled';
 
-const generateData = (numRows = 100) => {
-  return Array.from(Array(numRows).keys()).map((i) => ({
-    id: i,
-    name: `Task ${i}`,
-    done: Math.random(),
-  }));
+import './print.css';
+
+const Toolbar = ({ printFields }) => {
+  return (
+    <GridToolbar
+      showQuickFilter
+      printOptions={{
+        hideToolbar: true,
+        hideFooter: true,
+        fields: printFields ?? null,
+        bodyClassName: 'print',
+      }}
+    />
+  );
 };
 
-const colDef = [
-  {
-    field: 'id',
-    headerName: 'ID',
-  },
-  {
-    field: 'name',
-    headerName: 'Name',
-  },
-  {
-    field: 'done',
-    headerName: 'Done',
-    type: 'number',
-  },
-];
-
-const CustomDataGrid = ({ columns, rows, showToolbar = true }) => {
+const CustomDataGrid = ({ columns, rows, showToolbar = true, ...props }) => {
   return (
     <DataGridWrapper container>
       <DataGrid
-        rows={generateData()}
-        columns={colDef}
+        showCellRightBorder={false}
+        rows={rows}
+        columns={columns}
         components={{
-          Toolbar: showToolbar ? GridToolbar : null,
+          Toolbar: showToolbar ? Toolbar : null,
         }}
+        density="compact"
+        sx={{
+          '& .MuiDataGrid-main': {
+            height: '100%',
+            // background: 'red',
+            fontFamily: 'Poppins',
+          },
+        }}
+        {...props}
       />
     </DataGridWrapper>
   );

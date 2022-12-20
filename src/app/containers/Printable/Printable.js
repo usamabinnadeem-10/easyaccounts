@@ -8,20 +8,29 @@ import { Button } from '@mui/material';
 import { useStyles } from './styles';
 import { StyledGrid } from './styled';
 
-const Printable = ({ children, disablePrint, documentTitle }) => {
+import get from 'lodash.get';
+
+const Printable = ({
+  children,
+  disablePrint,
+  documentTitle,
+  isMuiGrid = false,
+}) => {
   const classes = useStyles();
   const componentRef = useRef();
+
   const handlePrint = useReactToPrint({
     content: () => componentRef.current,
     documentTitle: documentTitle,
   });
   return (
-    <StyledGrid container direction='column'>
+    <StyledGrid container direction="column">
       <Button
         disabled={disablePrint}
-        size='small'
+        size="small"
         onClick={handlePrint}
-        color='secondary'>
+        color="secondary"
+      >
         Print
       </Button>
       <div ref={componentRef} className={classes.root}>

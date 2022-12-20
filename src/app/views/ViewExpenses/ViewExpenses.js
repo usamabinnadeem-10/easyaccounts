@@ -30,8 +30,6 @@ import { withSnackbar } from '../../hoc/withSnackbar';
 
 import { cacheExpenseList } from '../../../store/cache';
 
-import DataGrid from '../../containers/DataGrid';
-
 const ViewExpenses = ({
   daybookView,
   defaultExpenses,
@@ -207,7 +205,6 @@ const ViewExpenses = ({
           </Printable>
         )}
         {isEmpty && <Empty />}
-        {/* <DataGrid /> */}
       </>
     </>
   );

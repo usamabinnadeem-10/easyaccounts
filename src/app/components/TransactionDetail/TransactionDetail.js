@@ -1,15 +1,16 @@
 import React from 'react';
 
-import CustomTable from '../CustomTable/CustomTable';
-import CustomChip from '../../components/CustomChip';
-import CustomIconButton from '../../components/CustomIconButton';
+import { Box } from '@mui/system';
+import { GridActionsCellItem } from '@mui/x-data-grid';
+import { Tooltip } from '@mui/material';
 
-import { IconButton } from '@mui/material';
+import CustomChip from '../../components/CustomChip';
+import CustomDataGrid from '../../containers/DataGrid/DataGrid';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
-import { formatCurrency } from '../../utilities/stringUtils';
+import { formatCurrency, getReadableDate } from '../../utilities/stringUtils';
 
 function TransactionDetail({
   rows,
@@ -25,138 +26,144 @@ function TransactionDetail({
     purchase: 'info',
   };
 
+  const ClickableCell = ({ row, children }) => {
+    return (
+      <Box
+        sx={{ cursor: row.hasClick ? 'pointer' : null }}
+        onClick={row.id && row.hasClick ? () => onRowClick(row.id) : null}
+      >
+        {children}
+      </Box>
+    );
+  };
+
   const COLUMNS = [
     {
-      accessor: 'index',
-      Header: 'Sr #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
+      field: 'index',
+      headerName: 'Sr #',
+      // width: 20,
+      flex: 1,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value}</ClickableCell>
       ),
     },
     {
-      accessor: 'serial',
-      Header: 'Serial #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
+      field: 'serial',
+      headerName: 'Serial #',
+      flex: 3,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value}</ClickableCell>
       ),
     },
     {
-      accessor: 'manual_serial',
-      Header: 'Book #',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || '---'}
-        </div>
+      field: 'manual_serial',
+      headerName: 'Book #',
+      flex: 3,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value || '---'}</ClickableCell>
       ),
     },
     {
-      accessor: 'person',
-      Header: 'Person',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
+      field: 'person',
+      headerName: 'Person',
+      flex: 4,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value}</ClickableCell>
       ),
     },
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value}
-        </div>
+      field: 'date',
+      headerName: 'Date',
+      type: 'date',
+      flex: 3,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>
+          {value && getReadableDate(value)}
+        </ClickableCell>
       ),
     },
     {
-      accessor: 'total',
-      Header: 'Amount',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {formatCurrency(row.value)}
-        </div>
+      field: 'total',
+      headerName: 'Amount',
+      flex: 3,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{formatCurrency(value)}</ClickableCell>
       ),
     },
     // {
-    //   accessor: 'discount',
-    //   Header: 'Discount',
-    //   Cell: (row) => (
-    //     <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-    //       {formatCurrency(row.value)}
+    //   field: 'discount',
+    //   headerName: 'Discount',
+    //   renderCell: ({row, value}) => (
+    //     <div onClick={row.id && row.hasClick ? () => onRowClick(row.id) : null}>
+    //       {formatCurrency(row)}
     //     </div>
     //   ),
     // },
     {
-      accessor: 'detail',
-      Header: 'Detail',
-      Cell: (row) => (
-        <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
-          {row.value || '---'}
-        </div>
+      field: 'detail',
+      headerName: 'Detail',
+      flex: 8,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>
+          <Tooltip arrow title={value || ''}>
+            <Box>{value || '---'}</Box>
+          </Tooltip>
+        </ClickableCell>
       ),
     },
     {
-      accessor: 'type',
-      Header: 'Type',
-      Cell: (row) => {
-        if (row.row.id) {
-          return (
-            <CustomChip
-              size='small'
-              color={CHIP_COLORS[row.value]}
-              label={row.value?.replace('_', ' ')}
-              sx={{
-                fontWeight: 900,
-                borderRadius: 1.5,
-                textTransform: 'capitalize',
-              }}
-            />
-          );
-        } else {
-          return <div></div>;
-        }
+      field: 'type',
+      headerName: 'Type',
+      flex: 3,
+      renderCell: ({ row, value }) => {
+        return (
+          <ClickableCell row={row}>
+            {row.id && row.hasClick ? (
+              <CustomChip
+                size="small"
+                color={CHIP_COLORS[value]}
+                label={value?.replace('_', ' ')}
+                sx={{
+                  fontSize: '10px',
+                  fontWeight: 900,
+                  borderRadius: 1.5,
+                  textTransform: 'capitalize',
+                }}
+              />
+            ) : (
+              <></>
+            )}
+          </ClickableCell>
+        );
       },
     },
     {
-      accessor: 'edit',
-      Header: 'Edit',
-      hideInPrint: true,
-      Cell: (row) => {
-        if (row.row.id) {
-          return (
-            <CustomIconButton onClick={() => handleEdit(row.row.id)}>
-              <EditIcon />
-            </CustomIconButton>
-          );
-        } else {
-          return <div></div>;
+      field: 'actions',
+      type: 'actions',
+      width: 30,
+      getActions: ({ row }) => {
+        if (row.hasClick) {
+          return [
+            <GridActionsCellItem
+              showInMenu
+              icon={<EditIcon color="primary" />}
+              onClick={() => handleEdit(row.id)}
+              label="Edit"
+            />,
+            <GridActionsCellItem
+              icon={<DeleteIcon color="error" />}
+              onClick={() => handleDelete(row.id)}
+              label="Delete"
+              showInMenu
+            />,
+          ];
         }
-      },
-    },
-    {
-      accessor: 'delete',
-      Header: 'Delete',
-      hideInPrint: true,
-      Cell: (row) => {
-        if (row.row.id) {
-          return (
-            <CustomIconButton onClick={() => handleDelete(row.row.id)}>
-              <DeleteIcon />
-            </CustomIconButton>
-          );
-        } else {
-          return <div></div>;
-        }
+        return [];
       },
     },
   ];
 
-  return (
-    <CustomTable columns={COLUMNS} data={rows} hoverProperty={hoverProperty} />
-  );
+  return <CustomDataGrid columns={COLUMNS} rows={rows} />;
 }
 
 export default TransactionDetail;

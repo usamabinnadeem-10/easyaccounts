@@ -51,18 +51,18 @@ function ViewTransactions({
   const dispatch = useDispatch();
 
   const transactionListCache = useSelector(
-    (state) => state.cache.transactionListCache
+    (state) => state.cache.transactionListCache,
   );
 
   const [transactionData, setTransactionData] = useState(
     daybookView
       ? formatTransactionData(defaultTransactions, persons)
-      : transactionListCache.transactionData || []
+      : transactionListCache.transactionData || [],
   );
   const [transactionDataRaw, setTransactionDataRaw] = useState(
     daybookView
       ? defaultTransactions
-      : transactionListCache.transactionDataRaw || []
+      : transactionListCache.transactionDataRaw || [],
   );
 
   const [dialogueState, setDialogueState] = useState({
@@ -76,7 +76,7 @@ function ViewTransactions({
   const [currentTransaction, setCurrentTransaction] = useState({});
   const [isEmpty, setIsEmpty] = useState(false);
   const [nextPage, setNextPage] = useState(
-    transactionListCache.nextPage || null
+    transactionListCache.nextPage || null,
   );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
 
@@ -88,8 +88,8 @@ function ViewTransactions({
           getURL(
             TRANSACTION_URLS.DELETE_TRANSACTION,
             'uuid',
-            dialogueState.idToDelete
-          )
+            dialogueState.idToDelete,
+          ),
         )
         .then((response) => {
           showSuccessSnackbar('Deleted, please search again to refresh data');
@@ -125,7 +125,7 @@ function ViewTransactions({
         transactionData: formattedTransactions,
         transactionDataRaw: raw,
         nextPage: data.next,
-      })
+      }),
     );
   };
 
@@ -135,7 +135,7 @@ function ViewTransactions({
 
   const onRowClick = (id) => {
     let transaction = transactionDataRaw.filter(
-      (element) => element.id === id
+      (element) => element.id === id,
     )[0];
     setCurrentTransaction(transaction);
     setShowDrawer(true);
@@ -143,7 +143,7 @@ function ViewTransactions({
 
   const handleEdit = (id) => {
     let transactionToEdit = transactionDataRaw.filter(
-      (transaction) => transaction.id === id
+      (transaction) => transaction.id === id,
     )[0];
     let account = accounts?.[transactionToEdit.account_type];
     let person = persons[transactionToEdit.person];
@@ -157,7 +157,7 @@ function ViewTransactions({
           transaction_detail: formatTransactionDetails(
             transactionToEdit.transaction_detail,
             products,
-            warehouses
+            warehouses,
           ),
         },
         account_type: account,
@@ -202,7 +202,7 @@ function ViewTransactions({
       />
       {!daybookView && (
         <div>
-          <Heading heading='View Transactions' />
+          <Heading heading="View Transactions" />
           <CustomFilters
             api={TRANSACTION_URLS.FILTER}
             onSearch={(data) => handleFormattingTransactions(data)}
@@ -210,27 +210,29 @@ function ViewTransactions({
           />
         </div>
       )}
-      <Printable
+      {/* <Printable
         disablePrint={transactionData.length === 0}
         documentTitle='All transactions report'>
-        <div className={classes.table}>
-          {transactionData.length > 0 && (
-            <TransactionDetail
-              rows={transactionData}
-              onRowClick={onRowClick}
-              hoverProperty={'id'}
-              handleEdit={handleEdit}
-              handleDelete={handleDelete}
-            />
-          )}
-        </div>
-      </Printable>
+        
+      </Printable> */}
+      <div className={classes.table}>
+        {transactionData.length > 0 && (
+          <TransactionDetail
+            rows={transactionData}
+            onRowClick={onRowClick}
+            hoverProperty={'id'}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+          />
+        )}
+      </div>
       {!daybookView && nextPage && (
         <LoadMoreButton
-          variant='contained'
+          variant="contained"
           fullWidth
           loading={isLoadingMore}
-          onClick={() => loadMoreData()}>
+          onClick={() => loadMoreData()}
+        >
           LOAD MORE
         </LoadMoreButton>
       )}
