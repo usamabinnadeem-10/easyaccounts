@@ -13,12 +13,10 @@ import TransactionDetail from '../../components/TransactionDetail';
 import TransactionDrawer from '../../components/TransactionDrawer';
 import Empty from '../../components/Empty/Empty';
 import Heading from '../../components/Heading';
-import Printable from '../../containers/Printable';
 
 import { SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
-import { useStyles } from './styles';
-import { LoadMoreButton } from './styled';
+import { LoadMoreButton, DataGridWrapper } from './styled';
 
 import instance from '../../../utils/axiosApi';
 import { getURL } from '../../utilities/stringUtils';
@@ -44,7 +42,6 @@ function ViewTransactions({
   showErrorSnackbar,
   showSuccessSnackbar,
 }) {
-  const classes = useStyles();
   const state = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
   const history = useHistory();
@@ -215,7 +212,7 @@ function ViewTransactions({
         documentTitle='All transactions report'>
         
       </Printable> */}
-      <div className={classes.table}>
+      <DataGridWrapper>
         {transactionData.length > 0 && (
           <TransactionDetail
             rows={transactionData}
@@ -225,7 +222,7 @@ function ViewTransactions({
             handleDelete={handleDelete}
           />
         )}
-      </div>
+      </DataGridWrapper>
       {!daybookView && nextPage && (
         <LoadMoreButton
           variant="contained"

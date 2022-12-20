@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box } from '@mui/system';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
+import useMediaQuery from '@mui/material/useMediaQuery';
 
 import CustomChip from '../../components/CustomChip';
 import CustomDataGrid from '../../containers/DataGrid/DataGrid';
@@ -41,8 +42,7 @@ function TransactionDetail({
     {
       field: 'index',
       headerName: 'Sr #',
-      // width: 20,
-      flex: 1,
+      width: 30,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>{value}</ClickableCell>
       ),
@@ -50,7 +50,6 @@ function TransactionDetail({
     {
       field: 'serial',
       headerName: 'Serial #',
-      flex: 3,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>{value}</ClickableCell>
       ),
@@ -58,7 +57,8 @@ function TransactionDetail({
     {
       field: 'manual_serial',
       headerName: 'Book #',
-      flex: 3,
+      type: 'number',
+      width: 120,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>{value || '---'}</ClickableCell>
       ),
@@ -66,7 +66,7 @@ function TransactionDetail({
     {
       field: 'person',
       headerName: 'Person',
-      flex: 4,
+      width: 200,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>{value}</ClickableCell>
       ),
@@ -75,7 +75,6 @@ function TransactionDetail({
       field: 'date',
       headerName: 'Date',
       type: 'date',
-      flex: 3,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>
           {value && getReadableDate(value)}
@@ -85,7 +84,7 @@ function TransactionDetail({
     {
       field: 'total',
       headerName: 'Amount',
-      flex: 3,
+      type: 'number',
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>{formatCurrency(value)}</ClickableCell>
       ),
@@ -102,7 +101,7 @@ function TransactionDetail({
     {
       field: 'detail',
       headerName: 'Detail',
-      flex: 8,
+      width: 300,
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>
           <Tooltip arrow title={value || ''}>
@@ -114,7 +113,25 @@ function TransactionDetail({
     {
       field: 'type',
       headerName: 'Type',
-      flex: 3,
+      type: 'singleSelect',
+      valueOptions: [
+        {
+          value: 'credit',
+          label: 'Credit',
+        },
+        {
+          value: 'paid',
+          label: 'Paid',
+        },
+        {
+          value: 'purchase',
+          label: 'Purchase',
+        },
+        {
+          value: 'maal_wapsi',
+          label: 'Maal wapsi',
+        },
+      ],
       renderCell: ({ row, value }) => {
         return (
           <ClickableCell row={row}>
@@ -140,18 +157,21 @@ function TransactionDetail({
     {
       field: 'actions',
       type: 'actions',
+      headerName: '✅',
+      filterable: false,
       width: 30,
+      disableExport: true,
       getActions: ({ row }) => {
         if (row.hasClick) {
           return [
             <GridActionsCellItem
               showInMenu
-              icon={<EditIcon color="primary" />}
+              icon={<EditIcon fontSize="small" color="primary" />}
               onClick={() => handleEdit(row.id)}
               label="Edit"
             />,
             <GridActionsCellItem
-              icon={<DeleteIcon color="error" />}
+              icon={<DeleteIcon fontSize="small" color="error" />}
               onClick={() => handleDelete(row.id)}
               label="Delete"
               showInMenu
@@ -163,7 +183,28 @@ function TransactionDetail({
     },
   ];
 
-  return <CustomDataGrid columns={COLUMNS} rows={rows} />;
+  return (
+    <CustomDataGrid
+      getRowHeight={() => 'auto'}
+      sx={{
+        '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '4px' },
+        '&.MuiDataGrid-root--densityStandard .MuiDataGrid-cell': { py: '8px' },
+        '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
+          py: '16px',
+        },
+      }}
+      initialState={{
+        columns: {
+          columnVisibilityModel: {
+            index: false,
+            actions: false,
+          },
+        },
+      }}
+      columns={COLUMNS}
+      rows={rows}
+    />
+  );
 }
 
 export default TransactionDetail;
