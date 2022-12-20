@@ -30,6 +30,8 @@ import { withSnackbar } from '../../hoc/withSnackbar';
 
 import { cacheExpenseList } from '../../../store/cache';
 
+import DataGrid from '../../containers/DataGrid';
+
 const ViewExpenses = ({
   daybookView,
   defaultExpenses,
@@ -42,13 +44,13 @@ const ViewExpenses = ({
   const essentials = useSelector((state) => state.essentials);
   const filters = useMemo(() => getFilters(essentials), [essentials]);
   const expenseListCache = useSelector(
-    (state) => state.cache.expensesListCache
+    (state) => state.cache.expensesListCache,
   );
 
   const [expensesData, setExpensesData] = useState(
     daybookView
       ? formatExpensesData(defaultExpenses, accounts, expenseAccounts)
-      : expenseListCache.expensesData || []
+      : expenseListCache.expensesData || [],
   );
 
   const [isEditing, setIsEditing] = useState(false);
@@ -65,11 +67,11 @@ const ViewExpenses = ({
   useEffect(() => {
     if (dialogueState.dialogueValue && dialogueState.deleteItem) {
       let newExpensesData = expensesData.filter(
-        (expense) => expense.id !== dialogueState.idToDelete
+        (expense) => expense.id !== dialogueState.idToDelete,
       );
       instance
         .delete(
-          getURL(EXPENSE_URLS.DELETE_EXPENSE, 'uuid', dialogueState.idToDelete)
+          getURL(EXPENSE_URLS.DELETE_EXPENSE, 'uuid', dialogueState.idToDelete),
         )
         .then((res) => {
           setExpensesData(newExpensesData);
@@ -93,7 +95,7 @@ const ViewExpenses = ({
     dispatch(
       cacheExpenseList({
         expensesData: formattedExpenses,
-      })
+      }),
     );
     setExpensesData(formattedExpenses);
     setIsEmpty(formattedExpenses.length === 0);
@@ -104,7 +106,7 @@ const ViewExpenses = ({
       .put(getURL(EXPENSE_URLS.EDIT_EXPENSE, 'uuid', data.id), data)
       .then((res) => {
         let expenseIndexToEdit = expensesData.findIndex(
-          (expense) => expense.id === res.data.id
+          (expense) => expense.id === res.data.id,
         );
         let newExpenseData = [...expensesData];
         newExpenseData[expenseIndexToEdit] = {
@@ -118,7 +120,7 @@ const ViewExpenses = ({
         dispatch(
           cacheExpenseList({
             expensesData: newExpenseData,
-          })
+          }),
         );
         showSuccessSnackbar(SUCCESS.EDITED);
         setIsEditing(false);
@@ -137,7 +139,7 @@ const ViewExpenses = ({
       date: convertDate(
         'DD-MM-YYYY HH:mm:ss',
         'YYYY-MM-DD HH:mm:ss',
-        expenseToEdit.date
+        expenseToEdit.date,
       ),
       amount: convertCurrencyToNumber(expenseToEdit.amount),
       account_type: expenseToEdit.account_type_obj,
@@ -145,7 +147,7 @@ const ViewExpenses = ({
     });
     let form = getExpenseForm(
       essentials.expenseAccounts,
-      essentials.accountTypes
+      essentials.accountTypes,
     );
     form.action = edit;
     setEditingForm(form);
@@ -194,8 +196,9 @@ const ViewExpenses = ({
       <>
         {expensesData.length > 0 && (
           <Printable
-            documentTitle='Expenses Report'
-            displayPrint={expensesData.length > 0 || daybookView}>
+            documentTitle="Expenses Report"
+            displayPrint={expensesData.length > 0 || daybookView}
+          >
             <ExpenseDetail
               rows={expensesData}
               handleDelete={handleDelete}
@@ -204,6 +207,7 @@ const ViewExpenses = ({
           </Printable>
         )}
         {isEmpty && <Empty />}
+        <DataGrid />
       </>
     </>
   );

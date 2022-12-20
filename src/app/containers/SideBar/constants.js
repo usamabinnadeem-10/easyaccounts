@@ -107,7 +107,7 @@ export const SIDEBAR = [
       {
         name: BALANCES,
         route: routes.ALL_BALANCES,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
       },
       {
         name: STOCK,
@@ -184,7 +184,7 @@ export const SIDEBAR = [
   // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: VIEW,
