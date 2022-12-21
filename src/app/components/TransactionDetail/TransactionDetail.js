@@ -57,6 +57,22 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
       ),
     },
     {
+      field: 'wasooli_number',
+      headerName: 'Wasooli #',
+      type: 'number',
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value || '---'}</ClickableCell>
+      ),
+    },
+    {
+      field: 'builty',
+      headerName: 'Builty #',
+      width: 120,
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>{value || '---'}</ClickableCell>
+      ),
+    },
+    {
       field: 'person',
       headerName: 'Person',
       width: 200,
@@ -191,6 +207,7 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
         columns: {
           columnVisibilityModel: {
             index: false,
+            builty: false,
           },
         },
       }}
