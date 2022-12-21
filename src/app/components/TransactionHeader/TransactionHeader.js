@@ -57,16 +57,15 @@ function TransactionHeader(props) {
           <FastField
             component={FormAutoCompleteField}
             options={options.people}
-            name='person'
+            name="person"
             label={personIdentifier}
           />
           {currentBalance && (
             <div className={classes.currentBalance}>
               <Typography
-                variant='subtitle2'
-                color={
-                  currentBalance >= 0 ? 'success.main' : 'error.main'
-                }>{`${Math.abs(currentBalance)} ${
+                variant="subtitle2"
+                color={currentBalance >= 0 ? 'success.main' : 'error.main'}
+              >{`${Math.abs(currentBalance)} ${
                 currentBalance >= 0 ? ' CR' : ' DB'
               }`}</Typography>
             </div>
@@ -74,10 +73,9 @@ function TransactionHeader(props) {
           {currentBalance && (
             <div className={classes.currentBalance}>
               <Typography
-                variant='subtitle2'
-                color={
-                  currentBalance >= 0 ? 'success.main' : 'error.main'
-                }>{`${Math.abs(currentBalance)} ${
+                variant="subtitle2"
+                color={currentBalance >= 0 ? 'success.main' : 'error.main'}
+              >{`${Math.abs(currentBalance)} ${
                 currentBalance >= 0 ? ' CR' : ' DB'
               }`}</Typography>
             </div>
@@ -86,39 +84,47 @@ function TransactionHeader(props) {
         <Grid item xs={6}>
           <FastField
             component={FormDateField}
-            name='date'
+            name="date"
             fullWidth
-            size='small'
+            size="small"
           />
         </Grid>
-        {/* {showAccountTypes && (
-          
-        )} */}
+
+        <Grid item xs={6}>
+          <FastField
+            component={FormTextField}
+            name="manual_serial"
+            label="Book serial"
+            size="small"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <FastField
+            component={FormTextField}
+            name="builty"
+            label="Builty #"
+            size="small"
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={6}>
+          <Field
+            disabled={values.type !== 'purchase'}
+            component={FormTextField}
+            name="wasooli_number"
+            label="Wasooli number"
+            size="small"
+            fullWidth
+          />
+        </Grid>
         <Grid item xs={6}>
           <Field
             disabled={!showAccountTypes}
             component={FormAutoCompleteField}
             options={options.accountTypes || []}
-            name='account_type'
-            label='Account type'
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <FastField
-            component={FormTextField}
-            name='manual_serial'
-            label='Book serial'
-            size='small'
-            fullWidth
-          />
-        </Grid>
-        <Grid item xs={6}>
-          <FastField
-            component={FormTextField}
-            name='builty'
-            label='Builty #'
-            size='small'
-            fullWidth
+            name="account_type"
+            label="Account type"
           />
         </Grid>
 
@@ -139,13 +145,13 @@ function TransactionHeader(props) {
         <Grid item xs={6} className={classes.metaItems}>
           <FastField
             component={FormSwitchField}
-            label='Mark as incomplete'
-            onCheckedLabel='Incomplete Invoice'
-            name='requires_action'
+            label="Mark as incomplete"
+            onCheckedLabel="Incomplete Invoice"
+            name="requires_action"
           />
         </Grid>
         <Grid item xs={6} className={classes.metaItems}>
-          <Button onClick={handleReloadStock} size='small' variant='contained'>
+          <Button onClick={handleReloadStock} size="small" variant="contained">
             Reload Stock
           </Button>
         </Grid>

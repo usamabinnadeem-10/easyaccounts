@@ -36,6 +36,7 @@ export const DB = {
   GAZAANA: 'yards_per_piece',
   SERIAL_TYPE: 'serial_type',
   BOOK_NUM: 'manual_serial',
+  WASOOLI_NUM: 'wasooli_number',
   PHONE_NUMBER: 'phone_number',
   CITY: 'city',
   COMMENT: 'comment',

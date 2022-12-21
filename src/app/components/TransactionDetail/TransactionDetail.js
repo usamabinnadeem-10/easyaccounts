@@ -1,9 +1,8 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 
 import { Box } from '@mui/system';
 import { GridActionsCellItem } from '@mui/x-data-grid';
 import { Tooltip } from '@mui/material';
-import useMediaQuery from '@mui/material/useMediaQuery';
 
 import CustomChip from '../../components/CustomChip';
 import CustomDataGrid from '../../containers/DataGrid/DataGrid';
@@ -13,13 +12,7 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { formatCurrency, getReadableDate } from '../../utilities/stringUtils';
 
-function TransactionDetail({
-  rows,
-  onRowClick,
-  hoverProperty,
-  handleEdit,
-  handleDelete,
-}) {
+function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
   const CHIP_COLORS = {
     paid: 'success',
     credit: 'error',

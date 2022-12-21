@@ -32,6 +32,7 @@ export const schema = Yup.object().shape({
       then: reqObjectSchema,
     }),
   [FIELDS.BOOK_NUM]: numberSchemaNotRequired,
+  [FIELDS.WASOOLI_NUMBER]: numberSchemaNotRequired,
   [FIELDS.BUILTY]: Yup.string().nullable(),
   [FIELDS.ACTION]: Yup.boolean().required(REQUIRED),
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,
@@ -45,10 +46,10 @@ export const schema = Yup.object().shape({
         [FIELDS.WAREHOUSE]: reqObjectSchema,
         [FIELDS.RATE]: postiveNumberSchema,
         [FIELDS.QTY]: smallPositiveReqNumberSchema,
-      })
+      }),
     )
     .unique(
       [FIELDS.PRODUCT, FIELDS.GAZAANA, FIELDS.WAREHOUSE],
-      'Please use unique entries'
+      'Please use unique entries',
     ),
 });

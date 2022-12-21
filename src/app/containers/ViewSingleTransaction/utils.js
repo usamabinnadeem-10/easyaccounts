@@ -14,6 +14,10 @@ export const getMeta = (transaction, essentials, gatePassView = false) => {
       label: 'Book #',
     },
     {
+      value: `${transaction[DB.WASOOLI_NUM] || '---'}`,
+      label: 'Wasooli #',
+    },
+    {
       value: person?.label,
       label: `${DB_TRANSLATION[person.person_type]}:`,
     },
@@ -73,7 +77,7 @@ const formatTransactionDetails = (
   warehouses,
   products,
   grandTotalQuantity,
-  grandTotalGazaana
+  grandTotalGazaana,
 ) => {
   let newDetails = [];
   details.forEach((detail, index) => {
@@ -84,14 +88,14 @@ const formatTransactionDetails = (
       amount: formatCurrency(
         detail.rate * detail.quantity * detail.yards_per_piece,
         'decimal',
-        2
+        2,
       ),
       [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]]?.label,
       [DB.PRODUCT]: products?.[detail[DB.PRODUCT]]?.label,
       total_gazaana: formatCurrency(
         detail.yards_per_piece * detail.quantity,
         'decimal',
-        2
+        2,
       ),
     });
   });
@@ -106,16 +110,16 @@ const formatTransactionDetails = (
 export const formatTransaction = (transaction, warehouses, products) => {
   let totalAmount = transaction?.transaction_detail?.reduce(
     (prev, curr) => prev + curr.quantity * curr.rate * curr.yards_per_piece,
-    0
+    0,
   );
   let grandTotalGazaana = transaction.transaction_detail?.reduce(
     (prevValue, currentValue) =>
       prevValue + currentValue.quantity * currentValue.yards_per_piece,
-    0
+    0,
   );
   let grandTotalQuantity = transaction.transaction_detail?.reduce(
     (prevValue, currentValue) => prevValue + currentValue.quantity,
-    0
+    0,
   );
   return {
     ...transaction,
@@ -128,7 +132,7 @@ export const formatTransaction = (transaction, warehouses, products) => {
       warehouses,
       products,
       grandTotalQuantity,
-      grandTotalGazaana
+      grandTotalGazaana,
     ),
     [DB.ACCOUNT_TYPE]: transaction[DB.ACCOUNT_TYPE],
     [DB.PAID_AMOUNT]: transaction[DB.PAID_AMOUNT],
@@ -136,7 +140,7 @@ export const formatTransaction = (transaction, warehouses, products) => {
     totalAfterDiscount: formatCurrency(
       totalAmount - transaction.discount,
       'currency',
-      2
+      2,
     ),
   };
 };
