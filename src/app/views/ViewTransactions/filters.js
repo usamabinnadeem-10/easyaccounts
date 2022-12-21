@@ -54,12 +54,12 @@ export const getFilters = (essentials, role) => {
     {
       qp: 'serial__gte',
       type: FIELDS.NUMBER,
-      placeholder: 'Serial (more than)',
+      placeholder: 'Serial (from)',
     },
     {
       qp: 'serial__lte',
       type: FIELDS.NUMBER,
-      placeholder: 'Serial (less than)',
+      placeholder: 'Serial (to)',
     },
     {
       qp: 'manual_serial',
@@ -69,12 +69,27 @@ export const getFilters = (essentials, role) => {
     {
       qp: 'manual_serial__gte',
       type: FIELDS.NUMBER,
-      placeholder: 'Book # (more than)',
+      placeholder: 'Book # (from)',
     },
     {
       qp: 'manual_serial__lte',
       type: FIELDS.NUMBER,
-      placeholder: 'Book # (less than)',
+      placeholder: 'Book # (to)',
+    },
+    {
+      qp: 'wasooli_number',
+      type: FIELDS.NUMBER,
+      placeholder: 'Wasooli # (equal to)',
+    },
+    {
+      qp: 'wasooli_number__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Wasooli # (from)',
+    },
+    {
+      qp: 'wasooli_number__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Wasooli # (to)',
     },
     {
       qp: 'date__gte',
@@ -98,12 +113,12 @@ export const getFilters = (essentials, role) => {
     // {
     //   qp: 'discount__gte',
     //   type: FIELDS.NUMBER,
-    //   placeholder: 'Discount (more than)',
+    //   placeholder: 'Discount (from)',
     // },
     // {
     //   qp: 'discount__gte',
     //   type: FIELDS.NUMBER,
-    //   placeholder: 'Discount (less than)',
+    //   placeholder: 'Discount (to)',
     // },
     {
       qp: 'detail__icontains',
