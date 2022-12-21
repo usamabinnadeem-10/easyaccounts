@@ -74,6 +74,7 @@ function TransactionDetail({
     {
       field: 'date',
       headerName: 'Date',
+      width: 120,
       type: 'date',
       renderCell: ({ row, value }) => (
         <ClickableCell row={row}>
@@ -197,7 +198,6 @@ function TransactionDetail({
         columns: {
           columnVisibilityModel: {
             index: false,
-            actions: false,
           },
         },
       }}
