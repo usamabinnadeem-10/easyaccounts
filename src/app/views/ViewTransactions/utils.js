@@ -17,7 +17,7 @@ export const formatTransactionData = (data, persons) => {
       index: idx + 1,
       person: persons?.[element.person]?.label,
       serial: `${element.serial_type}-${element.serial}`,
-      manual_serial: `${element.manual_serial}`,
+      manual_serial: `${element.manual_serial || ''}`,
       total: total - element.discount,
       hasClick: true,
     });
