@@ -37,5 +37,16 @@ export const getFilters = (essentials) => {
       placeholder: 'End Date',
       variant: 'end',
     },
+    {
+      qp: 'remove_transfers',
+      type: FIELDS.SELECT,
+      placeholder: 'Ignore transfers?',
+      options: [
+        {
+          label: 'Yes',
+          value: 'yes',
+        },
+      ],
+    },
   ];
 };
