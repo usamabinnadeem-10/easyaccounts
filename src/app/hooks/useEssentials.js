@@ -78,6 +78,7 @@ const ROUTE_ACTION_MAP = {
   ],
   [routes.DETAILED_STOCK]: [
     REDUCER.products,
+    REDUCER.productCategories,
     REDUCER.warehouses,
     ...ALL_PERSONS,
   ],

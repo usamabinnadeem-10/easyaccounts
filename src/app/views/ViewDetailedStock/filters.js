@@ -9,6 +9,12 @@ export const getFilters = (essentials) => {
       options: essentials.products,
     },
     {
+      qp: 'product_category',
+      type: FIELDS.SELECT,
+      placeholder: 'Product Category',
+      options: essentials.productCategories,
+    },
+    {
       qp: 'warehouse',
       type: FIELDS.SELECT,
       placeholder: 'Warehouse',
