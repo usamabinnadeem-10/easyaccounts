@@ -9,6 +9,11 @@ export const getFilters = (essentials) => {
       placeholder: 'Product',
     },
     {
+      qp: 'gazaana',
+      type: FIELDS.NUMBER,
+      placeholder: 'Gazaana',
+    },
+    {
       qp: 'category',
       options: essentials.productCategories,
       type: FIELDS.SELECT,
@@ -44,7 +49,7 @@ export const getTableData = (data) => {
     quantity_sold: rows.reduce((prev, curr) => prev + curr.quantity_sold, 0),
     number_of_times_sold: rows.reduce(
       (prev, curr) => prev + curr.number_of_times_sold,
-      0
+      0,
     ),
   };
   let averages = {
