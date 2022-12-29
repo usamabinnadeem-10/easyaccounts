@@ -5,13 +5,21 @@ export const formatTransactionData = (data, persons) => {
   let transactions = [];
   let grandTotal = 0;
   let totalDiscount = 0;
+  let grandTotalQuantity = 0;
+  let grandTotalGazaana = 0;
   data.forEach((element, idx) => {
     let total = 0.0;
+    let totalQuantity = 0.0;
+    let totalGazaana = 0.0;
     element.transaction_detail.forEach((detail) => {
       total += detail.rate * detail.quantity * detail.yards_per_piece;
+      totalQuantity += detail.quantity;
+      totalGazaana += detail.quantity * detail.yards_per_piece;
     });
     totalDiscount += element.discount;
     grandTotal += total;
+    grandTotalQuantity += totalQuantity;
+    grandTotalGazaana += totalGazaana;
     transactions.push({
       ...element,
       index: idx + 1,
@@ -19,6 +27,8 @@ export const formatTransactionData = (data, persons) => {
       serial: `${element.serial_type}-${element.serial}`,
       manual_serial: `${element.manual_serial || ''}`,
       total: total - element.discount,
+      totalQuantity,
+      totalGazaana,
       hasClick: true,
     });
   });
@@ -29,6 +39,8 @@ export const formatTransactionData = (data, persons) => {
       manual_invoice_serial: `${transactions.length}`,
       total: grandTotal - totalDiscount,
       hasClick: false,
+      totalQuantity: grandTotalQuantity,
+      totalGazaana: grandTotalGazaana,
       // discount: totalDiscount,
     });
   return transactions;

@@ -92,11 +92,33 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
       ),
     },
     {
+      field: 'totalQuantity',
+      headerName: '# Thaan',
+      type: 'number',
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>
+          {value ? formatCurrency(value) : '---'}
+        </ClickableCell>
+      ),
+    },
+    {
+      field: 'totalGazaana',
+      headerName: 'Gazaana',
+      type: 'number',
+      renderCell: ({ row, value }) => (
+        <ClickableCell row={row}>
+          {value ? formatCurrency(value) : '---'}
+        </ClickableCell>
+      ),
+    },
+    {
       field: 'total',
       headerName: 'Amount',
       type: 'number',
       renderCell: ({ row, value }) => (
-        <ClickableCell row={row}>{formatCurrency(value)}</ClickableCell>
+        <ClickableCell row={row}>
+          {value ? formatCurrency(value) : '---'}
+        </ClickableCell>
       ),
     },
     // {
