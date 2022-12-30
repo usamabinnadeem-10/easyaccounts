@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { Box } from '@mui/system';
 import { GridActionsCellItem } from '@mui/x-data-grid';
@@ -12,7 +12,13 @@ import EditIcon from '@mui/icons-material/Edit';
 
 import { formatCurrency, getReadableDate } from '../../utilities/stringUtils';
 
-function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
+function TransactionDetail({
+  rows,
+  onRowClick,
+  handleEdit,
+  handleDelete,
+  showWithDetails,
+}) {
   const CHIP_COLORS = {
     paid: 'success',
     credit: 'error',
@@ -22,11 +28,18 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
 
   const ClickableCell = ({ row, children }) => {
     return (
+      <Box sx={{ cursor: row.hasClick ? 'pointer' : null }}>{children}</Box>
+    );
+  };
+
+  const BoldCell = ({ value }) => {
+    return (
       <Box
-        sx={{ cursor: row.hasClick ? 'pointer' : null }}
-        onClick={row.id && row.hasClick ? () => onRowClick(row.id) : null}
+        sx={{
+          fontWeight: 'bold',
+        }}
       >
-        {children}
+        {value}
       </Box>
     );
   };
@@ -215,6 +228,151 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
     },
   ];
 
+  const DETAIL_COLUMNS = [
+    {
+      field: 'serial',
+      headerName: 'Serial #',
+      renderCell: ({ row, value }) => <BoldCell value={value} />,
+    },
+    {
+      field: 'manual_serial',
+      headerName: 'Book #',
+      type: 'number',
+      width: 120,
+      renderCell: ({ row, value }) => {
+        if (!row.hideTransactionData) {
+          return <BoldCell value={value} />;
+        }
+        return <></>;
+      },
+    },
+    {
+      field: 'wasooli_number',
+      headerName: 'Wasooli #',
+      type: 'number',
+      renderCell: ({ row, value }) => <BoldCell value={value} />,
+    },
+    {
+      field: 'person',
+      headerName: 'Person',
+      width: 200,
+    },
+    {
+      field: 'date',
+      headerName: 'Date',
+      width: 120,
+      type: 'date',
+      renderCell: ({ row, value }) => {
+        if (!row.hideTransactionData) {
+          return <div>{value && getReadableDate(value)}</div>;
+        }
+        return <></>;
+      },
+    },
+    {
+      field: 'product',
+      headerName: 'Product',
+      width: 150,
+      renderCell: ({ row, value }) => {
+        if (row.isTotal) {
+          return <BoldCell value={value} />;
+        }
+        return <div>{value}</div>;
+      },
+    },
+    {
+      field: 'quantity',
+      headerName: '# Thaan',
+      type: 'number',
+      width: 80,
+      renderCell: ({ row, value }) => {
+        let val = value ? formatCurrency(value) : '';
+        if (row.isTotal) {
+          return <BoldCell value={val} />;
+        }
+        return <div>{val}</div>;
+      },
+    },
+    {
+      field: 'yards_per_piece',
+      headerName: 'Gaz',
+      type: 'number',
+      width: 80,
+      renderCell: ({ row, value }) => (
+        <div>{value ? formatCurrency(value) : ''}</div>
+      ),
+    },
+    {
+      field: 'gazaana',
+      headerName: 'Total Gaz',
+      type: 'number',
+      renderCell: ({ row, value }) => {
+        let val = value ? formatCurrency(value) : '';
+        if (row.isTotal) {
+          return <BoldCell value={val} />;
+        }
+        return <div>{val}</div>;
+      },
+    },
+    {
+      field: 'rate',
+      headerName: 'Rate',
+      type: 'number',
+      renderCell: ({ row, value }) => (
+        <div>{value ? formatCurrency(value) : ''}</div>
+      ),
+    },
+    {
+      field: 'amount',
+      headerName: 'Amount',
+      type: 'number',
+      width: 140,
+      renderCell: ({ row, value }) => {
+        let val = value ? formatCurrency(value) : '';
+        if (row.isTotal) {
+          return <BoldCell value={val} />;
+        }
+        return <div>{val}</div>;
+      },
+    },
+
+    {
+      field: 'actions',
+      type: 'actions',
+      headerName: '✅',
+      filterable: false,
+      width: 30,
+      disableExport: true,
+      getActions: ({ row }) => {
+        if (row.hasClick) {
+          return [
+            <GridActionsCellItem
+              showInMenu
+              icon={<EditIcon fontSize="small" color="primary" />}
+              onClick={() => handleEdit(row.id)}
+              label="Edit"
+            />,
+            <GridActionsCellItem
+              icon={<DeleteIcon fontSize="small" color="error" />}
+              onClick={() => handleDelete(row.id)}
+              label="Delete"
+              showInMenu
+            />,
+          ];
+        }
+        return [];
+      },
+    },
+  ];
+
+  const columns = useMemo(() => {
+    if (!showWithDetails) {
+      return COLUMNS;
+    } else {
+      return DETAIL_COLUMNS;
+    }
+  }, [showWithDetails]);
+
   return (
     <CustomDataGrid
       getRowHeight={() => 'auto'}
@@ -233,8 +391,13 @@ function TransactionDetail({ rows, onRowClick, handleEdit, handleDelete }) {
           },
         },
       }}
-      columns={COLUMNS}
+      columns={columns}
       rows={rows}
+      onRowClick={(params) => {
+        if (!showWithDetails) {
+          onRowClick(params.id);
+        }
+      }}
     />
   );
 }

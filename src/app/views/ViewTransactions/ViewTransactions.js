@@ -16,12 +16,21 @@ import Heading from '../../components/Heading';
 
 import { SUCCESS, REDIRECTS, DIALOGUE_INIT } from './constants';
 import { TRANSACTION_URLS } from '../../../constants/restEndPoints';
-import { LoadMoreButton, DataGridWrapper } from './styled';
+import {
+  LoadMoreButton,
+  DataGridWrapper,
+  DetailsButtonContainer,
+  DetailButton,
+} from './styled';
 
 import instance from '../../../utils/axiosApi';
 import { getURL } from '../../utilities/stringUtils';
 import { findErrorMessage } from '../../utilities/objectUtils';
-import { formatTransactionData, formatTransactionDetails } from './utils';
+import {
+  formatTransactionData,
+  formatTransactionDetails,
+  formatTransactionWithTransactionDetails,
+} from './utils';
 
 import { getFilters } from './filters';
 
@@ -61,6 +70,9 @@ function ViewTransactions({
       ? defaultTransactions
       : transactionListCache.transactionDataRaw || [],
   );
+  const [transactionDataWithDetails, setTransactionDataWithDetails] = useState(
+    [],
+  );
 
   const [dialogueState, setDialogueState] = useState({
     open: false,
@@ -76,6 +88,7 @@ function ViewTransactions({
     transactionListCache.nextPage || null,
   );
   const [isLoadingMore, setIsLoadingMore] = useState(false);
+  const [showWithDetails, setShowWithDetails] = useState(false);
 
   useEffect(() => {
     let tId = dialogueState.idToDelete;
@@ -103,6 +116,18 @@ function ViewTransactions({
         });
     }
   }, [dialogueState]);
+
+  useEffect(() => {
+    if (showWithDetails) {
+      setTransactionDataWithDetails(
+        formatTransactionWithTransactionDetails(transactionDataRaw, {
+          persons,
+          products,
+          warehouses,
+        }),
+      );
+    }
+  }, [transactionDataRaw, showWithDetails]);
 
   const handleFormattingTransactions = (data, isLoadMore = false) => {
     let formattedTransactions = isLoadMore
@@ -207,19 +232,30 @@ function ViewTransactions({
           />
         </div>
       )}
-      {/* <Printable
-        disablePrint={transactionData.length === 0}
-        documentTitle='All transactions report'>
-        
-      </Printable> */}
+      {!daybookView && transactionDataRaw.length > 0 ? (
+        <DetailsButtonContainer>
+          <DetailButton
+            size="small"
+            variant="text"
+            onClick={() => setShowWithDetails(!showWithDetails)}
+          >
+            {showWithDetails ? 'Hide detail' : 'Show details'}
+          </DetailButton>
+        </DetailsButtonContainer>
+      ) : (
+        <></>
+      )}
       <DataGridWrapper>
         {transactionData.length > 0 && (
           <TransactionDetail
-            rows={transactionData}
+            rows={
+              showWithDetails ? transactionDataWithDetails : transactionData
+            }
             onRowClick={onRowClick}
             hoverProperty={'id'}
             handleEdit={handleEdit}
             handleDelete={handleDelete}
+            showWithDetails={showWithDetails}
           />
         )}
       </DataGridWrapper>
