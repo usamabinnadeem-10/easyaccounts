@@ -188,4 +188,5 @@ export const REPORTS_APIS = {
   ACTIVITY_LOGS_LIST: `logs/list/`,
   LOW_STOCK: `${REPORTS}get-low-stock/`,
   PRODUCT_PERFORMANCE_HISTORY: `${REPORTS}product-performance-history/`,
+  REVENUE_BY_PERIOD: `${REPORTS}revenue-by-period/`,
 };

@@ -24,10 +24,10 @@ const StockTransfer = lazy(() => import('../app/views/StockTransfer'));
 const ViewTransfers = lazy(() => import('../app/views/ViewTransfers'));
 const Payment = lazy(() => import('../app/views/Payment'));
 const ProductPerformance = lazy(() =>
-  import('../app/views/ProductPerformance')
+  import('../app/views/ProductPerformance'),
 );
 const ViewSingleTransaction = lazy(() =>
-  import('../app/containers/ViewSingleTransaction')
+  import('../app/containers/ViewSingleTransaction'),
 );
 const PaymentList = lazy(() => import('../app/views/PaymentList'));
 const CreateAsset = lazy(() => import('../app/views/Asset'));
@@ -36,6 +36,7 @@ const BalanceSheet = lazy(() => import('../app/views/BalanceSheet'));
 const IncomeStatement = lazy(() => import('../app/views/IncomeStatement'));
 const ActivityLogs = lazy(() => import('../app/views/ActivityLogs'));
 const LowStock = lazy(() => import('../app/views/LowStock'));
+const RevenueByPeriod = lazy(() => import('../app/views/RevenueByPeriod'));
 
 export const authenticatedRoutes = [
   {
@@ -157,5 +158,9 @@ export const authenticatedRoutes = [
   {
     component: LowStock,
     path: url.LOW_STOCK,
+  },
+  {
+    component: RevenueByPeriod,
+    path: url.REVENUE_BY_PERIOD,
   },
 ];

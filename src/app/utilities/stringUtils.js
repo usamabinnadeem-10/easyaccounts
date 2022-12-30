@@ -29,6 +29,22 @@ export const getReadableDate = (date) => {
   return moment(date, 'YYYY-MM-DD').format('DD-MM-YYYY');
 };
 
+export const getTimePeriod = (date, period) => {
+  let formattedDate = moment(date);
+  console.log(period, formattedDate);
+  switch (period) {
+    case 'day':
+      return formattedDate.format('DD-MM-YYYY, ddd');
+    case 'week':
+      let weekNum = Math.ceil(formattedDate.date() / 7);
+      return `Week ${weekNum}, ${formattedDate.format('MMMM')}`;
+    case 'month':
+      return formattedDate.format('MMMM');
+    default:
+      break;
+  }
+};
+
 export const formatCurrency = (value, style = 'decimal', decimalPlaces = 2) =>
   new Intl.NumberFormat('en-IN', {
     style: style,
@@ -39,7 +55,7 @@ export const formatCurrency = (value, style = 'decimal', decimalPlaces = 2) =>
 export const convertDate = (
   from = 'YYYY-MM-DD HH:mm:ss',
   to = 'DD-MM-YYYY',
-  date
+  date,
 ) => {
   return moment(date, from).format(to);
 };

@@ -21,6 +21,7 @@ export const BALANCES = 'Balances';
 export const STOCK = 'Stock';
 export const LOW_STOCK = 'Low Stock';
 export const VIEW_DETAILED_STOCK = 'Detailed Stock';
+export const SALE_BY_PERIOD = 'Sale Ledger';
 export const PRODUCT_PERFORMANCE_HISTORY = 'Product Performance';
 export const ACCOUNTS_HISTORY = 'Account History';
 export const BALANCE_SHEET = 'Balance Sheet';
@@ -147,6 +148,11 @@ export const SIDEBAR = [
       {
         name: INCOME_STATEMENT,
         route: routes.INCOME_STATEMENT_ROUTE,
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+      },
+      {
+        name: SALE_BY_PERIOD,
+        route: routes.REVENUE_BY_PERIOD,
         roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
       },
       {
