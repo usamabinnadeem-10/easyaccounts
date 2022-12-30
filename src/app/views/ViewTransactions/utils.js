@@ -82,12 +82,11 @@ const formatTransactionDetailForDetailedView = (
     let amount = detail.rate * gazaana;
     data.push({
       ...detail,
-      product: products[detail.product].label,
-      warehouse: warehouses[detail.warehouse].label,
-      gazaana,
+      serial: products[detail.product].label,
+      person: `${detail.quantity} / ${detail.yards_per_piece}`,
+      date: gazaana,
       amount,
       manual_serial,
-      date,
       hideTransactionData: true,
     });
     totalQuantity += detail.quantity;
@@ -97,11 +96,10 @@ const formatTransactionDetailForDetailedView = (
   data.push({
     id: v4(),
     quantity: totalQuantity,
-    gazaana: totalGazaana,
+    date: totalGazaana,
     amount: totalAmount,
-    product: 'Total',
+    serial: 'Total ->',
     manual_serial,
-    date,
     isTotal: true,
     hideTransactionData: true,
   });
@@ -126,6 +124,11 @@ export const formatTransactionWithTransactionDetails = (data, essentials) => {
         transaction,
       ),
     );
+    transactions.push({
+      id: v4(),
+      manual_serial: transaction.manual_serial,
+      hideEverything: true,
+    });
   });
   return transactions;
 };
