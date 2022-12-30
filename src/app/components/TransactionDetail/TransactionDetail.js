@@ -258,7 +258,7 @@ function TransactionDetail({
     {
       field: 'person',
       headerName: 'Person',
-      width: 150,
+      width: 220,
     },
     {
       field: 'date',
