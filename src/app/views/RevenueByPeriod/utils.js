@@ -8,6 +8,7 @@ export const getTableData = (data) => {
   return sorted.map((r) => ({
     ...r,
     id: v4(),
+    period: moment(r.period),
     periodKey: period,
   }));
 };

@@ -212,7 +212,10 @@ function TransactionDetail({
             <GridActionsCellItem
               showInMenu
               icon={<EditIcon fontSize="small" color="primary" />}
-              onClick={() => handleEdit(row.id)}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleEdit(row.id);
+              }}
               label="Edit"
             />,
             <GridActionsCellItem
