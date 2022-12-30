@@ -20,7 +20,7 @@ const RevenueByPeriod = () => {
 
   return (
     <>
-      <Heading heading={'Product Performance'} />
+      <Heading heading={'Sale Ledger'} />
       <CustomFilters
         filters={filters}
         api={REPORTS_APIS.REVENUE_BY_PERIOD}
