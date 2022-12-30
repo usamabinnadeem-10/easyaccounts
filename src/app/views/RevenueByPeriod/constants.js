@@ -1,4 +1,5 @@
 import { formatCurrency } from '../../utilities/stringUtils';
+import { getTimePeriod } from '../../utilities/stringUtils';
 
 export const timePeriodOptions = [
   {
@@ -19,14 +20,14 @@ export const columns = [
   {
     field: 'period',
     headerName: 'Time Period',
-    // width: 200,
     flex: 1,
-    sortable: false,
+    type: 'date',
+    valueGetter: (params) =>
+      getTimePeriod(params.row.period, params.row.periodKey),
   },
   {
     field: 'sale',
     headerName: 'Sale',
-    // width: 200,
     flex: 1,
     type: 'number',
     cellRenderer: (row, value) => <div>{formatCurrency(value)}</div>,

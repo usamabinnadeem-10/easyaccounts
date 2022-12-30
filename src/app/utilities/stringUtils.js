@@ -31,7 +31,6 @@ export const getReadableDate = (date) => {
 
 export const getTimePeriod = (date, period) => {
   let formattedDate = moment(date);
-  console.log(period, formattedDate);
   switch (period) {
     case 'day':
       return formattedDate.format('DD-MM-YYYY, ddd');

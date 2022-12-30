@@ -1,11 +1,13 @@
 import { v4 } from 'uuid';
-import { getTimePeriod } from '../../utilities/stringUtils';
-
+import moment from 'moment';
 export const getTableData = (data) => {
   const { revenue, period } = data;
-  return revenue.map((r) => ({
+  const sorted = revenue.sort(function (left, right) {
+    return moment.utc(left.period).diff(moment.utc(right.period));
+  });
+  return sorted.map((r) => ({
     ...r,
     id: v4(),
-    period: getTimePeriod(r.period, period),
+    periodKey: period,
   }));
 };
