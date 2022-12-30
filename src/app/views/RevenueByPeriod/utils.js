@@ -10,5 +10,6 @@ export const getTableData = (data) => {
     id: v4(),
     period: moment(r.period),
     periodKey: period,
+    sale: r.sale - r.discount,
   }));
 };

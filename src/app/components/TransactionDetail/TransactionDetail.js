@@ -206,21 +206,19 @@ function TransactionDetail({
       filterable: false,
       width: 30,
       disableExport: true,
-      getActions: ({ row }) => {
-        if (row.hasClick) {
+      getActions: (params) => {
+        if (params.row.hasClick) {
+          // console.log(row);
           return [
             <GridActionsCellItem
               showInMenu
               icon={<EditIcon fontSize="small" color="primary" />}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleEdit(row.id);
-              }}
+              onClick={() => handleEdit(params.id)}
               label="Edit"
             />,
             <GridActionsCellItem
               icon={<DeleteIcon fontSize="small" color="error" />}
-              onClick={() => handleDelete(row.id)}
+              onClick={() => handleDelete(params.id)}
               label="Delete"
               showInMenu
             />,
@@ -308,7 +306,7 @@ function TransactionDetail({
     } else {
       return DETAIL_COLUMNS;
     }
-  }, [showWithDetails]);
+  }, [showWithDetails, handleEdit, handleDelete]);
 
   return (
     <CustomDataGrid
@@ -329,6 +327,7 @@ function TransactionDetail({
         },
       }}
       columns={columns}
+      disableRowSelectionOnClick={true}
       rows={rows}
       onRowClick={(params) => {
         if (!showWithDetails) {
