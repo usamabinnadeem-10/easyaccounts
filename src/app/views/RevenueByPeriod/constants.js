@@ -30,6 +30,8 @@ export const columns = [
     headerName: 'Sale',
     flex: 1,
     type: 'number',
-    cellRenderer: (row, value) => <div>{formatCurrency(value)}</div>,
+    cellRenderer: (row, value) => (
+      <div>{formatCurrency(value, 'decimal', 0)}</div>
+    ),
   },
 ];
