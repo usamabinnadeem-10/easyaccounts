@@ -19,11 +19,18 @@ export const getTableData = (data) => {
   const sorted = merged.sort(function (left, right) {
     return moment.utc(left.period).diff(moment.utc(right.period));
   });
-  return sorted.map((r) => ({
+  let _data = sorted.map((r) => ({
     ...r,
     id: v4(),
     period: moment(r.period),
     periodKey: period,
     sale: r.sale - r.discount,
   }));
+  _data.push({
+    id: v4(),
+    period: 'Total',
+    sale: _data.reduce((prev, curr) => prev + curr.sale, 0),
+    totalRow: true,
+  });
+  return _data;
 };

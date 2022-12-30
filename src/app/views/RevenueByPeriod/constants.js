@@ -22,16 +22,21 @@ export const columns = [
     headerName: 'Time Period',
     flex: 1,
     type: 'date',
-    valueGetter: (params) =>
-      getTimePeriod(params.row.period, params.row.periodKey),
+    valueGetter: (params) => {
+      return params.row.totalRow
+        ? params.value
+        : getTimePeriod(params.row.period, params.row.periodKey);
+    },
+    sortable: false,
   },
   {
     field: 'sale',
     headerName: 'Sale',
     flex: 1,
     type: 'number',
-    cellRenderer: (row, value) => (
-      <div>{formatCurrency(value, 'decimal', 0)}</div>
-    ),
+    renderCell: ({ row, value }) => {
+      let val = value ? formatCurrency(value) : '';
+      return <div>{val}</div>;
+    },
   },
 ];
