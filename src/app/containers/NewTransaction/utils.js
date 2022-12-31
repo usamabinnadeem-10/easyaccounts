@@ -4,7 +4,14 @@ import { getToday } from '../../utilities/stringUtils';
 
 export const getInitialValues = (toggleButtons, prefilledData) => {
   if (prefilledData) {
-    return prefilledData;
+    if (prefilledData.is_cancelled) {
+      return {
+        ...prefilledData,
+        transaction_detail: INITIAL.transaction_detail,
+      };
+    } else {
+      return prefilledData;
+    }
   }
   return {
     ...INITIAL,
@@ -46,22 +53,25 @@ export const formatDataForPosting = (values, natures, prefixes) => {
     serial_type: prefixes[values.type],
     manual_serial: values.manual_serial || null,
     wasooli_number: values.wasooli_number || null,
+    is_cancelled: values.is_cancelled,
     requires_action: values.requires_action,
     date: values.date || null,
     paid: values.type === 'paid',
     paid_amount: values.paid_amount || 0,
     builty: values.builty || null,
     account_type: values.account_type?.value,
-    transaction_detail: values.transaction_detail.map((data) => {
-      return {
-        // id: data.id,
-        // new: data.new,
-        product: data.product.value,
-        yards_per_piece: data.yards_per_piece.value,
-        quantity: data.quantity,
-        rate: data.rate,
-        warehouse: data.warehouse.value,
-      };
-    }),
+    transaction_detail: values.is_cancelled
+      ? []
+      : values.transaction_detail.map((data) => {
+          return {
+            // id: data.id,
+            // new: data.new,
+            product: data.product.value,
+            yards_per_piece: data.yards_per_piece.value,
+            quantity: data.quantity,
+            rate: data.rate,
+            warehouse: data.warehouse.value,
+          };
+        }),
   };
 };

@@ -61,7 +61,7 @@ function SupplierTransaction(props) {
         defaultRow={constants.DEFAULT_ROW}
         transactionTypes={constants.TRANSACTION_TYPES}
         metaConstants={constants.META_CONSTANTS}
-        personIdentifier='Supplier'
+        personIdentifier="Supplier"
         natures={constants.NATURES}
         options={{
           people: state.suppliers,

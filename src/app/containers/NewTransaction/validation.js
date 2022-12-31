@@ -35,19 +35,33 @@ export const schema = Yup.object().shape({
   [FIELDS.WASOOLI_NUMBER]: numberSchemaNotRequired,
   [FIELDS.BUILTY]: Yup.string().nullable(),
   [FIELDS.ACTION]: Yup.boolean().required(REQUIRED),
+  [FIELDS.CANCELLED]: Yup.boolean().required(REQUIRED),
   [FIELDS.DISCOUNT]: numberSchemaNotRequired,
   [FIELDS.PAID_AMOUNT]: numberSchemaNotRequired,
   [FIELDS.DETAIL]: Yup.string().nullable(true),
   [FIELDS.TRANS_DETAIL]: Yup.array()
-    .of(
-      Yup.object().shape({
-        [FIELDS.PRODUCT]: reqObjectSchema,
-        [FIELDS.GAZAANA]: reqObjectSchema,
-        [FIELDS.WAREHOUSE]: reqObjectSchema,
-        [FIELDS.RATE]: postiveNumberSchema,
-        [FIELDS.QTY]: smallPositiveReqNumberSchema,
-      }),
-    )
+    // .of(
+    //   Yup.object().shape({
+    //     [FIELDS.PRODUCT]: reqObjectSchema,
+    //     [FIELDS.GAZAANA]: reqObjectSchema,
+    //     [FIELDS.WAREHOUSE]: reqObjectSchema,
+    //     [FIELDS.RATE]: postiveNumberSchema,
+    //     [FIELDS.QTY]: smallPositiveReqNumberSchema,
+    //   }),
+    // )
+    .when(FIELDS.CANCELLED, {
+      is: (val) => val === true,
+      then: Yup.array().nullable(true),
+      otherwise: Yup.array().of(
+        Yup.object().shape({
+          [FIELDS.PRODUCT]: reqObjectSchema,
+          [FIELDS.GAZAANA]: reqObjectSchema,
+          [FIELDS.WAREHOUSE]: reqObjectSchema,
+          [FIELDS.RATE]: postiveNumberSchema,
+          [FIELDS.QTY]: smallPositiveReqNumberSchema,
+        }),
+      ),
+    })
     .unique(
       [FIELDS.PRODUCT, FIELDS.GAZAANA, FIELDS.WAREHOUSE],
       'Please use unique entries',

@@ -66,7 +66,7 @@ function CustomerTransaction(props) {
         defaultRow={constants.DEFAULT_ROW}
         transactionTypes={constants.TRANSACTION_TYPES}
         metaConstants={constants.META_CONSTANTS}
-        personIdentifier='Customer'
+        personIdentifier="Customer"
         showAccountTypes={metaData.transactionType === 'paid'}
         natures={constants.NATURES}
         options={{

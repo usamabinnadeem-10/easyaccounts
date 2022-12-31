@@ -143,12 +143,24 @@ function TransactionHeader(props) {
           </Grid>
         </Grid>
         <Grid item xs={6} className={classes.metaItems}>
-          <FastField
-            component={FormSwitchField}
-            label="Mark as incomplete"
-            onCheckedLabel="Incomplete Invoice"
-            name="requires_action"
-          />
+          <Grid container>
+            <Grid item xs={6}>
+              <FastField
+                component={FormSwitchField}
+                label="Mark as incomplete"
+                onCheckedLabel="Incomplete Invoice"
+                name="requires_action"
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <Field
+                component={FormSwitchField}
+                label="Cancel bill"
+                onCheckedLabel="Cancelled"
+                name="is_cancelled"
+              />
+            </Grid>
+          </Grid>
         </Grid>
         <Grid item xs={6} className={classes.metaItems}>
           <Button onClick={handleReloadStock} size="small" variant="contained">

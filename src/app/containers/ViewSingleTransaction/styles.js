@@ -36,4 +36,7 @@ export const useStyles = makeStyles({
     justifyContent: 'flex-end',
     flexDirection: 'column',
   },
+  cancelledTransactionWrapper: {
+    backgroundColor: 'rgba(245, 51, 51, 0.5)',
+  },
 });

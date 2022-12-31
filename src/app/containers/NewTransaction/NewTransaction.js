@@ -118,20 +118,25 @@ const Transaction = ({
               showAccountTypes={showAccountTypes}
               transactionTypes={transactionTypes}
             />
-            <TransactionBody
-              resetDuplicates={() => setDuplicates(null)}
-              showErrorSnackbar={showErrorSnackbar}
-              duplicates={duplicates}
-              transactionTypes={transactionTypes}
-              values={values}
-              errors={errors}
-              touched={touched}
-              warehouses={warehouses}
-              transaction={transaction}
-              setFieldValue={setFieldValue}
-              scannerValue={scannerValue}
-              setScannerValue={setScannerValue}
-            />
+            {values.is_cancelled ? (
+              <></>
+            ) : (
+              <TransactionBody
+                resetDuplicates={() => setDuplicates(null)}
+                showErrorSnackbar={showErrorSnackbar}
+                duplicates={duplicates}
+                transactionTypes={transactionTypes}
+                values={values}
+                errors={errors}
+                touched={touched}
+                warehouses={warehouses}
+                transaction={transaction}
+                setFieldValue={setFieldValue}
+                scannerValue={scannerValue}
+                setScannerValue={setScannerValue}
+              />
+            )}
+
             <TransactionFooter
               setDuplicates={setDuplicates}
               values={values}

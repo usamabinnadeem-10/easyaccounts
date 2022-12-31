@@ -317,6 +317,15 @@ function TransactionDetail({
         '&.MuiDataGrid-root--densityComfortable .MuiDataGrid-cell': {
           py: '16px',
         },
+        '& .cancelled-transaction': {
+          bgcolor: 'rgba(245, 51, 51, 0.7) !important',
+          '&:hover': {
+            bgcolor: 'rgba(245, 51, 51, 0.7)',
+          },
+          '&:active': {
+            bgcolor: 'rgba(245, 51, 51, 0.7)',
+          },
+        },
       }}
       initialState={{
         columns: {
@@ -334,6 +343,9 @@ function TransactionDetail({
           onRowClick(params.id);
         }
       }}
+      getRowClassName={(params) =>
+        params.row.is_cancelled ? 'cancelled-transaction' : ''
+      }
     />
   );
 }

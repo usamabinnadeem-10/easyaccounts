@@ -64,19 +64,19 @@ function ViewSingleTransaction({
       if (!dontFetch) {
         let isTransaction = isTransactionAvailable(
           transactions.transactions,
-          ID
+          ID,
         );
         if (!isTransaction) {
           dispatch(getSingleTransaction(ID));
         } else {
           setTransaction(
-            formatTransaction(isTransaction, warehouses, products)
+            formatTransaction(isTransaction, warehouses, products),
           );
           setLoading(false);
         }
       } else {
         setTransaction(
-          formatTransaction(transactionData, warehouses, products)
+          formatTransaction(transactionData, warehouses, products),
         );
         setLoading(false);
       }
@@ -102,7 +102,7 @@ function ViewSingleTransaction({
     } else {
       if (!dontFetch && transactions.fetched) {
         let current = transactions.transactions.filter(
-          (element) => element.id === ID
+          (element) => element.id === ID,
         )[0];
         setTransaction(formatTransaction(current, warehouses, products));
         setLoading(false);
@@ -116,20 +116,26 @@ function ViewSingleTransaction({
         <CustomLoader pageLoader loading={loading} />
       ) : (
         <Printable
-          documentTitle={`${transactionData?.serial_type}-${transactionData?.serial}`}>
+          documentTitle={`${transactionData?.serial_type}-${transactionData?.serial}`}
+        >
           <div
-            id='transaction-wrapper'
-            className={`${classes.transactionWrapper}`}>
+            id="transaction-wrapper"
+            className={`${classes.transactionWrapper} ${
+              transactionData.is_cancelled &&
+              classes.cancelledTransactionWrapper
+            }`}
+          >
             <div className={classes.meta}>
               {metaItems.map((field, index) => {
                 return (
                   <div key={index} className={classes.metaItem}>
-                    <Typography variant='subtitle2' sx={{ width: 110 }}>
+                    <Typography variant="subtitle2" sx={{ width: 110 }}>
                       {field.label}
                     </Typography>
                     <Typography
                       sx={{ ml: 2, textTransform: 'capitalize' }}
-                      fontWeight='700'>
+                      fontWeight="700"
+                    >
                       {field.value}
                     </Typography>
                   </div>
@@ -144,13 +150,13 @@ function ViewSingleTransaction({
               />
               {!gatePassView && (
                 <div className={classes.total}>
-                  <Typography align='right' variant='body1'>
+                  <Typography align="right" variant="body1">
                     {transaction.total}
                   </Typography>
-                  <Typography align='right' variant='body1'>
+                  <Typography align="right" variant="body1">
                     {`- ${transaction.discount}`}
                   </Typography>
-                  <Typography align='right' variant='h6'>
+                  <Typography align="right" variant="h6">
                     {transaction.totalAfterDiscount}
                   </Typography>
                 </div>
@@ -158,9 +164,10 @@ function ViewSingleTransaction({
             </div>
             <Button
               sx={{ displayPrint: 'none' }}
-              variant='contained'
-              size='small'
-              onClick={() => setGatePassView(!gatePassView)}>
+              variant="contained"
+              size="small"
+              onClick={() => setGatePassView(!gatePassView)}
+            >
               {`${gatePassView ? 'Normal view' : 'Gate Pass View'}`}
             </Button>
           </div>
