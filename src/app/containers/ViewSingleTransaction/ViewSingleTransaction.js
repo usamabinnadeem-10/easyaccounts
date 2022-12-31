@@ -121,7 +121,7 @@ function ViewSingleTransaction({
           <div
             id="transaction-wrapper"
             className={`${classes.transactionWrapper} ${
-              transactionData.is_cancelled &&
+              transactionData?.is_cancelled &&
               classes.cancelledTransactionWrapper
             }`}
           >
