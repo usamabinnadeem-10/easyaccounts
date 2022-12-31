@@ -2,7 +2,7 @@ import React from 'react';
 
 import { Offline, Online } from 'react-detect-offline';
 
-import WifiOffIcon from '@mui/icons-material/WifiOff';
+import WifiOffRoundedIcon from '@mui/icons-material/WifiOffRounded';
 
 import { styled } from '@mui/styles';
 
@@ -24,7 +24,9 @@ export const withInternetConnection = (Component) => {
         </Online>
         <Offline>
           <StyledDiv>
-            <WifiOffIcon style={{ color: 'red', height: 200, width: 200 }} />
+            <WifiOffRoundedIcon
+              style={{ color: 'red', height: 200, width: 200 }}
+            />
           </StyledDiv>
         </Offline>
       </>
