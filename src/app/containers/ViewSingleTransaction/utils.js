@@ -99,11 +99,14 @@ const formatTransactionDetails = (
       ),
     });
   });
-  newDetails.push({
-    product: 'TOTAL',
-    quantity: formatCurrency(grandTotalQuantity),
-    total_gazaana: formatCurrency(grandTotalGazaana),
-  });
+  if (details.length > 0) {
+    newDetails.push({
+      product: 'TOTAL',
+      quantity: formatCurrency(grandTotalQuantity),
+      total_gazaana: formatCurrency(grandTotalGazaana),
+    });
+  }
+
   return newDetails;
 };
 
@@ -127,6 +130,7 @@ export const formatTransaction = (transaction, warehouses, products) => {
     date: getReadableDate(transaction.date),
     quantity: grandTotalQuantity,
     gazaana: formatCurrency(grandTotalGazaana, 'decimal', 2),
+    is_cancelled: transaction.is_cancelled,
     [DB.TRANSACTION_DETAIL]: formatTransactionDetails(
       transaction.transaction_detail,
       warehouses,
