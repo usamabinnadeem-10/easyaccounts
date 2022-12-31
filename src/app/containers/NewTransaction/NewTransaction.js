@@ -28,6 +28,7 @@ import { getURL } from '../../utilities/stringUtils';
 import { VIEW_SINGLE_TRANSACTION } from '../../../constants/routesConstants';
 import { findErrorMessage } from '../../utilities/objectUtils';
 import { setShouldFetch } from '../../../store/transactions';
+import { withInternetConnection } from '../../hoc/withInternetConnection';
 
 const Transaction = ({
   prefixes,
@@ -147,4 +148,4 @@ const Transaction = ({
   );
 };
 
-export default withSnackbar(Transaction);
+export default withInternetConnection(withSnackbar(Transaction));
