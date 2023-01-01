@@ -104,6 +104,12 @@ export const getFilters = (essentials, role) => {
       variant: 'end',
     },
     {
+      qp: 'is_cancelled',
+      options: constants.CANCELLED,
+      type: FIELDS.SELECT,
+      placeholder: 'Cancelled?',
+    },
+    {
       qp: 'requires_action',
       options: constants.TRANSACTION_STATUS_OPTIONS,
       type: FIELDS.SELECT,

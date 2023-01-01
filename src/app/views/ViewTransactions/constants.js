@@ -45,3 +45,14 @@ export const TRANSACTION_STATUS_OPTIONS = [
     value: true,
   },
 ];
+
+export const CANCELLED = [
+  {
+    label: 'Yes',
+    value: true,
+  },
+  {
+    label: 'No',
+    value: false,
+  },
+];
