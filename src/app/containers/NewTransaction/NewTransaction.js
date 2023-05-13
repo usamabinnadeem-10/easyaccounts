@@ -69,18 +69,23 @@ const Transaction = ({
     setLoading(true);
     let data = formatDataForPosting(values, natures, prefixes);
     let api = transaction ? editTransactionApi : postTransactionApi;
-    api(data, transaction?.id)
-      .then((response) => {
-        // dispatch(setShouldFetch(true));
-        actions.resetForm();
-        setLoading(false);
-        redirect(response.data);
-      })
-      .catch((error) => {
-        showErrorSnackbar(findErrorMessage(error.response.data));
-        dispatch(setShouldFetch(true)); // only fetch stock if there is an error
-        setLoading(false);
-      });
+    if (navigator.onLine) {
+      api(data, transaction?.id)
+        .then((response) => {
+          // dispatch(setShouldFetch(true));
+          actions.resetForm();
+          setLoading(false);
+          redirect(response.data);
+        })
+        .catch((error) => {
+          showErrorSnackbar(findErrorMessage(error.response.data));
+          dispatch(setShouldFetch(true)); // only fetch stock if there is an error
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+      showErrorSnackbar('Internet disconnected');
+    }
   };
 
   const handleReloadStock = () => {
@@ -153,4 +158,4 @@ const Transaction = ({
   );
 };
 
-export default withInternetConnection(withSnackbar(Transaction));
+export default withSnackbar(Transaction);
