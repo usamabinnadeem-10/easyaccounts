@@ -103,12 +103,17 @@ export const SIDEBAR = [
       {
         name: DAYBOOK,
         route: routes.VIEW_DAYBOOK,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ACCOUNTANT,
+          ROLES.HEAD_ACCOUNTANT,
+          ROLES.ADMIN_VIEWER,
+        ],
       },
       {
         name: BALANCES,
         route: routes.ALL_BALANCES,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
       },
       {
         name: STOCK,
@@ -118,6 +123,7 @@ export const SIDEBAR = [
           ROLES.ACCOUNTANT,
           ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
+          ROLES.HEAD_ACCOUNTANT,
         ],
       },
       {
@@ -128,17 +134,28 @@ export const SIDEBAR = [
           ROLES.ACCOUNTANT,
           ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
+          ROLES.HEAD_ACCOUNTANT,
         ],
       },
       {
         name: VIEW_DETAILED_STOCK,
         route: routes.DETAILED_STOCK,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ACCOUNTANT,
+          ROLES.ADMIN_VIEWER,
+          ROLES.HEAD_ACCOUNTANT,
+        ],
       },
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
-        roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ACCOUNTANT,
+          ROLES.ADMIN_VIEWER,
+          ROLES.HEAD_ACCOUNTANT,
+        ],
       },
       {
         name: BALANCE_SHEET,
@@ -153,7 +170,7 @@ export const SIDEBAR = [
       {
         name: SALE_BY_PERIOD,
         route: routes.REVENUE_BY_PERIOD,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
       },
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
@@ -195,7 +212,7 @@ export const SIDEBAR = [
   // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
-    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
     panelData: [
       {
         name: VIEW,
@@ -209,7 +226,12 @@ export const SIDEBAR = [
   },
   {
     panelName: PAYMENT,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [
+      ROLES.ADMIN,
+      ROLES.ACCOUNTANT,
+      ROLES.ADMIN_VIEWER,
+      ROLES.HEAD_ACCOUNTANT,
+    ],
     panelData: [
       {
         name: PAYMENT_LIST,
@@ -224,7 +246,12 @@ export const SIDEBAR = [
   // ----------------EXPENSES---------------//
   {
     panelName: EXPENSES,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [
+      ROLES.ADMIN,
+      ROLES.ACCOUNTANT,
+      ROLES.ADMIN_VIEWER,
+      ROLES.HEAD_ACCOUNTANT,
+    ],
     panelData: [
       {
         name: VIEW,
@@ -239,7 +266,13 @@ export const SIDEBAR = [
   // ----------------TRANSFERS---------------//
   {
     panelName: TRANSFERS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER, ROLES.STOCKIST],
+    roles: [
+      ROLES.ADMIN,
+      ROLES.ACCOUNTANT,
+      ROLES.ADMIN_VIEWER,
+      ROLES.STOCKIST,
+      ROLES.HEAD_ACCOUNTANT,
+    ],
     panelData: [
       {
         name: VIEW,
@@ -254,7 +287,12 @@ export const SIDEBAR = [
   // ----------------CHEQUE MANAGEMENT---------------//
   {
     panelName: CHEQUE_MANAGEMENT,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [
+      ROLES.ADMIN,
+      ROLES.ACCOUNTANT,
+      ROLES.ADMIN_VIEWER,
+      ROLES.HEAD_ACCOUNTANT,
+    ],
     panelData: [
       {
         name: PERSONAL_CHEQUES,
