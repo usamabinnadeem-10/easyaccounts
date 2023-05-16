@@ -9,7 +9,7 @@ export const getFilters = (essentials, role) => {
   return [
     {
       qp: 'person',
-      options: [ROLES.ADMIN, ROLES.ACCOUNTANT].includes(role)
+      options: [ROLES.ADMIN, ROLES.HEAD_ACCOUNTANT].includes(role)
         ? [...essentials.suppliers, ...essentials.customers]
         : essentials.customers,
       type: FIELDS.SELECT,

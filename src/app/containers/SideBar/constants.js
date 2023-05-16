@@ -170,7 +170,12 @@ export const SIDEBAR = [
   // ----------------TRANSACTIONS---------------//
   {
     panelName: TRANSACTIONS,
-    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    roles: [
+      ROLES.ADMIN,
+      ROLES.ACCOUNTANT,
+      ROLES.HEAD_ACCOUNTANT,
+      ROLES.ADMIN_VIEWER,
+    ],
     panelData: [
       {
         name: VIEW,
@@ -183,7 +188,7 @@ export const SIDEBAR = [
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
-        roles: [ROLES.ADMIN],
+        roles: [ROLES.ADMIN, ROLES.HEAD_ACCOUNTANT],
       },
     ],
   },
