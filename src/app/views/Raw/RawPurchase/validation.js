@@ -2,6 +2,7 @@ import Yup from '../../../utilities/yup';
 import {
   positiveReqNumberSchema,
   reqObjectSchema,
+  notReqObjectSchema,
 } from '../../../utilities/yup';
 
 import { FIELDS } from './constants';
@@ -23,15 +24,16 @@ export const schema = Yup.object().shape({
             [FIELDS.quantity]: positiveReqNumberSchema,
             [FIELDS.actual_gazaana]: positiveReqNumberSchema,
             [FIELDS.expected_gazaana]: positiveReqNumberSchema,
-            [FIELDS.formula]: reqObjectSchema,
+            [FIELDS.rate_gazaana]: positiveReqNumberSchema,
+            [FIELDS.formula]: notReqObjectSchema,
             [FIELDS.warehouse]: Yup.object().typeError(REQUIRED).nullable(),
             [FIELDS.rate]: positiveReqNumberSchema,
-          })
+          }),
         )
         .unique(
           ['actual_gazaana', 'expected_gazaana', 'formula', 'warehouse'],
-          'Detail is not unique'
+          'Detail is not unique',
         ),
-    })
+    }),
   ),
 });

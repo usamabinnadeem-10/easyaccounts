@@ -25,7 +25,7 @@ export const getLotDetailFields = (
   essentials,
   lotIndex,
   lotDetailIndex,
-  formulas
+  formulas,
 ) => {
   return [
     {
@@ -38,13 +38,19 @@ export const getLotDetailFields = (
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.actual_gazaana}`,
       name: FIELDS.actual_gazaana,
       type: FIELD_TYPES.NUMBER,
-      label: 'Actual',
+      label: 'Stock Gazaana',
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.expected_gazaana}`,
       name: FIELDS.expected_gazaana,
       type: FIELD_TYPES.NUMBER,
-      label: 'Expected',
+      label: 'Physical Gazaana',
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.rate_gazaana}`,
+      name: FIELDS.rate_gazaana,
+      type: FIELD_TYPES.NUMBER,
+      label: 'Rate Gazaana',
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.lot_detail}.${lotDetailIndex}.${FIELDS.formula}`,
@@ -88,7 +94,7 @@ export const getLotHeadField = (
   lotIndex,
   issue,
   dyingOptions,
-  products
+  products,
 ) => {
   return [
     {

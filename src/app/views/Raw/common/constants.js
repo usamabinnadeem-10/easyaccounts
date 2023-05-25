@@ -7,6 +7,7 @@ export const FIELDS = {
   quantity: 'quantity',
   actual_gazaana: 'actual_gazaana',
   expected_gazaana: 'expected_gazaana',
+  rate_gazaana: 'rate_gazaana',
   formula: 'formula',
   lots: 'lots',
   lot_detail: 'lot_detail',

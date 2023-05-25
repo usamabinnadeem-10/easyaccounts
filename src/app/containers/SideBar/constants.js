@@ -386,24 +386,24 @@ export const SIDEBAR = [
   //   ],
   // },
   // ----------------RAW---------------//
-  // {
-  //   panelName: RAW,
-  //   roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
-  //   panelData: [
-  //     {
-  //       name: RAW_PURCHASE,
-  //       route: routes.RAW_PURCHASE_ROUTE,
-  //     },
-  //     {
-  //       name: RAW_DEBIT,
-  //       route: routes.RAW_DEBIT_ROUTE,
-  //     },
-  //     {
-  //       name: RAW_TRANSFER,
-  //       route: routes.RAW_TRANSFER_ROUTE,
-  //     },
-  //   ],
-  // },
+  {
+    panelName: RAW,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    panelData: [
+      {
+        name: RAW_PURCHASE,
+        route: routes.RAW_PURCHASE_ROUTE,
+      },
+      {
+        name: RAW_DEBIT,
+        route: routes.RAW_DEBIT_ROUTE,
+      },
+      {
+        name: RAW_TRANSFER,
+        route: routes.RAW_TRANSFER_ROUTE,
+      },
+    ],
+  },
   // ----------------ACTIONS---------------//
   // {
   //   panelName: ACTIONS,

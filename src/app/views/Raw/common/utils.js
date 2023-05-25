@@ -3,10 +3,11 @@ import { FIELDS } from './constants';
 const calculateValues = (obj, isTransfer) => {
   let qty = obj[FIELDS.quantity] || 0;
   let formula = obj[FIELDS.formula];
-  let ratio = formula?.numerator / formula?.denominator;
+  // let ratio = formula?.numerator / formula?.denominator;
   let expected = qty * obj[FIELDS.expected_gazaana] || 0;
-  let actual = qty * ratio * obj[FIELDS.actual_gazaana] || 0;
-  let total = !isTransfer ? obj[FIELDS.rate] * actual : 0;
+  let actual = qty * obj[FIELDS.actual_gazaana] || 0;
+  let rate_gazaana = obj[FIELDS.rate_gazaana] || 0;
+  let total = !isTransfer ? obj[FIELDS.rate] * rate_gazaana : 0;
   return {
     qty,
     expected,
@@ -21,17 +22,17 @@ export const getCalculatedValues = (
   lotDetailIndex,
   key1 = 'lots',
   key2 = 'lot_detail',
-  isTransfer = false
+  isTransfer = false,
 ) => {
   let obj = values[key1][lotIndex][key2][lotDetailIndex];
   let calculated = calculateValues(obj, isTransfer);
   let totals = [
     {
-      label: 'Actual',
+      label: 'Stock Gaz',
       value: calculated.actual,
     },
     {
-      label: 'Expected',
+      label: 'Physical Gaz',
       value: calculated.expected,
     },
   ];
@@ -49,7 +50,7 @@ export const getTotals = (
   global = false,
   key1 = 'lots',
   key2 = 'lot_detail',
-  isTransfer = false
+  isTransfer = false,
 ) => {
   let thaan = 0;
   let expected = 0;

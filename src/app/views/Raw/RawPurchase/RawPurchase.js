@@ -72,7 +72,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
 
   const metaFields = useMemo(
     () => utils.getMetaFields(essentials),
-    [essentials]
+    [essentials],
   );
 
   const FIELD_MAP = {
@@ -120,14 +120,15 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   return (
     <>
       {raw.formulasInfo.fetched && dying.fetched && raw.productsInfo.fetched ? (
-        <ViewWrapper marginBottom={4} heading='Kora Purchase' width={80}>
+        <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
           <Formik
             initialValues={constants.INITIAL_VALUES}
             validationSchema={schema}
-            onSubmit={(values, actions) => handleSubmit(values, actions)}>
+            onSubmit={(values, actions) => handleSubmit(values, actions)}
+          >
             {({ values, errors, touched, handleSubmit }) => (
               <Form>
-                <MetaWrapper gap={2} container justifyContent='space-between'>
+                <MetaWrapper gap={2} container justifyContent="space-between">
                   {metaFields.map((field, index) => (
                     <Grid key={index} item xs={5}>
                       <FastField {...getFieldProps(field, errors, touched)} />
@@ -145,19 +146,21 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                           'string'
                         }
                         container
-                        direction='column'
+                        direction="column"
                         gap={3}
-                        key={`lot-${lotIndex}`}>
-                        <LotHeader container justifyContent='space-between'>
+                        key={`lot-${lotIndex}`}
+                      >
+                        <LotHeader container justifyContent="space-between">
                           <Grid item xs={10}>
-                            <Grid container alignItems='center'>
+                            <Grid container alignItems="center">
                               <Grid item xs={2}>
                                 <LotNumber
-                                  variant='h5'
+                                  variant="h5"
                                   iserror={
                                     typeof errors.lots?.[lotIndex]
                                       ?.lot_detail === 'string'
-                                  }>
+                                  }
+                                >
                                   Lot # {lotIndex + 1}
                                 </LotNumber>
                               </Grid>
@@ -167,7 +170,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                   lotIndex,
                                   values.lots[lotIndex].issued,
                                   dying.dyingUnits,
-                                  raw.productsInfo.products
+                                  raw.productsInfo.products,
                                 )
                                 .map(
                                   (field, lotFieldIndex) =>
@@ -175,13 +178,14 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                       <Grid
                                         key={`lotHeader-${lotFieldIndex}`}
                                         item
-                                        xs={3}>
+                                        xs={3}
+                                      >
                                         {field.isFast ? (
                                           <FastField
                                             {...getFieldProps(
                                               field,
                                               errors,
-                                              touched
+                                              touched,
                                             )}
                                             isError={
                                               !!errors.lots?.[lotIndex]?.[
@@ -202,7 +206,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                             {...getFieldProps(
                                               field,
                                               errors,
-                                              touched
+                                              touched,
                                             )}
                                             isError={
                                               !!errors.lots?.[lotIndex]?.[
@@ -220,7 +224,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                           />
                                         )}
                                       </Grid>
-                                    )
+                                    ),
                                 )}
                             </Grid>
                           </Grid>
@@ -230,15 +234,15 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                               disabled={values.lots.length === 1}
                               onAdd={() =>
                                 arrayHelpersLot.push(
-                                  constants.INITIAL_VALUES.lots[0]
+                                  constants.INITIAL_VALUES.lots[0],
                                 )
                               }
                               onDelete={() => arrayHelpersLot.remove(lotIndex)}
-                              addColor='secondary'
+                              addColor="secondary"
                             />
                           </Grid>
                         </LotHeader>
-                        <DetailWrapper container direction='column' gap={1}>
+                        <DetailWrapper container direction="column" gap={1}>
                           <FieldArray
                             name={`${constants.FIELDS.lots}.${lotIndex}.${constants.FIELDS.lot_detail}`}
                             render={(arrayHelpersLotDetail) =>
@@ -248,13 +252,14 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                   <Grid
                                     key={`lotDetail-${lotIndex}-${index}-wrapper`}
                                     container
-                                    justifyContent='space-between'>
+                                    justifyContent="space-between"
+                                  >
                                     {utils
                                       .getLotDetailFields(
                                         essentials,
                                         lotIndex,
                                         index,
-                                        raw.formulasInfo.formulas
+                                        raw.formulasInfo.formulas,
                                       )
                                       .map((lotDetailField, lotDetailIndex) => {
                                         return !values.lots[lotIndex]?.issued ||
@@ -263,12 +268,13 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                           <Grid
                                             key={`lotDetail-${lotIndex}-${lotDetailIndex}-item`}
                                             item
-                                            xs={lotDetailField.xs || 1}>
+                                            xs={lotDetailField.xs || 3}
+                                          >
                                             <FastField
                                               {...getFieldProps(
                                                 lotDetailField,
                                                 errors,
-                                                touched
+                                                touched,
                                               )}
                                               isError={
                                                 !!errors.lots?.[lotIndex]
@@ -286,7 +292,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                                   lotDetailField.name
                                                 ]
                                               }
-                                              variant='standard'
+                                              variant="standard"
                                             />
                                           </Grid>
                                         ) : null;
@@ -295,7 +301,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                       .getCalculatedValues(
                                         values,
                                         lotIndex,
-                                        index
+                                        index,
                                       )
                                       .map((calculated, calIndex) => (
                                         <Grid key={calIndex} item xs={1}>
@@ -303,8 +309,8 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                             disabled
                                             key={calIndex}
                                             label={calculated.label}
-                                            size='small'
-                                            variant='standard'
+                                            size="small"
+                                            variant="standard"
                                             value={calculated.value.toFixed(2)}
                                           />
                                         </Grid>
@@ -330,13 +336,13 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                       />
                                     </Grid>
                                   </Grid>
-                                )
+                                ),
                               )
                             }
                           />
                           {typeof errors.lots?.[lotIndex]?.lot_detail ===
                             'string' && (
-                            <UniqueError color='error' variant='caption'>
+                            <UniqueError color="error" variant="caption">
                               Lot detail must be unique
                             </UniqueError>
                           )}
@@ -364,15 +370,16 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                         key={`${textIndex}-bottom`}
                         text={text}
                         index={textIndex}
-                        variant='body2'
+                        variant="body2"
                       />
                     ))}
                 </Grid>
                 <StyledButton
                   fullWidth
                   onClick={handleSubmit}
-                  variant='contained'
-                  loading={isLoading}>
+                  variant="contained"
+                  loading={isLoading}
+                >
                   Post
                 </StyledButton>
               </Form>

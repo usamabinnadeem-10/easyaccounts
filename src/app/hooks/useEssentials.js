@@ -136,6 +136,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.accountTypes,
   ],
+  [routes.RAW_PURCHASE_ROUTE]: [REDUCER.suppliers, REDUCER.warehouses],
 };
 
 const useEssentials = () => {
