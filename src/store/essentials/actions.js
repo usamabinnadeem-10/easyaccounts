@@ -167,6 +167,12 @@ export const getAllCategoriesSuccess = (data) => {
   };
 };
 
+export const getAllRawProducts = () => {
+  return {
+    type: actionTypes.GET_ALL_RAW_PRODUCTS,
+  };
+};
+
 // ADD NEW ACTIONS
 
 export const addNewPerson = (data) => {
@@ -286,6 +292,13 @@ export const addOpeningStockSuccess = (data) => {
 export const addOpeningStockFail = (data) => {
   return {
     type: actionTypes.ADD_OPENING_STOCK_FAIL,
+    payload: data,
+  };
+};
+
+export const getAllRawProductsSuccess = (data) => {
+  return {
+    type: actionTypes.GET_ALL_RAW_PRODUCTS_SUCCESS,
     payload: data,
   };
 };

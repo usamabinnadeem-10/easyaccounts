@@ -7,6 +7,7 @@ import {
   EXPENSE_URLS,
   TRANSACTION_URLS,
   CSC_URLS,
+  RAW_APIS,
 } from '../../constants/restEndPoints';
 
 // APIs to get essentials
@@ -53,6 +54,10 @@ export const getCategoriesApi = () => {
 
 export const getCitiesApi = () => {
   return cscInstance.get(CSC_URLS.CITIES_BY_COUNTRY);
+};
+
+export const getRawProductsApi = () => {
+  return instance.get(RAW_APIS.LIST.PRODUCT);
 };
 
 // APIs to add essentials

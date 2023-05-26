@@ -87,6 +87,7 @@ export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
 export const RAW_DEBIT = 'Kora Sale/Return';
 export const RAW_TRANSFER = 'Kora Transfer';
+export const RAW_STOCK = 'Kora Stock';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
@@ -401,6 +402,10 @@ export const SIDEBAR = [
       {
         name: RAW_TRANSFER,
         route: routes.RAW_TRANSFER_ROUTE,
+      },
+      {
+        name: RAW_STOCK,
+        route: routes.RAW_STOCK_ROUTE,
       },
     ],
   },

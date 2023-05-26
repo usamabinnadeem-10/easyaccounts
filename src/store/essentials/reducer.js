@@ -15,6 +15,7 @@ const initialState = {
   expenseAccounts: [],
   areas: [],
   cities: [],
+  rawProducts: [],
   fetched: {
     warehouses: false,
     accountTypes: false,
@@ -26,6 +27,7 @@ const initialState = {
     productCategories: false,
     expenseAccounts: false,
     areas: false,
+    rawProducts: false,
   },
   added: false,
   adding: false,
@@ -57,7 +59,7 @@ const reducer = (state = initialState, action) => {
       const types = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -72,7 +74,7 @@ const reducer = (state = initialState, action) => {
       const customers = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -87,7 +89,7 @@ const reducer = (state = initialState, action) => {
       const suppliers = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -102,7 +104,7 @@ const reducer = (state = initialState, action) => {
       const equities = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -117,7 +119,7 @@ const reducer = (state = initialState, action) => {
       const advanceExpenses = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -132,7 +134,7 @@ const reducer = (state = initialState, action) => {
       const products = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -147,7 +149,7 @@ const reducer = (state = initialState, action) => {
       const categories = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -162,7 +164,7 @@ const reducer = (state = initialState, action) => {
       const warehouses = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -177,7 +179,7 @@ const reducer = (state = initialState, action) => {
       const expenses = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -192,7 +194,7 @@ const reducer = (state = initialState, action) => {
       const areas = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
@@ -207,11 +209,17 @@ const reducer = (state = initialState, action) => {
       const cities = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', action.payload)
+        renameKeys('name', 'label', action.payload),
       );
       return {
         ...state,
         cities: cities,
+      };
+
+    case actionTypes.GET_ALL_RAW_PRODUCTS_SUCCESS:
+      return {
+        ...state,
+        rawProducts: action.payload,
       };
 
     // actions to add new
@@ -226,7 +234,7 @@ const reducer = (state = initialState, action) => {
       const newExpense = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       return {
         ...state,
@@ -246,7 +254,7 @@ const reducer = (state = initialState, action) => {
       const newWarehouse = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       return {
         ...state,
@@ -268,7 +276,7 @@ const reducer = (state = initialState, action) => {
       let newPerson = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       newPerson = formatPersonLabels(newPerson);
       return {
@@ -289,7 +297,7 @@ const reducer = (state = initialState, action) => {
       const newAccountType = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       return {
         ...state,
@@ -315,7 +323,7 @@ const reducer = (state = initialState, action) => {
       let newCategoriesRenamed = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       let newCategories = [...state.productCategories, ...newCategoriesRenamed];
       return {
@@ -337,7 +345,7 @@ const reducer = (state = initialState, action) => {
       let newProductsRenamed = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       let newProducts = [...state.products, ...newProductsRenamed];
       return {
@@ -352,7 +360,7 @@ const reducer = (state = initialState, action) => {
       let newAreasRenamed = renameKeys(
         'id',
         'value',
-        renameKeys('name', 'label', [action.payload])
+        renameKeys('name', 'label', [action.payload]),
       );
       let newAreas = [...state.areas, ...newAreasRenamed];
       return {

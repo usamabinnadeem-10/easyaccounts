@@ -37,6 +37,7 @@ const IncomeStatement = lazy(() => import('../app/views/IncomeStatement'));
 const ActivityLogs = lazy(() => import('../app/views/ActivityLogs'));
 const LowStock = lazy(() => import('../app/views/LowStock'));
 const RevenueByPeriod = lazy(() => import('../app/views/RevenueByPeriod'));
+const RawStock = lazy(() => import('../app/views/Raw/RawStock'));
 
 export const authenticatedRoutes = [
   {
@@ -162,5 +163,9 @@ export const authenticatedRoutes = [
   {
     component: RevenueByPeriod,
     path: url.REVENUE_BY_PERIOD,
+  },
+  {
+    component: RawStock,
+    path: url.RAW_STOCK_ROUTE,
   },
 ];

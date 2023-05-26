@@ -22,6 +22,7 @@ let REDUCER_ACTION_RELATION = {
   productCategories: actions.getAllCategories,
   expenseAccounts: actions.getAllExpenseAccounts,
   areas: actions.getAllAreas,
+  rawProducts: actions.getAllRawProducts,
 };
 
 const DEFAULTS = {
@@ -48,6 +49,7 @@ const REDUCER = {
   expenseAccounts: 'expenseAccounts',
   productCategories: 'productCategories',
   areas: 'areas',
+  rawProducts: 'rawProducts',
 };
 
 const ALL_PERSONS = [
@@ -137,6 +139,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.accountTypes,
   ],
   [routes.RAW_PURCHASE_ROUTE]: [REDUCER.suppliers, REDUCER.warehouses],
+  [routes.RAW_STOCK_ROUTE]: [REDUCER.warehouses, REDUCER.rawProducts],
 };
 
 const useEssentials = () => {
