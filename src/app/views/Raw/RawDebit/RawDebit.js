@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -9,6 +9,7 @@ import { FastField } from 'formik';
 import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
 import { TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import CustomToggleButtons from '../../../components/CustomToggleButtons';
 import ViewWrapper from '../../../components/ViewWrapper';
@@ -23,15 +24,42 @@ import { schema } from './validation';
 import { formatForm } from './utils';
 import { MetaContainer } from './styled';
 
-const RawDebit = () => {
+import instance from '../../../../utils/axiosApi';
+import { RAW_APIS } from '../../../../constants/restEndPoints';
+
+import { withSnackbar } from '../../../hoc/withSnackbar';
+
+import { findErrorMessage } from '../../../utilities/objectUtils';
+
+const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
   const essentials = useSelector((state) => state.essentials);
+  const [loading, setLoading] = useState(false);
+  const createTransaction = async (data, actions) => {
+    try {
+      setLoading(true);
+      const response = await instance.post(
+        RAW_APIS.CREATE.SALE_OR_RETURN,
+        data,
+      );
+      if (response.data) {
+        showSuccessSnackbar('Debit entry created');
+        actions.resetForm();
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      showErrorSnackbar(findErrorMessage(error.response?.data));
+    }
+  };
 
   return (
     <ViewWrapper marginBottom={4} heading="Kora Sale/Return" width={80}>
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={schema}
-        onSubmit={(values, actions) => console.log(formatForm(values))}
+        onSubmit={(values, actions) =>
+          createTransaction(formatForm(values), actions)
+        }
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>
@@ -83,9 +111,13 @@ const RawDebit = () => {
                 touched={touched}
                 values={values}
               />
-              <Button variant="contained" onClick={handleSubmit}>
+              <LoadingButton
+                loading={loading}
+                variant="contained"
+                onClick={handleSubmit}
+              >
                 POST
-              </Button>
+              </LoadingButton>
             </Grid>
           </Form>
         )}
@@ -94,4 +126,4 @@ const RawDebit = () => {
   );
 };
 
-export default RawDebit;
+export default withSnackbar(RawDebit);
