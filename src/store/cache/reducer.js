@@ -31,6 +31,10 @@ const initialState = {
   },
   allBalancesCache: null,
   productPerformanceCache: null,
+  rawTransactionsListCache: {
+    transactionData: [],
+    nextPage: null,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -97,6 +101,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         expensesListCache: {
           ...state.expensesListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_RAW_TRANSACTIONS_LIST:
+      return {
+        ...state,
+        rawTransactionsListCache: {
+          ...state.rawTransactionsListCache,
           ...action.payload,
         },
       };

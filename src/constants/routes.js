@@ -38,6 +38,9 @@ const ActivityLogs = lazy(() => import('../app/views/ActivityLogs'));
 const LowStock = lazy(() => import('../app/views/LowStock'));
 const RevenueByPeriod = lazy(() => import('../app/views/RevenueByPeriod'));
 const RawStock = lazy(() => import('../app/views/Raw/RawStock'));
+const RawTransactionsList = lazy(() =>
+  import('../app/views/Raw/ViewRawTransactions'),
+);
 
 export const authenticatedRoutes = [
   {
@@ -167,5 +170,9 @@ export const authenticatedRoutes = [
   {
     component: RawStock,
     path: url.RAW_STOCK_ROUTE,
+  },
+  {
+    component: RawTransactionsList,
+    path: url.LIST_RAW_TRANSACTIONS_ROUTE,
   },
 ];

@@ -69,3 +69,10 @@ export const cacheExpenseList = (data) => {
     payload: data,
   };
 };
+
+export const cacheRawTransactionsList = (data) => {
+  return {
+    type: actionTypes.CACHE_RAW_TRANSACTIONS_LIST,
+    payload: data,
+  };
+};

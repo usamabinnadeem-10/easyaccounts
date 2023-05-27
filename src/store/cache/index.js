@@ -9,4 +9,5 @@ export {
   cacheProductPerformance,
   cacheTransactionList,
   cacheExpenseList,
+  cacheRawTransactionsList,
 } from './actions';
