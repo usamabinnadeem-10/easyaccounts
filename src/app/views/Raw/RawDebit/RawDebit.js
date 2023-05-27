@@ -27,16 +27,17 @@ const RawDebit = () => {
   const essentials = useSelector((state) => state.essentials);
 
   return (
-    <ViewWrapper marginBottom={4} heading='Kora Debit' width={80}>
+    <ViewWrapper marginBottom={4} heading="Kora Sale/Return" width={80}>
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={schema}
-        onSubmit={(values, actions) => console.log(formatForm(values))}>
+        onSubmit={(values, actions) => console.log(formatForm(values))}
+      >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>
-            <Grid container direction='column' gap={3}>
-              <MetaContainer container direction='column' gap={2}>
-                <Grid container justifyContent='space-between'>
+            <Grid container direction="column" gap={3}>
+              <MetaContainer container direction="column" gap={2}>
+                <Grid container justifyContent="space-between">
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormAutoCompleteField}
@@ -45,7 +46,7 @@ const RawDebit = () => {
                         ...essentials.customers,
                       ]}
                       name={FIELDS.person}
-                      label='Person'
+                      label="Person"
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
@@ -58,21 +59,21 @@ const RawDebit = () => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container justifyContent='space-between'>
+                <Grid container justifyContent="space-between">
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormTextField}
                       name={FIELDS.manual_invoice_serial}
-                      label='Book #'
+                      label="Book #"
                       fullWidth
-                      type='number'
+                      type="number"
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormDateField}
                       name={FIELDS.date}
-                      label='Date'
+                      label="Date"
                     />
                   </Grid>
                 </Grid>
@@ -82,7 +83,7 @@ const RawDebit = () => {
                 touched={touched}
                 values={values}
               />
-              <Button variant='contained' onClick={handleSubmit}>
+              <Button variant="contained" onClick={handleSubmit}>
                 POST
               </Button>
             </Grid>

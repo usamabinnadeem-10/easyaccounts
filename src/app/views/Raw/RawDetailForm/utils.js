@@ -4,19 +4,25 @@ export const getFields = (essentials, formulas, isTransfer) => {
       field: 'quantity',
       type: 'number',
       label: 'Quantity',
-      xs: 1,
+      xs: 3,
     },
     {
       field: 'actual_gazaana',
       type: 'number',
-      label: 'Actual',
-      xs: 1,
+      label: 'Stock Gazaana',
+      xs: 3,
     },
     {
       field: 'expected_gazaana',
       type: 'number',
-      label: 'Expected',
-      xs: 1,
+      label: 'Physical Gazaana',
+      xs: 3,
+    },
+    {
+      field: 'rate_gazaana',
+      type: 'number',
+      label: 'Rate Gazaana',
+      xs: 3,
     },
     {
       field: 'formula',
@@ -30,7 +36,7 @@ export const getFields = (essentials, formulas, isTransfer) => {
       type: 'select',
       label: 'Warehouse',
       options: essentials.warehouses,
-      xs: 2,
+      xs: 3,
     },
   ];
   if (isTransfer) {
@@ -46,7 +52,7 @@ export const getFields = (essentials, formulas, isTransfer) => {
       field: 'rate',
       type: 'number',
       label: 'Rate',
-      xs: 1,
+      xs: 2,
     });
   }
   return fields;

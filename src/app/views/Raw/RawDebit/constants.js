@@ -9,6 +9,7 @@ export const FIELDS = {
   quantity: 'quantity',
   actual_gazaana: 'actual_gazaana',
   expected_gazaana: 'expected_gazaana',
+  rate_gazaana: 'rate_gazaana',
   formula: 'formula',
   data: 'data',
   lot_detail: 'lot_detail',
@@ -25,6 +26,7 @@ export const DETAIL_INITIAL = {
   [FIELDS.formula]: '',
   [FIELDS.rate]: '',
   [FIELDS.warehouse]: '',
+  [FIELDS.rate_gazaana]: '',
 };
 
 export const LOT_INITIAL = {
