@@ -152,6 +152,7 @@ export const RAW_APIS = {
     PRODUCT: `${RAW}${PRODUCT}${LIST}`,
     LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
     RAW_TRANSACTION: `${RAW}${TRANSACTION}${LIST}`,
+    RAW_DEBIT_TRANSACTION: `${RAW}${TRANSACTION}debit/${LIST}`,
   },
   STOCK: `${RAW}stock/all`,
 };

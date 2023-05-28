@@ -24,6 +24,7 @@ export const RAW_DEBIT_ROUTE = `${HOME}/raw-debit`;
 export const RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer`;
 export const RAW_STOCK_ROUTE = `${HOME}/raw-stock`;
 export const LIST_RAW_TRANSACTIONS_ROUTE = `${HOME}/raw-transactions`;
+export const LIST_RAW_DEBIT_TRANSACTIONS_ROUTE = `${HOME}/raw-debit-transactions`;
 export const STOCK_TRANSFER = `${HOME}/transfer-stock`;
 export const VIEW_TRANSFERS = `${HOME}/view-transfers`;
 export const PAYMENT_ROUTE = `${HOME}/add-payment`;

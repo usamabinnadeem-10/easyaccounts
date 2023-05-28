@@ -76,3 +76,10 @@ export const cacheRawTransactionsList = (data) => {
     payload: data,
   };
 };
+
+export const cacheRawDebitTransactionsList = (data) => {
+  return {
+    type: actionTypes.CACHE_RAW_DEBIT_TRANSACTIONS_LIST,
+    payload: data,
+  };
+};

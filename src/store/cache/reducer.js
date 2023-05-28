@@ -35,6 +35,10 @@ const initialState = {
     transactionData: [],
     nextPage: null,
   },
+  rawDebitTransactionsListCache: {
+    transactionData: [],
+    nextPage: null,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -109,6 +113,14 @@ const reducer = (state = initialState, action) => {
         ...state,
         rawTransactionsListCache: {
           ...state.rawTransactionsListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_RAW_DEBIT_TRANSACTIONS_LIST:
+      return {
+        ...state,
+        rawDebitTransactionsListCache: {
+          ...state.rawDebitTransactionsListCache,
           ...action.payload,
         },
       };

@@ -152,6 +152,12 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.customers,
   ],
+  [routes.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE]: [
+    REDUCER.warehouses,
+    REDUCER.rawProducts,
+    REDUCER.suppliers,
+    REDUCER.customers,
+  ],
 };
 
 const useEssentials = () => {

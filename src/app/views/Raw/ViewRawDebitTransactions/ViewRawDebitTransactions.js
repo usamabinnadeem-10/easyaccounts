@@ -3,7 +3,7 @@ import React, { useEffect, useCallback, useMemo, useState } from 'react';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
-import { cacheRawTransactionsList } from '../../../../store/cache';
+import { cacheRawDebitTransactionsList } from '../../../../store/cache';
 
 // Custom components
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
@@ -31,24 +31,27 @@ import { getFilters } from './filters';
 const ListRawTransactions = () => {
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
-  const rawTransactionsCache = useSelector(
-    (state) => state.cache.rawTransactionsListCache,
+  const rawDebitTransactionList = useSelector(
+    (state) => state.cache.rawDebitTransactionsListCache,
   );
 
   const [loading, setLoading] = useState(false);
-  const [rawTransactions, setRawTransactions] = useState([]);
+  const [rawDebitTransactions, setRawDebitTransactions] = useState([]);
 
   let filters = useMemo(() => getFilters(essentials), [essentials]);
 
   useEffect(() => {
-    setRawTransactions(
-      formatTransactionData(rawTransactionsCache.transactionData, essentials),
+    setRawDebitTransactions(
+      formatTransactionData(
+        rawDebitTransactionList.transactionData,
+        essentials,
+      ),
     );
-  }, [rawTransactionsCache, essentials]);
+  }, [rawDebitTransactionList, essentials]);
 
   const onSearch = (data) => {
     dispatch(
-      cacheRawTransactionsList({
+      cacheRawDebitTransactionsList({
         transactionData: data.results,
         next: data.next,
       }),
@@ -58,13 +61,13 @@ const ListRawTransactions = () => {
   const loadMore = async () => {
     try {
       setLoading(true);
-      const response = await axiosApi.get(rawTransactionsCache.next);
+      const response = await axiosApi.get(rawDebitTransactionList.next);
       if (response.data) {
         const data = response.data;
         dispatch(
-          cacheRawTransactionsList({
+          cacheRawDebitTransactionsList({
             transactionData: [
-              ...rawTransactionsCache.transactionData,
+              ...rawDebitTransactionList.transactionData,
               ...data.results,
             ],
             next: data.next,
@@ -78,17 +81,21 @@ const ListRawTransactions = () => {
 
   return (
     <>
-      <Heading heading="Kora Purchase List" />
+      <Heading heading="Kora Sale/Return List" />
       <CustomFilters
-        api={RAW_APIS.LIST.RAW_TRANSACTION}
+        api={RAW_APIS.LIST.RAW_DEBIT_TRANSACTION}
         filters={filters}
         onSearch={onSearch}
       />
       <GridWrapper>
-        <CustomDataGrid columns={COLUMNS} rows={rawTransactions} showToolbar />
+        <CustomDataGrid
+          columns={COLUMNS}
+          rows={rawDebitTransactions}
+          showToolbar
+        />
         <LoadingButton
           onClick={loadMore}
-          disabled={!rawTransactionsCache.next}
+          disabled={!rawDebitTransactionList.next}
           loading={loading}
         >
           Load More

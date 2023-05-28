@@ -83,6 +83,7 @@ export const DYING_RETURN = 'Return';
 // ----------------------RAW--------------------------- //
 export const RAW = 'Kora';
 export const VIEW_RAW_TRANSACTIONS = 'Kora Purchase List';
+export const VIEW_RAW_DEBIT_TRANSACTIONS = 'Sale/Return List';
 export const RAW_PURCHASE = 'Buying';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
@@ -395,6 +396,10 @@ export const SIDEBAR = [
       {
         name: VIEW_RAW_TRANSACTIONS,
         route: routes.LIST_RAW_TRANSACTIONS_ROUTE,
+      },
+      {
+        name: VIEW_RAW_DEBIT_TRANSACTIONS,
+        route: routes.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE,
       },
       {
         name: RAW_PURCHASE,
