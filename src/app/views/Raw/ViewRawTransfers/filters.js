@@ -1,12 +1,16 @@
 import { FIELDS } from '../../../containers/CustomFilters/constants';
 
-export const getFilters = (essentials) => {
+export const getFilters = () => {
   return [
     {
-      qp: 'person',
-      options: [...essentials.suppliers, ...essentials.customers],
-      type: FIELDS.SELECT,
-      placeholder: 'Person',
+      qp: 'rawtransferlot__lot_number__lot_number__gte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Lot # (from)',
+    },
+    {
+      qp: 'rawtransferlot__lot_number__lot_number__lte',
+      type: FIELDS.NUMBER,
+      placeholder: 'Lot # (to)',
     },
     {
       qp: 'manual_serial__gte',

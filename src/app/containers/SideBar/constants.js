@@ -82,14 +82,15 @@ export const DYING_RETURN = 'Return';
 
 // ----------------------RAW--------------------------- //
 export const RAW = 'Kora';
-export const VIEW_RAW_TRANSACTIONS = 'Kora Purchase List';
+export const VIEW_RAW_TRANSACTIONS = 'Purchase List';
 export const VIEW_RAW_DEBIT_TRANSACTIONS = 'Sale/Return List';
-export const RAW_PURCHASE = 'Buying';
+export const VIEW_RAW_TRANSFER_TRANSACTIONS = 'Transfer List';
+export const RAW_PURCHASE = 'New Purchase';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
-export const RAW_DEBIT = 'Kora Sale/Return';
-export const RAW_TRANSFER = 'Kora Transfer';
-export const RAW_STOCK = 'Kora Stock';
+export const RAW_DEBIT = 'New Sale/Return';
+export const RAW_TRANSFER = 'New Transfer';
+export const RAW_STOCK = 'Stock';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
@@ -400,6 +401,10 @@ export const SIDEBAR = [
       {
         name: VIEW_RAW_DEBIT_TRANSACTIONS,
         route: routes.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE,
+      },
+      {
+        name: VIEW_RAW_TRANSFER_TRANSACTIONS,
+        route: routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE,
       },
       {
         name: RAW_PURCHASE,

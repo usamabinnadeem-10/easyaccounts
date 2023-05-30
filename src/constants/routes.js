@@ -44,6 +44,9 @@ const RawTransactionsList = lazy(() =>
 const RawDebitTransactionsList = lazy(() =>
   import('../app/views/Raw/ViewRawDebitTransactions'),
 );
+const RawTransferTransactionsList = lazy(() =>
+  import('../app/views/Raw/ViewRawTransfers'),
+);
 
 export const authenticatedRoutes = [
   {
@@ -181,5 +184,9 @@ export const authenticatedRoutes = [
   {
     component: RawDebitTransactionsList,
     path: url.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE,
+  },
+  {
+    component: RawTransferTransactionsList,
+    path: url.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE,
   },
 ];
