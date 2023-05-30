@@ -2,6 +2,7 @@ import Yup from '../../../utilities/yup';
 import {
   positiveReqNumberSchema,
   reqObjectSchema,
+  notReqObjectSchema,
 } from '../../../utilities/yup';
 
 import { FIELDS } from './constants';
@@ -9,8 +10,7 @@ import { FIELDS } from './constants';
 const REQUIRED = 'Required';
 
 export const schema = Yup.object().shape({
-  [FIELDS.debit_type]: Yup.string().required(REQUIRED),
-  [FIELDS.manual_invoice_serial]: positiveReqNumberSchema,
+  [FIELDS.manual_serial]: positiveReqNumberSchema,
   [FIELDS.date]: Yup.date().typeError('Invalid date').required(REQUIRED),
   [FIELDS.data]: Yup.array()
     .of(
@@ -22,10 +22,10 @@ export const schema = Yup.object().shape({
               [FIELDS.quantity]: positiveReqNumberSchema,
               [FIELDS.actual_gazaana]: positiveReqNumberSchema,
               [FIELDS.expected_gazaana]: positiveReqNumberSchema,
-              [FIELDS.formula]: reqObjectSchema,
+              [FIELDS.formula]: notReqObjectSchema,
               [FIELDS.warehouse]: reqObjectSchema,
-              [FIELDS.to_warehouse]: reqObjectSchema,
-            })
+              [FIELDS.transferring_warehouse]: reqObjectSchema,
+            }),
           )
           .unique(
             [
@@ -33,11 +33,11 @@ export const schema = Yup.object().shape({
               'expected_gazaana',
               'formula',
               'warehouse',
-              'to_warehouse',
+              'transferring_warehouse',
             ],
-            'Detail is not unique'
+            'Detail is not unique',
           ),
-      })
+      }),
     )
     .unique(['lot_number'], 'Lot number can not be repeated'),
 });

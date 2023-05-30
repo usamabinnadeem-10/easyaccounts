@@ -11,7 +11,7 @@ const REQUIRED = 'Required';
 export const schema = Yup.object().shape({
   [FIELDS.person]: reqObjectSchema,
   [FIELDS.debit_type]: Yup.string().required(REQUIRED),
-  [FIELDS.manual_invoice_serial]: positiveReqNumberSchema,
+  [FIELDS.manual_serial]: positiveReqNumberSchema,
   [FIELDS.date]: Yup.date().typeError('Invalid date').required(REQUIRED),
   [FIELDS.data]: Yup.array()
     .of(

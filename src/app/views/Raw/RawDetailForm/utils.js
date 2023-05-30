@@ -19,12 +19,6 @@ export const getFields = (essentials, formulas, isTransfer) => {
       xs: 3,
     },
     {
-      field: 'rate_gazaana',
-      type: 'number',
-      label: 'Rate Gazaana',
-      xs: 3,
-    },
-    {
       field: 'formula',
       type: 'select',
       label: 'Formula',
@@ -34,20 +28,26 @@ export const getFields = (essentials, formulas, isTransfer) => {
     {
       field: 'warehouse',
       type: 'select',
-      label: 'Warehouse',
+      label: isTransfer ? 'To Warehouse' : 'Warehouse',
       options: essentials.warehouses,
       xs: 3,
     },
   ];
   if (isTransfer) {
-    fields.push({
-      field: 'to_warehouse',
+    fields.splice(4, 0, {
+      field: 'transferring_warehouse',
       type: 'select',
-      label: 'Transfer to',
+      label: 'From Warehouse',
       options: essentials.warehouses,
       xs: 2,
     });
   } else {
+    fields.splice(3, 0, {
+      field: 'rate_gazaana',
+      type: 'number',
+      label: 'Rate Gazaana',
+      xs: 3,
+    });
     fields.push({
       field: 'rate',
       type: 'number',

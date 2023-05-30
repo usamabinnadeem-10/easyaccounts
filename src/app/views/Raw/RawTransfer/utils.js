@@ -6,7 +6,7 @@ export const formatForm = (form) => ({
       ...det,
       formula: det.formula.value,
       warehouse: det.warehouse.value,
-      to_warehouse: det.to_warehouse.value,
+      transferring_warehouse: det.transferring_warehouse.value,
     })),
   })),
 });

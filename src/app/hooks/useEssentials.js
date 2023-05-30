@@ -158,6 +158,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.customers,
   ],
+  [routes.RAW_TRANSFER_ROUTE]: [REDUCER.warehouses],
 };
 
 const useEssentials = () => {

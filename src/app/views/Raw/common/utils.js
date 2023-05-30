@@ -82,11 +82,11 @@ export const getTotals = (
       value: thaan,
     },
     {
-      label: 'Actual',
+      label: 'Gazaana',
       value: actual.toFixed(2),
     },
     {
-      label: 'Expected',
+      label: 'Physical Gazaana',
       value: expected.toFixed(2),
     },
   ];

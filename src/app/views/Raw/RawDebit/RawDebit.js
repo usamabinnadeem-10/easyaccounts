@@ -91,7 +91,7 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormTextField}
-                      name={FIELDS.manual_invoice_serial}
+                      name={FIELDS.manual_serial}
                       label="Book #"
                       fullWidth
                       type="number"

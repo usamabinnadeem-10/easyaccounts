@@ -3,7 +3,7 @@ import { getToday } from '../../../utilities/stringUtils';
 export const FIELDS = {
   person: 'person',
   raw_product: 'raw_product',
-  manual_invoice_serial: 'manual_invoice_serial',
+  manual_serial: 'manual_serial',
   date: 'date',
   warehouse: 'warehouse',
   quantity: 'quantity',
