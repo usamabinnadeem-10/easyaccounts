@@ -258,7 +258,7 @@ const TransactionBody = ({
               render={(arrayHelpers) =>
                 values.transaction_detail.map((row, rowIndex) => (
                   <Grid key={rowIndex} container>
-                    <Grid item xs={11}>
+                    <Grid item xs={10}>
                       <TransactionRow container>
                         <Badge
                           duplicatecolor={
@@ -277,7 +277,7 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'product')}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={1}>
                           <Field
                             name={`transaction_detail.${rowIndex}.yards_per_piece`}
                             component={FormAutoCompleteField}
@@ -290,7 +290,7 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'yards_per_piece')}
                           />
                         </Grid>
-                        <Grid item xs={3}>
+                        <Grid item xs={2}>
                           <Field
                             name={`transaction_detail.${rowIndex}.warehouse`}
                             component={FormAutoCompleteField}
@@ -304,7 +304,7 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'warehouse')}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={1}>
                           <FastField
                             name={`transaction_detail.${rowIndex}.rate`}
                             component={FormTextField}
@@ -315,7 +315,7 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'rate')}
                           />
                         </Grid>
-                        <Grid item xs={2}>
+                        <Grid item xs={1}>
                           <Field
                             name={`transaction_detail.${rowIndex}.quantity`}
                             component={FormTextField}
@@ -327,24 +327,25 @@ const TransactionBody = ({
                             {...getFieldErrors(rowIndex, 'quantity')}
                           />
                         </Grid>
+                        <Grid
+                          sx={{ display: 'flex', alignItems: 'center' }}
+                          item
+                          xs={4}
+                        >
+                          <Grid container alignItems="center">
+                            {getRowTotals(rowIndex).map((total, totalIndex) => (
+                              <Grid sx={{ textAlign: 'center' }} item xs={6}>
+                                <Typography variant="body1">
+                                  {total.value} {total.label}
+                                </Typography>
+                              </Grid>
+                            ))}
+                          </Grid>
+                        </Grid>
                       </TransactionRow>
                     </Grid>
-                    {/* <Grid
-                      sx={{ display: 'flex', alignItems: 'center' }}
-                      item
-                      xs={2}>
-                      <Grid container alignItems='center'>
-                        {getRowTotals(rowIndex).map((total, totalIndex) => (
-                          <Grid sx={{ textAlign: 'center' }} item xs={6}>
-                            <Typography variant='body1'>
-                              {total.value} {total.label}
-                            </Typography>
-                          </Grid>
-                        ))}
-                      </Grid>
-                    </Grid> */}
 
-                    <Grid item xs={1}>
+                    <Grid item xs={2}>
                       <AddRemove
                         disabled={values.transaction_detail.length === 1}
                         onAdd={() => {
