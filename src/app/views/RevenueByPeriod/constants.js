@@ -20,8 +20,8 @@ export const columns = [
   {
     field: 'period',
     headerName: 'Time Period',
-    flex: 1,
     type: 'date',
+    width: 200,
     valueGetter: (params) => {
       return params.row.totalRow
         ? params.value
@@ -32,11 +32,12 @@ export const columns = [
   {
     field: 'sale',
     headerName: 'Sale',
-    flex: 1,
+    width: 200,
+    align: 'left',
+    headerAlign: 'left',
     type: 'number',
-    renderCell: ({ row, value }) => {
-      let val = value ? formatCurrency(value) : '';
-      return <div>{val}</div>;
+    valueGetter: ({ value }) => {
+      return value ? formatCurrency(value) : '';
     },
   },
 ];
