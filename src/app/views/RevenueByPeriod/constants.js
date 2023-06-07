@@ -22,10 +22,17 @@ export const columns = [
     headerName: 'Time Period',
     type: 'date',
     width: 200,
-    valueGetter: (params) => {
-      return params.row.totalRow
-        ? params.value
-        : getTimePeriod(params.row.period, params.row.periodKey);
+    // valueGetter: (params) => {
+    //   return params.row.totalRow
+    //     ? params.value
+    //     : getTimePeriod(params.row.period, params.row.periodKey);
+    // },
+    renderCell: ({ row, value }) => {
+      return (
+        <div>
+          {row.totalRow ? value : getTimePeriod(row.period, row.periodKey)}
+        </div>
+      );
     },
     sortable: false,
   },
@@ -36,8 +43,9 @@ export const columns = [
     align: 'left',
     headerAlign: 'left',
     type: 'number',
-    valueGetter: ({ value }) => {
-      return value ? formatCurrency(value) : '';
+    renderCell: ({ row, value }) => {
+      let val = value ? formatCurrency(value) : '';
+      return <div>{val}</div>;
     },
   },
 ];

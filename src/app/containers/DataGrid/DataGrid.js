@@ -2,19 +2,27 @@ import React from 'react';
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import './print.css';
 
-const Toolbar = () => {
+const Toolbar = (props) => {
   return (
     <GridToolbar
       showQuickFilter
       printOptions={{
         hideToolbar: true,
         hideFooter: true,
+        disableToolbarButton: true,
       }}
     />
   );
 };
 
-const CustomDataGrid = ({ columns, rows, showToolbar = true, ...props }) => {
+const CustomDataGrid = ({
+  columns,
+  rows,
+  showToolbar = true,
+  printable = false,
+  onClickPrint = null,
+  ...props
+}) => {
   return (
     <DataGrid
       showCellRightBorder={false}
