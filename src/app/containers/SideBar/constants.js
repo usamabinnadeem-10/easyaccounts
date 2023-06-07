@@ -170,7 +170,12 @@ export const SIDEBAR = [
       {
         name: SALE_BY_PERIOD,
         route: routes.REVENUE_BY_PERIOD,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
+        roles: [
+          ROLES.ADMIN,
+          ROLES.ADMIN_VIEWER,
+          ROLES.ACCOUNTANT,
+          ROLES.HEAD_ACCOUNTANT,
+        ],
       },
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
