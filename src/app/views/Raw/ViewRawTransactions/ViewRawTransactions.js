@@ -7,6 +7,7 @@ import { useHistory } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { cacheRawTransactionsList } from '../../../../store/cache';
+import { openModal, closeModal } from '../../../../store/modals';
 
 // Custom components
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
@@ -20,10 +21,12 @@ import { LoadingButton } from '@mui/lab';
 import axiosApi from '../../../../utils/axiosApi';
 import { withSnackbar } from '../../../hoc/withSnackbar';
 import { formatTransactionData } from './utils';
+import { findErrorMessage } from '../../../utilities/objectUtils';
 
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
 import { getColumns } from './constants';
+import { MODAL_IDS } from '../../../../constants/modalIds';
 
 // Styled
 import { GridWrapper } from './styled';
@@ -31,7 +34,7 @@ import { GridWrapper } from './styled';
 // Filters
 import { getFilters } from './filters';
 
-const ListRawTransactions = () => {
+const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -84,8 +87,21 @@ const ListRawTransactions = () => {
     history.push(`/home/raw-purchase/${uuid}`);
   };
 
+  const handleDeleteConfirm = async (uuid) => {
+    try {
+      await axiosApi.delete(RAW_APIS.DELETE.transaction(uuid));
+      showSuccessSnackbar('Transaction deleted');
+    } catch (error) {
+      showErrorSnackbar(findErrorMessage(error?.response?.data));
+    }
+  };
+
   const handleDelete = (uuid) => {
-    history.push(`/home/raw-purchase/${uuid}`);
+    dispatch(
+      openModal(MODAL_IDS.CONFIRMATION, {
+        onConfirm: () => handleDeleteConfirm(uuid),
+      }),
+    );
   };
 
   const COLUMNS = useMemo(() => getColumns({ handleEdit, handleDelete }), []);
