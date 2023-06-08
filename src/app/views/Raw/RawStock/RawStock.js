@@ -8,6 +8,7 @@ import { setRawStock } from '../../../../store/raw/actions';
 // Custom components
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
 import Heading from '../../../components/Heading/Heading';
+import CustomFilters from '../../../containers/CustomFilters/CustomFilters';
 
 // Utils
 import axiosApi from '../../../../utils/axiosApi';
@@ -20,6 +21,9 @@ import { COLUMNS } from './constants';
 
 // Styled
 import { GridWrapper } from './styled';
+
+// Filters
+import { getFilters } from './filters';
 
 const RawStock = () => {
   const dispatch = useDispatch();
@@ -47,9 +51,20 @@ const RawStock = () => {
     [stockData, essentials],
   );
 
+  const onSearch = (data) => {
+    dispatch(setRawStock(data));
+  };
+
+  let filters = useMemo(() => getFilters(essentials), [essentials]);
+
   return (
     <>
       <Heading heading="Kora Stock" />
+      <CustomFilters
+        api={RAW_APIS.STOCK}
+        filters={filters}
+        onSearch={onSearch}
+      />
       <GridWrapper>
         <CustomDataGrid columns={COLUMNS} rows={stockFormatted} showToolbar />
       </GridWrapper>
