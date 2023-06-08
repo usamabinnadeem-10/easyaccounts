@@ -7,7 +7,7 @@ import { useHistory } from 'react-router-dom';
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { cacheRawTransactionsList } from '../../../../store/cache';
-import { openModal, closeModal } from '../../../../store/modals';
+import { openModal } from '../../../../store/modals';
 
 // Custom components
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';

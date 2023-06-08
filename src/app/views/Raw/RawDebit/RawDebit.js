@@ -1,27 +1,27 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { useParams } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import { Formik } from 'formik';
-import { Form } from 'formik';
-import { FastField } from 'formik';
+import { Formik, Form, FastField } from 'formik';
 
-import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
-import { TextField } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
 
 import CustomToggleButtons from '../../../components/CustomToggleButtons';
 import ViewWrapper from '../../../components/ViewWrapper';
 import RawDetailForm from '../RawDetailForm';
 
-import { FormAutoCompleteField } from '../../../utilities/formUtils';
-import { FormDateField } from '../../../utilities/formUtils';
-import { FormTextField } from '../../../utilities/formUtils';
+import {
+  FormAutoCompleteField,
+  FormDateField,
+  FormTextField,
+} from '../../../utilities/formUtils';
 
 import { INITIAL_VALUES, RAW_DEBIT_TYPES, FIELDS } from './constants';
 import { schema } from './validation';
-import { formatForm } from './utils';
+import { formatForm, formatTransactionForEditing } from './utils';
 import { MetaContainer } from './styled';
 
 import instance from '../../../../utils/axiosApi';
@@ -31,18 +31,40 @@ import { withSnackbar } from '../../../hoc/withSnackbar';
 
 import { findErrorMessage } from '../../../utilities/objectUtils';
 
+import * as api from './api';
+
 const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
+  const { uuid } = useParams();
   const essentials = useSelector((state) => state.essentials);
   const [loading, setLoading] = useState(false);
-  const createTransaction = async (data, actions) => {
+  const [transaction, setTransaction] = useState(null);
+
+  useEffect(() => {
+    if (uuid) {
+      fetchTransaction(uuid);
+    }
+  }, [uuid]);
+
+  const fetchTransaction = async (uuid) => {
+    const transaction = await api.fetchTransaction(uuid);
+    setTransaction(formatTransactionForEditing(transaction, essentials));
+  };
+
+  const createOrEditTransaction = async (data, actions) => {
+    const URL = uuid
+      ? RAW_APIS.EDIT.debitTransaction(uuid)
+      : RAW_APIS.CREATE.SALE_OR_RETURN;
     try {
       setLoading(true);
-      const response = await instance.post(
-        RAW_APIS.CREATE.SALE_OR_RETURN,
+      const response = await instance.request({
+        url: URL,
+        method: uuid ? 'PUT' : 'POST',
         data,
-      );
+      });
       if (response.data) {
-        showSuccessSnackbar('Debit entry created');
+        showSuccessSnackbar(
+          uuid ? 'Debit entry edited' : 'Debit entry created',
+        );
         actions.resetForm();
       }
       setLoading(false);
@@ -55,11 +77,12 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
   return (
     <ViewWrapper marginBottom={4} heading="Kora Sale/Return" width={80}>
       <Formik
-        initialValues={INITIAL_VALUES}
+        initialValues={transaction ?? INITIAL_VALUES}
         validationSchema={schema}
         onSubmit={(values, actions) =>
-          createTransaction(formatForm(values), actions)
+          createOrEditTransaction(formatForm(values), actions)
         }
+        enableReinitialize
       >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>

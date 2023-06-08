@@ -60,6 +60,6 @@ export const getFields = (essentials, formulas, isTransfer) => {
 
 export const formatLotNumbers = (lotNumbers) =>
   lotNumbers.map((number) => ({
-    value: number.id,
+    value: number.lot_number,
     label: `${number.lot_number}`,
   }));

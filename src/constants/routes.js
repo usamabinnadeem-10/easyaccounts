@@ -187,6 +187,10 @@ export const authenticatedRoutes = [
     path: url.RAW_DEBIT_ROUTE,
   },
   {
+    component: RawDebit,
+    path: url.EDIT_RAW_DEBIT_ROUTE,
+  },
+  {
     component: RawTransfer,
     path: url.RAW_TRANSFER_ROUTE,
   },
