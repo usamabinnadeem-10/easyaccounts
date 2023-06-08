@@ -195,6 +195,10 @@ export const authenticatedRoutes = [
     path: url.RAW_TRANSFER_ROUTE,
   },
   {
+    component: RawTransfer,
+    path: url.EDIT_RAW_TRANSFER_ROUTE,
+  },
+  {
     component: RawStock,
     path: url.RAW_STOCK_ROUTE,
   },

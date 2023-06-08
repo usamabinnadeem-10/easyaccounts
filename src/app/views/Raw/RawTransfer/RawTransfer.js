@@ -1,8 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { Formik } from 'formik';
-import { Form } from 'formik';
-import { FastField } from 'formik';
+import { useParams } from 'react-router-dom';
+
+import { useSelector } from 'react-redux';
+
+import { Formik, Form, FastField } from 'formik';
 
 import { Grid } from '@mui/material';
 import { LoadingButton } from '@mui/lab';
@@ -10,8 +12,7 @@ import { LoadingButton } from '@mui/lab';
 import ViewWrapper from '../../../components/ViewWrapper';
 import RawDetailForm from '../RawDetailForm';
 
-import { FormDateField } from '../../../utilities/formUtils';
-import { FormTextField } from '../../../utilities/formUtils';
+import { FormDateField, FormTextField } from '../../../utilities/formUtils';
 
 import { INITIAL_VALUES, FIELDS } from './constants';
 import { schema } from './validation';
@@ -25,15 +26,37 @@ import { withSnackbar } from '../../../hoc/withSnackbar';
 
 import { findErrorMessage } from '../../../utilities/objectUtils';
 
-const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
-  const [isLoading, setIsLoading] = useState(false);
+import * as api from './api';
+import * as utils from './utils';
 
-  const createTransfer = async (data, actions) => {
+const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
+  const { uuid } = useParams();
+  const essentials = useSelector((state) => state.essentials);
+  const [isLoading, setIsLoading] = useState(false);
+  const [transfer, setTransfer] = useState(false);
+
+  useEffect(() => {
+    if (uuid) {
+      fetchTransaction(uuid);
+    }
+  }, [uuid]);
+
+  const fetchTransaction = async (uuid) => {
+    const transaction = await api.fetchTransaction(uuid);
+    setTransfer(utils.formatTransferForEditing(transaction, essentials));
+  };
+
+  const createOrEditTransfer = async (data, actions) => {
+    const URL = uuid ? RAW_APIS.EDIT.transfer(uuid) : RAW_APIS.CREATE.TRANSFER;
     try {
       setIsLoading(true);
-      const response = await axiosApi.post(RAW_APIS.CREATE.TRANSFER, data);
+      await axiosApi.request({
+        url: URL,
+        method: uuid ? 'PUT' : 'POST',
+        data,
+      });
       setIsLoading(false);
-      showSuccessSnackbar('Transfer created');
+      showSuccessSnackbar(uuid ? 'Transfer edited' : 'Transfer created');
       actions.resetForm();
     } catch (error) {
       setIsLoading(false);
@@ -44,11 +67,12 @@ const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   return (
     <ViewWrapper marginBottom={4} heading="Kora Transfer" width={80}>
       <Formik
-        initialValues={INITIAL_VALUES}
+        initialValues={transfer || INITIAL_VALUES}
         validationSchema={schema}
         onSubmit={(values, actions) =>
-          createTransfer(formatForm(values), actions)
+          createOrEditTransfer(formatForm(values), actions)
         }
+        enableReinitialize
       >
         {({ values, errors, touched, handleSubmit }) => (
           <Form>

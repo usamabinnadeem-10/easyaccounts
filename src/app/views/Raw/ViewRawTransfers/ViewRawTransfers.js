@@ -1,9 +1,13 @@
 // React
-import React, { useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+// React Router
+import { useHistory } from 'react-router-dom';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
 import { cacheRawTransferTransactionsList } from '../../../../store/cache';
+import { openModal } from '../../../../store/modals';
 
 // Custom components
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
@@ -17,10 +21,12 @@ import { LoadingButton } from '@mui/lab';
 import axiosApi from '../../../../utils/axiosApi';
 import { withSnackbar } from '../../../hoc/withSnackbar';
 import { formatTransactionData } from './utils';
+import { findErrorMessage } from '../../../utilities/objectUtils';
 
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
-import { COLUMNS } from './constants';
+import { getColumns } from './constants';
+import { MODAL_IDS } from '../../../../constants/modalIds';
 
 // Styled
 import { GridWrapper } from './styled';
@@ -28,7 +34,8 @@ import { GridWrapper } from './styled';
 // Filters
 import { getFilters } from './filters';
 
-const ListRawTransfers = () => {
+const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const rawTransfersCache = useSelector(
@@ -41,10 +48,9 @@ const ListRawTransfers = () => {
   let filters = useMemo(() => getFilters(), []);
 
   useEffect(() => {
-    console.log(rawTransfersCache.transactionData);
-    // setRawTransfers(
-    //   formatTransactionData(rawTransfersCache.transactionData, essentials),
-    // );
+    setRawTransfers(
+      formatTransactionData(rawTransfersCache.transactionData, essentials),
+    );
   }, [rawTransfersCache, essentials]);
 
   const onSearch = (data) => {
@@ -76,6 +82,29 @@ const ListRawTransfers = () => {
       setLoading(false);
     }
   };
+
+  const handleEdit = (uuid) => {
+    history.push(`/home/raw-transfer/${uuid}`);
+  };
+
+  const handleDeleteConfirm = async (uuid) => {
+    try {
+      await axiosApi.delete(RAW_APIS.DELETE.transfer(uuid));
+      showSuccessSnackbar('Transfer deleted');
+    } catch (error) {
+      showErrorSnackbar(findErrorMessage(error?.response?.data));
+    }
+  };
+
+  const handleDelete = (uuid) => {
+    dispatch(
+      openModal(MODAL_IDS.CONFIRMATION, {
+        onConfirm: () => handleDeleteConfirm(uuid),
+      }),
+    );
+  };
+
+  const COLUMNS = useMemo(() => getColumns({ handleEdit, handleDelete }), []);
 
   return (
     <>

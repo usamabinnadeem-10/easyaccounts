@@ -65,7 +65,7 @@ const RawDetailForm = ({
       .catch((error) => {
         setLoading(false);
         showErrorSnackbar(
-          'Could not load lot numbers, please try to refresh the page'
+          'Could not load lot numbers, please try to refresh the page',
         );
       });
   };
@@ -94,22 +94,24 @@ const RawDetailForm = ({
         <CustomLoader loading={loading} />
       ) : (
         <FieldArray
-          name='data'
+          name="data"
           render={(arrayHelpers) =>
             values.data.map((lot, lotIndex) => (
               // lot container
-              <LotContainer key={lotIndex} container direction='column'>
+              <LotContainer key={lotIndex} container direction="column">
                 <LotHeaderContainer
                   container
-                  alignItems='center'
-                  justifyContent='space-between'>
+                  alignItems="center"
+                  justifyContent="space-between"
+                >
                   {/* Lot index and number */}
                   <Grid item xs={8}>
                     <Grid container>
                       <Grid item xs={1}>
                         <LotNumber
                           iserror={typeof errors.data === 'string'}
-                          variant='h4'>
+                          variant="h4"
+                        >
                           {lotIndex + 1}
                         </LotNumber>
                       </Grid>
@@ -119,14 +121,14 @@ const RawDetailForm = ({
                           options={lotNumbers}
                           fullWidth
                           name={`data.${lotIndex}.lot_number`}
-                          label='Lot number'
+                          label="Lot number"
                           {...getErrors(
                             errors['data'],
                             touched['data'],
                             lotIndex,
                             'lot_number',
                             typeof errors.data === 'string',
-                            'Duplicate lot number'
+                            'Duplicate lot number',
                           )}
                         />
                       </Grid>
@@ -152,7 +154,7 @@ const RawDetailForm = ({
                   render={(arrayHelpers) =>
                     values.data[lotIndex].detail.map(
                       (lotDetail, lotDetailIndex) => (
-                        <Grid container justifyContent='space-between'>
+                        <Grid container justifyContent="space-between">
                           {/* Lot detail row */}
                           <LotDetailRow
                             iserror={
@@ -160,8 +162,9 @@ const RawDetailForm = ({
                               'string'
                             }
                             item
-                            xs={11}>
-                            <Grid container justifyContent='space-between'>
+                            xs={11}
+                          >
+                            <Grid container justifyContent="space-between">
                               {fields.map((field, fieldIndex) => (
                                 <Grid key={fieldIndex} item xs={field.xs}>
                                   <FastField
@@ -173,12 +176,12 @@ const RawDetailForm = ({
                                     name={`data.${lotIndex}.detail.${lotDetailIndex}.${field.field}`}
                                     fullWidth
                                     label={field.label}
-                                    variant='standard'
+                                    variant="standard"
                                     {...getErrors(
                                       errors?.data?.[lotIndex]?.detail,
                                       touched?.data?.[lotIndex]?.detail,
                                       lotDetailIndex,
-                                      field.field
+                                      field.field,
                                     )}
                                     options={field.options || []}
                                     type={field.type}
@@ -192,7 +195,7 @@ const RawDetailForm = ({
                                   lotDetailIndex,
                                   'data',
                                   'detail',
-                                  isTransfer
+                                  isTransfer,
                                 )
                                 .map((calculated, calIndex) => (
                                   <Grid key={calIndex} item xs={1}>
@@ -200,8 +203,8 @@ const RawDetailForm = ({
                                       disabled
                                       key={calIndex}
                                       label={calculated.label}
-                                      size='small'
-                                      variant='standard'
+                                      size="small"
+                                      variant="standard"
                                       value={calculated.value.toFixed(2)}
                                     />
                                   </Grid>
@@ -221,18 +224,18 @@ const RawDetailForm = ({
                                 arrayHelpers.push(
                                   isTransfer
                                     ? INITIAL['transfer']
-                                    : INITIAL['other']
+                                    : INITIAL['other'],
                                 )
                               }
                             />
                           </Grid>
                         </Grid>
-                      )
+                      ),
                     )
                   }
                 />
                 {typeof errors?.data?.[lotIndex]?.detail === 'string' && (
-                  <Typography color='error' variant='subtitle2'>
+                  <Typography color="error" variant="subtitle2">
                     Duplicate rows in detail
                   </Typography>
                 )}
@@ -243,7 +246,7 @@ const RawDetailForm = ({
                       false,
                       'data',
                       'detail',
-                      isTransfer
+                      isTransfer,
                     )
                     .map((text, textIndex) => (
                       <Total text={text} index={`${textIndex}-inner`} />
@@ -262,7 +265,7 @@ const RawDetailForm = ({
               key={`${textIndex}-bottom`}
               text={text}
               index={textIndex}
-              variant='body2'
+              variant="body2"
             />
           ))}
       </Grid>

@@ -151,12 +151,12 @@ export const RAW_APIS = {
   EDIT: {
     transaction: (uuid) => `${RAW}${TRANSACTION}${uuid}/`,
     debitTransaction: (uuid) => `${RAW}${TRANSACTION}debit/${uuid}/`,
-    TRANSFER: `${RAW}${TRANSACTION}transfer/`,
+    transfer: (uuid) => `${RAW}${TRANSACTION}transfer/${uuid}/`,
   },
   DELETE: {
     transaction: (uuid) => `${RAW}${TRANSACTION}${uuid}/`,
     debitTransaction: (uuid) => `${RAW}${TRANSACTION}debit/${uuid}/`,
-    TRANSFER: `${RAW}${TRANSACTION}transfer/`,
+    transfer: (uuid) => `${RAW}${TRANSACTION}transfer/${uuid}`,
   },
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,

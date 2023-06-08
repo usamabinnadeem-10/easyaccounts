@@ -10,3 +10,28 @@ export const formatForm = (form) => ({
     })),
   })),
 });
+
+export const formatTransferForEditing = (transaction, essentials) => {
+  const { warehouses } = essentials;
+  return {
+    ...transaction,
+    data: transaction.rawtransferlot_set.map((lot) => {
+      return {
+        ...lot,
+        lot_number: {
+          value: lot.lot_number,
+          label: lot.lot_number,
+        },
+        detail: lot.rawtransferlotdetail_set.map((detail) => {
+          return {
+            ...detail,
+            warehouse: warehouses.find((w) => w.value === detail.warehouse),
+            transferring_warehouse: warehouses.find(
+              (w) => w.value === detail.transferring_warehouse,
+            ),
+          };
+        }),
+      };
+    }),
+  };
+};
