@@ -1,6 +1,6 @@
-import { Document, Page, Text, Image, StyleSheet } from '@react-pdf/renderer';
+import { Document, Page, Text, StyleSheet, View } from '@react-pdf/renderer';
 
-export const RevenueDocument = () => (
+export const RevenueDocument = ({ data }) => (
   <Document
     title="Sale Ledger"
     creator="Easy Accounts"

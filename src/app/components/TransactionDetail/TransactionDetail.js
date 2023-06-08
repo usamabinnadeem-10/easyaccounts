@@ -310,6 +310,8 @@ function TransactionDetail({
 
   return (
     <CustomDataGrid
+      printable
+      onClickPrint={(data) => console.log(data)}
       getRowHeight={() => 'auto'}
       sx={{
         '&.MuiDataGrid-root--densityCompact .MuiDataGrid-cell': { py: '4px' },
