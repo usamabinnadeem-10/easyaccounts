@@ -5,21 +5,15 @@ import { useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
-import { Formik, Form, Field, FastField, FieldArray } from 'formik';
+import { Formik, Form, FastField, FieldArray } from 'formik';
 
 import { Grid, TextField } from '@mui/material';
 
+import FastOrSlowField from './FastOrSlowField';
 import AddRemove from '../../../components/AddRemove';
 import CustomLoader from '../../../components/CustomLoader';
 import ViewWrapper from '../../../components/ViewWrapper';
 import Total from '../common/Total';
-
-import {
-  FormAutoCompleteField,
-  FormDateField,
-  FormTextField,
-  FormSwitchField,
-} from '../../../utilities/formUtils';
 
 import * as api from './api';
 import * as constants from './constants';
@@ -81,27 +75,6 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     [essentials],
   );
 
-  const FIELD_MAP = {
-    [constants.FIELD_TYPES.NUMBER]: FormTextField,
-    [constants.FIELD_TYPES.STRING]: FormTextField,
-    [constants.FIELD_TYPES.SELECT]: FormAutoCompleteField,
-    [constants.FIELD_TYPES.DATE]: FormDateField,
-    [constants.FIELD_TYPES.SWITCH]: FormSwitchField,
-  };
-
-  const getFieldProps = (field, errors, touched) => ({
-    component: FIELD_MAP[field.type],
-    options: field.options,
-    name: field.field,
-    type: field.type,
-    size: 'small',
-    label: field.label,
-    fullWidth: true,
-    isError: !!errors[field.field] && touched[field.field],
-    errorText: errors[field.field],
-    onCheckedLabel: field.onCheckedLabel ?? null,
-  });
-
   const handleSubmit = (values, actions) => {
     let { isValid, error } = utils.isFormValid(values);
     const apiInstance = uuid
@@ -141,13 +114,17 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
             validationSchema={schema}
             onSubmit={(values, actions) => handleSubmit(values, actions)}
             enableReinitialize
+            validateOnChange={false}
+            validateOnBlur={false}
           >
             {({ values, errors, touched, handleSubmit }) => (
               <Form>
                 <MetaWrapper gap={2} container justifyContent="space-between">
                   {metaFields.map((field, index) => (
                     <Grid key={index} item xs={5}>
-                      <FastField {...getFieldProps(field, errors, touched)} />
+                      <FastField
+                        {...commonUtils.getFieldProps(field, errors, touched)}
+                      />
                     </Grid>
                   ))}
                 </MetaWrapper>
@@ -201,49 +178,12 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                         item
                                         xs={3}
                                       >
-                                        {field.isFast ? (
-                                          <FastField
-                                            {...getFieldProps(
-                                              field,
-                                              errors,
-                                              touched,
-                                            )}
-                                            isError={
-                                              !!errors.lots?.[lotIndex]?.[
-                                                field.name
-                                              ] &&
-                                              touched.lots?.[lotIndex]?.[
-                                                field.name
-                                              ]
-                                            }
-                                            errorText={
-                                              errors.lots?.[lotIndex]?.[
-                                                field.name
-                                              ]
-                                            }
-                                          />
-                                        ) : (
-                                          <Field
-                                            {...getFieldProps(
-                                              field,
-                                              errors,
-                                              touched,
-                                            )}
-                                            isError={
-                                              !!errors.lots?.[lotIndex]?.[
-                                                field.name
-                                              ] &&
-                                              touched.lots?.[lotIndex]?.[
-                                                field.name
-                                              ]
-                                            }
-                                            errorText={
-                                              errors.lots?.[lotIndex]?.[
-                                                field.name
-                                              ]
-                                            }
-                                          />
-                                        )}
+                                        <FastOrSlowField
+                                          field={field}
+                                          errors={errors}
+                                          touched={touched}
+                                          lotIndex={lotIndex}
+                                        />
                                       </Grid>
                                     ),
                                 )}
@@ -292,7 +232,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                             xs={lotDetailField.xs || 3}
                                           >
                                             <FastField
-                                              {...getFieldProps(
+                                              {...commonUtils.getFieldProps(
                                                 lotDetailField,
                                                 errors,
                                                 touched,
@@ -345,10 +285,10 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                         onAdd={() =>
                                           arrayHelpersLotDetail.push({
                                             ...constants.LOT_DETAIL_INITIAL,
-                                            formula:
-                                              values.lots[lotIndex].lot_detail[
-                                                index
-                                              ].formula,
+                                            // formula:
+                                            //   values.lots[lotIndex].lot_detail[
+                                            //     index
+                                            //   ].formula,
                                           })
                                         }
                                         onDelete={() =>
@@ -379,6 +319,35 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                               ))}
                           </LotTotalWrapper>
                         </DetailWrapper>
+                        <Grid
+                          alignItems={'flex-end'}
+                          container
+                          gap={1}
+                          flexDirection={'column'}
+                        >
+                          {utils
+                            .getLotFooterFields(
+                              lotIndex,
+                              values.lots[lotIndex].issued,
+                            )
+                            .map(
+                              (field, lotFieldIndex) =>
+                                field.render && (
+                                  <Grid
+                                    key={`lotHeader-${lotFieldIndex}`}
+                                    item
+                                    xs={3}
+                                  >
+                                    <FastOrSlowField
+                                      field={field}
+                                      errors={errors}
+                                      touched={touched}
+                                      lotIndex={lotIndex}
+                                    />
+                                  </Grid>
+                                ),
+                            )}
+                        </Grid>
                       </LotWrapper>
                     ))
                   }

@@ -129,6 +129,35 @@ export const getLotHeadField = (
   ];
 };
 
+export const getLotFooterFields = (lotIndex, issue) => {
+  return [
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.detail}`,
+      name: FIELDS.detail,
+      type: FIELD_TYPES.STRING,
+      label: 'Detail',
+      render: true,
+      isFast: true,
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.warehouse_number}`,
+      name: FIELDS.warehouse_number,
+      type: FIELD_TYPES.NUMBER,
+      label: 'Warehouse #',
+      render: !issue,
+      isFast: false,
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.dying_number}`,
+      name: FIELDS.dying_number,
+      type: FIELD_TYPES.NUMBER,
+      render: issue,
+      label: 'Dying #',
+      isFast: false,
+    },
+  ];
+};
+
 export const isFormValid = (values) => {
   let valid = {
     isValid: true,

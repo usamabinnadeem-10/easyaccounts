@@ -1,5 +1,12 @@
 import { FIELDS } from './constants';
 
+import {
+  FormAutoCompleteField,
+  FormDateField,
+  FormTextField,
+  FormSwitchField,
+} from '../../../utilities/formUtils';
+
 const calculateValues = (obj, isTransfer) => {
   let qty = obj[FIELDS.quantity] || 0;
   let formula = obj[FIELDS.formula];
@@ -98,3 +105,32 @@ export const getTotals = (
   }
   return totals;
 };
+
+export const FIELD_TYPES = {
+  STRING: 'text',
+  NUMBER: 'number',
+  SELECT: 'select',
+  DATE: 'date',
+  SWITCH: 'switch',
+};
+
+export const FIELD_MAP = {
+  [FIELD_TYPES.NUMBER]: FormTextField,
+  [FIELD_TYPES.STRING]: FormTextField,
+  [FIELD_TYPES.SELECT]: FormAutoCompleteField,
+  [FIELD_TYPES.DATE]: FormDateField,
+  [FIELD_TYPES.SWITCH]: FormSwitchField,
+};
+
+export const getFieldProps = (field, errors, touched) => ({
+  component: FIELD_MAP[field.type],
+  options: field.options,
+  name: field.field,
+  type: field.type,
+  size: 'small',
+  label: field.label,
+  fullWidth: true,
+  isError: !!errors[field.field] && touched[field.field],
+  errorText: errors[field.field],
+  onCheckedLabel: field.onCheckedLabel ?? null,
+});
