@@ -29,4 +29,11 @@ export const COLUMNS = [
     width: 150,
     valueGetter: ({ row }) => row.warehouse.label,
   },
+  {
+    field: 'lot_number',
+    headerName: 'Lot #',
+    type: 'number',
+    align: 'left',
+    headerAlign: 'left',
+  },
 ];

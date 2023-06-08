@@ -177,7 +177,12 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                                       ?.lot_detail === 'string'
                                   }
                                 >
-                                  Lot # {lotIndex + 1}
+                                  Lot #{' '}
+                                  {uuid
+                                    ? lot.lot_number
+                                      ? lot.lot_number
+                                      : '-'
+                                    : lotIndex + 1}
                                 </LotNumber>
                               </Grid>
                               {utils
