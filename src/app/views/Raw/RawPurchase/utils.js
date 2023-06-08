@@ -152,6 +152,7 @@ export const isFormValid = (values) => {
 export const formatBeforeSubmit = (values) => {
   return {
     ...values,
+    manual_serial: values.manual_serial,
     person: values.person.value,
     lots: values.lots.map((lot) => ({
       ...lot,
@@ -159,9 +160,33 @@ export const formatBeforeSubmit = (values) => {
       dying_unit: lot.dying_unit?.id || null,
       lot_detail: lot.lot_detail.map((detail) => ({
         ...detail,
-        formula: detail.formula.id,
+        ...(detail.formula?.id && { formula: detail.formula.id }),
         warehouse: detail.warehouse?.value,
       })),
     })),
+  };
+};
+
+export const formatTransactionForEditing = (transaction, essentials) => {
+  const { suppliers, rawProducts, warehouses } = essentials;
+  return {
+    ...transaction,
+    person: suppliers.find((s) => s.value === transaction.person),
+    lots: transaction.rawtransactionlot_set.map((lot) => {
+      const rawProduct = rawProducts.find((p) => p.id === lot.raw_product);
+      return {
+        ...lot,
+        raw_product: {
+          id: rawProduct.id,
+          label: `${rawProduct.name} - ${rawProduct.type}`,
+        },
+        lot_detail: lot.raw_lot_detail.map((detail) => {
+          return {
+            ...detail,
+            warehouse: warehouses.find((w) => w.value === detail.warehouse),
+          };
+        }),
+      };
+    }),
   };
 };

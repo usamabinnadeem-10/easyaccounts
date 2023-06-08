@@ -148,6 +148,11 @@ export const RAW_APIS = {
     SALE_OR_RETURN: `${RAW}${TRANSACTION}debit/`,
     TRANSFER: `${RAW}${TRANSACTION}transfer/`,
   },
+  EDIT: {
+    transaction: (uuid) => `${RAW}${TRANSACTION}${uuid}/`,
+    SALE_OR_RETURN: `${RAW}${TRANSACTION}debit/`,
+    TRANSFER: `${RAW}${TRANSACTION}transfer/`,
+  },
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,
     PRODUCT: `${RAW}${PRODUCT}${LIST}`,

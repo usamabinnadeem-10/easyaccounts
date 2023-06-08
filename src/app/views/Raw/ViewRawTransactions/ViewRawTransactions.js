@@ -1,5 +1,8 @@
 // React
-import React, { useEffect, useCallback, useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+
+// React Router
+import { useHistory } from 'react-router-dom';
 
 // Redux
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,7 +23,7 @@ import { formatTransactionData } from './utils';
 
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
-import { COLUMNS } from './constants';
+import { getColumns } from './constants';
 
 // Styled
 import { GridWrapper } from './styled';
@@ -29,6 +32,7 @@ import { GridWrapper } from './styled';
 import { getFilters } from './filters';
 
 const ListRawTransactions = () => {
+  const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const rawTransactionsCache = useSelector(
@@ -75,6 +79,16 @@ const ListRawTransactions = () => {
       setLoading(false);
     }
   };
+
+  const handleEdit = (uuid) => {
+    history.push(`/home/raw-purchase/${uuid}`);
+  };
+
+  const handleDelete = (uuid) => {
+    history.push(`/home/raw-purchase/${uuid}`);
+  };
+
+  const COLUMNS = useMemo(() => getColumns({ handleEdit, handleDelete }), []);
 
   return (
     <>

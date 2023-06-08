@@ -1,29 +1,25 @@
 import React from 'react';
-import { useMemo } from 'react';
-import { useEffect } from 'react';
-import { useState } from 'react';
+import { useMemo, useEffect, useState } from 'react';
 
-import { useDispatch } from 'react-redux';
-import { useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
 
-import { Formik } from 'formik';
-import { Form } from 'formik';
-import { Field } from 'formik';
-import { FastField } from 'formik';
-import { FieldArray } from 'formik';
+import { useDispatch, useSelector } from 'react-redux';
 
-import { Grid } from '@mui/material';
-import { TextField } from '@mui/material';
+import { Formik, Form, Field, FastField, FieldArray } from 'formik';
+
+import { Grid, TextField } from '@mui/material';
 
 import AddRemove from '../../../components/AddRemove';
 import CustomLoader from '../../../components/CustomLoader';
 import ViewWrapper from '../../../components/ViewWrapper';
 import Total from '../common/Total';
 
-import { FormAutoCompleteField } from '../../../utilities/formUtils';
-import { FormDateField } from '../../../utilities/formUtils';
-import { FormTextField } from '../../../utilities/formUtils';
-import { FormSwitchField } from '../../../utilities/formUtils';
+import {
+  FormAutoCompleteField,
+  FormDateField,
+  FormTextField,
+  FormSwitchField,
+} from '../../../utilities/formUtils';
 
 import * as api from './api';
 import * as constants from './constants';
@@ -31,16 +27,17 @@ import * as utils from './utils';
 import { schema } from './validation';
 
 import * as commonUtils from '../common/utils';
-import { LotNumber } from '../common/styled';
 
-import { DetailWrapper } from './styled';
-import { StyledButton } from './styled';
-import { LotHeader } from './styled';
-import { LotWrapper } from './styled';
-import { MetaWrapper } from './styled';
-import { UniqueError } from './styled';
+import {
+  DetailWrapper,
+  StyledButton,
+  LotHeader,
+  LotWrapper,
+  MetaWrapper,
+  UniqueError,
+} from './styled';
 
-import { LotTotalWrapper } from '../common/styled';
+import { LotNumber, LotTotalWrapper } from '../common/styled';
 
 import { getAllDying } from '../../../../store/dying';
 import { getAllFormulas, getAllProduct } from '../../../../store/raw';
@@ -50,12 +47,21 @@ import { findErrorMessage } from '../../../utilities/objectUtils';
 import { withSnackbar } from '../../../hoc/withSnackbar';
 
 const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
+  const { uuid } = useParams();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
   const raw = useSelector((state) => state.raw);
   const dying = useSelector((state) => state.dying);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [transaction, setTransaction] = useState(null);
+
+  // fetch transaction for editing
+  useEffect(() => {
+    if (uuid) {
+      fetchTransaction(uuid);
+    }
+  }, [uuid]);
 
   // fetch formulas, dying and products in beginning if not fetched already
   useEffect(() => {
@@ -98,15 +104,19 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
 
   const handleSubmit = (values, actions) => {
     let { isValid, error } = utils.isFormValid(values);
+    const apiInstance = uuid
+      ? api.editTransactionApi
+      : api.createTransactionApi;
     if (isValid) {
       let data = utils.formatBeforeSubmit(values);
       setIsLoading(true);
-      api
-        .createTransactionApi(data)
+      apiInstance(data, uuid)
         .then((response) => {
           setIsLoading(false);
           actions.resetForm();
-          showSuccessSnackbar('Transaction created');
+          showSuccessSnackbar(
+            uuid ? 'Transaction edited' : 'Transaction created',
+          );
         })
         .catch((error) => {
           setIsLoading(false);
@@ -117,14 +127,20 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     }
   };
 
+  const fetchTransaction = async (uuid) => {
+    const transaction = await api.fetchTransaction(uuid);
+    setTransaction(utils.formatTransactionForEditing(transaction, essentials));
+  };
+
   return (
     <>
       {raw.formulasInfo.fetched && dying.fetched && raw.productsInfo.fetched ? (
         <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
           <Formik
-            initialValues={constants.INITIAL_VALUES}
+            initialValues={transaction ?? constants.INITIAL_VALUES}
             validationSchema={schema}
             onSubmit={(values, actions) => handleSubmit(values, actions)}
+            enableReinitialize
           >
             {({ values, errors, touched, handleSubmit }) => (
               <Form>
@@ -375,12 +391,12 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                     ))}
                 </Grid>
                 <StyledButton
-                  fullWidth
                   onClick={handleSubmit}
                   variant="contained"
                   loading={isLoading}
+                  color={uuid ? 'error' : 'primary'}
                 >
-                  Post
+                  {uuid ? 'Edit' : 'Create'}
                 </StyledButton>
               </Form>
             )}
