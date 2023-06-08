@@ -60,6 +60,19 @@ export const getFields = (essentials, formulas, isTransfer) => {
 
 export const formatLotNumbers = (lotNumbers) =>
   lotNumbers.map((number) => ({
+    lotId: number.id,
     value: number.lot_number,
-    label: `${number.lot_number}`,
+    label: `${number.lot_number} - ${number.raw_product.name}`,
   }));
+
+export const formatAutoFillLot = (lotData, essentials) => {
+  const { raw_lot_detail } = lotData;
+  const { warehouses } = essentials;
+  return raw_lot_detail.map((detail) => {
+    const { id, ...rest } = detail;
+    return {
+      ...rest,
+      warehouse: warehouses.find((w) => w.value === detail.warehouse) ?? null,
+    };
+  });
+};

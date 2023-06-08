@@ -165,6 +165,7 @@ export const RAW_APIS = {
     RAW_TRANSACTION: `${RAW}${TRANSACTION}${LIST}`,
     RAW_DEBIT_TRANSACTION: `${RAW}${TRANSACTION}debit/${LIST}`,
     TRANSFER: `${RAW}${TRANSACTION}transfer/${LIST}`,
+    lotDetail: (uuid) => `${RAW}lot/detail/${uuid}/`,
   },
   STOCK: `${RAW}stock/all`,
 };

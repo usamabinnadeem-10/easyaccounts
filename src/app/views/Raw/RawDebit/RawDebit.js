@@ -133,6 +133,7 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
                 errors={errors}
                 touched={touched}
                 values={values}
+                setFieldValue={setFieldValue}
               />
               <LoadingButton
                 loading={loading}

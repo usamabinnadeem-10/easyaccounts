@@ -74,7 +74,7 @@ const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         }
         enableReinitialize
       >
-        {({ values, errors, touched, handleSubmit }) => (
+        {({ values, errors, touched, handleSubmit, setFieldValue }) => (
           <Form>
             <Grid container direction="column" gap={3}>
               <MetaContainer container direction="column" gap={2}>
@@ -102,6 +102,7 @@ const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
                 touched={touched}
                 values={values}
                 isTransfer
+                setFieldValue={setFieldValue}
               />
               <LoadingButton
                 loading={isLoading}

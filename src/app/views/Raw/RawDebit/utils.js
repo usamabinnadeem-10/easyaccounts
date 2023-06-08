@@ -2,7 +2,7 @@ export const formatForm = (form) => ({
   ...form,
   person: form.person.value,
   data: form.data.map((d) => ({
-    lot_number: d.lot_number.label,
+    lot_number: d.lot_number.value,
     detail: d.detail.map((det) => ({
       ...det,
       // formula: det.formula.value,
@@ -22,6 +22,7 @@ export const formatTransactionForEditing = (transaction, essentials) => {
         lot_number: {
           value: lot.lot_number,
           label: lot.lot_number,
+          lotId: lot.id,
         },
         detail: lot.rawdebitlotdetail_set.map((detail) => {
           return {

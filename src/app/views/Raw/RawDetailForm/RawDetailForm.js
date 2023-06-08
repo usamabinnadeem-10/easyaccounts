@@ -26,7 +26,7 @@ import { getErrors } from '../../../utilities/formUtils';
 import { getAllFormulas } from '../../../../store/raw';
 
 import { INITIAL, LOT_INITIAL } from './constants';
-import { getFields, formatLotNumbers } from './utils';
+import { getFields, formatLotNumbers, formatAutoFillLot } from './utils';
 
 import * as commonUtils from '../common/utils';
 import { LotTotalWrapper } from '../common/styled';
@@ -37,7 +37,7 @@ import {
   LotNumber,
   LotDetailRow,
 } from './styled';
-import { listLotNumbers } from '../common/api';
+import { listLotNumbers, autoFillLotDetails } from '../common/api';
 import { withSnackbar } from '../../../hoc/withSnackbar';
 
 const RawDetailForm = ({
@@ -46,6 +46,7 @@ const RawDetailForm = ({
   touched,
   values,
   showErrorSnackbar,
+  setFieldValue,
 }) => {
   const dispatch = useDispatch();
   const { formulas, fetched } = useSelector((state) => state.raw.formulasInfo);
@@ -88,6 +89,12 @@ const RawDetailForm = ({
     }
   }, [fetched]);
 
+  const autoFillLot = async (lotId, lotIndex) => {
+    const lotDetail = await autoFillLotDetails(lotId);
+    const formattedLotDetail = formatAutoFillLot(lotDetail, essentials);
+    setFieldValue(`data.${lotIndex}.detail`, formattedLotDetail);
+  };
+
   return (
     <>
       {!fetched || loading ? (
@@ -105,8 +112,8 @@ const RawDetailForm = ({
                   justifyContent="space-between"
                 >
                   {/* Lot index and number */}
-                  <Grid item xs={8}>
-                    <Grid container>
+                  <Grid item xs={10}>
+                    <Grid container alignItems={'center'} gap={1}>
                       <Grid item xs={1}>
                         <LotNumber
                           iserror={typeof errors.data === 'string'}
@@ -115,7 +122,7 @@ const RawDetailForm = ({
                           {lotIndex + 1}
                         </LotNumber>
                       </Grid>
-                      <Grid item xs={nextPageLotNumbers ? 9 : 11}>
+                      <Grid item xs={nextPageLotNumbers ? 4 : 6}>
                         <Field
                           component={FormAutoCompleteField}
                           options={lotNumbers}
@@ -132,15 +139,26 @@ const RawDetailForm = ({
                           )}
                         />
                       </Grid>
+                      {lot.lot_number?.lotId && (
+                        <Button
+                          color="success"
+                          variant="outlined"
+                          onClick={() =>
+                            autoFillLot(lot.lot_number.lotId, lotIndex)
+                          }
+                        >
+                          Autofill
+                        </Button>
+                      )}
                       {nextPageLotNumbers && (
-                        <Grid item xs={2}>
-                          <Button onClick={fetchLotNumbers}>Load more</Button>
-                        </Grid>
+                        <Button variant="outlined" onClick={fetchLotNumbers}>
+                          Load more
+                        </Button>
                       )}
                     </Grid>
                   </Grid>
                   {/* Add remove for the lot container */}
-                  <Grid item xs={4}>
+                  <Grid item xs={2}>
                     <AddRemove
                       disabled={values.data.length === 1}
                       onDelete={() => arrayHelpers.remove(lotIndex)}
