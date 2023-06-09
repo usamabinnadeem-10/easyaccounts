@@ -36,6 +36,7 @@ const DEFAULTS = {
   expenseAccounts: 'expenseAccounts',
   productCategories: 'productCategories',
   areas: 'areas',
+  rawProducts: 'rawProducts',
 };
 
 const REDUCER = {
@@ -159,7 +160,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.customers,
   ],
   [routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE]: [REDUCER.warehouses],
-  // [routes.RAW_PURCHASE_RECEIPT]: [REDUCER.warehouses],
+  [routes.RAW_PURCHASE_RECEIPT]: [REDUCER.rawProducts],
 };
 
 const useEssentials = () => {

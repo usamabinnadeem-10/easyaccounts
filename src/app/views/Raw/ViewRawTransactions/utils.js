@@ -12,7 +12,7 @@ export const formatTransactionData = (transactions, essentials) => {
     ),
     lotData: data.rawtransactionlot_set.map((lot) => ({
       ...lot,
-      raw_product: rawProducts.find((p) => p.id === lot.raw_product),
+      raw_product: rawProducts.find((p) => p.value === lot.raw_product),
       lotDetail: lot.raw_lot_detail.map((detail) => ({
         ...detail,
         warehouse: warehouses.find((w) => w.value === detail.warehouse),

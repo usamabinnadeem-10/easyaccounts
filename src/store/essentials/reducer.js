@@ -219,7 +219,11 @@ const reducer = (state = initialState, action) => {
     case actionTypes.GET_ALL_RAW_PRODUCTS_SUCCESS:
       return {
         ...state,
-        rawProducts: action.payload,
+        rawProducts: renameKeys(
+          'id',
+          'value',
+          renameKeys('name', 'label', action.payload),
+        ),
       };
 
     // actions to add new

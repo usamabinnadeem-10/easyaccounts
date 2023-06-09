@@ -185,7 +185,7 @@ export const formatBeforeSubmit = (values) => {
     person: values.person.value,
     lots: values.lots.map((lot) => ({
       ...lot,
-      raw_product: lot.raw_product.id,
+      raw_product: lot.raw_product.value,
       dying_unit: lot.dying_unit?.id || null,
       lot_detail: lot.lot_detail.map((detail) => ({
         ...detail,
@@ -202,12 +202,12 @@ export const formatTransactionForEditing = (transaction, essentials) => {
     ...transaction,
     person: suppliers.find((s) => s.value === transaction.person),
     lots: transaction.rawtransactionlot_set.map((lot) => {
-      const rawProduct = rawProducts.find((p) => p.id === lot.raw_product);
+      const rawProduct = rawProducts.find((p) => p.value === lot.raw_product);
       return {
         ...lot,
         raw_product: {
-          id: rawProduct.id,
-          label: `${rawProduct.name} - ${rawProduct.type}`,
+          value: rawProduct.value,
+          label: `${rawProduct.label} - ${rawProduct.type}`,
         },
         lot_detail: lot.raw_lot_detail.map((detail) => {
           return {

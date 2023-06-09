@@ -1,8 +1,8 @@
-import { DB, DB_TRANSLATION } from '../../../../constants/db';
+import { DB, DB_TRANSLATION } from '../../../../../constants/db';
 
 // Utils
 import moment from 'moment';
-import { formatCurrency } from '../../../utilities/stringUtils';
+import { formatCurrency } from '../../../../utilities/stringUtils';
 
 export const getMeta = (transaction, persons) => {
   let person = persons?.[transaction[DB.PERSON]];

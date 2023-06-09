@@ -1,4 +1,4 @@
-import { DB, DB_TRANSLATION } from '../../../../constants/db';
+import { DB, DB_TRANSLATION } from '../../../../../constants/db';
 
 export const COLUMNS = [
   //   {
