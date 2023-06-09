@@ -1,7 +1,7 @@
 import React from 'react';
 import { useMemo, useEffect, useState } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -43,6 +43,7 @@ import { withSnackbar } from '../../../hoc/withSnackbar';
 const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
+  const history = useHistory();
   const essentials = useSelector((state) => state.essentials);
   const raw = useSelector((state) => state.raw);
   const dying = useSelector((state) => state.dying);
@@ -85,6 +86,9 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
       setIsLoading(true);
       apiInstance(data, uuid)
         .then((response) => {
+          if (uuid) {
+            history.push(`/home/raw-purchase/receipt/${response.data.id}`);
+          }
           setIsLoading(false);
           actions.resetForm();
           showSuccessSnackbar(

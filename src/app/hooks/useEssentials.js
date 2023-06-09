@@ -159,6 +159,7 @@ const ROUTE_ACTION_MAP = {
     REDUCER.customers,
   ],
   [routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE]: [REDUCER.warehouses],
+  // [routes.RAW_PURCHASE_RECEIPT]: [REDUCER.warehouses],
 };
 
 const useEssentials = () => {

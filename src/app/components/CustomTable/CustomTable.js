@@ -35,8 +35,9 @@ function CustomTable({
       {...getTableProps()}
       className={`${
         noTableStyles ? classes.noTableStyles : classes.tableWrapper
-      }`}>
-      <Table size='small'>
+      }`}
+    >
+      <Table size="small">
         <TableHead className={classes.tableHead}>
           {headerGroups.map((headerGroup) => (
             <TableRow {...headerGroup.getHeaderGroupProps()}>
@@ -47,7 +48,8 @@ function CustomTable({
                   sx={{
                     color: column.color,
                   }}
-                  {...column.getHeaderProps()}>
+                  {...column.getHeaderProps()}
+                >
                   {column.render('Header')}
                 </TableCell>
               ))}
@@ -63,7 +65,8 @@ function CustomTable({
                 className={`${
                   row.original[hoverProperty] ? classes.hover : ''
                 }`}
-                {...row.getRowProps()}>
+                {...row.getRowProps()}
+              >
                 {row.cells.map((cell) => {
                   return (
                     <TableCell
@@ -72,7 +75,8 @@ function CustomTable({
                       ${pre ? classes.pre : ''}
                       ${bordered ? classes.bordered : ''}
                       ${cell.column.hideInPrint && classes.hideInPrint}`}
-                      {...cell.getCellProps()}>
+                      {...cell.getCellProps()}
+                    >
                       {cell.render('Cell')}
                     </TableCell>
                   );

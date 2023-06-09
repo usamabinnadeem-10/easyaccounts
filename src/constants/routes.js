@@ -15,8 +15,8 @@ const ViewDetailedStock = lazy(() => import('../app/views/ViewDetailedStock'));
 const PersonalCheques = lazy(() => import('../app/views/PersonalCheques'));
 const ExternalCheques = lazy(() => import('../app/views/ExternalCheques'));
 const AccountHistory = lazy(() => import('../app/views/AccountHistory'));
-const DyingIssue = lazy(() => import('../app/views/DyingIssue'));
-const DyingReturn = lazy(() => import('../app/views/DyingReturn'));
+// const DyingIssue = lazy(() => import('../app/views/DyingIssue'));
+// const DyingReturn = lazy(() => import('../app/views/DyingReturn'));
 const RawPurchase = lazy(() => import('../app/views/Raw/RawPurchase'));
 const RawDebit = lazy(() => import('../app/views/Raw/RawDebit'));
 const RawTransfer = lazy(() => import('../app/views/Raw/RawTransfer'));
@@ -46,6 +46,9 @@ const RawDebitTransactionsList = lazy(() =>
 );
 const RawTransferTransactionsList = lazy(() =>
   import('../app/views/Raw/ViewRawTransfers'),
+);
+const RawPurchaseReceipt = lazy(() =>
+  import('../app/components/RawReceipts/Purchase'),
 );
 
 export const authenticatedRoutes = [
@@ -181,6 +184,10 @@ export const authenticatedRoutes = [
   {
     component: RawPurchase,
     path: url.EDIT_RAW_PURCHASE_ROUTE,
+  },
+  {
+    component: RawPurchaseReceipt,
+    path: url.RAW_PURCHASE_RECEIPT,
   },
   {
     component: RawDebit,

@@ -37,6 +37,7 @@ export const ASSET_CREATE_ROUTE = `${HOME}/add-asset`;
 
 export const RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase`;
 export const EDIT_RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase/:uuid`;
+export const RAW_PURCHASE_RECEIPT = `${HOME}/raw-purchase/receipt/:uuid`;
 export const RAW_DEBIT_ROUTE = `${HOME}/raw-debit`;
 export const EDIT_RAW_DEBIT_ROUTE = `${HOME}/raw-debit/:uuid`;
 export const RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer`;
