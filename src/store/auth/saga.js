@@ -40,7 +40,7 @@ function* getBranchesSaga(action) {
     yield put(actions.getBranchesSuccess(response.data));
   } catch (error) {
     yield put(
-      actions.getBranchesFail('You are not a part of any branch right now')
+      actions.getBranchesFail('You are not a part of any branch right now'),
     );
     utils.clearLocalStorage();
   }
@@ -68,6 +68,7 @@ function* autoLoginSaga(action) {
       if (activeBranch.branch_id) {
         yield put(actions.setActiveBranch(activeBranch));
         yield put(actions.setUserRole(activeBranch.role));
+        yield put(actions.autoLoginComplete());
       } else {
         yield put(actions.getBranches());
       }

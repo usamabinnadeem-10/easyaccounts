@@ -92,6 +92,12 @@ export const autoLogin = () => {
   };
 };
 
+export const autoLoginComplete = () => {
+  return {
+    type: actionTypes.AUTO_LOGIN_COMPLETE,
+  };
+};
+
 export const refreshToken = () => {
   return {
     type: actionTypes.REFRESH_TOKEN,
