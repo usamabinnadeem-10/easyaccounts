@@ -1,12 +1,12 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import { useLocation } from 'react-router-dom';
+import { useLocation, matchPath } from 'react-router-dom';
 
 import * as routes from '../../constants/routesConstants';
 import * as actions from '../../store/essentials';
@@ -114,6 +114,7 @@ const ROUTE_ACTION_MAP = {
     ...ALL_PERSONS,
     REDUCER.accountTypes,
     REDUCER.warehouses,
+    REDUCER.products,
   ],
   [routes.LEDGERS]: ALL_PERSONS,
   [routes.LEDGER_TRANSACTION]: [...ALL_PERSONS, REDUCER.accountTypes],
@@ -145,7 +146,7 @@ const useEssentials = () => {
   let [values, setValues] = useState({});
 
   useEffect(() => {
-    let storeVariables = ROUTE_ACTION_MAP[location.pathname];
+    let storeVariables = ROUTE_ACTION_MAP[getMatchingPath()];
     if (storeVariables) {
       for (let i = 0; i < storeVariables.length; i++) {
         if (!essentials.fetched[storeVariables[i]]) {
@@ -177,7 +178,36 @@ const useEssentials = () => {
     setValues(newValues);
   }, [essentials]);
 
-  return values;
+  const getMatchingPath = () => {
+    const routesArray = Object.values(routes);
+    let match = null;
+    routesArray.forEach((route) => {
+      const isMatch = matchPath(location.pathname, {
+        path: route,
+        exact: true, // Set to true if you want an exact match
+        strict: false, // Set to true for stricter matching
+      });
+      if (isMatch) {
+        match = isMatch.path;
+      }
+    });
+    return match;
+  };
+
+  const hasRouteEssentialsFetched = () => {
+    let storeVariables = ROUTE_ACTION_MAP[getMatchingPath()];
+    if (storeVariables) {
+      return storeVariables.every((key) => essentials.fetched[key]);
+    }
+    return true;
+  };
+
+  const routeEssentialsFetched = useMemo(
+    () => hasRouteEssentialsFetched(),
+    [location.pathname, essentials],
+  );
+
+  return { values, routeEssentialsFetched };
 };
 
 export default useEssentials;

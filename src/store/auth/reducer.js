@@ -8,6 +8,7 @@ const initialState = {
   error: null,
   activeBranch: null,
   userRole: null,
+  loggingIn: true,
 };
 
 const reducer = (state = initialState, action) => {
@@ -52,6 +53,11 @@ const reducer = (state = initialState, action) => {
         hasToken: false,
         branches: [],
         error: action.payload,
+      };
+    case actionTypes.AUTO_LOGIN_COMPLETE:
+      return {
+        ...state,
+        loggingIn: false,
       };
     case actionTypes.LOGIN_SUCCESS:
       return {

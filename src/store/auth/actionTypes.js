@@ -18,5 +18,6 @@ export const LOGOUT = 'LOGOUT';
 export const LOGOUT_SUCCESS = 'LOGOUT_SUCCESS';
 
 export const AUTO_LOGIN = 'AUTO_LOGIN';
+export const AUTO_LOGIN_COMPLETE = 'AUTO_LOGIN_COMPLETE';
 
 export const REFRESH_TOKEN = 'REFRESH_TOKEN';

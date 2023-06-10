@@ -1,29 +1,40 @@
-import React from "react";
-import { useState } from "react";
+import React, { useEffect } from 'react';
+import { useState } from 'react';
 
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { useHistory } from 'react-router-dom';
 
-import Branch from "../../components/Branch";
-import Skeletons from "./Skeletons";
+import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import { BranchWrapper } from "./styled";
-import { StyledButton } from "./styled";
+import Branch from '../../components/Branch';
+import Skeletons from './Skeletons';
 
-import { login } from "../../../store/auth";
-import { logout } from "../../../store/auth";
+import { BranchWrapper } from './styled';
+import { StyledButton } from './styled';
+
+import { login } from '../../../store/auth';
+import { logout } from '../../../store/auth';
+
+import * as routes from '../../../constants/routesConstants';
 
 const Branches = () => {
   const dispatch = useDispatch();
-  const branches = useSelector((state) => state.auth.branches);
+  const history = useHistory();
+  const auth = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
+
+  // useEffect(() => {
+  //   if (auth.hasToken && auth.isAuthenticated) {
+  //     history.push(routes.TRANSACTIONS);
+  //   }
+  // }, [auth, history]);
 
   const handleLoginBranch = (branchId) => {
     setIsLoading(true);
     dispatch(
       login({
         branch_id: branchId,
-      })
+      }),
     );
   };
 
@@ -34,7 +45,7 @@ const Branches = () => {
 
   return (
     <BranchWrapper container direction="column">
-      {branches.map((branch, index) => (
+      {auth.branches.map((branch, index) => (
         <Branch
           key={index}
           branch={branch}
@@ -43,7 +54,7 @@ const Branches = () => {
           loading={isLoading}
         />
       ))}
-      {branches.length === 0 && <Skeletons />}
+      {auth.branches.length === 0 && <Skeletons />}
       <StyledButton
         onClick={handleLogoutBranch}
         color="error"

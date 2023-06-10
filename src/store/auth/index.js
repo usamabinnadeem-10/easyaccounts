@@ -1,1 +1,8 @@
-export { getToken, login, autoLogin, logout, setActiveBranch } from "./actions";
+export {
+  getToken,
+  login,
+  autoLogin,
+  logout,
+  setActiveBranch,
+  autoLoginComplete,
+} from './actions';

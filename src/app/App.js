@@ -35,15 +35,17 @@ function App({ showErrorSnackbar }) {
   }, [auth.error]);
 
   useEffect(() => {
-    if (auth.hasToken && auth.isAuthenticated) {
-      history.push(routes.HOME);
-    }
-    if (auth.hasToken && !auth.isAuthenticated) {
-      history.push(routes.BRANCHES);
-    }
-    if (!auth.hasToken && !auth.isAuthenticated) {
-      history.push(routes.LOGIN);
-    }
+    // if (auth.hasToken && auth.isAuthenticated) {
+    //   history.push(routes.HOME);
+    // }
+    // if (!auth.loggingIn) {
+    //   if (auth.hasToken && !auth.isAuthenticated) {
+    //     history.push(routes.BRANCHES);
+    //   }
+    //   if (!auth.hasToken && !auth.isAuthenticated) {
+    //     history.push(routes.LOGIN);
+    //   }
+    // }
   }, [auth, history]);
   return (
     <Switch>
@@ -54,7 +56,7 @@ function App({ showErrorSnackbar }) {
         <Route path={routes.BRANCHES} exact>
           <Branches />
         </Route>
-        <Route path={routes.HOME}>
+        <Route path={'/home/*'}>
           <Home />
         </Route>
       </Suspense>

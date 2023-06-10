@@ -2,12 +2,13 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 
+import { useHistory } from 'react-router-dom';
+
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
 import { Formik } from 'formik';
 import { Field } from 'formik';
-import { Form } from 'formik';
 
 import { Grid } from '@mui/material';
 
@@ -27,7 +28,7 @@ import { withSnackbar } from '../../hoc/withSnackbar';
 
 const Login = ({ showErrorSnackbar }) => {
   const dispatch = useDispatch();
-
+  const history = useHistory();
   const auth = useSelector((state) => state.auth);
   const [loading, setLoading] = useState(false);
 
@@ -35,6 +36,9 @@ const Login = ({ showErrorSnackbar }) => {
     if (auth.loginFailed) {
       setLoading(false);
       showErrorSnackbar(auth.error);
+    }
+    if (auth.hasToken) {
+      history.push('/branches');
     }
   }, [auth]);
 
@@ -48,29 +52,30 @@ const Login = ({ showErrorSnackbar }) => {
   };
 
   return (
-    <LoginWrapper container direction='column'>
+    <LoginWrapper container direction="column">
       <Formik
         initialValues={INITIAL_VALUES}
         validationSchema={validationSchema}
-        onSubmit={async (values) => handleSubmit(values)}>
+        onSubmit={async (values) => handleSubmit(values)}
+      >
         <StyledForm>
-          <Grid container direction='column' rowGap={2}>
+          <Grid container direction="column" rowGap={2}>
             <Field
               component={FormTextField}
-              size='small'
-              name='username'
-              label='Username'
+              size="small"
+              name="username"
+              label="Username"
               fullWidth
             />
             <Field
               component={FormTextField}
-              size='small'
-              name='password'
-              label='Password'
+              size="small"
+              name="password"
+              label="Password"
               fullWidth
-              type='password'
+              type="password"
             />
-            <StyledButton loading={loading} variant='contained' type='submit'>
+            <StyledButton loading={loading} variant="contained" type="submit">
               LOGIN
             </StyledButton>
           </Grid>
