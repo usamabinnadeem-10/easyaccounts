@@ -91,7 +91,11 @@ const RawDetailForm = ({
 
   const autoFillLot = async (lotId, lotIndex) => {
     const lotDetail = await autoFillLotDetails(lotId);
-    const formattedLotDetail = formatAutoFillLot(lotDetail, essentials);
+    const formattedLotDetail = formatAutoFillLot(
+      lotDetail,
+      essentials,
+      isTransfer,
+    );
     setFieldValue(`data.${lotIndex}.detail`, formattedLotDetail);
   };
 

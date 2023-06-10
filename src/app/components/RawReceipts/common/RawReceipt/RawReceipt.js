@@ -32,10 +32,16 @@ const RawReceipt = ({
     [transaction, persons],
   );
 
+  const headingMap = {
+    purchase: 'Purchase',
+    debit: 'Sale/Return',
+    transfer: 'Transfer',
+  };
+
   return (
     <Wrapper elevation={1}>
       <Typography variant="h6" gutterBottom>
-        Kora {receiptType}
+        Kora {headingMap[receiptType] ?? ''}
       </Typography>
       <MetaWrapper>
         {metaFields.map((meta, idx) => (

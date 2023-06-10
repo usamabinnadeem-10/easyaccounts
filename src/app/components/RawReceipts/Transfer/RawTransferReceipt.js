@@ -16,14 +16,14 @@ import axiosInstance from '../../../../utils/axiosApi';
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
 
-const RawPurchaseReceipt = ({ persons, warehouses, rawProducts }) => {
+const RawTransferReceipt = ({ persons, warehouses, rawProducts }) => {
   const { uuid } = useParams();
   const [transaction, setTransaction] = useState(null);
 
   const fetchTransaction = async () => {
     try {
       const response = await axiosInstance.get(
-        `${RAW_APIS.LIST.RAW_TRANSACTION}?id=${uuid}`,
+        `${RAW_APIS.LIST.TRANSFER}?id=${uuid}`,
       );
       if (response?.data?.results?.length) {
         setTransaction(response.data.results[0]);
@@ -44,7 +44,7 @@ const RawPurchaseReceipt = ({ persons, warehouses, rawProducts }) => {
           persons={persons}
           rawProducts={rawProducts}
           warehouses={warehouses}
-          receiptType={'purchase'}
+          receiptType={'transfer'}
         />
       ) : (
         <Typography variant="body1">Loading transaction...</Typography>
@@ -53,4 +53,4 @@ const RawPurchaseReceipt = ({ persons, warehouses, rawProducts }) => {
   );
 };
 
-export default RawPurchaseReceipt;
+export default RawTransferReceipt;

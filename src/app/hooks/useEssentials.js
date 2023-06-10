@@ -140,13 +140,13 @@ const ROUTE_ACTION_MAP = {
     REDUCER.accountTypes,
   ],
   [routes.RAW_PURCHASE_ROUTE]: [REDUCER.suppliers, REDUCER.warehouses],
-  [routes.RAW_STOCK_ROUTE]: [REDUCER.warehouses, REDUCER.rawProducts],
   [routes.RAW_DEBIT_ROUTE]: [
     REDUCER.warehouses,
     REDUCER.rawProducts,
     REDUCER.suppliers,
     REDUCER.customers,
   ],
+  [routes.RAW_TRANSFER_ROUTE]: [REDUCER.warehouses],
   [routes.LIST_RAW_TRANSACTIONS_ROUTE]: [
     REDUCER.warehouses,
     REDUCER.rawProducts,
@@ -162,6 +162,7 @@ const ROUTE_ACTION_MAP = {
   [routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE]: [REDUCER.warehouses],
   [routes.RAW_PURCHASE_RECEIPT]: [REDUCER.rawProducts, ...ALL_PERSONS],
   [routes.RAW_DEBIT_RECEIPT]: [REDUCER.rawProducts, ...ALL_PERSONS],
+  [routes.RAW_STOCK_ROUTE]: [REDUCER.warehouses, REDUCER.rawProducts],
 };
 
 const useEssentials = () => {

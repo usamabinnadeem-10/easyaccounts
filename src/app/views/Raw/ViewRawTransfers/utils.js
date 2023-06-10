@@ -1,5 +1,4 @@
-export const formatTransactionData = (transactions, essentials) => {
-  const { warehouses, rawProducts } = essentials;
+export const formatTransactionData = (transactions) => {
   return transactions.map((data) => ({
     ...data,
     numLots: data.lots.length,
@@ -9,13 +8,5 @@ export const formatTransactionData = (transactions, essentials) => {
         curr.lot_detail.reduce((prev2, curr2) => prev2 + curr2.quantity, 0),
       0,
     ),
-    lotData: data.lots.map((lot) => ({
-      ...lot,
-      raw_product: rawProducts.find((p) => p.value === lot.raw_product),
-      lotDetail: lot.lot_detail.map((detail) => ({
-        ...detail,
-        warehouse: warehouses.find((w) => w.value === detail.warehouse),
-      })),
-    })),
   }));
 };

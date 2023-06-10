@@ -65,14 +65,20 @@ export const formatLotNumbers = (lotNumbers) =>
     label: `${number.lot_number} - ${number.raw_product.name}`,
   }));
 
-export const formatAutoFillLot = (lotData, essentials) => {
+export const formatAutoFillLot = (lotData, essentials, isTransfer) => {
   const { lot_detail } = lotData;
   const { warehouses } = essentials;
   return lot_detail.map((detail) => {
     const { id, ...rest } = detail;
     return {
       ...rest,
-      warehouse: warehouses.find((w) => w.value === detail.warehouse) ?? null,
+      warehouse: isTransfer
+        ? null
+        : warehouses.find((w) => w.value === detail.warehouse) ?? null,
+      ...(isTransfer && {
+        transferring_warehouse:
+          warehouses.find((w) => w.value === detail.warehouse) ?? null,
+      }),
     };
   });
 };

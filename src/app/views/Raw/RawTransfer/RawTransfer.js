@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
@@ -31,6 +31,7 @@ import * as utils from './utils';
 
 const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
   const { uuid } = useParams();
+  const history = useHistory();
   const essentials = useSelector((state) => state.essentials);
   const [isLoading, setIsLoading] = useState(false);
   const [transfer, setTransfer] = useState(false);
@@ -50,11 +51,14 @@ const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
     const URL = uuid ? RAW_APIS.EDIT.transfer(uuid) : RAW_APIS.CREATE.TRANSFER;
     try {
       setIsLoading(true);
-      await axiosApi.request({
+      const response = await axiosApi.request({
         url: URL,
         method: uuid ? 'PUT' : 'POST',
         data,
       });
+      if (uuid) {
+        history.push(`/home/raw-transfer/receipt/${response.data.id}`);
+      }
       setIsLoading(false);
       showSuccessSnackbar(uuid ? 'Transfer edited' : 'Transfer created');
       actions.resetForm();

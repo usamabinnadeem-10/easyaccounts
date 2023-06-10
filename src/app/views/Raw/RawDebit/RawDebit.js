@@ -44,7 +44,7 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar, ...props }) => {
     if (uuid) {
       fetchTransaction(uuid);
     }
-  }, [uuid, props]);
+  }, [uuid]);
 
   const fetchTransaction = async (uuid) => {
     const transaction = await api.fetchTransaction(uuid);

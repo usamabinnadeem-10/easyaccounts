@@ -60,7 +60,7 @@ const ViewRawDebitTransactions = ({
         ...props,
       }),
     );
-  }, [rawDebitTransactionList, props]);
+  }, [rawDebitTransactionList]);
 
   const onSearch = (data) => {
     dispatch(
@@ -132,7 +132,7 @@ const ViewRawDebitTransactions = ({
         onClose={handleCloseDrawer}
         receiptProps={{
           ...props,
-          receiptType: 'Sale/Return',
+          receiptType: 'debit',
           transaction: selected,
         }}
       />

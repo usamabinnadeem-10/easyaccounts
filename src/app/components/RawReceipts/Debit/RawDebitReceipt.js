@@ -44,7 +44,7 @@ const RawDebitReceipt = ({ persons, warehouses, rawProducts }) => {
           persons={persons}
           rawProducts={rawProducts}
           warehouses={warehouses}
-          receiptType={'Sale/Return'}
+          receiptType={'debit'}
         />
       ) : (
         <Typography variant="body1">Loading transaction...</Typography>

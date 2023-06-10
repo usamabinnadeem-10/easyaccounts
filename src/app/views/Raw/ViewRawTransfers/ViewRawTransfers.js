@@ -13,6 +13,7 @@ import { openModal } from '../../../../store/modals';
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
 import Heading from '../../../components/Heading/Heading';
 import CustomFilters from '../../../containers/CustomFilters/CustomFilters';
+import RawReceiptDrawer from '../../../components/RawReceipts/RawReceiptDrawer';
 
 // MUI
 import { LoadingButton } from '@mui/lab';
@@ -34,7 +35,11 @@ import { GridWrapper } from './styled';
 // Filters
 import { getFilters } from './filters';
 
-const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
+const ViewRawTransfers = ({
+  showSuccessSnackbar,
+  showErrorSnackbar,
+  ...props
+}) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -44,13 +49,13 @@ const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
 
   const [loading, setLoading] = useState(false);
   const [rawTransfers, setRawTransfers] = useState([]);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   let filters = useMemo(() => getFilters(), []);
 
   useEffect(() => {
-    setRawTransfers(
-      formatTransactionData(rawTransfersCache.transactionData, essentials),
-    );
+    setRawTransfers(formatTransactionData(rawTransfersCache.transactionData));
   }, [rawTransfersCache, essentials]);
 
   const onSearch = (data) => {
@@ -106,8 +111,27 @@ const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
 
   const COLUMNS = useMemo(() => getColumns({ handleEdit, handleDelete }), []);
 
+  const handleCloseDrawer = () => {
+    setShowDrawer(false);
+    setSelected(null);
+  };
+
+  const handleClickRow = (transaction) => {
+    setSelected(transaction);
+    setShowDrawer(true);
+  };
+
   return (
     <>
+      <RawReceiptDrawer
+        open={showDrawer && selected}
+        onClose={handleCloseDrawer}
+        receiptProps={{
+          ...props,
+          receiptType: 'transfer',
+          transaction: selected,
+        }}
+      />
       <Heading heading="Kora Transfer List" />
       <CustomFilters
         api={RAW_APIS.LIST.TRANSFER}
@@ -115,7 +139,12 @@ const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
         onSearch={onSearch}
       />
       <GridWrapper>
-        <CustomDataGrid columns={COLUMNS} rows={rawTransfers} showToolbar />
+        <CustomDataGrid
+          onRowClick={(row) => handleClickRow(row)}
+          columns={COLUMNS}
+          rows={rawTransfers}
+          showToolbar
+        />
         <LoadingButton
           onClick={loadMore}
           disabled={!rawTransfersCache.next}
@@ -128,4 +157,4 @@ const ListRawTransfers = ({ showSuccessSnackbar, showErrorSnackbar }) => {
   );
 };
 
-export default withSnackbar(ListRawTransfers);
+export default withSnackbar(ViewRawTransfers);

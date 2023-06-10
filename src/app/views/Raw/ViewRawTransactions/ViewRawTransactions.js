@@ -58,7 +58,7 @@ const ViewRawTransactions = ({
     setRawTransactions(
       formatTransactionData(rawTransactionsCache.transactionData, { ...props }),
     );
-  }, [rawTransactionsCache, props]);
+  }, [rawTransactionsCache]);
 
   const onSearch = (data) => {
     dispatch(
@@ -130,7 +130,7 @@ const ViewRawTransactions = ({
         onClose={handleCloseDrawer}
         receiptProps={{
           ...props,
-          receiptType: 'Purchase',
+          receiptType: 'purchase',
           transaction: selected,
         }}
       />
