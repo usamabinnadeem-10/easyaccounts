@@ -43,7 +43,7 @@ const ViewRawDebitTransactions = ({
   const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
-  const rawDebitTransactionList = useSelector(
+  const rawDebitTransactionListCache = useSelector(
     (state) => state.cache.rawDebitTransactionsListCache,
   );
 
@@ -56,11 +56,11 @@ const ViewRawDebitTransactions = ({
 
   useEffect(() => {
     setRawDebitTransactions(
-      formatTransactionData(rawDebitTransactionList.transactionData, {
+      formatTransactionData(rawDebitTransactionListCache.transactionData, {
         ...props,
       }),
     );
-  }, [rawDebitTransactionList]);
+  }, [rawDebitTransactionListCache]);
 
   const onSearch = (data) => {
     dispatch(
@@ -71,21 +71,25 @@ const ViewRawDebitTransactions = ({
     );
   };
 
+  const handleUpdateCache = (transactionData, next) => {
+    dispatch(
+      cacheRawDebitTransactionsList({
+        transactionData: [
+          ...rawDebitTransactionListCache.transactionData,
+          ...transactionData,
+        ],
+        ...(next && { next }),
+      }),
+    );
+  };
+
   const loadMore = async () => {
     try {
       setLoading(true);
-      const response = await axiosApi.get(rawDebitTransactionList.next);
+      const response = await axiosApi.get(rawDebitTransactionListCache.next);
       if (response.data) {
         const data = response.data;
-        dispatch(
-          cacheRawDebitTransactionsList({
-            transactionData: [
-              ...rawDebitTransactionList.transactionData,
-              ...data.results,
-            ],
-            next: data.next,
-          }),
-        );
+        handleUpdateCache(data.results, data.next);
       }
     } catch (error) {
       setLoading(false);
@@ -96,9 +100,19 @@ const ViewRawDebitTransactions = ({
     history.push(`/home/raw-debit/${uuid}`);
   };
 
+  const deleteRowFromGrid = (uuid) => {
+    setRawDebitTransactions(rawDebitTransactions.filter((t) => t.id !== uuid));
+    const updatedTransactionCache =
+      rawDebitTransactionListCache?.transactionData?.filter(
+        (t) => t.id !== uuid,
+      );
+    handleUpdateCache(updatedTransactionCache);
+  };
+
   const handleDeleteConfirm = async (uuid) => {
     try {
       await axiosApi.delete(RAW_APIS.DELETE.debitTransaction(uuid));
+      deleteRowFromGrid(uuid);
       showSuccessSnackbar('Transaction deleted');
     } catch (error) {
       showErrorSnackbar(findErrorMessage(error?.response?.data));
@@ -151,7 +165,7 @@ const ViewRawDebitTransactions = ({
         />
         <LoadingButton
           onClick={loadMore}
-          disabled={!rawDebitTransactionList.next}
+          disabled={!rawDebitTransactionListCache.next}
           loading={loading}
         >
           Load More

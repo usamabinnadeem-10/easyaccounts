@@ -67,21 +67,25 @@ const ViewRawTransfers = ({
     );
   };
 
+  const handleUpdateCache = (transactionData, next) => {
+    dispatch(
+      cacheRawTransferTransactionsList({
+        transactionData: [
+          ...rawTransfersCache.transactionData,
+          ...transactionData,
+        ],
+        ...(next && { next }),
+      }),
+    );
+  };
+
   const loadMore = async () => {
     try {
       setLoading(true);
       const response = await axiosApi.get(rawTransfersCache.next);
       if (response.data) {
         const data = response.data;
-        dispatch(
-          cacheRawTransferTransactionsList({
-            transactionData: [
-              ...rawTransfersCache.transactionData,
-              ...data.results,
-            ],
-            next: data.next,
-          }),
-        );
+        handleUpdateCache(data.results, data.next);
       }
     } catch (error) {
       setLoading(false);
@@ -92,9 +96,18 @@ const ViewRawTransfers = ({
     history.push(`/home/raw-transfer/${uuid}`);
   };
 
+  const deleteRowFromGrid = (uuid) => {
+    setRawTransfers(rawTransfers.filter((t) => t.id !== uuid));
+    const updatedTransactionCache = rawTransfersCache?.transactionData?.filter(
+      (t) => t.id !== uuid,
+    );
+    handleUpdateCache(updatedTransactionCache);
+  };
+
   const handleDeleteConfirm = async (uuid) => {
     try {
       await axiosApi.delete(RAW_APIS.DELETE.transfer(uuid));
+      deleteRowFromGrid(uuid);
       showSuccessSnackbar('Transfer deleted');
     } catch (error) {
       showErrorSnackbar(findErrorMessage(error?.response?.data));

@@ -22,7 +22,7 @@ export const schema = Yup.object().shape({
               [FIELDS.quantity]: positiveReqNumberSchema,
               [FIELDS.actual_gazaana]: positiveReqNumberSchema,
               [FIELDS.expected_gazaana]: positiveReqNumberSchema,
-              [FIELDS.formula]: notReqObjectSchema,
+              // [FIELDS.formula]: notReqObjectSchema,
               [FIELDS.warehouse]: reqObjectSchema,
               [FIELDS.transferring_warehouse]: reqObjectSchema,
             }),
