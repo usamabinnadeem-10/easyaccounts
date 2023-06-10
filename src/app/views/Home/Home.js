@@ -30,11 +30,12 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
-  let essentials = useEssentials();
+  let { values: essentials, routeEssentialsFetched } = useEssentials();
 
-  const { fetched, error } = useSelector((state) => state.essentials);
+  const { error } = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
   const isAuthenticated = useSelector((state) => state.auth.isAuthenticated);
+  const loggingIn = useSelector((state) => state.auth.loggingIn);
 
   const theme = useTheme();
   const tablet = useMediaQuery(theme.breakpoints.down('md'));
@@ -43,7 +44,7 @@ const Home = ({ showErrorSnackbar }) => {
   const dimensions = useWindowSize();
 
   useEffect(() => {
-    if (!isAuthenticated) {
+    if (!isAuthenticated && !loggingIn) {
       history.push(LOGIN);
     }
   }, [isAuthenticated]);
@@ -63,9 +64,9 @@ const Home = ({ showErrorSnackbar }) => {
   return (
     <>
       <Modals />
-      <SideBar tablet={tablet} fetched={fetched} />
+      <SideBar tablet={tablet} fetched={routeEssentialsFetched} />
       <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>
-        {fetched ? (
+        {routeEssentialsFetched && !loggingIn ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {
               let Component = route.component;
@@ -87,7 +88,7 @@ const Home = ({ showErrorSnackbar }) => {
             })}
           </Switch>
         ) : (
-          <CustomLoader loading={!fetched} pageLoader />
+          <CustomLoader loading={!routeEssentialsFetched} pageLoader />
         )}
       </StyledDiv>
       {/* <FAB fetched={fetched} /> */}

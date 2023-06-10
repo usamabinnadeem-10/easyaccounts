@@ -22,7 +22,7 @@ const sagaMiddleware = createSagaMiddleware();
 
 export const store = createStore(
   rootReducer,
-  composeWithDevTools(applyMiddleware(sagaMiddleware))
+  composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 
 rootSagas.forEach((saga) => sagaMiddleware.run(saga));
@@ -36,7 +36,7 @@ ReactDOM.render(
       </Router>
     </ThemeProvider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );
 
 reportWebVitals();

@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 
-import { Route } from "react-router-dom";
-import { Redirect } from "react-router-dom";
+import { Route } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
-import { PropTypes } from "prop-types";
+import { PropTypes } from 'prop-types';
 
 export const PrivateRoute = ({
   children,
