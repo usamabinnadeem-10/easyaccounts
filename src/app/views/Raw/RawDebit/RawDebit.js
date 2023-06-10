@@ -66,9 +66,7 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar, ...props }) => {
         showSuccessSnackbar(
           uuid ? 'Debit entry edited' : 'Debit entry created',
         );
-        if (uuid) {
-          history.push(`/home/raw-debit/receipt/${response.data.id}`);
-        }
+        history.push(`/home/raw-debit/receipt/${response.data.id}`);
         actions.resetForm();
       }
       setLoading(false);

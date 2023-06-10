@@ -56,9 +56,7 @@ const RawTransfer = ({ showErrorSnackbar, showSuccessSnackbar }) => {
         method: uuid ? 'PUT' : 'POST',
         data,
       });
-      if (uuid) {
-        history.push(`/home/raw-transfer/receipt/${response.data.id}`);
-      }
+      history.push(`/home/raw-transfer/receipt/${response.data.id}`);
       setIsLoading(false);
       showSuccessSnackbar(uuid ? 'Transfer edited' : 'Transfer created');
       actions.resetForm();

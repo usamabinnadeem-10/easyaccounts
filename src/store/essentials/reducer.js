@@ -224,6 +224,10 @@ const reducer = (state = initialState, action) => {
           'value',
           renameKeys('name', 'label', action.payload),
         ),
+        fetched: {
+          ...state.fetched,
+          rawProducts: true,
+        },
       };
 
     // actions to add new

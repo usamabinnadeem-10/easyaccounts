@@ -154,7 +154,19 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.customers,
   ],
+  [routes.EDIT_RAW_PURCHASE_ROUTE]: [
+    REDUCER.warehouses,
+    REDUCER.rawProducts,
+    REDUCER.suppliers,
+    REDUCER.customers,
+  ],
   [routes.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE]: [
+    REDUCER.warehouses,
+    REDUCER.rawProducts,
+    REDUCER.suppliers,
+    REDUCER.customers,
+  ],
+  [routes.EDIT_RAW_DEBIT_ROUTE]: [
     REDUCER.warehouses,
     REDUCER.rawProducts,
     REDUCER.suppliers,

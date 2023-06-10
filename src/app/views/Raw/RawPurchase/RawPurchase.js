@@ -86,9 +86,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
       setIsLoading(true);
       apiInstance(data, uuid)
         .then((response) => {
-          if (uuid) {
-            history.push(`/home/raw-purchase/receipt/${response.data.id}`);
-          }
+          history.push(`/home/raw-purchase/receipt/${response.data.id}`);
           setIsLoading(false);
           actions.resetForm();
           showSuccessSnackbar(
