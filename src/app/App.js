@@ -35,17 +35,14 @@ function App({ showErrorSnackbar }) {
   }, [auth.error]);
 
   useEffect(() => {
-    // if (auth.hasToken && auth.isAuthenticated) {
-    //   history.push(routes.HOME);
-    // }
-    // if (!auth.loggingIn) {
-    //   if (auth.hasToken && !auth.isAuthenticated) {
-    //     history.push(routes.BRANCHES);
-    //   }
-    //   if (!auth.hasToken && !auth.isAuthenticated) {
-    //     history.push(routes.LOGIN);
-    //   }
-    // }
+    if (!auth.loggingIn) {
+      if (auth.hasToken && !auth.isAuthenticated) {
+        history.push(routes.BRANCHES);
+      }
+      if (!auth.hasToken && !auth.isAuthenticated) {
+        history.push(routes.LOGIN);
+      }
+    }
   }, [auth, history]);
   return (
     <Switch>
