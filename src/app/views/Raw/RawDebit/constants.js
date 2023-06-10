@@ -37,7 +37,7 @@ export const LOT_INITIAL = {
 export const INITIAL_VALUES = {
   [FIELDS.person]: '',
   [FIELDS.manual_serial]: '',
-  [FIELDS.debit_type]: 'Sale',
+  [FIELDS.debit_type]: 'sale',
   [FIELDS.date]: getToday(),
   [FIELDS.data]: [LOT_INITIAL],
 };
@@ -45,14 +45,20 @@ export const INITIAL_VALUES = {
 export const RAW_DEBIT_TYPES = [
   {
     name: 'Sale',
-    value: 'Sale',
+    value: 'sale',
     color: 'success',
     validate: false,
   },
   {
-    name: 'Return',
-    value: 'Return',
+    name: 'Sale Return',
+    value: 'sale_return',
     color: 'error',
     validate: true,
+  },
+  {
+    name: 'Purchase Return',
+    value: 'purchase_return',
+    color: 'info',
+    validate: false,
   },
 ];

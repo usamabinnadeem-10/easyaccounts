@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 
 // React Router
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory, useLocation } from 'react-router-dom';
 
 // Custom Components
 import RawReceipt from '../common/RawReceipt';
@@ -16,9 +16,14 @@ import axiosInstance from '../../../../utils/axiosApi';
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
 
+// Hooks
+import { useGoBack } from '../common/utils';
+
 const RawPurchaseReceipt = ({ persons, warehouses, rawProducts }) => {
   const { uuid } = useParams();
   const [transaction, setTransaction] = useState(null);
+
+  useGoBack(uuid);
 
   const fetchTransaction = async () => {
     try {
@@ -30,6 +35,7 @@ const RawPurchaseReceipt = ({ persons, warehouses, rawProducts }) => {
       }
     } catch (error) {}
   };
+
   useEffect(() => {
     if (uuid) {
       fetchTransaction();

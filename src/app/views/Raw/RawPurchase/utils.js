@@ -185,6 +185,8 @@ export const formatBeforeSubmit = (values) => {
     person: values.person.value,
     lots: values.lots.map((lot) => ({
       ...lot,
+      warehouse_number: lot.warehouse_number || null,
+      dying_number: lot.dying_number || null,
       raw_product: lot.raw_product.value,
       dying_unit: lot.dying_unit?.id || null,
       lot_detail: lot.lot_detail.map((detail) => ({

@@ -16,9 +16,14 @@ import axiosInstance from '../../../../utils/axiosApi';
 // Constants
 import { RAW_APIS } from '../../../../constants/restEndPoints';
 
+// Hooks
+import { useGoBack } from '../common/utils';
+
 const RawTransferReceipt = ({ persons, warehouses, rawProducts }) => {
   const { uuid } = useParams();
   const [transaction, setTransaction] = useState(null);
+
+  useGoBack(uuid);
 
   const fetchTransaction = async () => {
     try {

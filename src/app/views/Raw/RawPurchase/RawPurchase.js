@@ -66,9 +66,6 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
     if (!dying.fetched) {
       dispatch(getAllDying());
     }
-    if (!raw.productsInfo.fetched) {
-      dispatch(getAllProduct());
-    }
   }, []);
 
   const metaFields = useMemo(
@@ -83,6 +80,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
       : api.createTransactionApi;
     if (isValid) {
       let data = utils.formatBeforeSubmit(values);
+      console.log(data);
       setIsLoading(true);
       apiInstance(data, uuid)
         .then((response) => {
@@ -111,7 +109,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
 
   return (
     <>
-      {raw.formulasInfo.fetched && dying.fetched && raw.productsInfo.fetched ? (
+      {raw.formulasInfo.fetched && dying.fetched ? (
         <ViewWrapper marginBottom={4} heading="Kora Purchase" width={80}>
           <Formik
             initialValues={transaction ?? constants.INITIAL_VALUES}
@@ -172,7 +170,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
                                   lotIndex,
                                   values.lots[lotIndex].issued,
                                   dying.dyingUnits,
-                                  raw.productsInfo.products,
+                                  essentials.rawProducts,
                                 )
                                 .map(
                                   (field, lotFieldIndex) =>

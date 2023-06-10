@@ -140,7 +140,11 @@ const ROUTE_ACTION_MAP = {
     REDUCER.suppliers,
     REDUCER.accountTypes,
   ],
-  [routes.RAW_PURCHASE_ROUTE]: [REDUCER.suppliers, REDUCER.warehouses],
+  [routes.RAW_PURCHASE_ROUTE]: [
+    REDUCER.suppliers,
+    REDUCER.warehouses,
+    REDUCER.rawProducts,
+  ],
   [routes.RAW_DEBIT_ROUTE]: [
     REDUCER.warehouses,
     REDUCER.rawProducts,
