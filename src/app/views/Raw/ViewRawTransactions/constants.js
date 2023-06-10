@@ -9,9 +9,9 @@ export const getColumns = ({ handleEdit, handleDelete }) => [
     headerName: 'Serial',
   },
   {
-    field: 'person',
-    headerName: 'Person',
-    valueGetter: ({ row }) => row.person.label,
+    field: 'party',
+    headerName: 'Party',
+    valueGetter: ({ row }) => row.party.label,
   },
   {
     field: 'numLots',

@@ -13,6 +13,7 @@ import { openModal } from '../../../../store/modals';
 import CustomDataGrid from '../../../containers/DataGrid/DataGrid';
 import Heading from '../../../components/Heading/Heading';
 import CustomFilters from '../../../containers/CustomFilters/CustomFilters';
+import RawReceiptDrawer from '../../../components/RawReceipts/RawReceiptDrawer';
 
 // MUI
 import { LoadingButton } from '@mui/lab';
@@ -34,7 +35,11 @@ import { GridWrapper } from './styled';
 // Filters
 import { getFilters } from './filters';
 
-const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
+const ViewRawTransactions = ({
+  showSuccessSnackbar,
+  showErrorSnackbar,
+  ...props
+}) => {
   const history = useHistory();
   const dispatch = useDispatch();
   const essentials = useSelector((state) => state.essentials);
@@ -44,14 +49,16 @@ const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
 
   const [loading, setLoading] = useState(false);
   const [rawTransactions, setRawTransactions] = useState([]);
+  const [showDrawer, setShowDrawer] = useState(false);
+  const [selected, setSelected] = useState(null);
 
   let filters = useMemo(() => getFilters(essentials), [essentials]);
 
   useEffect(() => {
     setRawTransactions(
-      formatTransactionData(rawTransactionsCache.transactionData, essentials),
+      formatTransactionData(rawTransactionsCache.transactionData, { ...props }),
     );
-  }, [rawTransactionsCache, essentials]);
+  }, [rawTransactionsCache, props]);
 
   const onSearch = (data) => {
     dispatch(
@@ -106,8 +113,27 @@ const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
 
   const COLUMNS = useMemo(() => getColumns({ handleEdit, handleDelete }), []);
 
+  const handleCloseDrawer = () => {
+    setShowDrawer(false);
+    setSelected(null);
+  };
+
+  const handleClickRow = (transaction) => {
+    setSelected(transaction);
+    setShowDrawer(true);
+  };
+
   return (
     <>
+      <RawReceiptDrawer
+        open={showDrawer && selected}
+        onClose={handleCloseDrawer}
+        receiptProps={{
+          ...props,
+          receiptType: 'Purchase',
+          transaction: selected,
+        }}
+      />
       <Heading heading="Kora Purchase List" />
       <CustomFilters
         api={RAW_APIS.LIST.RAW_TRANSACTION}
@@ -115,7 +141,12 @@ const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
         onSearch={onSearch}
       />
       <GridWrapper>
-        <CustomDataGrid columns={COLUMNS} rows={rawTransactions} showToolbar />
+        <CustomDataGrid
+          onRowClick={(row) => handleClickRow(row)}
+          columns={COLUMNS}
+          rows={rawTransactions}
+          showToolbar
+        />
         <LoadingButton
           onClick={loadMore}
           disabled={!rawTransactionsCache.next}
@@ -128,4 +159,4 @@ const ListRawTransactions = ({ showSuccessSnackbar, showErrorSnackbar }) => {
   );
 };
 
-export default withSnackbar(ListRawTransactions);
+export default withSnackbar(ViewRawTransactions);

@@ -14,9 +14,18 @@ const Toolbar = () => {
   );
 };
 
-const CustomDataGrid = ({ columns, rows, showToolbar = true, ...props }) => {
+const CustomDataGrid = ({
+  columns,
+  rows,
+  showToolbar = true,
+  onRowClick = null,
+  ...props
+}) => {
   return (
     <DataGrid
+      onRowClick={(params) => {
+        onRowClick && onRowClick(params.row);
+      }}
       showCellRightBorder={false}
       rows={rows}
       columns={columns}
@@ -26,6 +35,9 @@ const CustomDataGrid = ({ columns, rows, showToolbar = true, ...props }) => {
       density="compact"
       sx={{
         ...props.sx,
+        '& .MuiDataGrid-row:hover': {
+          cursor: 'pointer',
+        },
         '@media print': {
           '.MuiDataGrid-main': {
             fontFamily: 'Poppins',
