@@ -184,8 +184,8 @@ const useEssentials = () => {
     routesArray.forEach((route) => {
       const isMatch = matchPath(location.pathname, {
         path: route,
-        exact: true, // Set to true if you want an exact match
-        strict: false, // Set to true for stricter matching
+        exact: true,
+        strict: false,
       });
       if (isMatch) {
         match = isMatch.path;
