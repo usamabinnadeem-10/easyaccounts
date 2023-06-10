@@ -3,7 +3,7 @@ export const COLUMNS = [
     field: 'raw_product',
     headerName: 'Product',
     width: 200,
-    valueGetter: ({ row }) => row.raw_product.name,
+    valueGetter: ({ row }) => row.raw_product.label,
   },
   {
     field: 'quantity',

@@ -40,7 +40,7 @@ import { findErrorMessage } from '../../../utilities/objectUtils';
 
 import { withSnackbar } from '../../../hoc/withSnackbar';
 
-const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
+const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
   const { uuid } = useParams();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -106,7 +106,9 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar }) => {
 
   const fetchTransaction = async (uuid) => {
     const transaction = await api.fetchTransaction(uuid);
-    setTransaction(utils.formatTransactionForEditing(transaction, essentials));
+    setTransaction(
+      utils.formatTransactionForEditing(transaction, { ...props }),
+    );
   };
 
   return (

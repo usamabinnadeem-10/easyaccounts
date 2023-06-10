@@ -66,9 +66,9 @@ export const formatLotNumbers = (lotNumbers) =>
   }));
 
 export const formatAutoFillLot = (lotData, essentials) => {
-  const { raw_lot_detail } = lotData;
+  const { lot_detail } = lotData;
   const { warehouses } = essentials;
-  return raw_lot_detail.map((detail) => {
+  return lot_detail.map((detail) => {
     const { id, ...rest } = detail;
     return {
       ...rest,

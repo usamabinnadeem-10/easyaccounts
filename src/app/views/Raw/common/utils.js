@@ -14,7 +14,7 @@ const calculateValues = (obj, isTransfer) => {
   let expected = qty * obj[FIELDS.expected_gazaana] || 0;
   let actual = qty * obj[FIELDS.actual_gazaana] || 0;
   let rate_gazaana = obj[FIELDS.rate_gazaana] || 0;
-  let total = !isTransfer ? obj[FIELDS.rate] * rate_gazaana : 0;
+  let total = !isTransfer ? obj[FIELDS.rate] * rate_gazaana * qty : 0;
   return {
     qty,
     expected,

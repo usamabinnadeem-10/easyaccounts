@@ -24,17 +24,17 @@ export const getFilters = (essentials) => {
       placeholder: 'Party',
     },
     {
-      qp: 'rawdebitlot__lot_number__lot_number',
+      qp: 'lots__lot_number',
       type: FIELDS.NUMBER,
       placeholder: 'Lot # (equal to)',
     },
     {
-      qp: 'rawdebitlot__lot_number__lot_number__gte',
+      qp: 'lots__lot_number__gte',
       type: FIELDS.NUMBER,
       placeholder: 'Lot # (from)',
     },
     {
-      qp: 'rawdebitlot__lot_number__lot_number__lte',
+      qp: 'lots__lot_number__lte',
       type: FIELDS.NUMBER,
       placeholder: 'Lot # (to)',
     },

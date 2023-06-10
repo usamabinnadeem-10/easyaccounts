@@ -50,6 +50,9 @@ const RawTransferTransactionsList = lazy(() =>
 const RawPurchaseReceipt = lazy(() =>
   import('../app/components/RawReceipts/Purchase'),
 );
+const RawDebitReceipt = lazy(() =>
+  import('../app/components/RawReceipts/Debit'),
+);
 
 export const authenticatedRoutes = [
   // ----------- Reports Routes ---------------
@@ -196,6 +199,10 @@ export const authenticatedRoutes = [
   {
     component: RawDebit,
     path: url.EDIT_RAW_DEBIT_ROUTE,
+  },
+  {
+    component: RawDebitReceipt,
+    path: url.RAW_DEBIT_RECEIPT,
   },
   {
     component: RawTransfer,

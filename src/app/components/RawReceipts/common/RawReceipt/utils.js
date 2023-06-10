@@ -21,7 +21,7 @@ export const getMeta = (transaction, persons) => {
     },
     {
       value: person?.label,
-      label: `${DB_TRANSLATION[person.person_type]}:`,
+      label: 'Party:',
     },
   ];
   return data;

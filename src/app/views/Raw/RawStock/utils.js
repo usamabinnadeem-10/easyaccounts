@@ -4,6 +4,6 @@ export const formatStockData = (stock, essentials) => {
     ...data,
     id: Math.random(),
     warehouse: warehouses.find((w) => w.value === data.warehouse),
-    raw_product: rawProducts.find((r) => r.id === data.raw_product),
+    raw_product: rawProducts.find((r) => r.value === data.raw_product),
   }));
 };

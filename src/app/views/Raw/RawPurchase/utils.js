@@ -196,23 +196,23 @@ export const formatBeforeSubmit = (values) => {
   };
 };
 
-export const formatTransactionForEditing = (transaction, essentials) => {
-  const { suppliers, rawProducts, warehouses } = essentials;
+export const formatTransactionForEditing = (transaction, hashes) => {
+  const { persons, rawProducts, warehouses } = hashes;
   return {
     ...transaction,
-    person: suppliers.find((s) => s.value === transaction.person),
-    lots: transaction.rawtransactionlot_set.map((lot) => {
-      const rawProduct = rawProducts.find((p) => p.value === lot.raw_product);
+    person: persons?.[transaction.person],
+    lots: transaction.lots.map((lot) => {
+      const rawProduct = rawProducts?.[lot.raw_product];
       return {
         ...lot,
         raw_product: {
           value: rawProduct.value,
           label: `${rawProduct.label} - ${rawProduct.type}`,
         },
-        lot_detail: lot.raw_lot_detail.map((detail) => {
+        lot_detail: lot.lot_detail.map((detail) => {
           return {
             ...detail,
-            warehouse: warehouses.find((w) => w.value === detail.warehouse),
+            warehouse: warehouses?.[detail.warehouse],
           };
         }),
       };

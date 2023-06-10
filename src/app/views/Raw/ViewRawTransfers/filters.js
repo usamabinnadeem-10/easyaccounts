@@ -3,12 +3,12 @@ import { FIELDS } from '../../../containers/CustomFilters/constants';
 export const getFilters = () => {
   return [
     {
-      qp: 'rawtransferlot__lot_number__lot_number__gte',
+      qp: 'lots__lot_number__gte',
       type: FIELDS.NUMBER,
       placeholder: 'Lot # (from)',
     },
     {
-      qp: 'rawtransferlot__lot_number__lot_number__lte',
+      qp: 'lots__lot_number__lte',
       type: FIELDS.NUMBER,
       placeholder: 'Lot # (to)',
     },

@@ -8,6 +8,7 @@ import { Typography } from '@mui/material';
 
 // Styled
 import {
+  Wrapper,
   MetaWrapper,
   MetaFieldWrapper,
   MetaKey,
@@ -19,16 +20,22 @@ import {
 import { getMeta, getLotTableData } from './utils';
 import { COLUMNS } from './constants';
 
-const LotRenderer = ({ persons, transaction, rawProducts, warehouses }) => {
+const RawReceipt = ({
+  persons,
+  transaction,
+  rawProducts,
+  warehouses,
+  receiptType,
+}) => {
   const metaFields = useMemo(
     () => (transaction ? getMeta(transaction, persons) : null),
     [transaction, persons],
   );
 
   return (
-    <>
+    <Wrapper elevation={1}>
       <Typography variant="h6" gutterBottom>
-        Kora Purchase
+        Kora {receiptType}
       </Typography>
       <MetaWrapper>
         {metaFields.map((meta, idx) => (
@@ -41,7 +48,7 @@ const LotRenderer = ({ persons, transaction, rawProducts, warehouses }) => {
         ))}
       </MetaWrapper>
       <AllLotsWrapper>
-        {transaction.rawtransactionlot_set.map((lot) => (
+        {transaction.lots.map((lot) => (
           <LotWrapper key={lot.id}>
             <LotHeadWrapper>
               <Typography fontWeight={700} variant="h6" color={'GrayText'}>
@@ -53,14 +60,14 @@ const LotRenderer = ({ persons, transaction, rawProducts, warehouses }) => {
             </LotHeadWrapper>
             <CustomTable
               columns={COLUMNS}
-              data={getLotTableData(lot.raw_lot_detail, warehouses)}
+              data={getLotTableData(lot.lot_detail, warehouses)}
               noTableStyles
             />
           </LotWrapper>
         ))}
       </AllLotsWrapper>
-    </>
+    </Wrapper>
   );
 };
 
-export default LotRenderer;
+export default RawReceipt;

@@ -1,5 +1,11 @@
 import { styled } from '@mui/styles';
-import { Typography, Box } from '@mui/material';
+import { Typography, Paper, Box } from '@mui/material';
+
+export const Wrapper = styled(Paper)(() => ({
+  padding: '20px',
+  borderRadius: 8,
+  backgroundColor: 'rgba(105, 105, 105, 0.03)',
+}));
 
 export const MetaWrapper = styled(Box)(() => ({
   display: 'flex',

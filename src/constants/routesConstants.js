@@ -40,6 +40,7 @@ export const EDIT_RAW_PURCHASE_ROUTE = `${HOME}/raw-purchase/:uuid`;
 export const RAW_PURCHASE_RECEIPT = `${HOME}/raw-purchase/receipt/:uuid`;
 export const RAW_DEBIT_ROUTE = `${HOME}/raw-debit`;
 export const EDIT_RAW_DEBIT_ROUTE = `${HOME}/raw-debit/:uuid`;
+export const RAW_DEBIT_RECEIPT = `${HOME}/raw-debit/receipt/:uuid`;
 export const RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer`;
 export const EDIT_RAW_TRANSFER_ROUTE = `${HOME}/raw-transfer/:uuid`;
 export const RAW_STOCK_ROUTE = `${HOME}/raw-stock`;

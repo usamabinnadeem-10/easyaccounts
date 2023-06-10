@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
@@ -33,8 +33,9 @@ import { findErrorMessage } from '../../../utilities/objectUtils';
 
 import * as api from './api';
 
-const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
+const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar, ...props }) => {
   const { uuid } = useParams();
+  const history = useHistory();
   const essentials = useSelector((state) => state.essentials);
   const [loading, setLoading] = useState(false);
   const [transaction, setTransaction] = useState(null);
@@ -43,11 +44,11 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
     if (uuid) {
       fetchTransaction(uuid);
     }
-  }, [uuid]);
+  }, [uuid, props]);
 
   const fetchTransaction = async (uuid) => {
     const transaction = await api.fetchTransaction(uuid);
-    setTransaction(formatTransactionForEditing(transaction, essentials));
+    setTransaction(formatTransactionForEditing(transaction, { ...props }));
   };
 
   const createOrEditTransaction = async (data, actions) => {
@@ -65,6 +66,9 @@ const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar }) => {
         showSuccessSnackbar(
           uuid ? 'Debit entry edited' : 'Debit entry created',
         );
+        if (uuid) {
+          history.push(`/home/raw-debit/receipt/${response.data.id}`);
+        }
         actions.resetForm();
       }
       setLoading(false);
