@@ -23,11 +23,11 @@ const Branches = () => {
   const auth = useSelector((state) => state.auth);
   const [isLoading, setIsLoading] = useState(false);
 
-  // useEffect(() => {
-  //   if (auth.hasToken && auth.isAuthenticated) {
-  //     history.push(routes.TRANSACTIONS);
-  //   }
-  // }, [auth, history]);
+  useEffect(() => {
+    if (auth.hasToken && auth.isAuthenticated && !auth.loggingIn) {
+      history.push(routes.VIEW_DAYBOOK);
+    }
+  }, [auth, history]);
 
   const handleLoginBranch = (branchId) => {
     setIsLoading(true);

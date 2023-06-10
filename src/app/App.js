@@ -43,6 +43,9 @@ function App({ showErrorSnackbar }) {
         history.push(routes.LOGIN);
       }
     }
+    if (auth.loggedOut) {
+      history.push(routes.LOGIN);
+    }
   }, [auth, history]);
   return (
     <Switch>
@@ -53,9 +56,16 @@ function App({ showErrorSnackbar }) {
         <Route path={routes.BRANCHES} exact>
           <Branches />
         </Route>
-        <Route path={'/home/*'}>
-          <Home />
-        </Route>
+        {!auth.loggedOut && (
+          <>
+            <Route exact path={'/'}>
+              <Home />
+            </Route>
+            <Route path={'/home/*'}>
+              <Home />
+            </Route>
+          </>
+        )}
       </Suspense>
     </Switch>
   );

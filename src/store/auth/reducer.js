@@ -9,17 +9,19 @@ const initialState = {
   activeBranch: null,
   userRole: null,
   loggingIn: true,
+  loggedOut: false,
 };
 
 const reducer = (state = initialState, action) => {
   switch (action.type) {
     case actionTypes.LOGOUT_SUCCESS:
-      return initialState;
+      return { ...initialState, loggedOut: true };
     case actionTypes.GET_TOKEN_SUCCESS:
       return {
         ...state,
         hasToken: true,
         error: null,
+        loggedOut: false,
       };
     case actionTypes.GET_TOKEN_FAIL:
       return {
@@ -67,10 +69,14 @@ const reducer = (state = initialState, action) => {
         activeBranch: action.payload,
         userRole: action.payload.role,
         error: null,
+        loggingIn: false,
       };
 
     case actionTypes.LOGIN_FAIL:
-      return initialState;
+      return {
+        ...initialState,
+        loggedOut: true,
+      };
 
     default:
       return state;
