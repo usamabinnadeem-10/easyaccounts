@@ -49,8 +49,8 @@ const Home = ({ showErrorSnackbar }) => {
   }, [isAuthenticated]);
 
   useEffect(() => {
-    if (location.pathname === '/') {
-      history.push(HOME);
+    if (location.pathname === '/' || location.pathname === '/home') {
+      history.push('/home/');
     }
   }, [location.pathname, history]);
 
