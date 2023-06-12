@@ -110,7 +110,6 @@ function TransactionHeader(props) {
         </Grid>
         <Grid item xs={6}>
           <Field
-            disabled={values.type !== 'purchase'}
             component={FormTextField}
             name="wasooli_number"
             label="Wasooli number"
