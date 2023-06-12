@@ -179,7 +179,11 @@ const ROUTE_ACTION_MAP = {
   [routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE]: [REDUCER.warehouses],
   [routes.RAW_PURCHASE_RECEIPT]: [REDUCER.rawProducts, ...ALL_PERSONS],
   [routes.RAW_DEBIT_RECEIPT]: [REDUCER.rawProducts, ...ALL_PERSONS],
-  [routes.RAW_STOCK_ROUTE]: [REDUCER.warehouses, REDUCER.rawProducts],
+  [routes.RAW_STOCK_ROUTE]: [
+    REDUCER.warehouses,
+    REDUCER.rawProducts,
+    REDUCER.suppliers,
+  ],
 };
 
 const useEssentials = () => {

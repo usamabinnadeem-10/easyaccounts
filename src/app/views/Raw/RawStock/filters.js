@@ -9,7 +9,13 @@ export const getFilters = (essentials) => {
     },
     {
       qp: 'raw_product',
-      options: essentials.rawProducts,
+      options: essentials.rawProducts.map((p) => {
+        const person = essentials.suppliers.find((s) => s.value === p.person);
+        return {
+          value: p.id,
+          label: `${p.label} - ${person.label}`,
+        };
+      }),
       type: FIELDS.SELECT,
       placeholder: 'Product',
     },

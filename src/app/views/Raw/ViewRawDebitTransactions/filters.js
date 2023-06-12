@@ -2,16 +2,16 @@ import { FIELDS } from '../../../containers/CustomFilters/constants';
 
 const debitTypeOptions = [
   {
+    value: 'sale',
     label: 'Sale',
-    value: 'Sale',
   },
   {
-    label: 'Return',
-    value: 'Return',
+    value: 'sale_return',
+    label: 'Sale Return',
   },
   {
-    label: 'Transfer',
-    value: 'Transfer',
+    value: 'purchase_return',
+    label: 'Purchase Return',
   },
 ];
 
