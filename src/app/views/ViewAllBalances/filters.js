@@ -20,6 +20,12 @@ export const getFilters = (role) => {
       placeholder: 'Balance Nature',
     },
     {
+      qp: 'date__lte',
+      type: FIELDS.DATE,
+      placeholder: 'Date (up to)',
+      variant: 'end',
+    },
+    {
       qp: 'balance__gte',
       type: FIELDS.NUMBER,
       placeholder: 'Balance (more than)',
