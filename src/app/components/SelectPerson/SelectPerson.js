@@ -30,7 +30,8 @@ function SelectPerson({
     <Grid
       container
       justifyContent={dimensions.width < 600 ? 'center' : 'space-between'}
-      className={classes.container}>
+      className={classes.container}
+    >
       <div className={classes.people}>
         <Select
           styles={selectCustomStyles}
@@ -42,7 +43,9 @@ function SelectPerson({
       </div>
       <CustomToggleButtons
         buttons={
-          [ROLES.ADMIN, ROLES.ADMIN_VIEWER].includes(role)
+          [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT].includes(
+            role,
+          )
             ? PERSON_TYPES
             : PERSON_TYPES_CUSTOMER
         }
