@@ -121,7 +121,7 @@ export const SIDEBAR = [
         roles: [
           ROLES.ADMIN,
           ROLES.ACCOUNTANT,
-          ROLES.STOCKIST,
+          // ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
           ROLES.HEAD_ACCOUNTANT,
         ],
@@ -132,7 +132,7 @@ export const SIDEBAR = [
         roles: [
           ROLES.ADMIN,
           ROLES.ACCOUNTANT,
-          ROLES.STOCKIST,
+          // ROLES.STOCKIST,
           ROLES.ADMIN_VIEWER,
           ROLES.HEAD_ACCOUNTANT,
         ],
