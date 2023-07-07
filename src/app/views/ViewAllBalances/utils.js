@@ -14,7 +14,7 @@ export const formatBalances = (data, persons) => {
     newBalancesData.push({
       id: index,
       person: persons[key].label,
-      balance: formatCurrency(Math.abs(value)),
+      balance: formatCurrency(Math.abs(value), 'decimal', 0),
       status: value > 0 ? 'CR' : 'DB',
     });
     index++;
@@ -24,7 +24,7 @@ export const formatBalances = (data, persons) => {
     sensitivity: 'base',
   });
   let sorted = newBalancesData.sort((a, b) =>
-    collator.compare(a.person, b.person)
+    collator.compare(a.person, b.person),
   );
   if (sorted.length > 0) {
     sorted = [
