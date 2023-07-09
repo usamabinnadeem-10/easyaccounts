@@ -25,7 +25,11 @@ const Branches = () => {
 
   useEffect(() => {
     if (auth.hasToken && auth.isAuthenticated && !auth.loggingIn) {
-      history.push(routes.VIEW_DAYBOOK);
+      if (auth.userRole === 'admin') {
+        history.push(routes.VIEW_DAYBOOK);
+      } else {
+        history.push(routes.HOME + '/');
+      }
     }
   }, [auth, history]);
 
