@@ -1,4 +1,5 @@
 import { FIELDS, FIELD_TYPES } from './constants';
+import { PRODUCT_GLUES, PRODUCT_TYPES } from '../common/constants';
 
 export const getMetaFields = (essentials) => {
   return [
@@ -85,10 +86,6 @@ export const formatDyingOptions = (dyingOptions) => {
   }));
 };
 
-const filterProductsOfSupplier = (supplier, products) => {
-  return products.filter((product) => product.person === supplier.value);
-};
-
 export const getLotHeadField = (
   supplier,
   lotIndex,
@@ -101,21 +98,40 @@ export const getLotHeadField = (
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.raw_product}`,
       name: FIELDS.raw_product,
       type: FIELD_TYPES.SELECT,
-      options: supplier?.value
-        ? filterProductsOfSupplier(supplier, products)
-        : [],
+      options: products,
       label: 'Kora product',
       render: true,
-      isFast: false,
+      isFast: true,
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.product_glue}`,
+      name: FIELDS.product_glue,
+      type: FIELD_TYPES.SELECT,
+      options: PRODUCT_GLUES,
+      label: 'Glue',
+      render: true,
+      isFast: true,
+      xs: 2,
+    },
+    {
+      field: `${FIELDS.lots}.${lotIndex}.${FIELDS.product_type}`,
+      name: FIELDS.product_type,
+      type: FIELD_TYPES.SELECT,
+      options: PRODUCT_TYPES,
+      label: 'Type',
+      render: true,
+      isFast: true,
+      xs: 2,
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.issued}`,
       name: FIELDS.issued,
       type: FIELD_TYPES.SWITCH,
-      label: 'Issue for dying',
+      label: 'Not Issued',
       onCheckedLabel: 'Issued',
       render: true,
       isFast: true,
+      xs: 2,
     },
     {
       field: `${FIELDS.lots}.${lotIndex}.${FIELDS.dying_unit}`,
@@ -188,6 +204,8 @@ export const formatBeforeSubmit = (values) => {
       warehouse_number: lot.warehouse_number || null,
       dying_number: lot.dying_number || null,
       raw_product: lot.raw_product.value,
+      product_glue: lot.product_glue.value,
+      product_type: lot.product_type.value,
       dying_unit: lot.dying_unit?.id || null,
       lot_detail: lot.lot_detail.map((detail) => ({
         ...detail,

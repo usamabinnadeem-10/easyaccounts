@@ -1,4 +1,8 @@
-import { DB, DB_TRANSLATION } from '../../../../../constants/db';
+import { DB } from '../../../../../constants/db';
+import {
+  PRODUCT_GLUES,
+  PRODUCT_TYPES,
+} from '../../../../views/Raw/common/constants';
 
 // Utils
 import moment from 'moment';
@@ -41,4 +45,11 @@ export const getLotTableData = (lotDetail, warehouseHash) => {
       detail.rate_gazaana * detail.quantity * detail.rate,
     ),
   }));
+};
+
+export const getProductGlueAndType = (lot) => {
+  return {
+    productGlue: PRODUCT_GLUES.find((g) => g.value === lot.product_glue),
+    productType: PRODUCT_TYPES.find((t) => t.value === lot.product_type),
+  };
 };

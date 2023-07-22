@@ -17,7 +17,7 @@ import {
   LotHeadWrapper,
 } from './styled';
 
-import { getMeta, getLotTableData } from './utils';
+import { getMeta, getLotTableData, getProductGlueAndType } from './utils';
 import { COLUMNS } from './constants';
 
 const RawReceipt = ({
@@ -30,6 +30,11 @@ const RawReceipt = ({
   const metaFields = useMemo(
     () => (transaction ? getMeta(transaction, persons) : null),
     [transaction, persons],
+  );
+
+  const productGlueAndType = useMemo(
+    () => getProductGlueAndType(transaction),
+    [transaction],
   );
 
   const headingMap = {
@@ -62,6 +67,11 @@ const RawReceipt = ({
               </Typography>
               <Typography fontWeight={700} variant="h6">
                 {rawProducts?.[lot.raw_product]?.label}
+              </Typography>
+              <Typography fontWeight={500} variant="caption">
+                ({getProductGlueAndType(lot)?.productGlue?.label}
+                {'-'}
+                {getProductGlueAndType(lot)?.productType?.label})
               </Typography>
             </LotHeadWrapper>
             <CustomTable

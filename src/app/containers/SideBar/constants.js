@@ -604,20 +604,6 @@ export const getRawProductForm = (essentials) => {
         name: DB.NAME,
         required: true,
       },
-      {
-        label: 'Supplier',
-        type: FIELDS.SELECT,
-        name: DB.PERSON,
-        options: essentials.suppliers,
-        required: true,
-      },
-      {
-        label: 'Type',
-        type: FIELDS.SELECT,
-        name: DB.TYPE,
-        options: options.RAW_PRODUCT_TYPES,
-        required: true,
-      },
     ],
   };
 };

@@ -1,4 +1,5 @@
 import { FIELDS } from '../../../containers/CustomFilters/constants';
+import { PRODUCT_GLUES, PRODUCT_TYPES } from '../common/constants';
 
 export const getFilters = (essentials) => {
   return [
@@ -9,15 +10,21 @@ export const getFilters = (essentials) => {
     },
     {
       qp: 'raw_product',
-      options: essentials.rawProducts.map((p) => {
-        const person = essentials.suppliers.find((s) => s.value === p.person);
-        return {
-          value: p.id,
-          label: `${p.label} - ${person.label}`,
-        };
-      }),
+      options: essentials.rawProducts,
       type: FIELDS.SELECT,
       placeholder: 'Product',
+    },
+    {
+      qp: 'product_glue',
+      options: PRODUCT_GLUES,
+      type: FIELDS.SELECT,
+      placeholder: 'Product Glue',
+    },
+    {
+      qp: 'product_type',
+      options: PRODUCT_TYPES,
+      type: FIELDS.SELECT,
+      placeholder: 'Product Type',
     },
     {
       qp: 'warehouse',

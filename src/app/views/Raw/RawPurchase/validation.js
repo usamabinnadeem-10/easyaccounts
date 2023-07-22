@@ -16,6 +16,8 @@ export const schema = Yup.object().shape({
   [FIELDS.lots]: Yup.array().of(
     Yup.object().shape({
       [FIELDS.raw_product]: reqObjectSchema,
+      [FIELDS.product_glue]: reqObjectSchema,
+      [FIELDS.product_type]: reqObjectSchema,
       [FIELDS.issued]: Yup.boolean().required(REQUIRED),
       [FIELDS.dying_unit]: Yup.object().typeError(REQUIRED).nullable(),
       [FIELDS.lot_detail]: Yup.array()
@@ -31,7 +33,7 @@ export const schema = Yup.object().shape({
           }),
         )
         .unique(
-          ['actual_gazaana', 'expected_gazaana', 'formula', 'warehouse'],
+          ['actual_gazaana', 'expected_gazaana', 'warehouse'],
           'Detail is not unique',
         ),
     }),

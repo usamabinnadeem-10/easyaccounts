@@ -178,7 +178,7 @@ const RawPurchase = ({ showErrorSnackbar, showSuccessSnackbar, ...props }) => {
                                       <Grid
                                         key={`lotHeader-${lotFieldIndex}`}
                                         item
-                                        xs={3}
+                                        xs={field.xs ?? 3}
                                       >
                                         <FastOrSlowField
                                           field={field}

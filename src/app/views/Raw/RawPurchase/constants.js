@@ -3,6 +3,8 @@ import { getToday } from '../../../utilities/stringUtils';
 export const FIELDS = {
   person: 'person',
   raw_product: 'raw_product',
+  product_glue: 'product_glue',
+  product_type: 'product_type',
   manual_serial: 'manual_serial',
   date: 'date',
   warehouse: 'warehouse',
@@ -46,6 +48,8 @@ export const INITIAL_VALUES = {
   [FIELDS.lots]: [
     {
       [FIELDS.raw_product]: '',
+      [FIELDS.product_glue]: '',
+      [FIELDS.product_type]: '',
       [FIELDS.issued]: false,
       [FIELDS.dying_unit]: '',
       [FIELDS.detail]: '',

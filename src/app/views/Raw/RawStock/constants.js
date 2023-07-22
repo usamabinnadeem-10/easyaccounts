@@ -6,6 +6,16 @@ export const COLUMNS = [
     valueGetter: ({ row }) => row.raw_product.label,
   },
   {
+    field: 'product_glue',
+    headerName: 'Glue',
+    valueGetter: ({ row }) => row.product_glue.label,
+  },
+  {
+    field: 'product_type',
+    headerName: 'Type',
+    valueGetter: ({ row }) => row.product_type.label,
+  },
+  {
     field: 'quantity',
     headerName: 'Thaan',
     type: 'number',
