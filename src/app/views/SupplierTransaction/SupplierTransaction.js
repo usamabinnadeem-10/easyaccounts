@@ -64,7 +64,7 @@ function SupplierTransaction(props) {
         personIdentifier="Supplier"
         natures={constants.NATURES}
         options={{
-          people: state.suppliers,
+          people: [...state.customers, ...state.suppliers],
           warehouse: state.warehouses,
           product: state.products,
         }}
