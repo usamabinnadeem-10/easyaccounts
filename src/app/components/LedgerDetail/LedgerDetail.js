@@ -55,8 +55,13 @@ function LedgerDetail({
       color: '#C91D22',
       Cell: (row) => (
         <div
-          className={classes.debit}
-          onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          className={
+            row.row?.original?.serial?.startsWith('MW')
+              ? classes.maalWapsi
+              : classes.debit
+          }
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+        >
           {row.value}
         </div>
       ),
@@ -67,8 +72,13 @@ function LedgerDetail({
       color: '#00A465',
       Cell: (row) => (
         <div
-          className={classes.credit}
-          onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+          className={
+            row.row?.original?.serial?.startsWith('MW')
+              ? classes.maalWapsi
+              : classes.credit
+          }
+          onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+        >
           {row.value}
         </div>
       ),
@@ -90,7 +100,8 @@ function LedgerDetail({
                     ? classes.debit
                     : classes.credit
                 }`}
-                onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
+                onClick={row.row.id ? () => onRowClick(row.row.id) : null}
+              >
                 {convertCurrencyToNumber(row.value) < 0
                   ? `${row.value.toString().substring(1)} DB`
                   : `${row.value} CR`}
@@ -130,8 +141,9 @@ function LedgerDetail({
         if (values.ledger_detail_id) {
           return (
             <CustomIconButton
-              size='small'
-              onClick={() => handleEdit(row.row.id)}>
+              size="small"
+              onClick={() => handleEdit(row.row.id)}
+            >
               <EditIcon />
             </CustomIconButton>
           );
@@ -149,8 +161,9 @@ function LedgerDetail({
         if (values.ledger_detail_id) {
           return (
             <CustomIconButton
-              size='small'
-              onClick={() => handleDelete(row.row.id)}>
+              size="small"
+              onClick={() => handleDelete(row.row.id)}
+            >
               <DeleteIcon />
             </CustomIconButton>
           );
