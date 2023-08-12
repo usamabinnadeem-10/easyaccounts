@@ -4,6 +4,7 @@ import { useSelector } from 'react-redux';
 
 const PermissionGate = ({ children, permit }) => {
   const userPermissions = useSelector((state) => state.auth.permissions);
+  const userRole = useSelector((state) => state.auth.userRole);
 
   // if permit is null, then allow all
   // if permit is an empty array, dont allow
@@ -16,7 +17,7 @@ const PermissionGate = ({ children, permit }) => {
       : false;
   };
 
-  if (hasPermission()) {
+  if (hasPermission() || userRole === 'admin') {
     return <>{children}</>;
   }
   return <></>;

@@ -53,7 +53,7 @@ function* essentialSagas() {
     takeLatest(
       actionTypes.GET_ALL_ADVANCE_EXPENSES,
       getEssentialsSaga,
-      'ADVANCE_EXPENSES'
+      'ADVANCE_EXPENSES',
     ),
 
     takeLatest(actionTypes.GET_ALL_AREAS, getEssentialsSaga, 'AREAS'),
@@ -61,7 +61,7 @@ function* essentialSagas() {
     takeLatest(
       actionTypes.GET_ALL_CATEGORIES,
       getEssentialsSaga,
-      'PRODUCT_CATEGORIES'
+      'PRODUCT_CATEGORIES',
     ),
     takeLatest(actionTypes.GET_ALL_PRODUCT, getEssentialsSaga, 'PRODUCTS'),
     takeLatest(actionTypes.GET_ALL_WAREHOUSE, getEssentialsSaga, 'WAREHOUSES'),
@@ -69,12 +69,12 @@ function* essentialSagas() {
     takeLatest(
       actionTypes.GET_ALL_EXPENSE_ACCOUNTS,
       getEssentialsSaga,
-      'EXPENSE_ACCOUNTS'
+      'EXPENSE_ACCOUNTS',
     ),
     takeLatest(
       actionTypes.GET_ALL_ACCOUNT_TYPES,
       getEssentialsSaga,
-      'ACCOUNT_TYPES'
+      'ACCOUNT_TYPES',
     ),
 
     takeLatest(actionTypes.ADD_NEW_ACCOUNT_TYPE, addNewAccountTypeSaga),
@@ -149,9 +149,10 @@ function* getEssentialsSaga(sagaType) {
   try {
     let response = yield call(API_MAP[sagaType].api);
     yield put(API_MAP[sagaType].action(response.data));
-    yield put(actions.setEssentialsFetchError(''));
+    // yield put(actions.setEssentialsFetchError(''));
   } catch (error) {
-    yield put(actions.setEssentialsFetchError(sagaType));
+    yield put(API_MAP[sagaType].action([]));
+    // yield put(actions.setEssentialsFetchError(sagaType));
   }
 }
 // sagas to add new
@@ -214,7 +215,7 @@ function* addOpeningStockSaga(action) {
     yield put(actions.addOpeningStockSuccess(response.data));
   } catch (error) {
     yield put(
-      actions.addOpeningStockFail(findErrorMessage(error.response.data))
+      actions.addOpeningStockFail(findErrorMessage(error.response.data)),
     );
   }
 }
