@@ -11,6 +11,7 @@ import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
 import { PERMISSIONS } from '../../../constants/permissions';
+import { ROLES } from '../../../constants/roles';
 
 export const VIEW = 'View';
 
@@ -92,6 +93,10 @@ export const RAW_TRANSFER = 'Kora Transfer';
 export const ACTIONS = 'Actions';
 export const CANCEL_INVOICE = 'Cancel Invoice';
 export const CANCEL_STOCK_TRANSFER = 'Cancel Stock Transfer';
+
+// ----------------------MANAGEMENT--------------------------- //
+export const MANAGEMENT = 'Manage';
+export const USER_MGMT = 'Users';
 
 export const DRAWER_WIDTH = 240;
 
@@ -396,6 +401,17 @@ export const SIDEBAR = [
   //     },
   //   ],
   // },
+  // ----------------MANAGEMENT---------------//
+  {
+    panelName: MANAGEMENT,
+    panelData: [
+      {
+        name: USER_MGMT,
+        route: routes.USER_MANAGEMENT,
+        roles: [ROLES.ADMIN],
+      },
+    ],
+  },
 ];
 
 export const getPersonForm = (essentials) => {

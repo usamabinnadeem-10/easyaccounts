@@ -14,6 +14,7 @@ import DesktopDatePicker from '@mui/lab/DesktopDatePicker';
 import moment from 'moment';
 
 import { Grid } from '@mui/material';
+import * as PERMISSIONS from '../../constants/permissions';
 
 export const StyledTextField = styled(TextField)(({ theme }) => ({
   '& .MuiOutlinedInput-input': {
@@ -243,4 +244,54 @@ export const FormRow = ({ children }) => {
       ))}
     </Grid>
   );
+};
+
+export const generatePermissionForm = () => {
+  const convertObjToArray = (obj) => {
+    return Object.keys(obj).map((k) => k);
+  };
+
+  const form = [
+    {
+      heading: 'Create New',
+      permissions: convertObjToArray(PERMISSIONS.CREATE_NEW_PERMISSIONS),
+    },
+    {
+      heading: 'Expenses',
+      permissions: convertObjToArray(PERMISSIONS.EXPENSES_PERMISSIONS),
+    },
+    {
+      heading: 'Ledgers',
+      permissions: convertObjToArray(PERMISSIONS.LEDGER_PERMISSIONS),
+    },
+    {
+      heading: 'Payments',
+      permissions: convertObjToArray(PERMISSIONS.PAYMENT_PERMISSIONS),
+    },
+    {
+      heading: 'Transactions',
+      permissions: convertObjToArray(PERMISSIONS.TRANSACTION_PERMISSIONS),
+    },
+    {
+      heading: 'Transfers',
+      permissions: convertObjToArray(PERMISSIONS.TRANSFER_PERMISSIONS),
+    },
+    {
+      heading: 'Reports',
+      permissions: convertObjToArray(PERMISSIONS.REPORT_PERMISSIONS),
+    },
+    {
+      heading: 'Logs',
+      permissions: convertObjToArray(PERMISSIONS.LOG_PERMISSIONS),
+    },
+    {
+      heading: 'Assets',
+      permissions: convertObjToArray(PERMISSIONS.ASSET_PERMISSIONS),
+    },
+    {
+      heading: 'Cheques',
+      permissions: convertObjToArray(PERMISSIONS.CHEQUE_PERMISSIONS),
+    },
+  ];
+  return form;
 };

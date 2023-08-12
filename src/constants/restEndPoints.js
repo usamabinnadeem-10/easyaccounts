@@ -9,6 +9,9 @@ export const AUTH_URLS = {
   BRANCHES: `${AUTH}branches/`,
   LOGIN: `${AUTH}login/`,
   LOGOUT: `${AUTH}logout/`,
+  USER_BRANCH_RELATIONS_LIST: `${AUTH}user-branch-relations/`,
+  userBranchRelationEdit: (userBranchId) =>
+    `${AUTH}update-user-permissions/${userBranchId}/`,
 };
 
 const LIST = 'list/';

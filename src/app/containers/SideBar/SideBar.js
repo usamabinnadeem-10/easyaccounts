@@ -173,7 +173,8 @@ const SideBar = ({
                       return (
                         <PermissionGate
                           key={index}
-                          permit={panelData.permissions}
+                          permissions={panelData.permissions}
+                          roles={panelData.roles}
                         >
                           <ListItemButton
                             disabled={!fetched}

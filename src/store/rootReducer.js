@@ -7,6 +7,7 @@ import authReducer from './auth/reducer';
 import rawReducer from './raw/reducer';
 import dyingReducer from './dying/reducer';
 import cacheReducer from './cache/reducer';
+import dialogReducer from './dialogs/reducer';
 
 export const rootReducer = combineReducers({
   essentials: essentialsReducer,
@@ -16,4 +17,5 @@ export const rootReducer = combineReducers({
   raw: rawReducer,
   dying: dyingReducer,
   cache: cacheReducer,
+  dialogs: dialogReducer,
 });

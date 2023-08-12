@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import CustomLoader from '../../components/CustomLoader/CustomLoader';
 // import FAB from "../../containers/FAB/FAB";
 import SideBar from '../../containers/SideBar/SideBar';
+import AllDialogs from './AllDialogs';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
@@ -61,6 +62,7 @@ const Home = ({ showErrorSnackbar }) => {
 
   return (
     <>
+      <AllDialogs />
       <SideBar tablet={tablet} fetched={routeEssentialsFetched} />
       <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>
         {routeEssentialsFetched && !loggingIn ? (

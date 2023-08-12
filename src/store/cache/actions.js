@@ -69,3 +69,10 @@ export const cacheExpenseList = (data) => {
     payload: data,
   };
 };
+
+export const cacheUserBranchRelationList = (data) => {
+  return {
+    type: actionTypes.CACHE_USERS_BRANCH_RELATION_LIST,
+    payload: data,
+  };
+};
