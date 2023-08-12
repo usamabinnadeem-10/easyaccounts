@@ -16,7 +16,6 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 
 import useEssentials from '../../hooks/useEssentials';
 
-import { HOME } from '../../../constants/routesConstants';
 import { LOGIN } from '../../../constants/routesConstants';
 import { authenticatedRoutes } from '../../../constants/routes';
 import { PrivateRoute } from './PrivateRoute';

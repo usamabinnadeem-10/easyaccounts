@@ -34,6 +34,13 @@ export const setUserRole = (data) => {
   };
 };
 
+export const setUserPermissions = (data) => {
+  return {
+    type: actionTypes.SET_USER_PERMISSIONS,
+    payload: data,
+  };
+};
+
 export const getBranches = () => {
   return {
     type: actionTypes.GET_BRANCHES,
