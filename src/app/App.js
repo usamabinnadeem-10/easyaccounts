@@ -8,7 +8,6 @@ import { useSelector } from 'react-redux';
 import { Route } from 'react-router-dom';
 import { Switch } from 'react-router-dom';
 import { useHistory } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 
 import Branches from './views/Branches';
 import Home from './views/Home/Home';
@@ -22,7 +21,6 @@ function App({ showErrorSnackbar }) {
   const dispatch = useDispatch();
   const auth = useSelector((state) => state.auth);
   const history = useHistory();
-  const location = useLocation();
 
   useEffect(() => {
     dispatch(autoLogin());

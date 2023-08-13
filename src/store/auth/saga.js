@@ -68,6 +68,7 @@ function* autoLoginSaga(action) {
       if (activeBranch.branch_id) {
         yield put(actions.setActiveBranch(activeBranch));
         yield put(actions.setUserRole(activeBranch.role));
+        yield put(actions.setUserPermissions(activeBranch.permissions));
         yield put(actions.autoLoginComplete());
       } else {
         yield put(actions.getBranches());

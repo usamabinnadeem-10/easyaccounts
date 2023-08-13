@@ -10,6 +10,8 @@ export const SET_ACTIVE_BRANCH = 'SET_ACTIVE_BRANCH';
 
 export const SET_USER_ROLE = 'SET_USER_ROLE';
 
+export const SET_USER_PERMISSIONS = 'SET_USER_PERMISSIONS';
+
 export const LOGIN = 'LOGIN';
 export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
 export const LOGIN_FAIL = 'LOGIN_FAIL';

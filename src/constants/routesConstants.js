@@ -33,3 +33,4 @@ export const INCOME_STATEMENT_ROUTE = `${HOME}/income-statement`;
 export const ACTIVITY_LOGS_ROUTE = `${HOME}/activity-logs`;
 export const LOW_STOCK = `${HOME}/low-stock`;
 export const REVENUE_BY_PERIOD = `${HOME}/revenue-by-period`;
+export const USER_MANAGEMENT = `${HOME}/user-management`;

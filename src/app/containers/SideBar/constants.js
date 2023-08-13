@@ -3,7 +3,6 @@ import * as routes from '../../../constants/routesConstants';
 import { FIELDS } from '../../../constants/fieldTypes';
 
 import { DB } from '../../../constants/db';
-import { ROLES } from '../../../constants/roles';
 
 import * as options from '../../../constants/choices';
 import * as actions from '../../../store/essentials/actions';
@@ -11,6 +10,8 @@ import { addNewFormula, addNewRawProduct } from '../../../store/raw';
 import { addNewDying } from '../../../store/dying';
 import { addNewCategory } from '../../../store/essentials';
 import { setShouldFetchDaybook } from '../../../store/accounts/actions';
+import { PERMISSIONS } from '../../../constants/permissions';
+import { ROLES } from '../../../constants/roles';
 
 export const VIEW = 'View';
 
@@ -93,6 +94,10 @@ export const ACTIONS = 'Actions';
 export const CANCEL_INVOICE = 'Cancel Invoice';
 export const CANCEL_STOCK_TRANSFER = 'Cancel Stock Transfer';
 
+// ----------------------MANAGEMENT--------------------------- //
+export const MANAGEMENT = 'Manage';
+export const USER_MGMT = 'Users';
+
 export const DRAWER_WIDTH = 240;
 
 export const SIDEBAR = [
@@ -103,275 +108,247 @@ export const SIDEBAR = [
       {
         name: DAYBOOK,
         route: routes.VIEW_DAYBOOK,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ACCOUNTANT,
-          ROLES.HEAD_ACCOUNTANT,
-          ROLES.ADMIN_VIEWER,
+        permissions: [
+          PERMISSIONS.CAN_VIEW_PARTIAL_DAYBOOK,
+          PERMISSIONS.CAN_VIEW_FULL_DAYBOOK,
         ],
       },
       {
         name: BALANCES,
         route: routes.ALL_BALANCES,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
+        permissions: [
+          PERMISSIONS.CAN_VIEW_PARTIAL_BALANCES,
+          PERMISSIONS.CAN_VIEW_FULL_BALANCES,
+        ],
       },
       {
         name: STOCK,
         route: routes.ALL_STOCK,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ACCOUNTANT,
-          // ROLES.STOCKIST,
-          ROLES.ADMIN_VIEWER,
-          ROLES.HEAD_ACCOUNTANT,
-        ],
+        permissions: [PERMISSIONS.CAN_VIEW_STOCK],
       },
       {
         name: LOW_STOCK,
         route: routes.LOW_STOCK,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ACCOUNTANT,
-          // ROLES.STOCKIST,
-          ROLES.ADMIN_VIEWER,
-          ROLES.HEAD_ACCOUNTANT,
-        ],
+        permissions: [PERMISSIONS.CAN_VIEW_LOW_STOCK],
       },
       {
         name: VIEW_DETAILED_STOCK,
         route: routes.DETAILED_STOCK,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ACCOUNTANT,
-          ROLES.ADMIN_VIEWER,
-          ROLES.HEAD_ACCOUNTANT,
-        ],
+        permissions: [PERMISSIONS.CAN_VIEW_DETAILED_STOCK],
       },
       {
         name: ACCOUNTS_HISTORY,
         route: routes.ACCOUNT_HISTORY,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ACCOUNTANT,
-          ROLES.ADMIN_VIEWER,
-          ROLES.HEAD_ACCOUNTANT,
-        ],
+        permissions: [PERMISSIONS.CAN_VIEW_ACCOUNT_HISTORY],
       },
       {
         name: BALANCE_SHEET,
         route: routes.BALANCE_SHEET_ROUTE,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        permissions: [PERMISSIONS.CAN_VIEW_BALANCE_SHEET],
       },
       {
         name: INCOME_STATEMENT,
         route: routes.INCOME_STATEMENT_ROUTE,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        permissions: [PERMISSIONS.CAN_VIEW_INCOME_STATEMENT],
       },
       {
         name: SALE_BY_PERIOD,
         route: routes.REVENUE_BY_PERIOD,
-        roles: [
-          ROLES.ADMIN,
-          ROLES.ADMIN_VIEWER,
-          ROLES.ACCOUNTANT,
-          ROLES.HEAD_ACCOUNTANT,
-        ],
+        permissions: [PERMISSIONS.CAN_VIEW_REVENUE_BY_PERIOD],
       },
       {
         name: PRODUCT_PERFORMANCE_HISTORY,
         route: routes.PRODUCT_PERFORMANCE,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        permissions: [PERMISSIONS.CAN_VIEW_PRODUCT_PERFORMANCE],
       },
       {
         name: ACTIVITY_LOGS,
         route: routes.ACTIVITY_LOGS_ROUTE,
-        roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
+        permissions: [PERMISSIONS.CAN_VIEW_LOGS],
       },
     ],
   },
   // ----------------TRANSACTIONS---------------//
   {
     panelName: TRANSACTIONS,
-    roles: [
-      ROLES.ADMIN,
-      ROLES.ACCOUNTANT,
-      ROLES.HEAD_ACCOUNTANT,
-      ROLES.ADMIN_VIEWER,
-    ],
     panelData: [
       {
         name: VIEW,
         route: routes.TRANSACTIONS,
+        permissions: [
+          PERMISSIONS.CAN_VIEW_PARTIAL_TRANSACTIONS,
+          PERMISSIONS.CAN_VIEW_FULL_TRANSACTIONS,
+        ],
       },
       {
         name: CUSTOMER_TRANSACTION,
         route: routes.CUSTOMER_TRANSACTION,
+        permissions: [PERMISSIONS.CAN_CREATE_TRANSACTION],
       },
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
-        roles: [ROLES.ADMIN, ROLES.HEAD_ACCOUNTANT],
+        permissions: [PERMISSIONS.CAN_VIEW_FULL_TRANSACTIONS],
       },
     ],
   },
   // ----------------LEDGER---------------//
   {
     panelName: LEDGER,
-    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER, ROLES.HEAD_ACCOUNTANT],
     panelData: [
       {
         name: VIEW,
         route: routes.LEDGERS,
+        permissions: [
+          PERMISSIONS.CAN_VIEW_PARTIAL_LEDGERS,
+          PERMISSIONS.CAN_VIEW_FULL_LEDGERS,
+        ],
       },
       {
         name: LEDGER_ENTRY,
         route: routes.LEDGER_TRANSACTION,
+        permissions: [PERMISSIONS.CAN_CREATE_LEDGER_ENTRY],
       },
     ],
   },
+  // ----------------PAYMENTS---------------//
   {
     panelName: PAYMENT,
-    roles: [
-      ROLES.ADMIN,
-      ROLES.ACCOUNTANT,
-      ROLES.ADMIN_VIEWER,
-      ROLES.HEAD_ACCOUNTANT,
-    ],
     panelData: [
       {
         name: PAYMENT_LIST,
         route: routes.PAYMENT_LIST_ROUTE,
+        permissions: [PERMISSIONS.CAN_VIEW_PAYMENTS],
       },
       {
         name: PAYMENT_ENTRY,
         route: routes.PAYMENT_ROUTE,
+        permissions: [PERMISSIONS.CAN_CREATE_PAYMENT],
       },
     ],
   },
   // ----------------EXPENSES---------------//
   {
     panelName: EXPENSES,
-    roles: [
-      ROLES.ADMIN,
-      ROLES.ACCOUNTANT,
-      ROLES.ADMIN_VIEWER,
-      ROLES.HEAD_ACCOUNTANT,
-    ],
     panelData: [
       {
         name: VIEW,
         route: routes.VIEW_EXPENSES,
+        permissions: [PERMISSIONS.CAN_VIEW_EXPENSES],
       },
       {
         name: EXPENSE_ENTRY,
         modal: EXPENSE_ENTRY,
+        permissions: [PERMISSIONS.CAN_CREATE_EXPENSE],
       },
     ],
   },
   // ----------------TRANSFERS---------------//
   {
     panelName: TRANSFERS,
-    roles: [
-      ROLES.ADMIN,
-      ROLES.ACCOUNTANT,
-      ROLES.ADMIN_VIEWER,
-      ROLES.STOCKIST,
-      ROLES.HEAD_ACCOUNTANT,
-    ],
     panelData: [
       {
         name: VIEW,
         route: routes.VIEW_TRANSFERS,
+        permissions: [PERMISSIONS.CAN_VIEW_TRANSFER_STOCK],
       },
       {
         name: TRANSFER_STOCK,
         route: routes.STOCK_TRANSFER,
+        permissions: [PERMISSIONS.CAN_CREATE_TRANSFER_STOCK],
       },
     ],
   },
   // ----------------CHEQUE MANAGEMENT---------------//
   {
     panelName: CHEQUE_MANAGEMENT,
-    roles: [
-      ROLES.ADMIN,
-      ROLES.ACCOUNTANT,
-      ROLES.ADMIN_VIEWER,
-      ROLES.HEAD_ACCOUNTANT,
-    ],
     panelData: [
       {
         name: PERSONAL_CHEQUES,
         route: routes.PERSONAL_CHEQUE,
+        permissions: [PERMISSIONS.CAN_MANAGE_EXTERNAL_CHEQUE],
       },
       {
         name: EXTERNAL_CHEQUES,
         route: routes.EXTERNAL_CHEQUE,
+        permissions: [PERMISSIONS.CAN_MANAGE_PERSONAL_CHEQUE],
       },
     ],
   },
   // ----------------CREATE NEW---------------//
   {
     panelName: CREATE_NEW,
-    roles: [ROLES.ADMIN],
     panelData: [
       {
         name: PERSON,
         modal: PERSON,
+        permissions: [PERMISSIONS.CAN_CREATE_PERSON],
       },
       {
         name: PRODUCT,
         modal: PRODUCT,
+        permissions: [PERMISSIONS.CAN_CREATE_PRODUCT],
       },
       {
         name: PRODUCT_CATEGORY,
         modal: PRODUCT_CATEGORY,
+        permissions: [PERMISSIONS.CAN_CREATE_PRODUCT_CATEGORY],
       },
       {
         name: WAREHOUSE,
         modal: WAREHOUSE,
+        permissions: [PERMISSIONS.CAN_CREATE_WAREHOUSE],
       },
       {
         name: ACCOUNT,
         modal: ACCOUNT,
+        permissions: [PERMISSIONS.CAN_CREATE_ACCOUNT_TYPE],
       },
       {
         name: EXPENSE_ACCOUNT,
         modal: EXPENSE_ACCOUNT,
+        permissions: [PERMISSIONS.CAN_CREATE_EXPENSE_ACCOUNT],
       },
       {
         name: AREA,
         modal: AREA,
+        permissions: [PERMISSIONS.CAN_CREATE_AREA],
       },
       {
         name: OPENING_STOCK,
         modal: OPENING_STOCK,
+        permissions: [PERMISSIONS.CAN_CREATE_OPENING_STOCK],
       },
-      {
-        name: FORMULA,
-        modal: FORMULA,
-      },
-      {
-        name: RAW_PRODUCT,
-        modal: RAW_PRODUCT,
-      },
-      {
-        name: DYING_UNIT,
-        modal: DYING_UNIT,
-      },
+      // {
+      //   name: FORMULA,
+      //   modal: FORMULA,
+      //   permissions: [PERMISSIONS.CAN_VIEW_TRANSFER_STOCK],
+      // },
+      // {
+      //   name: RAW_PRODUCT,
+      //   modal: RAW_PRODUCT,
+      //   permissions: [PERMISSIONS.CAN_VIEW_TRANSFER_STOCK],
+      // },
+      // {
+      //   name: DYING_UNIT,
+      //   modal: DYING_UNIT,
+      //   permissions: [PERMISSIONS.CAN_VIEW_TRANSFER_STOCK],
+      // },
     ],
   },
   // ----------------Assets---------------//
   {
     panelName: ASSET,
-    roles: [ROLES.ADMIN, ROLES.ADMIN_VIEWER],
     panelData: [
       {
         name: SEARCH_ASSET,
         route: routes.ASSET_LIST_ROUTE,
+        permissions: [PERMISSIONS.CAN_VIEW_ASSETS],
       },
       {
         name: CREATE_ASSET,
         route: routes.ASSET_CREATE_ROUTE,
+        permissions: [PERMISSIONS.CAN_CREATE_ASSET],
       },
     ],
   },
@@ -424,6 +401,17 @@ export const SIDEBAR = [
   //     },
   //   ],
   // },
+  // ----------------MANAGEMENT---------------//
+  {
+    panelName: MANAGEMENT,
+    panelData: [
+      {
+        name: USER_MGMT,
+        route: routes.USER_MANAGEMENT,
+        roles: [ROLES.ADMIN],
+      },
+    ],
+  },
 ];
 
 export const getPersonForm = (essentials) => {
