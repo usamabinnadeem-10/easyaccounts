@@ -3,7 +3,7 @@ import React, { useMemo, useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { closeDialog } from '../../../store/dialogs';
 
-import { Dialog, TextField } from '@mui/material';
+import { Dialog, Box } from '@mui/material';
 
 import { DIALOGS } from '../../../constants/dialogIds';
 
@@ -42,23 +42,51 @@ const PermissionsForm = ({ permissions, handleClickCheckbox }) => {
     () => permissions.reduce((a, v) => ({ ...a, [v]: true }), {}),
     [permissions],
   );
-  const permissionFormData = generatePermissionForm();
+  const [searchTerm, setSearchTerm] = useState('');
+  const permissionFormData = useMemo(() => {
+    const formData = generatePermissionForm();
+    if (searchTerm) {
+      return formData.map((permissionGroup) => {
+        return {
+          ...permissionGroup,
+          permissions: permissionGroup.permissions.filter((permission) =>
+            permission.toLowerCase().includes(searchTerm.toLowerCase()),
+          ),
+        };
+      });
+    }
+    return formData;
+  }, [searchTerm]);
 
   return (
-    <Form>
-      {permissionFormData?.map((permissionGroup) => (
-        <FormGroup>
-          <BoldText>{permissionGroup?.heading}</BoldText>
-          {permissionGroup?.permissions?.map((perm) => (
-            <CheckboxRow
-              permission={perm}
-              checked={userPermissionsHash[perm]}
-              onClickCheckbox={handleClickCheckbox}
-            />
-          ))}
-        </FormGroup>
-      ))}
-    </Form>
+    <Box sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+      <Search
+        onChange={(e) =>
+          e.target.value ? setSearchTerm(e.target.value) : setSearchTerm('')
+        }
+        value={searchTerm}
+        size="small"
+      />
+      <Form>
+        {permissionFormData?.map((permissionGroup) => {
+          if (permissionGroup?.permissions?.length > 0) {
+            return (
+              <FormGroup>
+                <BoldText>{permissionGroup?.heading}</BoldText>
+                {permissionGroup?.permissions?.map((perm) => (
+                  <CheckboxRow
+                    permission={perm}
+                    checked={userPermissionsHash[perm]}
+                    onClickCheckbox={handleClickCheckbox}
+                  />
+                ))}
+              </FormGroup>
+            );
+          }
+          return null;
+        })}
+      </Form>
+    </Box>
   );
 };
 
@@ -85,23 +113,6 @@ const UserBranchRelationEditModal = () => {
       setUserPermissionArray(data?.permissions);
     }
   }, [data]);
-
-  useEffect(() => {
-    if (searchTerm) {
-      console.log(
-        userPermissionArray.filter((perm) =>
-          perm.toLowerCase().includes(perm.toLowerCase()),
-        ),
-      );
-      setUserPermissionArray(
-        userPermissionArray.filter((perm) =>
-          perm.toLowerCase().includes(perm.toLowerCase()),
-        ),
-      );
-    } else {
-      setUserPermissionArrayFiltered(null);
-    }
-  }, [searchTerm]);
 
   const handleClose = () => {
     dispatch(closeDialog(dialogId));
@@ -155,13 +166,6 @@ const UserBranchRelationEditModal = () => {
       {dialogData?.open && (
         <Container>
           <BoldText>{data?.username}</BoldText>
-          <Search
-            onChange={(e) =>
-              e.target.value ? setSearchTerm(e.target.value) : setSearchTerm('')
-            }
-            value={searchTerm}
-            size="small"
-          />
           {userPermissionArray && (
             <PermissionsForm
               handleClickCheckbox={handleClickCheckbox}

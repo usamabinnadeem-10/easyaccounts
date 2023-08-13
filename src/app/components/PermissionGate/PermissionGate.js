@@ -19,7 +19,7 @@ const PermissionGate = ({ children, permissions, roles }) => {
       : false;
   };
 
-  if (hasPermission() || hasRole() || userRole === 'admin') {
+  if (hasPermission() || hasRole()) {
     return <>{children}</>;
   }
   return <></>;
