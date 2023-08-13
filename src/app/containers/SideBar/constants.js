@@ -266,12 +266,12 @@ export const SIDEBAR = [
       {
         name: PERSONAL_CHEQUES,
         route: routes.PERSONAL_CHEQUE,
-        permissions: [PERMISSIONS.CAN_MANAGE_EXTERNAL_CHEQUE],
+        permissions: [PERMISSIONS.CAN_MANAGE_PERSONAL_CHEQUE],
       },
       {
         name: EXTERNAL_CHEQUES,
         route: routes.EXTERNAL_CHEQUE,
-        permissions: [PERMISSIONS.CAN_MANAGE_PERSONAL_CHEQUE],
+        permissions: [PERMISSIONS.CAN_MANAGE_EXTERNAL_CHEQUE],
       },
     ],
   },
