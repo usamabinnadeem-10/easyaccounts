@@ -14,6 +14,7 @@ import { AUTH_URLS } from '../../../constants/restEndPoints';
 import { cacheUserBranchRelationList } from '../../../store/cache';
 
 import { Container, BoldText, Button } from './styled';
+import { getCurrentPermissionArray } from '../../utilities/formUtils';
 
 const UserBranchRelationEditModal = () => {
   const dispatch = useDispatch();
@@ -52,13 +53,20 @@ const UserBranchRelationEditModal = () => {
     setUserPermissionArray(newPermissionArray);
   };
 
+  const clearNonexistingPermissions = (userPermissions) => {
+    const currentPermissions = getCurrentPermissionArray();
+    return userPermissions.filter((permission) =>
+      currentPermissions.some((currentPerm) => currentPerm === permission),
+    );
+  };
+
   const handleClickSave = async () => {
     try {
       setLoading(true);
       const response = await instance.patch(
         AUTH_URLS.userBranchRelationEdit(data?.id),
         {
-          new_permissions: userPermissionArray,
+          new_permissions: clearNonexistingPermissions(userPermissionArray),
         },
       );
       const newCache = userBranchCache?.userBranchRelations?.map((relation) => {

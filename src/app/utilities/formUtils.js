@@ -295,3 +295,23 @@ export const generatePermissionForm = () => {
   ];
   return form;
 };
+
+export const getCurrentPermissionArray = () => {
+  const convertObjToArray = (obj) => {
+    return Object.keys(obj).map((k) => k);
+  };
+
+  const form = [
+    ...convertObjToArray(PERMISSIONS.CREATE_NEW_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.EXPENSES_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.LEDGER_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.PAYMENT_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.TRANSACTION_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.TRANSFER_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.REPORT_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.LOG_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.ASSET_PERMISSIONS),
+    ...convertObjToArray(PERMISSIONS.CHEQUE_PERMISSIONS),
+  ];
+  return form;
+};
