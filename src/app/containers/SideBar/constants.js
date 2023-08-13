@@ -183,12 +183,12 @@ export const SIDEBAR = [
       {
         name: CUSTOMER_TRANSACTION,
         route: routes.CUSTOMER_TRANSACTION,
-        permissions: [PERMISSIONS.CAN_CREATE_TRANSACTION],
+        permissions: [PERMISSIONS.CAN_CREATE_CUSTOMER_TRANSACTION],
       },
       {
         name: SUPPLIER_TRANSACTION,
         route: routes.SUPPLIER_TRANSACTION,
-        permissions: [PERMISSIONS.CAN_VIEW_FULL_TRANSACTIONS],
+        permissions: [PERMISSIONS.CAN_CREATE_SUPPLIER_TRANSACTION],
       },
     ],
   },
