@@ -5,7 +5,8 @@ export const getColumns = () => {
     {
       accessor: 'product',
       Header: 'Product',
-      aggregate: 'sum',
+      aggregate: 'count',
+      Aggregated: ({ value }) => `${value} (items)`,
     },
     {
       accessor: 'warehouse',

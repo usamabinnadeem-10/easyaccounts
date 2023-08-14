@@ -7,8 +7,14 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
+import { Box } from '@mui/material';
 
 import { useTable, useGroupBy, useExpanded } from 'react-table';
+
+import TableChartIcon from '@mui/icons-material/TableChart';
+import ReorderIcon from '@mui/icons-material/Reorder';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useStyles } from './styles';
 
@@ -62,13 +68,29 @@ function CustomTable({
                   }}
                   {...column.getHeaderProps()}
                 >
-                  {column.canGroupBy ? (
-                    // If the column can be grouped, let's add a toggle
-                    <span {...column.getGroupByToggleProps()}>
-                      {column.isGrouped ? '🛑 ' : '👊 '}
-                    </span>
-                  ) : null}
-                  {column.render('Header')}
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}
+                  >
+                    {column.canGroupBy ? (
+                      // If the column can be grouped, let's add a toggle
+                      <>
+                        {column.isGrouped ? (
+                          <ReorderIcon
+                            fontSize="20"
+                            color="info"
+                            {...column.getGroupByToggleProps()}
+                          />
+                        ) : (
+                          <TableChartIcon
+                            fontSize="20"
+                            color="info"
+                            {...column.getGroupByToggleProps()}
+                          />
+                        )}
+                      </>
+                    ) : null}
+                    <div>{column.render('Header')}</div>
+                  </Box>
                 </TableCell>
               ))}
             </TableRow>
@@ -99,18 +121,29 @@ function CustomTable({
                       {/* {cell.render('Cell')} */}
                       {cell.isGrouped ? (
                         // If it's a grouped cell, add an expander and row count
-                        <>
-                          <span {...row.getToggleRowExpandedProps()}>
-                            {row.isExpanded ? '👇' : '👉'}
-                          </span>{' '}
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                          }}
+                        >
+                          {row.isExpanded ? (
+                            <KeyboardArrowDownIcon
+                              {...row.getToggleRowExpandedProps()}
+                              fontSize="18"
+                            />
+                          ) : (
+                            <KeyboardArrowRightIcon
+                              {...row.getToggleRowExpandedProps()}
+                              fontSize="18"
+                            />
+                          )}
                           {cell.render('Cell')} ({row.subRows.length})
-                        </>
+                        </Box>
                       ) : cell.isAggregated ? (
-                        // If the cell is aggregated, use the Aggregated
-                        // renderer for cell
                         cell.render('Aggregated')
-                      ) : cell.isPlaceholder ? null : ( // For cells with repeated values, render null
-                        // Otherwise, just render the regular cell
+                      ) : cell.isPlaceholder ? null : (
                         cell.render('Cell')
                       )}
                     </TableCell>
