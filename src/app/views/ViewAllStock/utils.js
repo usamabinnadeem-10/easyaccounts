@@ -11,8 +11,8 @@ export const formatStockData = (data, props) => {
     return {
       ...stockData,
       id: index + 1,
-      product: props.products[stockData.product].label,
-      warehouse: props.warehouses[stockData.warehouse].label,
+      product: props.products?.[stockData.product]?.label,
+      warehouse: props.warehouses?.[stockData.warehouse]?.label,
       // quantity: formatCurrency(stockData.quantity, 'decimal', 3),
       quantity: stockData.quantity,
       // total_gazaana: formatCurrency(

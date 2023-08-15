@@ -31,6 +31,7 @@ export const ESSENTIAL_URLS = {
     ACCOUNT_TYPE: `${ESSENTIALS}account-type/${LIST}`,
     WAREHOUSE: `${ESSENTIALS}warehouse/${LIST}`,
     PRODUCT: `${ESSENTIALS}product/${LIST}`,
+    PERSONS: `${ESSENTIALS}person/${LIST}`,
     CUSTOMERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${CUSTOMER}`,
     SUPPLIERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${SUPPLIER}`,
     EQUITY: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${EQUITY}`,

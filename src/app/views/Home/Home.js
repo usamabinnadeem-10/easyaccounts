@@ -29,7 +29,7 @@ import { useWindowSize } from '../../hooks/useWindowSize';
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
-  let { values: essentials, routeEssentialsFetched } = useEssentials();
+  let { values: essentials, loading } = useEssentials();
 
   const { error } = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
@@ -63,9 +63,9 @@ const Home = ({ showErrorSnackbar }) => {
   return (
     <>
       <AllDialogs />
-      <SideBar tablet={tablet} fetched={routeEssentialsFetched} />
+      <SideBar tablet={tablet} fetched={!loading} />
       <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>
-        {routeEssentialsFetched && !loggingIn ? (
+        {!loading && !loggingIn ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {
               let Component = route.component;
@@ -87,7 +87,7 @@ const Home = ({ showErrorSnackbar }) => {
             })}
           </Switch>
         ) : (
-          <CustomLoader loading={!routeEssentialsFetched} pageLoader />
+          <CustomLoader loading={loading} pageLoader />
         )}
       </StyledDiv>
       {/* <FAB fetched={fetched} /> */}

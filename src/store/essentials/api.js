@@ -19,6 +19,10 @@ export const getWarehouseApi = () => {
   return instance.get(ESSENTIAL_URLS.LIST.WAREHOUSE);
 };
 
+export const getAllPersonApi = () => {
+  return instance.get(ESSENTIAL_URLS.LIST.PERSONS);
+};
+
 export const getCustomersApi = () => {
   return instance.get(ESSENTIAL_URLS.LIST.CUSTOMERS);
 };

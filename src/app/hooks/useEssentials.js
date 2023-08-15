@@ -1,28 +1,13 @@
 /* eslint-disable no-loop-func */
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 
-import { useLocation, matchPath } from 'react-router-dom';
-
-import * as routes from '../../constants/routesConstants';
 import * as actions from '../../store/essentials';
-
-let REDUCER_ACTION_RELATION = {
-  warehouses: actions.getAllWarehouse,
-  accountTypes: actions.getAllAccountTypes,
-  customers: actions.getAllCustomers,
-  suppliers: actions.getAllSuppliers,
-  equities: actions.getAllEquity,
-  advanceExpenses: actions.getAllAdvanceExpenses,
-  products: actions.getAllProduct,
-  productCategories: actions.getAllCategories,
-  expenseAccounts: actions.getAllExpenseAccounts,
-  areas: actions.getAllAreas,
-};
+import * as api from '../../store/essentials/api';
 
 const DEFAULTS = {
   warehouses: 'warehouses',
@@ -50,113 +35,67 @@ const REDUCER = {
   areas: 'areas',
 };
 
-const ALL_PERSONS = [
-  REDUCER.customers,
-  REDUCER.suppliers,
-  REDUCER.advanceExpenses,
-  REDUCER.equities,
-];
-
-const ROUTE_ACTION_MAP = {
-  [routes.VIEW_DAYBOOK]: [
-    ...ALL_PERSONS,
-    REDUCER.accountTypes,
-    REDUCER.expenseAccounts,
-    REDUCER.products,
-    REDUCER.warehouses,
-  ],
-  [routes.ALL_BALANCES]: ALL_PERSONS,
-  [routes.ALL_STOCK]: [
-    REDUCER.products,
-    REDUCER.productCategories,
-    REDUCER.warehouses,
-  ],
-  [routes.LOW_STOCK]: [
-    REDUCER.productCategories,
-    REDUCER.warehouses,
-    REDUCER.products,
-  ],
-  [routes.DETAILED_STOCK]: [
-    REDUCER.products,
-    REDUCER.productCategories,
-    REDUCER.warehouses,
-    ...ALL_PERSONS,
-  ],
-  [routes.ACCOUNT_HISTORY]: [REDUCER.accountTypes],
-  [routes.PRODUCT_PERFORMANCE]: [
-    REDUCER.products,
-    REDUCER.productCategories,
-    REDUCER.customers,
-    REDUCER.suppliers,
-  ],
-  [routes.CUSTOMER_TRANSACTION]: [
-    REDUCER.customers,
-    REDUCER.suppliers,
-    REDUCER.products,
-    REDUCER.accountTypes,
-    REDUCER.warehouses,
-  ],
-  [routes.SUPPLIER_TRANSACTION]: [
-    REDUCER.suppliers,
-    REDUCER.customers,
-    REDUCER.products,
-    REDUCER.accountTypes,
-    REDUCER.warehouses,
-  ],
-  [routes.TRANSACTIONS]: [
-    REDUCER.customers,
-    REDUCER.suppliers,
-    REDUCER.products,
-    REDUCER.accountTypes,
-    REDUCER.warehouses,
-    REDUCER.productCategories,
-  ],
-  [routes.VIEW_SINGLE_TRANSACTION]: [
-    ...ALL_PERSONS,
-    REDUCER.accountTypes,
-    REDUCER.warehouses,
-    REDUCER.products,
-  ],
-  [routes.LEDGERS]: ALL_PERSONS,
-  [routes.LEDGER_TRANSACTION]: [...ALL_PERSONS, REDUCER.accountTypes],
-  [routes.PAYMENT_LIST_ROUTE]: [...ALL_PERSONS, REDUCER.accountTypes],
-  [routes.PAYMENT_ROUTE]: [...ALL_PERSONS, REDUCER.accountTypes],
-  [routes.VIEW_EXPENSES]: [REDUCER.accountTypes, REDUCER.expenseAccounts],
-  [routes.VIEW_TRANSFERS]: [
-    REDUCER.products,
-    REDUCER.warehouses,
-    REDUCER.productCategories,
-  ],
-  [routes.STOCK_TRANSFER]: [REDUCER.products, REDUCER.warehouses],
-  [routes.EXTERNAL_CHEQUE]: [
-    REDUCER.customers,
-    REDUCER.suppliers,
-    REDUCER.accountTypes,
-  ],
-  [routes.PERSONAL_CHEQUE]: [
-    REDUCER.customers,
-    REDUCER.suppliers,
-    REDUCER.accountTypes,
-  ],
-};
-
 const useEssentials = () => {
-  let location = useLocation();
   let dispatch = useDispatch();
   let essentials = useSelector((state) => state.essentials);
   let [values, setValues] = useState({});
+  const [loading, setLoading] = useState(true);
+
+  const apiCallHelper = async (request) => {
+    try {
+      const response = await request();
+      return response.data;
+    } catch (error) {
+      return {
+        data: [],
+      };
+    }
+  };
+
+  const loadInitialData = async () => {
+    const warehouses = await apiCallHelper(api.getWarehouseApi);
+    const accounts = await apiCallHelper(api.getAccountsApi);
+    const persons = await apiCallHelper(api.getAllPersonApi);
+    const products = await apiCallHelper(api.getProductApi);
+    const expenseAccounts = await apiCallHelper(api.getExpenseAccountsApi);
+    const areas = await apiCallHelper(api.getAreasApi);
+    const categories = await apiCallHelper(api.getCategoriesApi);
+
+    dispatch(actions.getAllWarehouseSuccess(warehouses ?? []));
+    dispatch(actions.getAllAccountTypesSuccess(accounts ?? []));
+
+    dispatch(
+      actions.getAllCustomersSuccess(
+        persons?.filter((p) => p.person_type === 'C') ?? [],
+      ),
+    );
+    dispatch(
+      actions.getAllSuppliersSuccess(
+        persons?.filter((p) => p.person_type === 'S') ?? [],
+      ),
+    );
+    dispatch(
+      actions.getAllAdvanceExpensesSuccess(
+        persons?.filter((p) => p.person_type === 'EXA') ?? [],
+      ),
+    );
+    dispatch(
+      actions.getAllEquitySuccess(
+        persons?.filter((p) => p.person_type === 'E') ?? [],
+      ),
+    );
+
+    dispatch(actions.getAllProductSuccess(products ?? []));
+    dispatch(actions.getAllExpenseAccountsSuccess(expenseAccounts ?? []));
+    dispatch(actions.getAllAreasSuccess(areas ?? []));
+    dispatch(actions.getAllCategoriesSuccess(categories ?? []));
+
+    setLoading(false);
+  };
 
   useEffect(() => {
-    let storeVariables = ROUTE_ACTION_MAP[getMatchingPath()];
-    if (storeVariables) {
-      for (let i = 0; i < storeVariables.length; i++) {
-        if (!essentials.fetched[storeVariables[i]]) {
-          let action = REDUCER_ACTION_RELATION[storeVariables[i]];
-          dispatch(action());
-        }
-      }
-    }
-  }, [location.pathname, essentials.fetchError]);
+    loadInitialData();
+  }, []);
 
   useEffect(() => {
     let newValues = {};
@@ -179,36 +118,7 @@ const useEssentials = () => {
     setValues(newValues);
   }, [essentials]);
 
-  const getMatchingPath = () => {
-    const routesArray = Object.values(routes);
-    let match = null;
-    routesArray.forEach((route) => {
-      const isMatch = matchPath(location.pathname, {
-        path: route,
-        exact: true,
-        strict: false,
-      });
-      if (isMatch) {
-        match = isMatch.path;
-      }
-    });
-    return match;
-  };
-
-  const hasRouteEssentialsFetched = () => {
-    let storeVariables = ROUTE_ACTION_MAP[getMatchingPath()];
-    if (storeVariables) {
-      return storeVariables.every((key) => essentials.fetched[key]);
-    }
-    return true;
-  };
-
-  const routeEssentialsFetched = useMemo(
-    () => hasRouteEssentialsFetched(),
-    [location.pathname, essentials],
-  );
-
-  return { values, routeEssentialsFetched };
+  return { values, loading };
 };
 
 export default useEssentials;
