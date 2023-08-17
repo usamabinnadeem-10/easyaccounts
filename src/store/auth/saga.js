@@ -8,7 +8,6 @@ import * as actions from './actions';
 import * as api from './api';
 import * as utils from './utils';
 
-import { setEssentialsFetchedFalse } from '../essentials';
 import { setHeaders } from '../../utils/axiosApi';
 import { findErrorMessage } from '../../app/utilities/objectUtils';
 import { isExpired } from 'react-jwt';
@@ -86,7 +85,6 @@ function* logoutSaga(action) {
   try {
     yield call(api.logoutApi);
     yield put(actions.logoutSuccess());
-    yield put(setEssentialsFetchedFalse());
     utils.clearLocalStorage();
   } catch (error) {
     yield put(actions.logoutSuccess());

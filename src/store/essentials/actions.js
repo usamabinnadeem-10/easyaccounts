@@ -2,7 +2,7 @@ import * as actionTypes from './actionTypes';
 
 export const setEssentialsFetchedFalse = () => {
   return {
-    type: actionTypes.GET_ALL_ESSENTIALS,
+    type: actionTypes.SET_ESSENTIALS_FETCHED_FALSE,
   };
 };
 

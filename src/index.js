@@ -10,7 +10,7 @@ import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
 import { theme } from '../src/constants/muiThemeOverride';
 
-import { rootReducer } from './store/rootReducer';
+import { masterReducer } from './store/rootReducer';
 import { rootSagas } from './store/rootSaga';
 
 import { createStore, applyMiddleware } from 'redux';
@@ -21,7 +21,7 @@ import createSagaMiddleware from 'redux-saga';
 const sagaMiddleware = createSagaMiddleware();
 
 export const store = createStore(
-  rootReducer,
+  masterReducer,
   composeWithDevTools(applyMiddleware(sagaMiddleware)),
 );
 

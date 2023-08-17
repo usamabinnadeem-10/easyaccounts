@@ -19,3 +19,11 @@ export const rootReducer = combineReducers({
   cache: cacheReducer,
   dialogs: dialogReducer,
 });
+
+export const masterReducer = (state, action) => {
+  if (action.type === 'LOGOUT_SUCCESS') {
+    return rootReducer(undefined, action);
+  }
+
+  return rootReducer(state, action);
+};
