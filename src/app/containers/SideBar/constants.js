@@ -176,8 +176,8 @@ export const SIDEBAR = [
         name: VIEW,
         route: routes.TRANSACTIONS,
         permissions: [
-          PERMISSIONS.CAN_VIEW_PARTIAL_TRANSACTIONS,
-          PERMISSIONS.CAN_VIEW_FULL_TRANSACTIONS,
+          PERMISSIONS.CAN_VIEW_CUSTOMER_TRANSACTIONS,
+          PERMISSIONS.CAN_VIEW_SUPPLIER_TRANSACTIONS,
         ],
       },
       {
