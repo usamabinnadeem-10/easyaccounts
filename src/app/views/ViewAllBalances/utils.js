@@ -13,7 +13,7 @@ export const formatBalances = (data, persons) => {
     }
     newBalancesData.push({
       id: index,
-      person: persons[key].label,
+      person: persons?.[key]?.label,
       balance: formatCurrency(Math.abs(value), 'decimal', 0),
       status: value > 0 ? 'CR' : 'DB',
     });

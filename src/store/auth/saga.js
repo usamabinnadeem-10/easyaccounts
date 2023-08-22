@@ -8,7 +8,6 @@ import * as actions from './actions';
 import * as api from './api';
 import * as utils from './utils';
 
-import { setEssentialsFetchedFalse } from '../essentials';
 import { setHeaders } from '../../utils/axiosApi';
 import { findErrorMessage } from '../../app/utilities/objectUtils';
 import { isExpired } from 'react-jwt';
@@ -68,6 +67,7 @@ function* autoLoginSaga(action) {
       if (activeBranch.branch_id) {
         yield put(actions.setActiveBranch(activeBranch));
         yield put(actions.setUserRole(activeBranch.role));
+        yield put(actions.setUserPermissions(activeBranch.permissions));
         yield put(actions.autoLoginComplete());
       } else {
         yield put(actions.getBranches());
@@ -85,7 +85,6 @@ function* logoutSaga(action) {
   try {
     yield call(api.logoutApi);
     yield put(actions.logoutSuccess());
-    yield put(setEssentialsFetchedFalse());
     utils.clearLocalStorage();
   } catch (error) {
     yield put(actions.logoutSuccess());

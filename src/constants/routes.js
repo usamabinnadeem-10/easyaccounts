@@ -56,6 +56,9 @@ const RawDebitReceipt = lazy(() =>
 const RawTransferReceipt = lazy(() =>
   import('../app/components/RawReceipts/Transfer'),
 );
+const UserManagement = lazy(() =>
+  import('../app/views/Management/UserManagement'),
+);
 
 export const authenticatedRoutes = [
   // ----------- Reports Routes ---------------
@@ -232,4 +235,8 @@ export const authenticatedRoutes = [
   //   component: DyingReturn,
   //   path: url.RETURN_DYING,
   // },
+  {
+    component: UserManagement,
+    path: url.USER_MANAGEMENT,
+  },
 ];

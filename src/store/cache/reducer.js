@@ -29,6 +29,9 @@ const initialState = {
   expensesListCache: {
     expensesData: null,
   },
+  userBranchRelationListCache: {
+    userBranchRelations: null,
+  },
   allBalancesCache: null,
   productPerformanceCache: null,
   rawTransactionsListCache: {
@@ -133,6 +136,13 @@ const reducer = (state = initialState, action) => {
         ...state,
         rawTransferTransactionsListCache: {
           ...state.rawTransferTransactionsListCache,
+        },
+      };
+    case actionTypes.CACHE_USERS_BRANCH_RELATION_LIST:
+      return {
+        ...state,
+        userBranchRelationListCache: {
+          ...state.userBranchRelationListCache,
           ...action.payload,
         },
       };

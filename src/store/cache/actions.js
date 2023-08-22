@@ -87,6 +87,12 @@ export const cacheRawDebitTransactionsList = (data) => {
 export const cacheRawTransferTransactionsList = (data) => {
   return {
     type: actionTypes.CACHE_RAW_TRANSFER_TRANSACTIONS_LIST,
+  };
+};
+
+export const cacheUserBranchRelationList = (data) => {
+  return {
+    type: actionTypes.CACHE_USERS_BRANCH_RELATION_LIST,
     payload: data,
   };
 };

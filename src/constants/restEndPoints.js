@@ -9,6 +9,9 @@ export const AUTH_URLS = {
   BRANCHES: `${AUTH}branches/`,
   LOGIN: `${AUTH}login/`,
   LOGOUT: `${AUTH}logout/`,
+  USER_BRANCH_RELATIONS_LIST: `${AUTH}user-branch-relations/`,
+  userBranchRelationEdit: (userBranchId) =>
+    `${AUTH}update-user-permissions/${userBranchId}/`,
 };
 
 const LIST = 'list/';
@@ -28,6 +31,7 @@ export const ESSENTIAL_URLS = {
     ACCOUNT_TYPE: `${ESSENTIALS}account-type/${LIST}`,
     WAREHOUSE: `${ESSENTIALS}warehouse/${LIST}`,
     PRODUCT: `${ESSENTIALS}product/${LIST}`,
+    PERSONS: `${ESSENTIALS}person/${LIST}`,
     CUSTOMERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${CUSTOMER}`,
     SUPPLIERS: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${SUPPLIER}`,
     EQUITY: `${ESSENTIALS}person/${LIST}?${PERSON_TYPE}=${EQUITY}`,

@@ -146,55 +146,54 @@ const SideBar = ({
         <List disablePadding dense>
           {SIDEBAR.map((panel, index) => {
             return (
-              <PermissionGate key={index} permit={panel.roles}>
-                <div>
-                  <ListItemButton
-                    onClick={() => handleOpen(index)}
-                    disableRipple
+              <div key={index}>
+                <ListItemButton onClick={() => handleOpen(index)} disableRipple>
+                  {/* <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon> */}
+                  <ListItemText primary={panel.panelName} />
+                  {open.panel === index && open.expand ? (
+                    <ExpandLess />
+                  ) : (
+                    <ExpandMore />
+                  )}
+                </ListItemButton>
+                <Collapse
+                  in={open.expand && open.panel === index}
+                  timeout="auto"
+                  unmountOnExit
+                >
+                  <List
+                    dense
+                    component="div"
+                    disablePadding
+                    sx={{
+                      mb: 1,
+                    }}
                   >
-                    {/* <ListItemIcon>{getIcon(panel.panelName)}</ListItemIcon> */}
-                    <ListItemText primary={panel.panelName} />
-                    {open.panel === index && open.expand ? (
-                      <ExpandLess />
-                    ) : (
-                      <ExpandMore />
-                    )}
-                  </ListItemButton>
-                  <Collapse
-                    in={open.expand && open.panel === index}
-                    timeout="auto"
-                    unmountOnExit
-                  >
-                    <List
-                      dense
-                      component="div"
-                      disablePadding
-                      sx={{
-                        mb: 1,
-                      }}
-                    >
-                      {panel.panelData.map((panelData, index) => {
-                        return (
-                          <PermissionGate key={index} permit={panelData.roles}>
-                            <ListItemButton
-                              disabled={!fetched}
-                              onClick={() => handleListItemClick(panelData)}
-                              key={index}
-                              sx={{ pl: 4 }}
-                              disableRipple
-                            >
-                              {/* <ListItemIcon>
+                    {panel.panelData.map((panelData, index) => {
+                      return (
+                        <PermissionGate
+                          key={index}
+                          permissions={panelData.permissions}
+                          roles={panelData.roles}
+                        >
+                          <ListItemButton
+                            disabled={!fetched}
+                            onClick={() => handleListItemClick(panelData)}
+                            key={index}
+                            sx={{ pl: 4 }}
+                            disableRipple
+                          >
+                            {/* <ListItemIcon>
                                 {getIcon(panelData.name)}
                               </ListItemIcon> */}
-                              <ListItemText primary={panelData.name} />
-                            </ListItemButton>
-                          </PermissionGate>
-                        );
-                      })}
-                    </List>
-                  </Collapse>
-                </div>
-              </PermissionGate>
+                            <ListItemText primary={panelData.name} />
+                          </ListItemButton>
+                        </PermissionGate>
+                      );
+                    })}
+                  </List>
+                </Collapse>
+              </div>
             );
           })}
         </List>

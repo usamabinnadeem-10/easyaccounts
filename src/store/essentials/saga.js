@@ -102,9 +102,10 @@ function* getEssentialsSaga(sagaType) {
   try {
     let response = yield call(API_MAP[sagaType].api);
     yield put(API_MAP[sagaType].action(response.data));
-    yield put(actions.setEssentialsFetchError(''));
+    // yield put(actions.setEssentialsFetchError(''));
   } catch (error) {
-    yield put(actions.setEssentialsFetchError(sagaType));
+    yield put(API_MAP[sagaType].action([]));
+    // yield put(actions.setEssentialsFetchError(sagaType));
   }
 }
 // sagas to add new

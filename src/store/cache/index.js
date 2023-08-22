@@ -12,4 +12,5 @@ export {
   cacheRawTransactionsList,
   cacheRawDebitTransactionsList,
   cacheRawTransferTransactionsList,
+  cacheUserBranchRelationList,
 } from './actions';

@@ -11,13 +11,13 @@ import CustomLoader from '../../components/CustomLoader/CustomLoader';
 // import FAB from "../../containers/FAB/FAB";
 import SideBar from '../../containers/SideBar/SideBar';
 import Modals from './Modals';
+import AllDialogs from './AllDialogs';
 
 import { useTheme } from '@mui/material/styles';
 import useMediaQuery from '@mui/material/useMediaQuery';
 
 import useEssentials from '../../hooks/useEssentials';
 
-import { HOME } from '../../../constants/routesConstants';
 import { LOGIN } from '../../../constants/routesConstants';
 import { authenticatedRoutes } from '../../../constants/routes';
 import { PrivateRoute } from './PrivateRoute';
@@ -26,11 +26,13 @@ import { StyledDiv } from './styled';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 import { useWindowSize } from '../../hooks/useWindowSize';
+import { useAutoLogout } from '../../hooks/useAutoLogout';
 
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
-  let { values: essentials, routeEssentialsFetched } = useEssentials();
+  let { values: essentials, loading } = useEssentials();
+  useAutoLogout();
 
   const { error } = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
@@ -64,9 +66,10 @@ const Home = ({ showErrorSnackbar }) => {
   return (
     <>
       <Modals />
-      <SideBar tablet={tablet} fetched={routeEssentialsFetched} />
+      <AllDialogs />
+      <SideBar tablet={tablet} fetched={!loading} />
       <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>
-        {routeEssentialsFetched && !loggingIn ? (
+        {!loading && !loggingIn ? (
           <Switch>
             {authenticatedRoutes.map((route, index) => {
               let Component = route.component;
@@ -88,7 +91,7 @@ const Home = ({ showErrorSnackbar }) => {
             })}
           </Switch>
         ) : (
-          <CustomLoader loading={!routeEssentialsFetched} pageLoader />
+          <CustomLoader loading={loading} pageLoader />
         )}
       </StyledDiv>
       {/* <FAB fetched={fetched} /> */}

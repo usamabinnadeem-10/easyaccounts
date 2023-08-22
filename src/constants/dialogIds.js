@@ -1,0 +1,3 @@
+export const DIALOGS = {
+  USER_BRANCH_EDIT: 'USER_BRANCH_EDIT',
+};

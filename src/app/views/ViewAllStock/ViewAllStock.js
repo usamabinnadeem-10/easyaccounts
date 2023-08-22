@@ -30,19 +30,19 @@ const ViewAllStock = (props) => {
   const warehouses = useSelector((state) => state.essentials.warehouses);
   const products = useSelector((state) => state.essentials.products);
   const productCategories = useSelector(
-    (state) => state.essentials.productCategories
+    (state) => state.essentials.productCategories,
   );
   const allStockCache = useSelector((state) => state.cache.allStockCache);
-
-  let filters = useMemo(
-    () => getFilters({ warehouses, products, productCategories }),
-    [warehouses, products, productCategories]
-  );
 
   const [stockData, setStockData] = useState(allStockCache || []);
   const [loading, setLoading] = useState(true);
 
-  const COLUMNS = useMemo(() => getColumns(), [allStock]);
+  let filters = useMemo(
+    () => getFilters({ warehouses, products, productCategories }),
+    [warehouses, products, productCategories],
+  );
+
+  const COLUMNS = useMemo(() => getColumns(), []);
 
   useEffect(() => {
     if (stock.shouldFetchStock) {
@@ -83,12 +83,12 @@ const ViewAllStock = (props) => {
       />
       <Printable
         documentTitle={'All Stock Report'}
-        disablePrint={stockData.length === 0}>
-        {stockData.length > 0 ? (
+        disablePrint={stockData.length === 0}
+      >
+        {stockData.length > 0 && (
           <CustomTable columns={COLUMNS} data={stockData} />
-        ) : (
-          <Empty />
         )}
+        {stockData.length === 0 && !loading && <Empty />}
       </Printable>
       {loading && <CustomLoader pageLoader loading={loading} />}
     </>

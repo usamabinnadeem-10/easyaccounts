@@ -51,3 +51,4 @@ export const LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE = `${HOME}/raw-transfer-transa
 
 export const ISSUE_DYING = `${HOME}/dying-issue`;
 export const RETURN_DYING = `${HOME}/dying-return`;
+export const USER_MANAGEMENT = `${HOME}/user-management`;

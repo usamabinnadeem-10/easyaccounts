@@ -42,6 +42,11 @@ const reducer = (state = initialState, action) => {
         ...state,
         userRole: action.payload,
       };
+    case actionTypes.SET_USER_PERMISSIONS:
+      return {
+        ...state,
+        permissions: action.payload,
+      };
     case actionTypes.GET_BRANCHES_SUCCESS:
       return {
         ...state,
@@ -70,6 +75,7 @@ const reducer = (state = initialState, action) => {
         userRole: action.payload.role,
         error: null,
         loggingIn: false,
+        permissions: action.payload.permissions,
       };
 
     case actionTypes.LOGIN_FAIL:

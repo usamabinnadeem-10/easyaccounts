@@ -4,20 +4,23 @@ import {
 } from '../../utilities/stringUtils';
 
 import { FIELDS } from '../../containers/CustomFilters/constants';
+import { getColumns } from './constants';
 
 export const formatStockData = (data, props) => {
   let newStockData = data.map((stockData, index) => {
     return {
       ...stockData,
       id: index + 1,
-      product: props.products[stockData.product].label,
-      warehouse: props.warehouses[stockData.warehouse].label,
-      quantity: formatCurrency(stockData.quantity, 'decimal', 3),
-      total_gazaana: formatCurrency(
-        stockData.quantity * stockData.yards_per_piece,
-        'decimal',
-        3
-      ),
+      product: props.products?.[stockData.product]?.label,
+      warehouse: props.warehouses?.[stockData.warehouse]?.label,
+      // quantity: formatCurrency(stockData.quantity, 'decimal', 3),
+      quantity: stockData.quantity,
+      // total_gazaana: formatCurrency(
+      //   stockData.quantity * stockData.yards_per_piece,
+      //   'decimal',
+      //   3
+      // ),
+      total_gazaana: stockData.quantity * stockData.yards_per_piece,
     };
   });
   const collator = new Intl.Collator('en', {
@@ -25,34 +28,34 @@ export const formatStockData = (data, props) => {
     sensitivity: 'base',
   });
   let sorted = newStockData.sort((a, b) =>
-    collator.compare(a.product, b.product)
+    collator.compare(a.product, b.product),
   );
   sorted = sorted.sort((a, b) =>
-    collator.compare(a.yards_per_piece, b.yards_per_piece)
+    collator.compare(a.yards_per_piece, b.yards_per_piece),
   );
   sorted = sorted.sort((a, b) => collator.compare(a.warehouse, b.warehouse));
 
-  sorted.push({
-    id: data.length + 2,
-    product: 'TOTAL',
-    quantity: formatCurrency(
-      sorted.reduce(
-        (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
-        0
-      ),
-      'decimal',
-      3
-    ),
-    total_gazaana: formatCurrency(
-      sorted.reduce(
-        (acc, stockData) =>
-          acc + convertCurrencyToNumber(stockData.total_gazaana),
-        0
-      ),
-      'decimal',
-      3
-    ),
-  });
+  // sorted.push({
+  //   id: data.length + 2,
+  //   product: 'TOTAL',
+  //   quantity: formatCurrency(
+  //     sorted.reduce(
+  //       (acc, stockData) => acc + convertCurrencyToNumber(stockData.quantity),
+  //       0
+  //     ),
+  //     'decimal',
+  //     3
+  //   ),
+  //   total_gazaana: formatCurrency(
+  //     sorted.reduce(
+  //       (acc, stockData) =>
+  //         acc + convertCurrencyToNumber(stockData.total_gazaana),
+  //       0
+  //     ),
+  //     'decimal',
+  //     3
+  //   ),
+  // });
 
   return sorted;
 };
@@ -127,4 +130,12 @@ export const getFilters = (essentials) => {
       placeholder: 'Gazaana (equal to)',
     },
   ];
+};
+
+export const groupStock = ({ groupKeys, stock, ...props }) => {
+  const columns = getColumns().filter((col) =>
+    groupKeys.some((key) => col !== key),
+  );
+  const depth = groupKeys.length;
+  const data = {};
 };

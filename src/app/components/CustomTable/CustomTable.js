@@ -6,8 +6,15 @@ import TableCell from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import TableFooter from '@mui/material/TableFooter';
+import { Box } from '@mui/material';
 
-import { useTable } from 'react-table';
+import { useTable, useGroupBy, useExpanded } from 'react-table';
+
+import TableChartIcon from '@mui/icons-material/TableChart';
+import ReorderIcon from '@mui/icons-material/Reorder';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 
 import { useStyles } from './styles';
 
@@ -21,12 +28,22 @@ function CustomTable({
 }) {
   const getRowId = (row) => row.id;
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    footerGroups,
+  } = useTable(
+    {
       columns,
       data,
       getRowId,
-    });
+    },
+    useGroupBy,
+    useExpanded,
+  );
 
   const classes = useStyles();
 
@@ -43,6 +60,7 @@ function CustomTable({
             <TableRow {...headerGroup.getHeaderGroupProps()}>
               {headerGroup.headers.map((column) => (
                 <TableCell
+                  variant="head"
                   className={`${column.hideInPrint && classes.hideInPrint}
                     ${classes.headCell}`}
                   sx={{
@@ -50,7 +68,29 @@ function CustomTable({
                   }}
                   {...column.getHeaderProps()}
                 >
-                  {column.render('Header')}
+                  <Box
+                    sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}
+                  >
+                    {column.canGroupBy ? (
+                      // If the column can be grouped, let's add a toggle
+                      <>
+                        {column.isGrouped ? (
+                          <ReorderIcon
+                            fontSize="20"
+                            color="info"
+                            {...column.getGroupByToggleProps()}
+                          />
+                        ) : (
+                          <TableChartIcon
+                            fontSize="20"
+                            color="info"
+                            {...column.getGroupByToggleProps()}
+                          />
+                        )}
+                      </>
+                    ) : null}
+                    <div>{column.render('Header')}</div>
+                  </Box>
                 </TableCell>
               ))}
             </TableRow>
@@ -62,14 +102,15 @@ function CustomTable({
             return (
               <TableRow
                 hover
-                className={`${
-                  row.original[hoverProperty] ? classes.hover : ''
-                }`}
+                // className={`${
+                //   row.original[hoverProperty] ? classes.hover : ''
+                // }`}
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {
                   return (
                     <TableCell
+                      variant="body"
                       className={`
                       ${classes.rowCell} 
                       ${pre ? classes.pre : ''}
@@ -77,7 +118,34 @@ function CustomTable({
                       ${cell.column.hideInPrint && classes.hideInPrint}`}
                       {...cell.getCellProps()}
                     >
-                      {cell.render('Cell')}
+                      {/* {cell.render('Cell')} */}
+                      {cell.isGrouped ? (
+                        // If it's a grouped cell, add an expander and row count
+                        <Box
+                          sx={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '3px',
+                          }}
+                        >
+                          {row.isExpanded ? (
+                            <KeyboardArrowDownIcon
+                              {...row.getToggleRowExpandedProps()}
+                              fontSize="18"
+                            />
+                          ) : (
+                            <KeyboardArrowRightIcon
+                              {...row.getToggleRowExpandedProps()}
+                              fontSize="18"
+                            />
+                          )}
+                          {cell.render('Cell')} ({row.subRows.length})
+                        </Box>
+                      ) : cell.isAggregated ? (
+                        cell.render('Aggregated')
+                      ) : cell.isPlaceholder ? null : (
+                        cell.render('Cell')
+                      )}
                     </TableCell>
                   );
                 })}
@@ -85,6 +153,21 @@ function CustomTable({
             );
           })}
         </TableBody>
+        <TableFooter className={classes.tableHead}>
+          {footerGroups.map((group) => (
+            <TableRow {...group.getFooterGroupProps()}>
+              {group.headers.map((column) => (
+                <TableCell
+                  className={classes.rowCell}
+                  variant="body"
+                  {...column.getFooterProps()}
+                >
+                  {column.render('Footer')}
+                </TableCell>
+              ))}
+            </TableRow>
+          ))}
+        </TableFooter>
       </Table>
     </TableContainer>
   );
