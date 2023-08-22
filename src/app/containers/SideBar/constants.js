@@ -83,11 +83,15 @@ export const DYING_RETURN = 'Return';
 
 // ----------------------RAW--------------------------- //
 export const RAW = 'Kora';
-export const RAW_PURCHASE = 'Buying';
+export const VIEW_RAW_TRANSACTIONS = 'Purchase List';
+export const VIEW_RAW_DEBIT_TRANSACTIONS = 'Sale/Return List';
+export const VIEW_RAW_TRANSFER_TRANSACTIONS = 'Transfer List';
+export const RAW_PURCHASE = 'New Purchase';
 export const RAW_SALE = 'Sale';
 export const RAW_SEARCH = 'Filter';
-export const RAW_DEBIT = 'Kora Sale/Return';
-export const RAW_TRANSFER = 'Kora Transfer';
+export const RAW_DEBIT = 'New Sale/Return';
+export const RAW_TRANSFER = 'New Transfer';
+export const RAW_STOCK = 'Stock';
 
 // ----------------------ACTIONS--------------------------- //
 export const ACTIONS = 'Actions';
@@ -368,24 +372,40 @@ export const SIDEBAR = [
   //   ],
   // },
   // ----------------RAW---------------//
-  // {
-  //   panelName: RAW,
-  //   roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
-  //   panelData: [
-  //     {
-  //       name: RAW_PURCHASE,
-  //       route: routes.RAW_PURCHASE_ROUTE,
-  //     },
-  //     {
-  //       name: RAW_DEBIT,
-  //       route: routes.RAW_DEBIT_ROUTE,
-  //     },
-  //     {
-  //       name: RAW_TRANSFER,
-  //       route: routes.RAW_TRANSFER_ROUTE,
-  //     },
-  //   ],
-  // },
+  {
+    panelName: RAW,
+    roles: [ROLES.ADMIN, ROLES.ACCOUNTANT, ROLES.ADMIN_VIEWER],
+    panelData: [
+      {
+        name: VIEW_RAW_TRANSACTIONS,
+        route: routes.LIST_RAW_TRANSACTIONS_ROUTE,
+      },
+      {
+        name: VIEW_RAW_DEBIT_TRANSACTIONS,
+        route: routes.LIST_RAW_DEBIT_TRANSACTIONS_ROUTE,
+      },
+      {
+        name: VIEW_RAW_TRANSFER_TRANSACTIONS,
+        route: routes.LIST_RAW_TRANSFER_TRANSACTIONS_ROUTE,
+      },
+      {
+        name: RAW_PURCHASE,
+        route: routes.RAW_PURCHASE_ROUTE,
+      },
+      {
+        name: RAW_DEBIT,
+        route: routes.RAW_DEBIT_ROUTE,
+      },
+      {
+        name: RAW_TRANSFER,
+        route: routes.RAW_TRANSFER_ROUTE,
+      },
+      {
+        name: RAW_STOCK,
+        route: routes.RAW_STOCK_ROUTE,
+      },
+    ],
+  },
   // ----------------ACTIONS---------------//
   // {
   //   panelName: ACTIONS,
@@ -570,20 +590,6 @@ export const getRawProductForm = (essentials) => {
         label: 'Product Name',
         type: FIELDS.STRING,
         name: DB.NAME,
-        required: true,
-      },
-      {
-        label: 'Supplier',
-        type: FIELDS.SELECT,
-        name: DB.PERSON,
-        options: essentials.suppliers,
-        required: true,
-      },
-      {
-        label: 'Type',
-        type: FIELDS.SELECT,
-        name: DB.TYPE,
-        options: options.RAW_PRODUCT_TYPES,
         required: true,
       },
     ],

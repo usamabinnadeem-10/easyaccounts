@@ -70,6 +70,26 @@ export const cacheExpenseList = (data) => {
   };
 };
 
+export const cacheRawTransactionsList = (data) => {
+  return {
+    type: actionTypes.CACHE_RAW_TRANSACTIONS_LIST,
+    payload: data,
+  };
+};
+
+export const cacheRawDebitTransactionsList = (data) => {
+  return {
+    type: actionTypes.CACHE_RAW_DEBIT_TRANSACTIONS_LIST,
+    payload: data,
+  };
+};
+
+export const cacheRawTransferTransactionsList = (data) => {
+  return {
+    type: actionTypes.CACHE_RAW_TRANSFER_TRANSACTIONS_LIST,
+  };
+};
+
 export const cacheUserBranchRelationList = (data) => {
   return {
     type: actionTypes.CACHE_USERS_BRANCH_RELATION_LIST,

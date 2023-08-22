@@ -50,6 +50,10 @@ export const DB = {
   CATEGORY: 'category',
   MIN_RATE: 'minimum_rate',
   BUILTY: 'builty',
+  RAW_PRODUCT: 'raw_product',
+  ACTUAL_GAZAANA: 'actual_gazaana',
+  EXPECTED_GAZAANA: 'expected_gazaana',
+  RATE_GAZAANA: 'rate_gazaana',
 };
 
 export const DB_TRANSLATION = {
@@ -62,4 +66,7 @@ export const DB_TRANSLATION = {
   [DB.AMOUNT]: 'Amount',
   [DB.DATE]: 'Date',
   [DB.GAZAANA]: 'Gazaana',
+  [DB.ACTUAL_GAZAANA]: 'Gazaana',
+  [DB.EXPECTED_GAZAANA]: 'Physical Gazaana',
+  [DB.RATE_GAZAANA]: 'Rate Gazaana',
 };

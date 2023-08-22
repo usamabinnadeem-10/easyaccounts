@@ -34,6 +34,18 @@ const initialState = {
   },
   allBalancesCache: null,
   productPerformanceCache: null,
+  rawTransactionsListCache: {
+    transactionData: [],
+    nextPage: null,
+  },
+  rawDebitTransactionsListCache: {
+    transactionData: [],
+    nextPage: null,
+  },
+  rawTransferTransactionsListCache: {
+    transactionData: [],
+    nextPage: null,
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -101,6 +113,29 @@ const reducer = (state = initialState, action) => {
         expensesListCache: {
           ...state.expensesListCache,
           ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_RAW_TRANSACTIONS_LIST:
+      return {
+        ...state,
+        rawTransactionsListCache: {
+          ...state.rawTransactionsListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_RAW_DEBIT_TRANSACTIONS_LIST:
+      return {
+        ...state,
+        rawDebitTransactionsListCache: {
+          ...state.rawDebitTransactionsListCache,
+          ...action.payload,
+        },
+      };
+    case actionTypes.CACHE_RAW_TRANSFER_TRANSACTIONS_LIST:
+      return {
+        ...state,
+        rawTransferTransactionsListCache: {
+          ...state.rawTransferTransactionsListCache,
         },
       };
     case actionTypes.CACHE_USERS_BRANCH_RELATION_LIST:

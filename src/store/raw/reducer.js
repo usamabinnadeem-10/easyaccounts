@@ -14,6 +14,10 @@ const initialState = {
   isAdding: false,
   added: false,
   error: '',
+  stock: {
+    refetch: true,
+    data: [],
+  },
 };
 
 const reducer = (state = initialState, action) => {
@@ -84,6 +88,14 @@ const reducer = (state = initialState, action) => {
         isAdding: false,
         added: false,
         error: action.payload,
+      };
+    case actionTypes.SET_RAW_STOCK:
+      return {
+        ...state,
+        stock: {
+          refetch: false,
+          data: action.payload,
+        },
       };
     default:
       return state;

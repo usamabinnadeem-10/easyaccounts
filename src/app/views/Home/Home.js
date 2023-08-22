@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -10,6 +10,7 @@ import { useLocation } from 'react-router-dom';
 import CustomLoader from '../../components/CustomLoader/CustomLoader';
 // import FAB from "../../containers/FAB/FAB";
 import SideBar from '../../containers/SideBar/SideBar';
+import Modals from './Modals';
 import AllDialogs from './AllDialogs';
 
 import { useTheme } from '@mui/material/styles';
@@ -64,6 +65,7 @@ const Home = ({ showErrorSnackbar }) => {
 
   return (
     <>
+      <Modals />
       <AllDialogs />
       <SideBar tablet={tablet} fetched={!loading} />
       <StyledDiv tablet={tablet ? 'true' : ''} mobile={mobile ? 'true' : ''}>

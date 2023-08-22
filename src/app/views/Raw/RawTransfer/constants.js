@@ -3,7 +3,7 @@ import { getToday } from '../../../utilities/stringUtils';
 export const FIELDS = {
   person: 'person',
   raw_product: 'raw_product',
-  manual_invoice_serial: 'manual_invoice_serial',
+  manual_serial: 'manual_serial',
   date: 'date',
   warehouse: 'warehouse',
   quantity: 'quantity',
@@ -15,7 +15,7 @@ export const FIELDS = {
   lot_number: 'lot_number',
   detail: 'detail',
   debit_type: 'debit_type',
-  to_warehouse: 'to_warehouse',
+  transferring_warehouse: 'transferring_warehouse',
 };
 
 export const DETAIL_INITIAL = {
@@ -23,7 +23,7 @@ export const DETAIL_INITIAL = {
   [FIELDS.actual_gazaana]: '',
   [FIELDS.expected_gazaana]: '',
   [FIELDS.formula]: '',
-  [FIELDS.to_warehouse]: '',
+  [FIELDS.transferring_warehouse]: '',
   [FIELDS.warehouse]: '',
 };
 
@@ -33,8 +33,7 @@ export const LOT_INITIAL = {
 };
 
 export const INITIAL_VALUES = {
-  [FIELDS.manual_invoice_serial]: '',
-  [FIELDS.debit_type]: 'Transfer',
+  [FIELDS.manual_serial]: '',
   [FIELDS.date]: getToday(),
   [FIELDS.data]: [LOT_INITIAL],
 };

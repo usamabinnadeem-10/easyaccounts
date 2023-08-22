@@ -7,6 +7,7 @@ export const FIELDS = {
   quantity: 'quantity',
   actual_gazaana: 'actual_gazaana',
   expected_gazaana: 'expected_gazaana',
+  rate_gazaana: 'rate_gazaana',
   formula: 'formula',
   lots: 'lots',
   lot_detail: 'lot_detail',
@@ -22,3 +23,29 @@ export const FIELD_TYPES = {
   DATE: 'date',
   SWITCH: 'switch',
 };
+
+export const PRODUCT_GLUES = [
+  {
+    value: 'LG',
+    label: 'Low Glue',
+  },
+  {
+    value: 'HG',
+    label: 'High Glue',
+  },
+  {
+    value: 'CFG',
+    label: 'Centrifugal',
+  },
+];
+
+export const PRODUCT_TYPES = [
+  {
+    label: 'Baara',
+    value: 'Baara',
+  },
+  {
+    label: 'Standard',
+    value: 'Standard',
+  },
+];

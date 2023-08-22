@@ -1,5 +1,5 @@
-// export const BASE = 'http://127.0.0.1:8000/';
-export const BASE = 'https://easyaccounts.store/';
+export const BASE = 'http://127.0.0.1:8000/';
+// export const BASE = 'https://easyaccounts.store/';
 
 const AUTH = 'auth/';
 const TOKEN = 'token/';
@@ -148,12 +148,29 @@ export const RAW_APIS = {
     FORMULA: `${RAW}${FORMULA}${CREATE}`,
     PRODUCT: `${RAW}${PRODUCT}${CREATE}`,
     TRANSACTION: `${RAW}${TRANSACTION}${CREATE}`,
+    SALE_OR_RETURN: `${RAW}${TRANSACTION}debit/`,
+    TRANSFER: `${RAW}${TRANSACTION}transfer/`,
+  },
+  EDIT: {
+    transaction: (uuid) => `${RAW}${TRANSACTION}${uuid}/`,
+    debitTransaction: (uuid) => `${RAW}${TRANSACTION}debit/${uuid}/`,
+    transfer: (uuid) => `${RAW}${TRANSACTION}transfer/${uuid}/`,
+  },
+  DELETE: {
+    transaction: (uuid) => `${RAW}${TRANSACTION}${uuid}/`,
+    debitTransaction: (uuid) => `${RAW}${TRANSACTION}debit/${uuid}/`,
+    transfer: (uuid) => `${RAW}${TRANSACTION}transfer/${uuid}`,
   },
   LIST: {
     FORMULA: `${RAW}${FORMULA}${LIST}`,
     PRODUCT: `${RAW}${PRODUCT}${LIST}`,
     LOT_NUMBERS: `${RAW}lot-numbers/${LIST}`,
+    RAW_TRANSACTION: `${RAW}${TRANSACTION}${LIST}`,
+    RAW_DEBIT_TRANSACTION: `${RAW}${TRANSACTION}debit/${LIST}`,
+    TRANSFER: `${RAW}${TRANSACTION}transfer/${LIST}`,
+    lotDetail: (uuid) => `${RAW}lot/detail/${uuid}/`,
   },
+  STOCK: `${RAW}stock/all`,
 };
 
 const PAYMENT = 'payments/';

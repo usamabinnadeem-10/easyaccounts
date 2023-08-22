@@ -1,12 +1,20 @@
 import { FIELDS } from './constants';
 
+import {
+  FormAutoCompleteField,
+  FormDateField,
+  FormTextField,
+  FormSwitchField,
+} from '../../../utilities/formUtils';
+
 const calculateValues = (obj, isTransfer) => {
   let qty = obj[FIELDS.quantity] || 0;
   let formula = obj[FIELDS.formula];
-  let ratio = formula?.numerator / formula?.denominator;
+  // let ratio = formula?.numerator / formula?.denominator;
   let expected = qty * obj[FIELDS.expected_gazaana] || 0;
-  let actual = qty * ratio * obj[FIELDS.actual_gazaana] || 0;
-  let total = !isTransfer ? obj[FIELDS.rate] * actual : 0;
+  let actual = qty * obj[FIELDS.actual_gazaana] || 0;
+  let rate_gazaana = obj[FIELDS.rate_gazaana] || 0;
+  let total = !isTransfer ? obj[FIELDS.rate] * rate_gazaana * qty : 0;
   return {
     qty,
     expected,
@@ -21,17 +29,17 @@ export const getCalculatedValues = (
   lotDetailIndex,
   key1 = 'lots',
   key2 = 'lot_detail',
-  isTransfer = false
+  isTransfer = false,
 ) => {
   let obj = values[key1][lotIndex][key2][lotDetailIndex];
   let calculated = calculateValues(obj, isTransfer);
   let totals = [
     {
-      label: 'Actual',
+      label: 'Stock Gaz',
       value: calculated.actual,
     },
     {
-      label: 'Expected',
+      label: 'Physical Gaz',
       value: calculated.expected,
     },
   ];
@@ -49,7 +57,7 @@ export const getTotals = (
   global = false,
   key1 = 'lots',
   key2 = 'lot_detail',
-  isTransfer = false
+  isTransfer = false,
 ) => {
   let thaan = 0;
   let expected = 0;
@@ -81,11 +89,11 @@ export const getTotals = (
       value: thaan,
     },
     {
-      label: 'Actual',
+      label: 'Gazaana',
       value: actual.toFixed(2),
     },
     {
-      label: 'Expected',
+      label: 'Physical Gazaana',
       value: expected.toFixed(2),
     },
   ];
@@ -97,3 +105,32 @@ export const getTotals = (
   }
   return totals;
 };
+
+export const FIELD_TYPES = {
+  STRING: 'text',
+  NUMBER: 'number',
+  SELECT: 'select',
+  DATE: 'date',
+  SWITCH: 'switch',
+};
+
+export const FIELD_MAP = {
+  [FIELD_TYPES.NUMBER]: FormTextField,
+  [FIELD_TYPES.STRING]: FormTextField,
+  [FIELD_TYPES.SELECT]: FormAutoCompleteField,
+  [FIELD_TYPES.DATE]: FormDateField,
+  [FIELD_TYPES.SWITCH]: FormSwitchField,
+};
+
+export const getFieldProps = (field, errors, touched) => ({
+  component: FIELD_MAP[field.type],
+  options: field.options,
+  name: field.field,
+  type: field.type,
+  size: 'small',
+  label: field.label,
+  fullWidth: true,
+  isError: !!errors[field.field] && touched[field.field],
+  errorText: errors[field.field],
+  onCheckedLabel: field.onCheckedLabel ?? null,
+});

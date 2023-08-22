@@ -20,6 +20,7 @@ const DEFAULTS = {
   expenseAccounts: 'expenseAccounts',
   productCategories: 'productCategories',
   areas: 'areas',
+  rawProducts: 'rawProducts',
 };
 
 const REDUCER = {
@@ -33,6 +34,7 @@ const REDUCER = {
   expenseAccounts: 'expenseAccounts',
   productCategories: 'productCategories',
   areas: 'areas',
+  rawProducts: 'rawProducts',
 };
 
 const useEssentials = () => {

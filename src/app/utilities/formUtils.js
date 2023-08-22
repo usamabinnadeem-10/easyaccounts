@@ -27,6 +27,10 @@ export const StyledTextField = styled(TextField)(({ theme }) => ({
       '-webkit-appearance': 'none',
     },
   },
+  '& .MuiFormHelperText-root': {
+    position: 'absolute',
+    top: '85%',
+  },
 }));
 
 export const FormTextField = ({

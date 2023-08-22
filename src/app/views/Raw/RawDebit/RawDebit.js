@@ -1,42 +1,96 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+
+import { useParams, useHistory } from 'react-router-dom';
 
 import { useSelector } from 'react-redux';
 
-import { Formik } from 'formik';
-import { Form } from 'formik';
-import { FastField } from 'formik';
+import { Formik, Form, FastField } from 'formik';
 
-import { Button } from '@mui/material';
 import { Grid } from '@mui/material';
-import { TextField } from '@mui/material';
+import { LoadingButton } from '@mui/lab';
 
 import CustomToggleButtons from '../../../components/CustomToggleButtons';
 import ViewWrapper from '../../../components/ViewWrapper';
 import RawDetailForm from '../RawDetailForm';
 
-import { FormAutoCompleteField } from '../../../utilities/formUtils';
-import { FormDateField } from '../../../utilities/formUtils';
-import { FormTextField } from '../../../utilities/formUtils';
+import {
+  FormAutoCompleteField,
+  FormDateField,
+  FormTextField,
+} from '../../../utilities/formUtils';
 
 import { INITIAL_VALUES, RAW_DEBIT_TYPES, FIELDS } from './constants';
 import { schema } from './validation';
-import { formatForm } from './utils';
+import { formatForm, formatTransactionForEditing } from './utils';
 import { MetaContainer } from './styled';
 
-const RawDebit = () => {
+import instance from '../../../../utils/axiosApi';
+import { RAW_APIS } from '../../../../constants/restEndPoints';
+
+import { withSnackbar } from '../../../hoc/withSnackbar';
+
+import { findErrorMessage } from '../../../utilities/objectUtils';
+
+import * as api from './api';
+
+const RawDebit = ({ showSuccessSnackbar, showErrorSnackbar, ...props }) => {
+  const { uuid } = useParams();
+  const history = useHistory();
   const essentials = useSelector((state) => state.essentials);
+  const [loading, setLoading] = useState(false);
+  const [transaction, setTransaction] = useState(null);
+
+  useEffect(() => {
+    if (uuid) {
+      fetchTransaction(uuid);
+    }
+  }, [uuid]);
+
+  const fetchTransaction = async (uuid) => {
+    const transaction = await api.fetchTransaction(uuid);
+    setTransaction(formatTransactionForEditing(transaction, { ...props }));
+  };
+
+  const createOrEditTransaction = async (data, actions) => {
+    const URL = uuid
+      ? RAW_APIS.EDIT.debitTransaction(uuid)
+      : RAW_APIS.CREATE.SALE_OR_RETURN;
+    try {
+      setLoading(true);
+      const response = await instance.request({
+        url: URL,
+        method: uuid ? 'PUT' : 'POST',
+        data,
+      });
+      if (response.data) {
+        showSuccessSnackbar(
+          uuid ? 'Debit entry edited' : 'Debit entry created',
+        );
+        history.push(`/home/raw-debit/receipt/${response.data.id}`);
+        actions.resetForm();
+      }
+      setLoading(false);
+    } catch (error) {
+      setLoading(false);
+      showErrorSnackbar(findErrorMessage(error.response?.data));
+    }
+  };
 
   return (
-    <ViewWrapper marginBottom={4} heading='Kora Debit' width={80}>
+    <ViewWrapper marginBottom={4} heading="Kora Sale/Return" width={80}>
       <Formik
-        initialValues={INITIAL_VALUES}
+        initialValues={transaction ?? INITIAL_VALUES}
         validationSchema={schema}
-        onSubmit={(values, actions) => console.log(formatForm(values))}>
+        onSubmit={(values, actions) =>
+          createOrEditTransaction(formatForm(values), actions)
+        }
+        enableReinitialize
+      >
         {({ values, errors, touched, setFieldValue, handleSubmit }) => (
           <Form>
-            <Grid container direction='column' gap={3}>
-              <MetaContainer container direction='column' gap={2}>
-                <Grid container justifyContent='space-between'>
+            <Grid container direction="column" gap={3}>
+              <MetaContainer container direction="column" gap={2}>
+                <Grid container justifyContent="space-between">
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormAutoCompleteField}
@@ -45,7 +99,7 @@ const RawDebit = () => {
                         ...essentials.customers,
                       ]}
                       name={FIELDS.person}
-                      label='Person'
+                      label="Person"
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
@@ -58,21 +112,21 @@ const RawDebit = () => {
                     />
                   </Grid>
                 </Grid>
-                <Grid container justifyContent='space-between'>
+                <Grid container justifyContent="space-between">
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormTextField}
-                      name={FIELDS.manual_invoice_serial}
-                      label='Book #'
+                      name={FIELDS.manual_serial}
+                      label="Book #"
                       fullWidth
-                      type='number'
+                      type="number"
                     />
                   </Grid>
                   <Grid item xs={12} sm={5}>
                     <FastField
                       component={FormDateField}
                       name={FIELDS.date}
-                      label='Date'
+                      label="Date"
                     />
                   </Grid>
                 </Grid>
@@ -81,10 +135,15 @@ const RawDebit = () => {
                 errors={errors}
                 touched={touched}
                 values={values}
+                setFieldValue={setFieldValue}
               />
-              <Button variant='contained' onClick={handleSubmit}>
+              <LoadingButton
+                loading={loading}
+                variant="contained"
+                onClick={handleSubmit}
+              >
                 POST
-              </Button>
+              </LoadingButton>
             </Grid>
           </Form>
         )}
@@ -93,4 +152,4 @@ const RawDebit = () => {
   );
 };
 
-export default RawDebit;
+export default withSnackbar(RawDebit);

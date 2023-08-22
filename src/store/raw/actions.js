@@ -85,3 +85,10 @@ export const addNewProductFail = (data) => {
     payload: data,
   };
 };
+
+export const setRawStock = (data) => {
+  return {
+    type: actionTypes.SET_RAW_STOCK,
+    payload: data,
+  };
+};

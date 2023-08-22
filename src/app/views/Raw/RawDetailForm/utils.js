@@ -4,19 +4,19 @@ export const getFields = (essentials, formulas, isTransfer) => {
       field: 'quantity',
       type: 'number',
       label: 'Quantity',
-      xs: 1,
+      xs: 3,
     },
     {
       field: 'actual_gazaana',
       type: 'number',
-      label: 'Actual',
-      xs: 1,
+      label: 'Stock Gazaana',
+      xs: 3,
     },
     {
       field: 'expected_gazaana',
       type: 'number',
-      label: 'Expected',
-      xs: 1,
+      label: 'Physical Gazaana',
+      xs: 3,
     },
     {
       field: 'formula',
@@ -28,25 +28,31 @@ export const getFields = (essentials, formulas, isTransfer) => {
     {
       field: 'warehouse',
       type: 'select',
-      label: 'Warehouse',
+      label: isTransfer ? 'To Warehouse' : 'Warehouse',
       options: essentials.warehouses,
-      xs: 2,
+      xs: 3,
     },
   ];
   if (isTransfer) {
-    fields.push({
-      field: 'to_warehouse',
+    fields.splice(4, 0, {
+      field: 'transferring_warehouse',
       type: 'select',
-      label: 'Transfer to',
+      label: 'From Warehouse',
       options: essentials.warehouses,
       xs: 2,
     });
   } else {
+    fields.splice(3, 0, {
+      field: 'rate_gazaana',
+      type: 'number',
+      label: 'Rate Gazaana',
+      xs: 3,
+    });
     fields.push({
       field: 'rate',
       type: 'number',
       label: 'Rate',
-      xs: 1,
+      xs: 2,
     });
   }
   return fields;
@@ -54,6 +60,25 @@ export const getFields = (essentials, formulas, isTransfer) => {
 
 export const formatLotNumbers = (lotNumbers) =>
   lotNumbers.map((number) => ({
-    value: number.id,
-    label: `${number.lot_number}`,
+    lotId: number.id,
+    value: number.lot_number,
+    label: `${number.lot_number} - ${number.raw_product.name}`,
   }));
+
+export const formatAutoFillLot = (lotData, essentials, isTransfer) => {
+  const { lot_detail } = lotData;
+  const { warehouses } = essentials;
+  return lot_detail.map((detail) => {
+    const { id, ...rest } = detail;
+    return {
+      ...rest,
+      warehouse: isTransfer
+        ? null
+        : warehouses.find((w) => w.value === detail.warehouse) ?? null,
+      ...(isTransfer && {
+        transferring_warehouse:
+          warehouses.find((w) => w.value === detail.warehouse) ?? null,
+      }),
+    };
+  });
+};
