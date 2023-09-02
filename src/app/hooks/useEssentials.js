@@ -46,9 +46,7 @@ const useEssentials = () => {
       const response = await request();
       return response.data;
     } catch (error) {
-      return {
-        data: [],
-      };
+      return [];
     }
   };
 

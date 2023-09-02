@@ -30,7 +30,6 @@ const UserManagement = () => {
   );
 
   useEffect(() => fetchData(), []);
-  useEffect(() => console.log(userBranchCache), [userBranchCache]);
 
   const fetchData = async () => {
     const response = await instance.get(AUTH_URLS.USER_BRANCH_RELATIONS_LIST);
