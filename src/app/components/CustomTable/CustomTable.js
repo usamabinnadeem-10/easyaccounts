@@ -127,17 +127,12 @@ function CustomTable({
                             alignItems: 'center',
                             gap: '3px',
                           }}
+                          {...row.getToggleRowExpandedProps()}
                         >
                           {row.isExpanded ? (
-                            <KeyboardArrowDownIcon
-                              {...row.getToggleRowExpandedProps()}
-                              fontSize="18"
-                            />
+                            <KeyboardArrowDownIcon fontSize="18" />
                           ) : (
-                            <KeyboardArrowRightIcon
-                              {...row.getToggleRowExpandedProps()}
-                              fontSize="18"
-                            />
+                            <KeyboardArrowRightIcon fontSize="18" />
                           )}
                           {cell.render('Cell')} ({row.subRows.length})
                         </Box>
