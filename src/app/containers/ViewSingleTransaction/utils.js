@@ -72,41 +72,19 @@ export const isTransactionAvailable = (transactions, transactionID) => {
   }
 };
 
-const formatTransactionDetails = (
-  details,
-  warehouses,
-  products,
-  grandTotalQuantity,
-  grandTotalGazaana,
-) => {
+const formatTransactionDetails = (details, warehouses, products) => {
   let newDetails = [];
   details.forEach((detail, index) => {
     newDetails.push({
       ...detail,
       id: `${detail.transaction}-${index}`,
-      quantity: formatCurrency(detail.quantity),
-      amount: formatCurrency(
-        detail.rate * detail.quantity * detail.yards_per_piece,
-        'decimal',
-        2,
-      ),
+      quantity: detail.quantity,
+      amount: detail.rate * detail.quantity * detail.yards_per_piece,
       [DB.WAREHOUSE]: warehouses?.[detail[DB.WAREHOUSE]]?.label,
       [DB.PRODUCT]: products?.[detail[DB.PRODUCT]]?.label,
-      total_gazaana: formatCurrency(
-        detail.yards_per_piece * detail.quantity,
-        'decimal',
-        2,
-      ),
+      total_gazaana: detail.yards_per_piece * detail.quantity,
     });
   });
-  if (details.length > 0) {
-    newDetails.push({
-      product: 'TOTAL',
-      quantity: formatCurrency(grandTotalQuantity),
-      total_gazaana: formatCurrency(grandTotalGazaana),
-    });
-  }
-
   return newDetails;
 };
 
