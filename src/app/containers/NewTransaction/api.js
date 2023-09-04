@@ -10,7 +10,7 @@ export const postTransactionApi = (data) => {
 // edit transaction with transaction id
 export const editTransactionApi = (data, tId) => {
   return instance.put(
-    getURL(TRANSACTION_URLS.GET_TRANSACTION, 'uuid', tId),
-    data
+    getURL(TRANSACTION_URLS.EDIT_TRANSACTION, 'uuid', tId),
+    data,
   );
 };
