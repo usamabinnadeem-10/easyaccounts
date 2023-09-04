@@ -128,6 +128,9 @@ function CustomTable({
                             gap: '3px',
                           }}
                           {...row.getToggleRowExpandedProps()}
+                          data-expanded={
+                            row.isExpanded ? 'tr-expanded' : 'tr-collapsed'
+                          }
                         >
                           {row.isExpanded ? (
                             <KeyboardArrowDownIcon fontSize="18" />
