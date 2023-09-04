@@ -31,16 +31,16 @@ export const PERSONS_CUSTOMER = [
 
 export const COLUMNS = [
   {
-    accessor: 'person',
-    Header: 'Name',
+    accessorKey: 'person',
+    header: 'Name',
   },
   {
-    accessor: 'balance',
-    Header: 'Balance',
+    accessorKey: 'balance',
+    header: 'Balance',
   },
   {
-    accessor: 'status',
-    Header: 'CR/DB',
+    accessorKey: 'status',
+    header: 'CR/DB',
   },
 ];
 

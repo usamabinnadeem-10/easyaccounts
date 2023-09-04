@@ -12,23 +12,24 @@ const CHIP_COLORS = {
 
 export const COLUMNS = [
   {
-    accessor: 'date',
-    Header: 'Date',
-    Cell: (row) => (
+    accessorKey: 'date',
+    header: 'Date',
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
-        fontWeight={row.row.original.rowFontWeight || 'normal'}>
+        fontWeight={row.row.original.rowFontWeight || 'normal'}
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'serial',
-    Header: 'Inv #',
-    Cell: (row) => {
+    accessorKey: 'serial',
+    header: 'Inv #',
+    cell: (row) => {
       return (
         <CustomChip
-          size='small'
+          size="small"
           color={CHIP_COLORS[row.row.original.transactionType]}
           label={row.value || '---'}
           sx={{
@@ -41,12 +42,12 @@ export const COLUMNS = [
     },
   },
   {
-    accessor: 'manual_serial',
-    Header: 'Book #',
-    Cell: (row) => {
+    accessorKey: 'manual_serial',
+    header: 'Book #',
+    cell: (row) => {
       return (
         <CustomChip
-          size='small'
+          size="small"
           color={CHIP_COLORS[row.row.original.transactionType]}
           label={row.value || '---'}
           sx={{
@@ -59,70 +60,75 @@ export const COLUMNS = [
     },
   },
   {
-    accessor: 'person',
-    Header: 'Person',
+    accessorKey: 'person',
+    header: 'Person',
   },
   {
-    accessor: 'debit',
-    Header: 'Debit (بنام)',
+    accessorKey: 'debit',
+    header: 'Debit (بنام)',
     color: '#C91D22',
-    Cell: (row) => (
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
         fontWeight={row.row.original.rowFontWeight || 'normal'}
-        textColor='#C91D22'>
+        textColor="#C91D22"
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'credit',
-    Header: 'Credit (جمع)',
+    accessorKey: 'credit',
+    header: 'Credit (جمع)',
     color: '#00A465',
-    Cell: (row) => (
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
         fontWeight={row.row.original.rowFontWeight || 'normal'}
-        textColor='#00A465'>
+        textColor="#00A465"
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'gazaana',
-    Header: 'Gazaana',
-    Cell: (row) => (
+    accessorKey: 'gazaana',
+    header: 'Gazaana',
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
-        fontWeight={row.row.original.rowFontWeight || 'normal'}>
+        fontWeight={row.row.original.rowFontWeight || 'normal'}
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'stock',
-    Header: 'Balance Thaan',
-    Cell: (row) => (
+    accessorKey: 'stock',
+    header: 'Balance Thaan',
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
-        fontWeight={row.row.original.rowFontWeight || 'normal'}>
+        fontWeight={row.row.original.rowFontWeight || 'normal'}
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'gazaanaBalance',
-    Header: 'Total',
-    Cell: (row) => (
+    accessorKey: 'gazaanaBalance',
+    header: 'Total',
+    cell: (row) => (
       <Cell
         variant={row.row.original.rowVariant || 'body2'}
-        fontWeight={row.row.original.rowFontWeight || 'normal'}>
+        fontWeight={row.row.original.rowFontWeight || 'normal'}
+      >
         {row.value}
       </Cell>
     ),
   },
   {
-    accessor: 'warehouse',
-    Header: 'Warehouse',
+    accessorKey: 'warehouse',
+    header: 'Warehouse',
   },
 ];

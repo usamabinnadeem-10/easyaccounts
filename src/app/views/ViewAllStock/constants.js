@@ -3,48 +3,73 @@ import { formatCurrency } from '../../utilities/stringUtils';
 export const getColumns = () => {
   return [
     {
-      accessor: 'product',
-      Header: 'Product',
+      accessorKey: 'product',
+      // header: 'Product',
       aggregate: 'count',
       Aggregated: ({ value }) => `${value} (items)`,
+      header: ({ table }) => (
+        <>
+          <button
+            {...{
+              onClick: table.getToggleAllRowsExpandedHandler(),
+            }}
+          >
+            {table.getIsAllRowsExpanded() ? '👇' : '👉'}
+          </button>{' '}
+          Product
+        </>
+      ),
     },
     {
-      accessor: 'warehouse',
-      Header: 'Warehouse',
+      accessorKey: 'warehouse',
+      // header: 'Warehouse',
+      header: ({ table }) => (
+        <>
+          <button
+            {...{
+              onClick: table.getToggleAllRowsExpandedHandler(),
+            }}
+          >
+            {table.getIsAllRowsExpanded() ? '👇' : '👉'}
+          </button>{' '}
+          Warehouse
+        </>
+      ),
     },
     {
-      accessor: 'yards_per_piece',
-      Header: 'Gazaana',
+      accessorKey: 'yards_per_piece',
+      header: 'Gazaana',
     },
     {
-      accessor: 'quantity',
-      Header: 'Stock',
+      accessorKey: 'quantity',
+      header: 'Stock',
       aggregate: 'sum',
       disableGroupBy: true,
-      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
-      Footer: (info) => {
-        // Only calculate total visits if rows change
-        const total = info.rows.reduce(
-          (sum, row) => row.values.quantity + sum,
-          0,
-        );
-        return <>{formatCurrency(total)}</>;
-      },
+      cell: ({ row }) => <div>{formatCurrency(row.original.value)}</div>,
+      // footer: (info) => {
+      //   console.log(info);
+      //   // Only calculate total visits if rows change
+      //   const total = info.rows.reduce(
+      //     (sum, row) => row.values.quantity + sum,
+      //     0,
+      //   );
+      //   return <>{formatCurrency(total)}</>;
+      // },
     },
     {
-      accessor: 'total_gazaana',
-      Header: 'Total Gazaana',
+      accessorKey: 'total_gazaana',
+      header: 'Total Gazaana',
       aggregate: 'sum',
       disableGroupBy: true,
-      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
-      Footer: (info) => {
-        // Only calculate total visits if rows change
-        const total = info.rows.reduce(
-          (sum, row) => row.values.total_gazaana + sum,
-          0,
-        );
-        return <>{formatCurrency(total)}</>;
-      },
+      cell: ({ row }) => <div>{formatCurrency(row.original.value)}</div>,
+      // footer: (info) => {
+      //   // Only calculate total visits if rows change
+      //   const total = info.rows.reduce(
+      //     (sum, row) => row.values.total_gazaana + sum,
+      //     0,
+      //   );
+      //   return <>{formatCurrency(total)}</>;
+      // },
     },
   ];
 };

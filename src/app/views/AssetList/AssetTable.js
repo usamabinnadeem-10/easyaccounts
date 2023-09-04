@@ -9,44 +9,44 @@ import { convertCurrencyToNumber } from '../../utilities/stringUtils';
 const AssetTable = ({ rows, handleDelete, handleEdit }) => {
   let COLUMNS = [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => (
         <div>{convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', row.value)}</div>
       ),
     },
     {
-      accessor: 'name',
-      Header: 'Name',
+      accessorKey: 'name',
+      header: 'Name',
     },
     {
-      accessor: 'value',
-      Header: 'Value',
-      Cell: (row) => <div>{convertCurrencyToNumber(row.value)}</div>,
+      accessorKey: 'value',
+      header: 'Value',
+      cell: (row) => <div>{convertCurrencyToNumber(row.value)}</div>,
     },
     {
-      accessor: 'status',
-      Header: 'Status',
-      Cell: (row) => <div>{row.value === 'P' ? 'Purchased' : 'Sold'}</div>,
+      accessorKey: 'status',
+      header: 'Status',
+      cell: (row) => <div>{row.value === 'P' ? 'Purchased' : 'Sold'}</div>,
     },
     {
-      accessor: 'type',
-      Header: 'Type',
-      Cell: (row) => (
+      accessorKey: 'type',
+      header: 'Type',
+      cell: (row) => (
         <div>{`${row.value.charAt(0).toUpperCase() + row.value.slice(1)}`}</div>
       ),
     },
     {
-      accessor: 'sold_value',
-      Header: 'Sale price',
-      Cell: (row) => (
+      accessorKey: 'sold_value',
+      header: 'Sale price',
+      cell: (row) => (
         <div>{`${row.value ? convertCurrencyToNumber(row.value) : '---'}`}</div>
       ),
     },
     {
-      accessor: 'sold_date',
-      Header: 'Sale date',
-      Cell: (row) => (
+      accessorKey: 'sold_date',
+      header: 'Sale date',
+      cell: (row) => (
         <div>{`${
           row.value
             ? convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', row.value)
@@ -55,10 +55,10 @@ const AssetTable = ({ rows, handleDelete, handleEdit }) => {
       ),
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
+      accessorKey: 'delete',
+      header: 'Delete',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         return (
           <CustomMenu
             menu={[

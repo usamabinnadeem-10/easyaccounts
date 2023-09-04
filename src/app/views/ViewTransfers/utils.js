@@ -9,67 +9,69 @@ export const getColumns = (
   handleClick,
   handleEdit,
   handleDelete,
-  warehouses
+  warehouses,
 ) => {
   return [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
           {row.value ? getReadableDate(row.value) : ''}
         </div>
       ),
     },
     {
-      accessor: 'serial',
-      Header: 'Serial #',
-      Cell: (row) => (
+      accessorKey: 'serial',
+      header: 'Serial #',
+      cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
     },
     {
-      accessor: 'manual_serial',
-      Header: 'Book #',
-      Cell: (row) => (
+      accessorKey: 'manual_serial',
+      header: 'Book #',
+      cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
     },
     {
-      accessor: 'from_warehouse',
-      Header: 'From',
-      Cell: (row) => (
+      accessorKey: 'from_warehouse',
+      header: 'From',
+      cell: (row) => (
         <div onClick={row.row.id ? () => handleClick(row.row.id) : null}>
           {warehouses?.[row.value]?.label || '---'}
         </div>
       ),
     },
     {
-      accessor: 'total',
-      Header: 'Thaan transferred #',
-      Cell: (row) => (
+      accessorKey: 'total',
+      header: 'Thaan transferred #',
+      cell: (row) => (
         <div
           onClick={
             row.row.id && !row.row.original.dummy
               ? () => handleClick(row.row.id)
               : null
-          }>
+          }
+        >
           {row.value}
         </div>
       ),
     },
     {
-      accessor: 'edit',
-      Header: 'Edit',
-      Cell: (row) => {
+      accessorKey: 'edit',
+      header: 'Edit',
+      cell: (row) => {
         if (!row.row.original.dummy) {
           return (
             <CustomIconButton
-              onClick={row.row.id ? () => handleEdit(row.row.id) : null}>
+              onClick={row.row.id ? () => handleEdit(row.row.id) : null}
+            >
               <EditIcon />
             </CustomIconButton>
           );
@@ -78,13 +80,14 @@ export const getColumns = (
       },
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
-      Cell: (row) => {
+      accessorKey: 'delete',
+      header: 'Delete',
+      cell: (row) => {
         if (!row.row.original.dummy) {
           return (
             <CustomIconButton
-              onClick={row.row.id ? () => handleDelete(row.row.id) : null}>
+              onClick={row.row.id ? () => handleDelete(row.row.id) : null}
+            >
               <DeleteIcon />
             </CustomIconButton>
           );

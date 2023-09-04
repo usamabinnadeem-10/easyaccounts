@@ -15,42 +15,42 @@ import { STATUS_VARIANTS } from '../Cheque/constants';
 export const getColumns = (onClick, isPersonal) => {
   return [
     {
-      Header: 'Sr#',
-      accessor: 'index',
+      header: 'Sr#',
+      accessorKey: 'index',
     },
     {
-      Header: 'Serial',
-      accessor: 'serial',
+      header: 'Serial',
+      accessorKey: 'serial',
     },
     {
-      Header: 'Cheque #',
-      accessor: 'cheque_number',
+      header: 'Cheque #',
+      accessorKey: 'cheque_number',
     },
     {
-      Header: 'Receiving',
-      accessor: 'date',
+      header: 'Receiving',
+      accessorKey: 'date',
     },
     {
-      Header: 'Due Date',
-      accessor: 'due_date',
+      header: 'Due Date',
+      accessorKey: 'due_date',
     },
     {
-      Header: 'Person',
-      accessor: 'person',
+      header: 'Person',
+      accessorKey: 'person',
     },
     {
-      Header: 'Amount',
-      accessor: 'amount',
-      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
+      header: 'Amount',
+      accessorKey: 'amount',
+      cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
-      Header: 'Status',
-      accessor: 'status',
-      Cell: (row) => {
+      header: 'Status',
+      accessorKey: 'status',
+      cell: (row) => {
         if (row.value) {
           return (
             <CustomChip
-              size='small'
+              size="small"
               label={capitalizeFirstLetter(row.value.replace('_', ' '))}
               color={STATUS_COLORS[row.value]}
               variant={STATUS_VARIANTS[row.value]}
@@ -63,22 +63,24 @@ export const getColumns = (onClick, isPersonal) => {
       },
     },
     {
-      Header: 'Transferred to',
-      accessor: 'transferred_to',
+      header: 'Transferred to',
+      accessorKey: 'transferred_to',
     },
     {
-      Header: 'View',
-      accessor: 'view',
-      Cell: (row) => {
+      header: 'View',
+      accessorKey: 'view',
+      cell: (row) => {
         if (typeof row.row.id === 'string') {
           return (
             <Tooltip
-              placement='top'
+              placement="top"
               title={isPersonal ? 'View Cheque' : 'View Cheque History'}
-              arrow>
+              arrow
+            >
               <CustomIconButton
-                size='small'
-                onClick={() => onClick(row.row.id)}>
+                size="small"
+                onClick={() => onClick(row.row.id)}
+              >
                 <OpenInNewIcon />
               </CustomIconButton>
             </Tooltip>
@@ -89,9 +91,9 @@ export const getColumns = (onClick, isPersonal) => {
       },
     },
     {
-      Header: 'Actions',
-      accessor: 'actions',
-      Cell: (row) => {
+      header: 'Actions',
+      accessorKey: 'actions',
+      cell: (row) => {
         if (typeof row.row.id === 'string') {
           return (
             <ChequeActionMenu

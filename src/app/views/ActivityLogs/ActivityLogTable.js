@@ -11,30 +11,30 @@ import moment from 'moment';
 
 const COLUMNS = [
   {
-    accessor: 'index',
-    Header: 'Sr#',
+    accessorKey: 'index',
+    header: 'Sr#',
   },
   {
-    accessor: 'time_stamp',
-    Header: 'Time',
-    Cell: (row) => {
+    accessorKey: 'time_stamp',
+    header: 'Time',
+    cell: (row) => {
       return (
         <div>
           {moment(row.value, 'YYYY-MM-DD HH:mm:ss').format(
-            'dddd, MMMM Do YYYY, h:mm:ss a'
+            'dddd, MMMM Do YYYY, h:mm:ss a',
           )}
         </div>
       );
     },
   },
   {
-    accessor: 'username',
-    Header: 'User',
+    accessorKey: 'username',
+    header: 'User',
   },
   {
-    accessor: 'type',
-    Header: 'type',
-    Cell: (row) => {
+    accessorKey: 'type',
+    header: 'type',
+    cell: (row) => {
       return (
         <div>
           {ACTIVITY_LOG_TYPE.find((type) => type.value === row.value).label}
@@ -43,9 +43,9 @@ const COLUMNS = [
     },
   },
   {
-    accessor: 'category',
-    Header: 'Category',
-    Cell: (row) => {
+    accessorKey: 'category',
+    header: 'Category',
+    cell: (row) => {
       return (
         <div>
           {ACTIVITY_LOG_CATEGORY.find((cat) => cat.value === row.value).label}
@@ -54,8 +54,8 @@ const COLUMNS = [
     },
   },
   {
-    accessor: 'detail',
-    Header: 'Detail',
+    accessorKey: 'detail',
+    header: 'Detail',
   },
 ];
 

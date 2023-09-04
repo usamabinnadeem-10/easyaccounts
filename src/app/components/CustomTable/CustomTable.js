@@ -9,7 +9,18 @@ import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import { Box } from '@mui/material';
 
-import { useTable, useGroupBy, useExpanded } from 'react-table';
+// import { useTable, useGroupBy, useExpanded } from 'react-table';
+import {
+  GroupingState,
+  useReactTable,
+  getPaginationRowModel,
+  getFilteredRowModel,
+  getCoreRowModel,
+  getGroupedRowModel,
+  getExpandedRowModel,
+  ColumnDef,
+  flexRender,
+} from '@tanstack/react-table';
 
 import TableChartIcon from '@mui/icons-material/TableChart';
 import ReorderIcon from '@mui/icons-material/Reorder';
@@ -28,86 +39,107 @@ function CustomTable({
 }) {
   const getRowId = (row) => row.id;
 
-  const {
-    getTableProps,
-    getTableBodyProps,
-    headerGroups,
-    rows,
-    prepareRow,
-    footerGroups,
-  } = useTable(
-    {
-      columns,
-      data,
-      getRowId,
+  // const {
+  //   getTableProps,
+  //   getTableBodyProps,
+  //   headerGroups,
+  //   rows,
+  //   prepareRow,
+  //   footerGroups,
+  // } = useReactTable(
+  //   {
+  //     columns,
+  //     data,
+  //     getRowId,
+  //   },
+  //   useGroupBy,
+  //   useExpanded,
+  // );
+
+  const [grouping, setGrouping] = React.useState([]);
+
+  const table = useReactTable({
+    data,
+    columns,
+    state: {
+      grouping,
     },
-    useGroupBy,
-    useExpanded,
-  );
+    onGroupingChange: setGrouping,
+    getExpandedRowModel: getExpandedRowModel(),
+    getGroupedRowModel: getGroupedRowModel(),
+    getCoreRowModel: getCoreRowModel(),
+    getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
+  });
 
   const classes = useStyles();
 
   return (
     <TableContainer
-      {...getTableProps()}
+      // {...getTableProps()}
       className={`${
         noTableStyles ? classes.noTableStyles : classes.tableWrapper
       }`}
     >
       <Table size="small">
         <TableHead className={classes.tableHead}>
-          {headerGroups.map((headerGroup) => (
-            <TableRow {...headerGroup.getHeaderGroupProps()}>
-              {headerGroup.headers.map((column) => (
+          {table.getHeaderGroups().map((headerGroup) => (
+            <TableRow>
+              {headerGroup.headers.map((header) => (
                 <TableCell
                   variant="head"
-                  className={`${column.hideInPrint && classes.hideInPrint}
+                  className={`${header.hideInPrint && classes.hideInPrint}
                     ${classes.headCell}`}
                   sx={{
-                    color: column.color,
+                    color: header.color,
                   }}
-                  {...column.getHeaderProps()}
                 >
                   <Box
                     sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}
                   >
-                    {column.canGroupBy ? (
+                    {header.column.getCanGroup() ? (
                       // If the column can be grouped, let's add a toggle
                       <>
-                        {column.isGrouped ? (
+                        {header.column.getIsGrouped() ? (
                           <ReorderIcon
                             fontSize="20"
                             color="info"
-                            {...column.getGroupByToggleProps()}
+                            onClick={header.column.getToggleGroupingHandler()}
+                            // {...column.getGroupByToggleProps()}
                           />
                         ) : (
                           <TableChartIcon
                             fontSize="20"
                             color="info"
-                            {...column.getGroupByToggleProps()}
+                            onClick={header.column.getToggleGroupingHandler()}
+                            // {...column.getGroupByToggleProps()}
                           />
                         )}
                       </>
                     ) : null}
-                    <div>{column.render('Header')}</div>
+                    <div>
+                      {flexRender(
+                        header.column.columnDef.header,
+                        header.getContext(),
+                      )}
+                    </div>
                   </Box>
                 </TableCell>
               ))}
             </TableRow>
           ))}
         </TableHead>
-        <TableBody {...getTableBodyProps()}>
-          {rows.map((row, i) => {
-            prepareRow(row);
+        <TableBody>
+          {table.getRowModel().rows.map((row, i) => {
+            // prepareRow(row);
             return (
               <TableRow
                 hover
                 // className={`${
                 //   row.original[hoverProperty] ? classes.hover : ''
                 // }`}
-                {...row.getRowProps()}
               >
-                {row.cells.map((cell) => {
+                {row.getVisibleCells().map((cell) => {
                   return (
                     <TableCell
                       variant="body"
@@ -116,10 +148,9 @@ function CustomTable({
                       ${pre ? classes.pre : ''}
                       ${bordered ? classes.bordered : ''}
                       ${cell.column.hideInPrint && classes.hideInPrint}`}
-                      {...cell.getCellProps()}
                     >
                       {/* {cell.render('Cell')} */}
-                      {cell.isGrouped ? (
+                      {cell.getIsGrouped() ? (
                         // If it's a grouped cell, add an expander and row count
                         <Box
                           sx={{
@@ -127,7 +158,7 @@ function CustomTable({
                             alignItems: 'center',
                             gap: '3px',
                           }}
-                          {...row.getToggleRowExpandedProps()}
+                          // {...row.getToggleRowExpandedProps()}
                           data-expanded={
                             row.isExpanded ? 'tr-expanded' : 'tr-collapsed'
                           }
@@ -137,12 +168,24 @@ function CustomTable({
                           ) : (
                             <KeyboardArrowRightIcon fontSize="18" />
                           )}
-                          {cell.render('Cell')} ({row.subRows.length})
+                          {flexRender(
+                            cell.column.columnDef.cell ??
+                              cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}{' '}
+                          ({row.subRows.length})
                         </Box>
-                      ) : cell.isAggregated ? (
-                        cell.render('Aggregated')
-                      ) : cell.isPlaceholder ? null : (
-                        cell.render('Cell')
+                      ) : cell.getIsAggregated() ? (
+                        flexRender(
+                          cell.column.columnDef.aggregatedCell ??
+                            cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )
+                      ) : cell.getIsPlaceholder() ? null : (
+                        flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )
                       )}
                     </TableCell>
                   );
@@ -152,15 +195,20 @@ function CustomTable({
           })}
         </TableBody>
         <TableFooter className={classes.tableHead}>
-          {footerGroups.map((group) => (
-            <TableRow {...group.getFooterGroupProps()}>
-              {group.headers.map((column) => (
+          {table.getFooterGroups().map((footerGroup) => (
+            <TableRow key={footerGroup.id}>
+              {footerGroup.headers.map((header) => (
                 <TableCell
                   className={classes.rowCell}
                   variant="body"
-                  {...column.getFooterProps()}
+                  // {...header.getFooterProps()}
                 >
-                  {column.render('Footer')}
+                  {header.isPlaceholder
+                    ? null
+                    : flexRender(
+                        header.column.columnDef.footer,
+                        header.getContext(),
+                      )}
                 </TableCell>
               ))}
             </TableRow>

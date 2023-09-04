@@ -5,26 +5,26 @@ import CustomChip from '../../../components/CustomChip';
 export const getLedgerDetailTable = (persons, accountTypes) => {
   return [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => (
         <div>{convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', row.value)}</div>
       ),
     },
     {
-      accessor: 'person',
-      Header: 'Person',
-      Cell: (row) => <div>{persons?.[row.value]?.label}</div>,
+      accessorKey: 'person',
+      header: 'Person',
+      cell: (row) => <div>{persons?.[row.value]?.label}</div>,
     },
     {
-      accessor: 'amount',
-      Header: 'Amount',
-      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
+      accessorKey: 'amount',
+      header: 'Amount',
+      cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
-      accessor: 'nature',
-      Header: 'Nature',
-      Cell: (row) => {
+      accessorKey: 'nature',
+      header: 'Nature',
+      cell: (row) => {
         let CHIP = {
           C: {
             color: 'success',
@@ -50,13 +50,13 @@ export const getLedgerDetailTable = (persons, accountTypes) => {
       },
     },
     {
-      accessor: 'detail',
-      Header: 'Detail',
+      accessorKey: 'detail',
+      header: 'Detail',
     },
     {
-      accessor: 'account_type',
-      Header: 'Account',
-      Cell: (row) => <div>{accountTypes?.[row.value]?.label || '---'}</div>,
+      accessorKey: 'account_type',
+      header: 'Account',
+      cell: (row) => <div>{accountTypes?.[row.value]?.label || '---'}</div>,
     },
   ];
 };

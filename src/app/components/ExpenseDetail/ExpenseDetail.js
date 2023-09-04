@@ -9,14 +9,14 @@ import EditIcon from '@mui/icons-material/Edit';
 const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
   const COLUMNS = [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => <div>{row.value}</div>,
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: 'serial',
-      Header: 'Serial',
-      Cell: (row) => (
+      accessorKey: 'serial',
+      header: 'Serial',
+      cell: (row) => (
         <div>
           {row.value && 'E-'}
           {row.value}
@@ -24,30 +24,30 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       ),
     },
     {
-      accessor: 'detail',
-      Header: 'Detail',
-      Cell: (row) => <div>{row.value}</div>,
+      accessorKey: 'detail',
+      header: 'Detail',
+      cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: 'amount',
-      Header: 'Amount',
-      Cell: (row) => <div>{row.value}</div>,
+      accessorKey: 'amount',
+      header: 'Amount',
+      cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: 'expense',
-      Header: 'Expense Account',
-      Cell: (row) => <div>{row.value}</div>,
+      accessorKey: 'expense',
+      header: 'Expense Account',
+      cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: 'account_type',
-      Header: 'Account Type',
-      Cell: (row) => <div>{row.value}</div>,
+      accessorKey: 'account_type',
+      header: 'Account Type',
+      cell: (row) => <div>{row.value}</div>,
     },
     {
-      accessor: 'edit',
-      Header: 'Edit',
+      accessorKey: 'edit',
+      header: 'Edit',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         if (row.row.id && typeof row.row.id === 'string') {
           return (
             <CustomIconButton onClick={() => handleEdit(row.row.id)}>
@@ -60,10 +60,10 @@ const ExpenseDetail = ({ rows, hoverProperty, handleEdit, handleDelete }) => {
       },
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
+      accessorKey: 'delete',
+      header: 'Delete',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         if (row.row.id && typeof row.row.id === 'string') {
           return (
             <CustomIconButton onClick={() => handleDelete(row.row.id)}>

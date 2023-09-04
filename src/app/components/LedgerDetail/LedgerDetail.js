@@ -23,37 +23,37 @@ function LedgerDetail({
 }) {
   let COLUMNS = [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
     },
     {
-      accessor: 'serial',
-      Header: 'Serial #',
-      Cell: (row) => (
+      accessorKey: 'serial',
+      header: 'Serial #',
+      cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value || '--'}
         </div>
       ),
     },
     {
-      accessor: 'detail',
-      Header: 'Detail',
-      Cell: (row) => (
+      accessorKey: 'detail',
+      header: 'Detail',
+      cell: (row) => (
         <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
           {row.value}
         </div>
       ),
     },
     {
-      accessor: 'debit',
-      Header: 'Debit (بنام)',
+      accessorKey: 'debit',
+      header: 'Debit (بنام)',
       color: '#C91D22',
-      Cell: (row) => (
+      cell: (row) => (
         <div
           className={
             row.row?.original?.serial?.startsWith('MW')
@@ -67,10 +67,10 @@ function LedgerDetail({
       ),
     },
     {
-      accessor: 'credit',
-      Header: 'Credit (جمع)',
+      accessorKey: 'credit',
+      header: 'Credit (جمع)',
       color: '#00A465',
-      Cell: (row) => (
+      cell: (row) => (
         <div
           className={
             row.row?.original?.serial?.startsWith('MW')
@@ -89,9 +89,9 @@ function LedgerDetail({
     COLUMNS = [
       ...COLUMNS,
       {
-        accessor: 'balance',
-        Header: 'Balance',
-        Cell: (row) => {
+        accessorKey: 'balance',
+        header: 'Balance',
+        cell: (row) => {
           if (typeof row.row.id === 'string') {
             return (
               <div
@@ -119,9 +119,9 @@ function LedgerDetail({
     COLUMNS = [
       ...COLUMNS,
       {
-        accessor: 'person_name',
-        Header: 'Person',
-        Cell: (row) => (
+        accessorKey: 'person_name',
+        header: 'Person',
+        cell: (row) => (
           <div onClick={row.row.id ? () => onRowClick(row.row.id) : null}>
             {row.value}
           </div>
@@ -133,10 +133,10 @@ function LedgerDetail({
   COLUMNS = [
     ...COLUMNS,
     {
-      accessor: 'edit',
-      Header: 'Edit',
+      accessorKey: 'edit',
+      header: 'Edit',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
@@ -153,10 +153,10 @@ function LedgerDetail({
       },
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
+      accessorKey: 'delete',
+      header: 'Delete',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         let values = row.row.original;
         if (values.ledger_detail_id) {
           return (
@@ -179,7 +179,7 @@ function LedgerDetail({
 
   useEffect(() => {
     if (hideDetails) {
-      setColumns(COLUMNS.filter((column) => column.accessor !== 'detail'));
+      setColumns(COLUMNS.filter((column) => column.accessorKey !== 'detail'));
     } else {
       setColumns(COLUMNS);
     }

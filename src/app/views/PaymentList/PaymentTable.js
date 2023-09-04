@@ -19,28 +19,28 @@ const PaymentTable = ({
 }) => {
   let COLUMNS = [
     {
-      accessor: 'date',
-      Header: 'Date',
-      Cell: (row) => (
+      accessorKey: 'date',
+      header: 'Date',
+      cell: (row) => (
         <div>{convertDate('YYYY-MM-DD HH:mm:ss', 'DD-MM-YYYY', row.value)}</div>
       ),
     },
     {
-      accessor: 'serial',
-      Header: 'Serial',
+      accessorKey: 'serial',
+      header: 'Serial',
     },
     {
-      accessor: 'person',
-      Header: 'Person',
-      Cell: (row) => <div>{persons?.[row.value]?.label}</div>,
+      accessorKey: 'person',
+      header: 'Person',
+      cell: (row) => <div>{persons?.[row.value]?.label}</div>,
     },
     {
-      accessor: 'nature',
-      Header: 'Nature',
-      Cell: (row) => {
+      accessorKey: 'nature',
+      header: 'Nature',
+      cell: (row) => {
         return (
           <CustomChip
-            size='small'
+            size="small"
             color={NATURES[row.value].color}
             label={NATURES[row.value].label}
             sx={{
@@ -53,25 +53,25 @@ const PaymentTable = ({
       },
     },
     {
-      accessor: 'amount',
-      Header: 'Amount',
-      Cell: (row) => <div>{formatCurrency(row.value)}</div>,
+      accessorKey: 'amount',
+      header: 'Amount',
+      cell: (row) => <div>{formatCurrency(row.value)}</div>,
     },
     {
-      accessor: 'detail',
-      Header: 'Detail',
-      Cell: (row) => <div>{row.value || '---'}</div>,
+      accessorKey: 'detail',
+      header: 'Detail',
+      cell: (row) => <div>{row.value || '---'}</div>,
     },
     {
-      accessor: 'account_type',
-      Header: 'Account',
-      Cell: (row) => <div>{accounts?.[row.value]?.label || '---'}</div>,
+      accessorKey: 'account_type',
+      header: 'Account',
+      cell: (row) => <div>{accounts?.[row.value]?.label || '---'}</div>,
     },
     {
-      accessor: 'delete',
-      Header: 'Delete',
+      accessorKey: 'delete',
+      header: 'Delete',
       hideInPrint: true,
-      Cell: (row) => {
+      cell: (row) => {
         return (
           <CustomMenu
             menu={[
