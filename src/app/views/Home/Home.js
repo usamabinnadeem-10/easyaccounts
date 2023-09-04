@@ -1,5 +1,5 @@
 import React from 'react';
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 
 import { useSelector } from 'react-redux';
 
@@ -25,13 +25,11 @@ import { StyledDiv } from './styled';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { useAutoLogout } from '../../hooks/useAutoLogout';
 
 const Home = ({ showErrorSnackbar }) => {
   let location = useLocation();
   let history = useHistory();
   let { values: essentials, loading } = useEssentials();
-  useAutoLogout();
 
   const { error } = useSelector((state) => state.essentials);
   const role = useSelector((state) => state.auth.userRole);
