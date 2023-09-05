@@ -9,7 +9,7 @@ import TableRow from '@mui/material/TableRow';
 import TableFooter from '@mui/material/TableFooter';
 import { Box } from '@mui/material';
 
-import { useTable, useGroupBy, useExpanded } from 'react-table';
+import { useTable, useGroupBy, useExpanded, useSortBy } from 'react-table';
 
 import TableChartIcon from '@mui/icons-material/TableChart';
 import ReorderIcon from '@mui/icons-material/Reorder';
@@ -40,8 +40,10 @@ function CustomTable({
       columns,
       data,
       getRowId,
+      autoResetSortBy: true,
     },
     useGroupBy,
+    useSortBy,
     useExpanded,
   );
 
@@ -67,6 +69,7 @@ function CustomTable({
                     color: column.color,
                   }}
                   {...column.getHeaderProps()}
+                  {...column.getHeaderProps(column.getSortByToggleProps())}
                 >
                   <Box
                     sx={{ display: 'flex', alignItems: 'center', gap: '3px' }}
@@ -90,6 +93,13 @@ function CustomTable({
                       </>
                     ) : null}
                     <div>{column.render('Header')}</div>
+                    <span>
+                      {column.isSorted
+                        ? column.isSortedDesc
+                          ? ' 🔽'
+                          : ' 🔼'
+                        : ''}
+                    </span>
                   </Box>
                 </TableCell>
               ))}
