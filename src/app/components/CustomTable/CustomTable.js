@@ -119,7 +119,6 @@ function CustomTable({
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {
-                  console.log(row);
                   return (
                     <TableCell
                       variant="body"
