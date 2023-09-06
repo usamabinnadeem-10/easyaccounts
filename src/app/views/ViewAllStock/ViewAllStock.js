@@ -21,6 +21,7 @@ import { getAllStock } from '../../../store/transactions';
 import { cacheAllStock } from '../../../store/cache';
 
 import { withSnackbar } from '../../hoc/withSnackbar';
+import { formatCurrency } from '../../utilities/stringUtils';
 
 const ViewAllStock = (props) => {
   const dispatch = useDispatch();
@@ -86,7 +87,20 @@ const ViewAllStock = (props) => {
         disablePrint={stockData.length === 0}
       >
         {stockData.length > 0 && (
-          <CustomTable columns={COLUMNS} data={stockData} />
+          <CustomTable
+            aggregateValues={{
+              product: (values) =>
+                `${formatCurrency(values.quantity)} thaan - ${formatCurrency(
+                  values.total_gazaana,
+                )} gaz`,
+              warehouse: (values) =>
+                `${formatCurrency(values.quantity)} thaan - ${formatCurrency(
+                  values.total_gazaana,
+                )} gaz`,
+            }}
+            columns={COLUMNS}
+            data={stockData}
+          />
         )}
         {stockData.length === 0 && !loading && <Empty />}
       </Printable>

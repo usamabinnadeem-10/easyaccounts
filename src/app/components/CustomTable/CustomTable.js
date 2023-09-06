@@ -25,6 +25,7 @@ function CustomTable({
   noTableStyles,
   pre,
   bordered = false,
+  aggregateValues = {},
 }) {
   const getRowId = (row) => row.id;
 
@@ -118,6 +119,7 @@ function CustomTable({
                 {...row.getRowProps()}
               >
                 {row.cells.map((cell) => {
+                  console.log(row);
                   return (
                     <TableCell
                       variant="body"
@@ -147,7 +149,12 @@ function CustomTable({
                           ) : (
                             <KeyboardArrowRightIcon fontSize="18" />
                           )}
-                          {cell.render('Cell')} ({row.subRows.length})
+                          {cell.render('Cell')}{' '}
+                          {aggregateValues?.[row.groupByID]?.(row.values)
+                            ? `(${aggregateValues?.[row.groupByID]?.(
+                                row.values,
+                              )})`
+                            : ''}
                         </Box>
                       ) : cell.isAggregated ? (
                         cell.render('Aggregated')
