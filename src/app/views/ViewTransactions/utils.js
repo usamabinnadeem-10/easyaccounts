@@ -101,6 +101,7 @@ const formatTransactionDetailForDetailedView = (
     serial: 'Total ->',
     manual_serial,
     isTotal: true,
+    person: totalQuantity,
     hideTransactionData: true,
   });
   return data;
