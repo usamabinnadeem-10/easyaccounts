@@ -36,9 +36,9 @@ export const getTimePeriod = (date, period) => {
       return formattedDate.format('DD-MM-YYYY, ddd');
     case 'week':
       let weekNum = Math.ceil(formattedDate.date() / 7);
-      return `Week ${weekNum}, ${formattedDate.format('MMMM')}`;
+      return `Week ${weekNum}, ${formattedDate.format('MMMM YYYY')}`;
     case 'month':
-      return formattedDate.format('MMMM');
+      return formattedDate.format('MMMM YYYY');
     default:
       break;
   }
