@@ -1,5 +1,7 @@
 import React from 'react';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
+
+import { useSelector } from 'react-redux';
 
 import { Divider } from '@mui/material';
 import { Grid } from '@mui/material';
@@ -28,9 +30,10 @@ export const LineItem = ({ label, value, padLeft, minus }) => {
     <Grid
       sx={{ mb: 1, pl: padLeft ? 2 : '0rem' }}
       container
-      alignItems='center'
-      justifyContent='space-between'
-      gap={2}>
+      alignItems="center"
+      justifyContent="space-between"
+      gap={2}
+    >
       <Typography variant={textVariant} fontWeight={padLeft ? 400 : 700}>
         {label}
       </Typography>
@@ -46,73 +49,69 @@ const DIVIDER = <Divider sx={{ width: '100%', mb: 1 }} />;
 
 const IncomeStatement = () => {
   const [incomeData, setIncomeData] = useState(null);
+  const expenseAccounts = useSelector(
+    (state) => state.essentials.expenseAccounts,
+  );
 
   const handleSearch = (data) => {
-    setIncomeData(formatIncomeStatement(data));
+    setIncomeData(formatIncomeStatement(data, expenseAccounts));
   };
 
   return (
     <>
-      <Heading heading='Income Statement' />
+      <Heading heading="Income Statement" />
       <CustomFilters
         api={REPORTS_APIS.INCOME_STATEMENT}
         filters={FILTERS}
         onSearch={handleSearch}
       />
-      <ViewWrapper overridewidth width='100%'>
+      <ViewWrapper overridewidth width="100%">
         <Printable
           disablePrint={!incomeData}
-          documentTitle={`Income Statement ${incomeData?.period}`}>
+          documentTitle={`Income Statement ${incomeData?.period}`}
+        >
           <StyledPaper>
-            <Typography variant='h5'>Income Statement</Typography>
+            <Typography variant="h5">Income Statement</Typography>
             {incomeData && (
               <>
-                <Typography variant='subtitle'>{incomeData.period}</Typography>
+                <Typography variant="subtitle">{incomeData.period}</Typography>
                 <IncomeDataWrapper container>
-                  <LineItem label='Revenue' value={incomeData.revenue} />
+                  <LineItem label="Revenue" value={incomeData.revenue} />
                   <LineItem
-                    label='Cost of good sold'
+                    label="Cost of good sold"
                     value={incomeData.cogs}
                     minus
                   />
                   {DIVIDER}
                   <LineItem
-                    label='Gross profit'
+                    label="Gross profit"
                     value={incomeData.revenue - incomeData.cogs}
                   />
                   {DIVIDER}
-                  <LineItem label='Expenses' value={''} />
+                  <LineItem label="Expenses" value={''} />
                   {incomeData.expenses.map((e) => {
-                    return (
-                      <LineItem
-                        padLeft
-                        label={capitalizeFirstLetter(
-                          e.expense__type
-                        ).replaceAll('_', ' ')}
-                        value={e.total}
-                      />
-                    );
+                    return <LineItem padLeft label={e.label} value={e.total} />;
                   })}
                   <LineItem
-                    label='Total expenses'
+                    label="Total expenses"
                     value={incomeData.totalExpenses}
                     minus
                   />
                   {DIVIDER}
                   <LineItem
-                    label='Net profit'
+                    label="Net profit"
                     value={
                       incomeData.revenue -
                       (incomeData.cogs + incomeData.totalExpenses)
                     }
                   />
                   <LineItem
-                    label='Asset profit'
+                    label="Asset profit"
                     value={incomeData.asset_profit}
                   />
                   {DIVIDER}
                   <LineItem
-                    label='Total profit'
+                    label="Total profit"
                     value={
                       incomeData.revenue +
                       incomeData.asset_profit -
