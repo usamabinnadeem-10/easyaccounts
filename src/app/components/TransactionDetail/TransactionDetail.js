@@ -326,6 +326,15 @@ function TransactionDetail({
             bgcolor: 'rgba(245, 51, 51, 0.7)',
           },
         },
+        '& .requires-action': {
+          bgcolor: 'rgba(245, 158, 51, 0.7) !important',
+          '&:hover': {
+            bgcolor: 'rgba(245, 158, 51, 0.7)',
+          },
+          '&:active': {
+            bgcolor: 'rgba(245, 158, 51, 0.7)',
+          },
+        },
       }}
       initialState={{
         columns: {
@@ -344,7 +353,11 @@ function TransactionDetail({
         }
       }}
       getRowClassName={(params) =>
-        params.row.is_cancelled ? 'cancelled-transaction' : ''
+        params.row.is_cancelled
+          ? 'cancelled-transaction'
+          : params.row.requires_action
+          ? 'requires-action'
+          : ''
       }
     />
   );
